@@ -59,7 +59,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "api",                # our own app
+    "apps.api",         # our api app
+    "apps.users",         # our users app
+    "apps.pomodoro",      # our pomodoro app
+    "apps.lessons",       # our lessons app
+    "apps.submissions",   # our submissions app
+    "apps.scheduling",    # our scheduling app
+    "apps.notifications", # our notifications app
+    "apps.chat",          # our chat app
+    "apps.uploads",       # our uploads app
     "rest_framework",     # rest framework
     "corsheaders"         # cors -> handle different origins (?) 
 ]
