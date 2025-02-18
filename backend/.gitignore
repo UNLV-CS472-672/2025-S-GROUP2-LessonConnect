@@ -143,3 +143,5 @@ dump.rdb
 
 # Ignore Redis and Celery files (if they exist)
 *.pid
+
+.idea
