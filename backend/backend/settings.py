@@ -158,3 +158,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True   # typically allow specific origin, but dw for neow
 CORS_ALLOW_CREDENTIALS = True   # allow credentials
+
+#Celery Configurations
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+

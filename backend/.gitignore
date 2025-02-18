@@ -137,3 +137,9 @@ GitHub.sublime-settings
 !.vscode/launch.json
 !.vscode/extensions.json
 .history
+
+# Ignore Redis dump file
+dump.rdb
+
+# Ignore Redis and Celery files (if they exist)
+*.pid
