@@ -59,7 +59,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "api",                # our own app
+    "apps.api",         # our api app
+    "apps.users",         # our users app
+    "apps.pomodoro",      # our pomodoro app
+    "apps.lessons",       # our lessons app
+    "apps.submissions",   # our submissions app
+    "apps.scheduling",    # our scheduling app
+    "apps.notifications", # our notifications app
+    "apps.chat",          # our chat app
+    "apps.uploads",       # our uploads app
     "rest_framework",     # rest framework
     "corsheaders"         # cors -> handle different origins (?) 
 ]
@@ -150,3 +158,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True   # typically allow specific origin, but dw for neow
 CORS_ALLOW_CREDENTIALS = True   # allow credentials
+
+#Celery Configurations
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
