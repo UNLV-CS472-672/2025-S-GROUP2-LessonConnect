@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    "daphne",           #daphne has to be before django.contrib.staticfiles
     'django.contrib.staticfiles',
     "apps.api",         # our api app
     "apps.users",         # our users app
@@ -69,7 +70,8 @@ INSTALLED_APPS = [
     "apps.chat",          # our chat app
     "apps.uploads",       # our uploads app
     "rest_framework",     # rest framework
-    "corsheaders"         # cors -> handle different origins (?) 
+    "channels",           # Django channels
+    "corsheaders"         # cors -> handle different origins (?)
 ]
 
 MIDDLEWARE = [
@@ -164,3 +166,14 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
+#ASGI App (needed for Django Channels to work)
+ASGI_APPLICATION = "backend.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
