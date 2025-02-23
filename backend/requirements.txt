@@ -12,3 +12,6 @@ celery == 5.4.0
 redis == 5.2.1
 channels[daphne] == 4.2.0
 channels-redis == 4.2.1
+django-celery-results == 2.5.1
+django-celery-beat == 2.7.0
+django-redis == 5.4.0

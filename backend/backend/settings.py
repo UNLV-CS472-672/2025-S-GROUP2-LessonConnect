@@ -71,6 +71,8 @@ INSTALLED_APPS = [
     "apps.uploads",       # our uploads app
     "rest_framework",     # rest framework
     "channels",           # Django channels
+    "django_celery_results", # get celery results in Django admin
+    "django_celery_beat", # celery beat
     "corsheaders"         # cors -> handle different origins (?)
 ]
 
@@ -162,9 +164,26 @@ CORS_ALLOW_ALL_ORIGINS = True   # typically allow specific origin, but dw for ne
 CORS_ALLOW_CREDENTIALS = True   # allow credentials
 
 #Celery Configurations
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'django-db'  # Required for django-celery-results
+CELERY_TIMEZONE = 'UTC'
+
+# CELERY BEAT SCHEDULER
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+# REDIS CACHE
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
 
 #ASGI App (needed for Django Channels to work)
 ASGI_APPLICATION = "backend.asgi.application"
