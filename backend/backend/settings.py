@@ -58,10 +58,22 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    "daphne",           #daphne has to be before django.contrib.staticfiles
     'django.contrib.staticfiles',
-    "api",                # our own app
+    "apps.api",         # our api app
+    "apps.users",         # our users app
+    "apps.pomodoro",      # our pomodoro app
+    "apps.lessons",       # our lessons app
+    "apps.submissions",   # our submissions app
+    "apps.scheduling",    # our scheduling app
+    "apps.notifications", # our notifications app
+    "apps.chat",          # our chat app
+    "apps.uploads",       # our uploads app
     "rest_framework",     # rest framework
-    "corsheaders"         # cors -> handle different origins (?) 
+    "channels",           # Django channels
+    "django_celery_results", # get celery results in Django admin
+    "django_celery_beat", # celery beat
+    "corsheaders"         # cors -> handle different origins (?)
 ]
 
 MIDDLEWARE = [
@@ -150,3 +162,37 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True   # typically allow specific origin, but dw for neow
 CORS_ALLOW_CREDENTIALS = True   # allow credentials
+
+#Celery Configurations
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'django-db'  # Required for django-celery-results
+CELERY_TIMEZONE = 'UTC'
+
+# CELERY BEAT SCHEDULER
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+# REDIS CACHE
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
+
+#ASGI App (needed for Django Channels to work)
+ASGI_APPLICATION = "backend.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
