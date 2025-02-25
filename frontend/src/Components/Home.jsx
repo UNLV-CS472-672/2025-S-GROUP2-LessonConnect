@@ -1,7 +1,7 @@
 export default function Home() {
     return (
         <>
-            <section
+            <body
                 className="scroll-top"
                 data-bs-target=".navbar"
                 data-bs-spy="scroll"
@@ -185,7 +185,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </body>
         </>
     );
 }
