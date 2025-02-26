@@ -5,9 +5,4 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  server: {
-    fs: {
-      allow: ['../'], // Allows access to node_modules outside the root
-    }
-  }
 })
