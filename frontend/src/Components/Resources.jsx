@@ -1,4 +1,4 @@
-export default function About() {
+export default function Resources() {
     return (
         <>
             add your code here
