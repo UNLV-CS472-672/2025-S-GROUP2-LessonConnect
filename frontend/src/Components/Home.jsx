@@ -210,6 +210,41 @@ export default function Home() {
                     </div>
                 </div>
             </div>
+
+            <footer className="bg-dark text-light py-4">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-3 col-sm-6 mb-3">
+                            <h6 className="fw-semibold">LessonConnect</h6>
+                            <ul className="list-unstyled">
+                                <li>
+                                    <a href="#" className="text-light text-decoration-none"
+                                    >About Us</a
+                                    >
+                                </li>
+                                <li>
+                                    <a href="#" className="text-light text-decoration-none"
+                                    >Learn More</a
+                                    >
+                                </li>
+                                <li>
+                                    <a href="#" className="text-light text-decoration-none"></a>
+                                </li>
+                                <li>
+                                    <a href="#" className="text-light text-decoration-none"
+                                    >Services</a
+                                    >
+                                </li>
+                                <li>
+                                    <a href="#" className="text-light text-decoration-none"
+                                    >Schedule</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </>
     );
 }
