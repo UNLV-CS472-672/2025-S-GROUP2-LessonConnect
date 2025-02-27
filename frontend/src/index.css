@@ -56,3 +56,11 @@ header#home {
   height: 70vh;
   overflow: hidden;
 }
+
+#footer .text-center p {
+  color: white;
+  text-align: center;
+  font-size: 15px;
+}
+
+
