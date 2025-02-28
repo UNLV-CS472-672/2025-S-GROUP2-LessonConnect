@@ -60,12 +60,14 @@ export default function Home() {
             </nav>
 
             <header id="home">
-                <h3 className="display-2">
+                <h3 className="display-2 header-title">
                     LessonConnect
-                    <span className="text-body-secondary fs-6">with your favorite tutor.</span>
+                    <span className="text-body-secondary fs-6 staggered-subtitle">with your favorite tutor.</span>
                 </h3>
-                <button type="button" className="btn btn-outline-dark">Sign Up</button>
-                <button type="button" className="btn btn-outline-light">Learn More</button>
+                <div className="buttons-container">
+                    <button type="button" className="btn btn-outline-dark">Sign Up</button>
+                    <button type="button" className="btn btn-outline-light">Learn More</button>
+                </div>
             </header>
 
             <div id="carouselExample" className="carousel slide" data-bs-ride="carousel">
