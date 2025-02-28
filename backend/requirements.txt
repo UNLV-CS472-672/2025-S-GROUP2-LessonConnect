@@ -1,12 +1,17 @@
-asgiref
-Django
-django-cors-headers
-djangorestframework
-djangorestframework-simplejwt
-PyJWT
-pytz
-sqlparse
-psycopg2-binary
-python-dotenv
-celery
-redis
+asgiref == 3.8.1
+Django == 5.1.6
+django-cors-headers == 4.7.0
+djangorestframework == 3.15.2
+djangorestframework-simplejwt == 5.4.0
+PyJWT == 2.10.1
+pytz == 2025.1
+sqlparse == 0.5.3
+psycopg2-binary == 2.9.10
+python-dotenv == 1.0.1
+celery == 5.4.0
+redis == 5.2.1
+channels[daphne] == 4.2.0
+channels-redis == 4.2.1
+django-celery-results == 2.5.1
+django-celery-beat == 2.7.0
+django-redis == 5.4.0
