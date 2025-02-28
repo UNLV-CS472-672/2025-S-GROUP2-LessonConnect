@@ -134,7 +134,7 @@ export default function Home() {
                     <div className="scrolling-gallery">
                         <div className="p-2">
                             <img
-                                src="assets/coding_pic.jpg"
+                                src="assets/coding.jpg"
                                 className="gallery-item"
                                 alt="Image 1"
                             />
@@ -144,7 +144,7 @@ export default function Home() {
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/Music_pic.webp"
+                                src="assets/Music.webp"
                                 className="gallery-item"
                                 alt="Image 3"
                             />
@@ -165,16 +165,23 @@ export default function Home() {
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/languages_pic.jpg"
+                                src="assets/languages.avif"
                                 className="gallery-item"
                                 alt="Image 6"
+                            />
+                        </div>
+                        <div className="p-2">
+                            <img
+                                src="assets/writing.jpg"
+                                className="gallery-item"
+                                alt="Image 7"
                             />
                         </div>
                     </div>
                     <div className="scrolling-gallery-copy">
                         <div className="p-2">
                             <img
-                                src="assets/coding_pic.jpg"
+                                src="assets/coding.jpg"
                                 className="gallery-item"
                                 alt="Image 1"
                             />
@@ -184,7 +191,7 @@ export default function Home() {
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/Music_pic.webp"
+                                src="assets/Music.webp"
                                 className="gallery-item"
                                 alt="Image 3"
                             />
@@ -205,9 +212,16 @@ export default function Home() {
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/languages_pic.jpg"
+                                src="assets/languages.avif"
                                 className="gallery-item"
                                 alt="Image 6"
+                            />
+                        </div>
+                        <div className="p-2">
+                            <img
+                                src="assets/writing.jpg"
+                                className="gallery-item"
+                                alt="Image 7"
                             />
                         </div>
                     </div>

@@ -46,10 +46,11 @@ header#home .staggered-subtitle {
 }
 
 .gallery-item {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   margin-right: 10px;
+  border-radius: 20px;
 }
 
 .gallery-container {
