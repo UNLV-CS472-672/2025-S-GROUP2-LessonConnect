@@ -71,63 +71,74 @@ export default function Home() {
                 </div>
             </header>
 
-            <div id="carouselExample" className="carousel slide" data-bs-ride="carousel">
-                <div className="carousel-inner">
-                    <div className="carousel-item active">
-                        <img
-                            src="assets/images/Pic1.webp"
-                            className="d-block w-100"
-                            alt="A girl with headphones having a conversation with her tutor on her laptod "
-                        />
-                    </div>
-                    <div className="carousel-item">
-                        <img
-                            src="assets/images/Pic2.avif"
-                            className="d-block w-100"
-                            alt="A girl raising her hand"
-                        />
-                    </div>
-                    <div className="carousel-item">
-                        <img
-                            src="assets/images/Pic3.webp"
-                            className="d-block w-100"
-                            alt="A guy looking at his notebook while having virtual lessons"
-                        />
-                    </div>
-                    <div className="carousel-item">
-                        <img
-                            src="assets/images/Pic4.jpg"
-                            className="d-block w-100"
-                            alt="A girl and her mom having virutal classes"
-                        />
-                    </div>
-                    <div className="carousel-item">
-                        <img
-                            src="assets/images/Pic5.jpg"
-                            className="d-block w-100"
-                            alt="A girl with a guitar having some virtual lessons"
-                        />
+            <section id="middleUpper-section">
+                <div className="container">
+                    <div className="row align-items-center">
+                        <div className="col-md-6">
+                            <h2 style={{
+                                textAlign: "center",
+                                marginBottom: "60px",
+                                fontSize: "30px",
+                                fontWeight: 600
+                            }}>Some subtitle will go here!</h2>
+                            <p>
+                               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam dolore ipsa magnam minima odit provident, quia quidem, reprehenderit repudiandae rerum sed unde? A delectus error fuga laborum omnis quo similique.
+                            </p>
+                        </div>
+                        <div className="col-md-6">
+                            <img className="middleUpper-pic" src="assets/images/Pic1.webp" alt="some image" />
+                        </div>
                     </div>
                 </div>
-                <button
-                    className="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#carouselExample"
-                    data-bs-slide="prev"
-                >
-                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="visually-hidden">Previous</span>
-                </button>
-                <button
-                    className="carousel-control-next"
-                    type="button"
-                    data-bs-target="#carouselExample"
-                    data-bs-slide="next"
-                >
-                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="visually-hidden">Next</span>
-                </button>
-            </div>
+            </section>
+
+            <section id="middle-section">
+                <div className="container">
+                    <div className="row align-items-center">
+                        <div className="col-md-6 order-md-2">
+                            <h2 style={{
+                                textAlign: "center",
+                                marginBottom: "60px",
+                                fontSize: "30px",
+                                fontWeight: 600
+                            }}>Some subtitle will go here!</h2>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad cum dicta eius illum iusto nemo suscipit vel voluptatem. Accusamus aliquid assumenda consectetur, enim est facere mollitia nihil non omnis quam.
+                            </p>
+                        </div>
+                        <div className="col-md-6 order-md-1">
+                            <img className="middleUpper-pic" src="assets/images/Pic2.avif" alt="some image" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="lower-section">
+                <div className="container">
+                    <h2 style={{
+                        textAlign: "center",
+                        marginBottom: "60px",
+                        fontSize: "30px",
+                        fontWeight: 600
+                    }}>
+                        Some subtitle will go here!
+                    </h2>
+                    <div className="row d-flex justify-content-center">
+                        <div className="col-md-6 text-center">
+                            <img
+                                src="assets/images/Pic3.webp"
+                                className="lower-section-img"
+                                alt="Some image"
+                            />
+                        </div>
+                    </div>
+                    <div className="row justify-content-center mt-4">
+                        <div className="col-md-6 text-center">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A assumenda atque distinctio doloremque ducimus eius hic inventore minus, natus obcaecati omnis quam recusandae similique sunt velit veritatis vero. Accusamus, nisi.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <div className="container my-5">
                 <div className="gallery-container">
