@@ -15,10 +15,4 @@ class UserSerializer(serializers.ModelSerializer):
     instance.username = validated_data.get('username', instance.username)
     instance.save()
     return instance
-
-
-class UserPublicInfoSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = User
-    fields = ['id', 'username']
   
