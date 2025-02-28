@@ -75,35 +75,35 @@ export default function Home() {
                 <div className="carousel-inner">
                     <div className="carousel-item active">
                         <img
-                            src="assets/Pic1.webp"
+                            src="assets/images/Pic1.webp"
                             className="d-block w-100"
                             alt="A girl with headphones having a conversation with her tutor on her laptod "
                         />
                     </div>
                     <div className="carousel-item">
                         <img
-                            src="assets/Pic2.avif"
+                            src="assets/images/Pic2.avif"
                             className="d-block w-100"
                             alt="A girl raising her hand"
                         />
                     </div>
                     <div className="carousel-item">
                         <img
-                            src="assets/Pic3.webp"
+                            src="assets/images/Pic3.webp"
                             className="d-block w-100"
                             alt="A guy looking at his notebook while having virtual lessons"
                         />
                     </div>
                     <div className="carousel-item">
                         <img
-                            src="assets/Pic4.jpg"
+                            src="assets/images/Pic4.jpg"
                             className="d-block w-100"
                             alt="A girl and her mom having virutal classes"
                         />
                     </div>
                     <div className="carousel-item">
                         <img
-                            src="assets/Pic5.jpg"
+                            src="assets/images/Pic5.jpg"
                             className="d-block w-100"
                             alt="A girl with a guitar having some virtual lessons"
                         />
@@ -134,45 +134,45 @@ export default function Home() {
                     <div className="scrolling-gallery">
                         <div className="p-2">
                             <img
-                                src="assets/coding.jpg"
+                                src="assets/images/coding.jpg"
                                 className="gallery-item"
                                 alt="Image 1"
                             />
                         </div>
                         <div className="p-2">
-                            <img src="assets/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
+                            <img src="assets/images/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/Music.webp"
+                                src="assets/images/Music.webp"
                                 className="gallery-item"
                                 alt="Image 3"
                             />
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/philosophy_pic.webp"
+                                src="assets/images/philosophy_pic.webp"
                                 className="gallery-item"
                                 alt="Image 4"
                             />
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/Science_pic.jpg"
+                                src="assets/images/Science_pic.jpg"
                                 className="gallery-item"
                                 alt="Image 5"
                             />
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/languages.avif"
+                                src="assets/images/languages.avif"
                                 className="gallery-item"
                                 alt="Image 6"
                             />
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/writing.jpg"
+                                src="assets/images/writing.jpg"
                                 className="gallery-item"
                                 alt="Image 7"
                             />
@@ -181,45 +181,45 @@ export default function Home() {
                     <div className="scrolling-gallery-copy">
                         <div className="p-2">
                             <img
-                                src="assets/coding.jpg"
+                                src="assets/images/coding.jpg"
                                 className="gallery-item"
                                 alt="Image 1"
                             />
                         </div>
                         <div className="p-2">
-                            <img src="assets/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
+                            <img src="assets/images/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/Music.webp"
+                                src="assets/images/Music.webp"
                                 className="gallery-item"
                                 alt="Image 3"
                             />
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/philosophy_pic.webp"
+                                src="assets/images/philosophy_pic.webp"
                                 className="gallery-item"
                                 alt="Image 4"
                             />
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/Science_pic.jpg"
+                                src="assets/images/Science_pic.jpg"
                                 className="gallery-item"
                                 alt="Image 5"
                             />
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/languages.avif"
+                                src="assets/images/languages.avif"
                                 className="gallery-item"
                                 alt="Image 6"
                             />
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/writing.jpg"
+                                src="assets/images/writing.jpg"
                                 className="gallery-item"
                                 alt="Image 7"
                             />
