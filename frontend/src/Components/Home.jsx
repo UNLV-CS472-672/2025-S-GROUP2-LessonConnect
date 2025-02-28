@@ -48,6 +48,7 @@ export default function Home() {
 
                     <div id="nav-collapse" className="collapse navbar-collapse">
                         <div className="navbar-nav ms-auto">
+                            <a href="tutor.html" className="nav-link">Find a tutor</a>
                             <a href="#home-target" className="nav-link">Home</a>
                             <a href="#services-target" className="nav-link">Services</a>
                             <a href="#schedule-target" className="nav-link">Schedule</a>
