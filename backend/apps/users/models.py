@@ -13,7 +13,7 @@ class Profile(models.Model):
     (PARENT, 'Parent'),
     (STUDENT, 'Student'),
   )
-  user = models.OneToOneField(User, on_delete=models.CASCADE)
-  role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=True, blank=True)
+  user = models.OneToOneField(User, null=False, blank=False, on_delete=models.CASCADE)
+  role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=False, blank=False, default=STUDENT)
   def __str__(self):
     return self.user.username
