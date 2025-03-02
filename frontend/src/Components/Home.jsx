@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"; // Jose Added this for linking. look at lines 53 and 59
 import { useEffect } from "react";
 export default function Home() {
     useEffect(() => {
@@ -48,11 +49,11 @@ export default function Home() {
 
                     <div id="nav-collapse" className="collapse navbar-collapse">
                         <div className="navbar-nav ms-auto">
-                            <a href="#home-target" className="nav-link">Home</a>
+                            <Link to="/" className="nav-link">Home</Link>
                             <a href="#services-target" className="nav-link">Services</a>
                             <a href="#schedule-target" className="nav-link">Schedule</a>
                             <a href="#resources-target" className="nav-link">Resources</a>
-                            <a href="#about-us-target" className="nav-link">About Us</a>
+                            <Link to="/about" className="nav-link">About Us</Link>
                             <button type="button" className="btn btn-outline-light">Login</button>
                         </div>
                     </div>

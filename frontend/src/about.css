@@ -1,0 +1,141 @@
+/* General Styles */
+body {
+    position: relative;
+    font-family: "Montserrat", sans-serif;
+}
+
+/* Navbar Styles */
+.navbar {
+    transition: background-color 0.3s ease-in-out;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 400;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+.navbar-brand i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.btn-outline-light {
+    border-radius: 20px;
+    padding: 8px 16px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.btn-outline-light:hover {
+    background-color: white;
+    color: black;
+}
+
+/* About Us Section Styling */
+#about-us {
+    padding: 150px 20px 100px;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+#about-us h2 {
+    font-weight: 700;
+    font-size: 3rem;
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
+
+#about-us p.lead {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+#about-us p.text-muted {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+#about-us img {
+    max-width: 400px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+/* Our Project */
+#our-project {
+    padding: 100px 20px;
+    background-color: #e2e3e5;
+    text-align: center;
+}
+
+#our-project h2 {
+    font-weight: 700;
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+#our-project p.lead {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+#our-project p.text-muted {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: auto;
+}
+
+/* Our Team Section*/
+#our-team {
+    padding: 100px 20px;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+#our-team h2 {
+    font-weight: 700;
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+#our-team p.lead {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+#our-team p.text-muted {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+#our-team ul {
+    list-style: none;
+    padding: 0;
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+#our-team ul li {
+    margin-bottom: 5px;
+}
+
+#our-team img {
+    max-width: 600px;
+    border-radius: 10px;
+    margin-top: 30px;
+}

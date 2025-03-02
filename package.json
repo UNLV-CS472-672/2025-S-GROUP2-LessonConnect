@@ -1,6 +1,10 @@
 {
   "dependencies": {
     "bootstrap": "^5.3.3",
-    "bootstrap-icons": "^1.11.3"
+    "bootstrap-icons": "^1.11.3",
+    "react-router-dom": "^6.30.0"
+  },
+  "devDependencies": {
+    "vite": "^6.2.0"
   }
 }
