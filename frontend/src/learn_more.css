@@ -1,0 +1,131 @@
+/* General Styles */
+body {
+    position: relative;
+    font-family: "Montserrat", sans-serif;
+}
+
+/* Navbar Styles */
+.navbar {
+    transition: background-color 0.3s ease-in-out;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 400;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+.navbar-brand i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+/* Learn More Section */
+#learn-more {
+    padding: 150px 20px 100px; /* Matches the spacing of About Us */
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+#learn-more h2 {
+    font-weight: 700;
+    font-size: 3rem;
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
+
+#learn-more p.lead {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+#learn-more p.text-muted {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+/* How LessonConnect Works */
+#how-it-works {
+    padding: 100px 20px;
+    background-color: #e2e3e5;
+    text-align: center;
+}
+
+#how-it-works h2 {
+    font-weight: 700;
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+#how-it-works p.text-muted {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: auto;
+}
+
+/* Why Choose LessonConnect */
+#why-choose {
+    padding: 100px 20px;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+#why-choose h2 {
+    font-weight: 700;
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+#why-choose p.text-muted {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: auto;
+}
+
+/* Join LessonConnect */
+#join-now {
+    padding: 100px 20px;
+    background-color: #e2e3e5;
+    text-align: center;
+}
+
+#join-now h2 {
+    font-weight: 700;
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+#join-now p.text-muted {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: auto;
+}
+
+/* Footer Section */
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+}
+
+footer a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: white;
+    text-decoration: underline;
+}

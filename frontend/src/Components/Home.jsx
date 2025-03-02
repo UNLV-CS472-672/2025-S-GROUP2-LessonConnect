@@ -66,7 +66,8 @@ export default function Home() {
                     <span className="text-body-secondary fs-6">with your favorite tutor.</span>
                 </h3>
                 <button type="button" className="btn btn-outline-dark">Sign Up</button>
-                <button type="button" className="btn btn-outline-light">Learn More</button>
+                <Link to="/learn_more" className="btn btn-outline-light">Learn More</Link>
+
             </header>
 
             <div id="carouselExample" className="carousel slide" data-bs-ride="carousel">
