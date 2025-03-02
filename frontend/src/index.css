@@ -1,5 +1,7 @@
 body {
   position: relative;
+  font-family: "Montserrat", sans-serif;
+
 }
 
 header#home {
@@ -12,17 +14,95 @@ header#home {
   color: white;
   text-align: center;
   text-shadow: 2px 2px 5px rgb(101, 98, 98);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.header-title {
+  text-align: center;
+  position: relative;
+  display: inline-block;
+}
+
+header#home .staggered-subtitle {
+  color: #d4d4d4 !important;
+}
+
+.staggered-subtitle {
+  display: block;
+  position: relative;
+  left: 200px;
+  top: 5px;
 }
 
 .scroll-top .navbar {
   background-color: transparent !important;
 }
 
+.container .middleUpper-pic {
+  height: 300px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 20px;
+}
+
+#middleUpper-section {
+  background-color: #ecdfcc;
+  padding: 80px 0;
+}
+
+section#middle-section {
+  background-color: #d4d4d4;
+  padding: 80px 0;
+}
+
+.col-md-6 {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.row.d-flex.align-items-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .col-md-6 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .container .middleUpper-pic {
+    height: 250px;
+  }
+}
+
+section#lower-section {
+  background-color: white;
+  padding: 80px 0;
+}
+
+.lower-section-img {
+  max-width: 100%;
+  height: auto;
+}
+
 .gallery-item {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   margin-right: 10px;
+  border-radius: 20px;
 }
 
 .gallery-container {
@@ -48,13 +128,6 @@ header#home {
 .scrolling-gallery-copy {
   display: flex;
   animation: scroll-left 15s linear infinite;
-}
-
-.carousel-item img {
-  object-fit: cover;
-  object-position: center;
-  height: 70vh;
-  overflow: hidden;
 }
 
 #footer .text-center p {

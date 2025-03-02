@@ -49,7 +49,12 @@ export default function Home() {
 
                     <div id="nav-collapse" className="collapse navbar-collapse">
                         <div className="navbar-nav ms-auto">
+
                             <Link to="/" className="nav-link">Home</Link>
+
+                            <a href="tutor.html" className="nav-link">Find a tutor</a>
+                            <a href="#home-target" className="nav-link">Home</a>
+
                             <a href="#services-target" className="nav-link">Services</a>
                             <a href="#schedule-target" className="nav-link">Schedule</a>
                             <a href="#resources-target" className="nav-link">Resources</a>
@@ -61,152 +66,184 @@ export default function Home() {
             </nav>
 
             <header id="home">
-                <h3 className="display-2">
+                <h3 className="display-2 header-title">
                     LessonConnect
-                    <span className="text-body-secondary fs-6">with your favorite tutor.</span>
+                    <span className="text-body-secondary fs-6 staggered-subtitle">with your favorite tutor.</span>
                 </h3>
+
                 <button type="button" className="btn btn-outline-dark">Sign Up</button>
                 <Link to="/learn_more" className="btn btn-outline-light">Learn More</Link>
 
+
+                <div className="buttons-container">
+                    <button type="button" className="btn btn-outline-dark">Sign Up</button>
+                    <button type="button" className="btn btn-outline-light">Learn More</button>
+                </div>
+
             </header>
 
-            <div id="carouselExample" className="carousel slide" data-bs-ride="carousel">
-                <div className="carousel-inner">
-                    <div className="carousel-item active">
-                        <img
-                            src="assets/Pic1.webp"
-                            className="d-block w-100"
-                            alt="A girl with headphones having a conversation with her tutor on her laptod "
-                        />
-                    </div>
-                    <div className="carousel-item">
-                        <img
-                            src="assets/Pic2.avif"
-                            className="d-block w-100"
-                            alt="A girl raising her hand"
-                        />
-                    </div>
-                    <div className="carousel-item">
-                        <img
-                            src="assets/Pic3.webp"
-                            className="d-block w-100"
-                            alt="A guy looking at his notebook while having virtual lessons"
-                        />
-                    </div>
-                    <div className="carousel-item">
-                        <img
-                            src="assets/Pic4.jpg"
-                            className="d-block w-100"
-                            alt="A girl and her mom having virutal classes"
-                        />
-                    </div>
-                    <div className="carousel-item">
-                        <img
-                            src="assets/Pic5.jpg"
-                            className="d-block w-100"
-                            alt="A girl with a guitar having some virtual lessons"
-                        />
+            <section id="middleUpper-section">
+                <div className="container">
+                    <div className="row align-items-center">
+                        <div className="col-md-6">
+                            <h2 style={{
+                                textAlign: "center",
+                                marginBottom: "60px",
+                                fontSize: "30px",
+                                fontWeight: 600
+                            }}>Some subtitle will go here!</h2>
+                            <p>
+                               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam dolore ipsa magnam minima odit provident, quia quidem, reprehenderit repudiandae rerum sed unde? A delectus error fuga laborum omnis quo similique.
+                            </p>
+                        </div>
+                        <div className="col-md-6">
+                            <img className="middleUpper-pic" src="assets/images/Pic1.webp" alt="some image" />
+                        </div>
                     </div>
                 </div>
-                <button
-                    className="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#carouselExample"
-                    data-bs-slide="prev"
-                >
-                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="visually-hidden">Previous</span>
-                </button>
-                <button
-                    className="carousel-control-next"
-                    type="button"
-                    data-bs-target="#carouselExample"
-                    data-bs-slide="next"
-                >
-                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="visually-hidden">Next</span>
-                </button>
-            </div>
+            </section>
+
+            <section id="middle-section">
+                <div className="container">
+                    <div className="row align-items-center">
+                        <div className="col-md-6 order-md-2">
+                            <h2 style={{
+                                textAlign: "center",
+                                marginBottom: "60px",
+                                fontSize: "30px",
+                                fontWeight: 600
+                            }}>Some subtitle will go here!</h2>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad cum dicta eius illum iusto nemo suscipit vel voluptatem. Accusamus aliquid assumenda consectetur, enim est facere mollitia nihil non omnis quam.
+                            </p>
+                        </div>
+                        <div className="col-md-6 order-md-1">
+                            <img className="middleUpper-pic" src="assets/images/Pic2.avif" alt="some image" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="lower-section">
+                <div className="container">
+                    <h2 style={{
+                        textAlign: "center",
+                        marginBottom: "60px",
+                        fontSize: "30px",
+                        fontWeight: 600
+                    }}>
+                        Some subtitle will go here!
+                    </h2>
+                    <div className="row d-flex justify-content-center">
+                        <div className="col-md-6 text-center">
+                            <img
+                                src="assets/images/Pic3.webp"
+                                className="lower-section-img"
+                                alt="Some image"
+                            />
+                        </div>
+                    </div>
+                    <div className="row justify-content-center mt-4">
+                        <div className="col-md-6 text-center">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A assumenda atque distinctio doloremque ducimus eius hic inventore minus, natus obcaecati omnis quam recusandae similique sunt velit veritatis vero. Accusamus, nisi.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <div className="container my-5">
                 <div className="gallery-container">
                     <div className="scrolling-gallery">
                         <div className="p-2">
                             <img
-                                src="assets/coding_pic.jpg"
+                                src="assets/images/coding.jpg"
                                 className="gallery-item"
                                 alt="Image 1"
                             />
                         </div>
                         <div className="p-2">
-                            <img src="assets/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
+                            <img src="assets/images/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/Music_pic.webp"
+                                src="assets/images/Music.webp"
                                 className="gallery-item"
                                 alt="Image 3"
                             />
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/philosophy_pic.webp"
+                                src="assets/images/philosophy_pic.webp"
                                 className="gallery-item"
                                 alt="Image 4"
                             />
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/Science_pic.jpg"
+                                src="assets/images/Science_pic.jpg"
                                 className="gallery-item"
                                 alt="Image 5"
                             />
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/languages_pic.jpg"
+                                src="assets/images/languages.avif"
                                 className="gallery-item"
                                 alt="Image 6"
+                            />
+                        </div>
+                        <div className="p-2">
+                            <img
+                                src="assets/images/writing.jpg"
+                                className="gallery-item"
+                                alt="Image 7"
                             />
                         </div>
                     </div>
                     <div className="scrolling-gallery-copy">
                         <div className="p-2">
                             <img
-                                src="assets/coding_pic.jpg"
+                                src="assets/images/coding.jpg"
                                 className="gallery-item"
                                 alt="Image 1"
                             />
                         </div>
                         <div className="p-2">
-                            <img src="assets/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
+                            <img src="assets/images/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/Music_pic.webp"
+                                src="assets/images/Music.webp"
                                 className="gallery-item"
                                 alt="Image 3"
                             />
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/philosophy_pic.webp"
+                                src="assets/images/philosophy_pic.webp"
                                 className="gallery-item"
                                 alt="Image 4"
                             />
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/Science_pic.jpg"
+                                src="assets/images/Science_pic.jpg"
                                 className="gallery-item"
                                 alt="Image 5"
                             />
                         </div>
                         <div className="p-2">
                             <img
-                                src="assets/languages_pic.jpg"
+                                src="assets/images/languages.avif"
                                 className="gallery-item"
                                 alt="Image 6"
+                            />
+                        </div>
+                        <div className="p-2">
+                            <img
+                                src="assets/images/writing.jpg"
+                                className="gallery-item"
+                                alt="Image 7"
                             />
                         </div>
                     </div>
