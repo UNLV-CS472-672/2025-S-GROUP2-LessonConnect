@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function About() {
     return (
@@ -27,63 +27,53 @@ export default function About() {
                     </div>
                 </div>
             </nav>
+
+            {/* Section 1: Who We Are */}
             <section id="about-us" className="py-5 bg-light text-center">
                 <div className="container">
-                    <h2 className="fw-bold">About US</h2>
-                    <p className="lead">
-                        We are a team of senior Computer Science students at the University of
-                        Nevada, Las Vegas.
-                    </p>
-                    <p className="text-muted">
-                        As passionate learners and future innovators, we take pride in our
-                        academic journey and the challenges we tackle in the field of technology.
-                        Through collaboration, problem-solving, and dedication, we aim to develop
-                        impactful solutions that push the boundaries of software development and
-                        computer science. Our commitment to excellence reflects the high standards
-                        of UNLV’s CS program, and we are proud to represent our university in all
-                        our endeavors.
-                    </p>
-                    <div className="d-flex justify-content-center">
-                        <img
-                            src="assets/images/UNLV_pic.png"
-                            alt="UNLV"
-                            className="img-fluid rounded"
-                            style={{maxWidth: "400px"}}
-                        />
+                    <div className="row align-items-center">
+                        <div className="col-lg-6">
+                            <h2 className="fw-bold">About Us</h2>
+                            <p className="lead">
+                                We are a team of senior Computer Science students at the University of Nevada, Las Vegas, passionate about bridging the gap between students and tutors through LessonConnect.
+                            </p>
+                            <p className="text-muted">
+                                Our goal is to create a **secure, efficient, and innovative** learning platform that connects tutors, students, and parents. Through LessonConnect, we empower learning by integrating modern scheduling, messaging, and collaboration tools.
+                            </p>
+                        </div>
+                        <div className="col-lg-6">
+                            <img
+                                src="assets/images/UNLV_pic.png"
+                                alt="UNLV"
+                                className="img-fluid rounded"
+                                style={{ maxWidth: "100%" }}
+                            />
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <section id="our-project" className="py-5" style={{backgroundColor: "#e2e3e5", textAlign: "center"}}>
+            {/* Section 2: Our Project */}
+            <section id="our-project" className="py-5" style={{ backgroundColor: "#e2e3e5", textAlign: "center" }}>
                 <div className="container">
                     <h2 className="fw-bold">Our Project</h2>
                     <p className="lead">
-                        LessonConnect: A Safe, Integrated Communication and Scheduling Platform
-                        for Private Tutoring
+                        LessonConnect: A Safe, Integrated Communication and Scheduling Platform for Private Tutoring
                     </p>
                     <p className="text-muted">
-                        Our project, LessonConnect, is designed to bridge the gap between private
-                        tutors, students, and parents by providing a secure and efficient learning
-                        environment. The platform combines scheduling, messaging, and
-                        resource-sharing tools to streamline lesson planning and improve
-                        educational outcomes. With a focus on safety and transparency,
-                        LessonConnect empowers parents with full oversight, ensuring a productive
-                        and structured tutoring experience.
+                        LessonConnect is designed to **streamline communication** between tutors, students, and parents. Our platform offers intuitive scheduling, instant messaging, and shared resources to ensure a structured, productive tutoring experience.
+                        With safety and transparency at its core, LessonConnect empowers students to **focus on learning** while providing parents with full oversight.
                     </p>
                 </div>
             </section>
 
+            {/* Section 3: Our Team */}
             <section id="our-team" className="py-5 bg-light text-center">
                 <div className="container">
                     <h2 className="fw-bold">Our Team</h2>
-                    <p className="lead">Meet the passionate minds behind LessonConnect</p>
+                    <p className="lead">Meet the passionate minds behind LessonConnect.</p>
                     <p className="text-muted">
-                        We are a team of dedicated senior Computer Science students at the
-                        University of Nevada, Las Vegas. United by our love for problem-solving
-                        and technology, we collaborate to build innovative and impactful
-                        solutions. Our shared passion for software development drives us to push
-                        boundaries, learn continuously, and tackle challenges head-on. The
-                        following is a list of our current team members.
+                        We are a dedicated team of Computer Science students at UNLV, united by our passion for **problem-solving, software development, and innovation**. We thrive on pushing boundaries, learning continuously, and building impactful solutions.
                     </p>
                     <ul className="list-unstyled text-muted">
                         {[
@@ -107,7 +97,7 @@ export default function About() {
                             src="assets/team_photo.jpg"
                             alt="Our Team"
                             className="img-fluid rounded"
-                            style={{maxWidth: "600px"}}
+                            style={{ maxWidth: "600px" }}
                         />
                     </div>
                 </div>

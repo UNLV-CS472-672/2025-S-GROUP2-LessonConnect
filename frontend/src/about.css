@@ -2,10 +2,12 @@
 body {
     position: relative;
     font-family: "Montserrat", sans-serif;
+    padding-top: 80px; /* Push content below the fixed navbar */
 }
 
 /* Navbar Styles */
 .navbar {
+    height: 70px; /* Ensure navbar has a fixed height */
     transition: background-color 0.3s ease-in-out;
 }
 
@@ -37,7 +39,8 @@ body {
 
 /* About Us Section Styling */
 #about-us {
-    padding: 150px 20px 100px;
+    margin-top: 30px; /* Ensures separation from the navbar */
+    padding: 100px 20px;
     background-color: #f8f9fa;
     text-align: center;
 }
@@ -46,13 +49,12 @@ body {
     font-weight: 700;
     font-size: 3rem;
     margin-bottom: 20px;
-    padding-top: 20px;
 }
 
 #about-us p.lead {
     font-size: 1.2rem;
     color: #666;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 #about-us p.text-muted {
@@ -66,7 +68,7 @@ body {
 #about-us img {
     max-width: 400px;
     border-radius: 10px;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 /* Our Project */
@@ -95,7 +97,7 @@ body {
     margin: auto;
 }
 
-/* Our Team Section*/
+/* Our Team Section */
 #our-team {
     padding: 100px 20px;
     background-color: #f8f9fa;
