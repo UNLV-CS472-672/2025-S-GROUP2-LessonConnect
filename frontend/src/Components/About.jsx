@@ -63,7 +63,7 @@ export default function About() {
                         {/* Team Image on the Left */}
                         <div className="col-lg-6 text-center">
                             <img
-                                src="assets/images/team_photo.jpg"
+                                src="assets/images/UNLV_pic.png"
                                 alt="LessonConnect Team"
                                 className="img-fluid rounded"
                             />
@@ -100,7 +100,7 @@ export default function About() {
                     </p>
                     <div className="row team-container">
                         {[
-                            {name: "Dorian Akhavan", role: "Lead Developer", img: "assets/team/dorian.jpg"},
+                            {name: "Dorian Akhavan", role: "Lead Developer", img: "assets/images/UNLV_pic.png"},
                             {name: "Abdulrahman Alharbi", role: "Backend Engineer", img: "assets/team/abdulrahman.jpg"},
                             {name: "Ashley Arellano", role: "UI/UX Designer", img: "assets/team/ashley.jpg"},
                             {name: "Franklin La Rosa Diaz", role: "Project Manager", img: "assets/team/franklin.jpg"},

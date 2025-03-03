@@ -2,7 +2,6 @@
 body {
     position: relative;
     font-family: "Montserrat", sans-serif;
-    padding-top: 80px;
 }
 
 /* Navbar Styles */
@@ -39,10 +38,10 @@ body {
 
 /* About Us Section Styling */
 #about-us {
-    margin-top: 30px;
-    padding: 100px 20px;
+    margin-top: 50px;
     background-color: #f8f9fa;
     text-align: center;
+
 }
 
 #about-us h2 {
