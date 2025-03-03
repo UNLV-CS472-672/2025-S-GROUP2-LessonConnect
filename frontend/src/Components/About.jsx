@@ -35,10 +35,14 @@ export default function About() {
                         <div className="col-lg-6">
                             <h2 className="fw-bold">About Us</h2>
                             <p className="lead">
-                                We are a team of senior Computer Science students at the University of Nevada, Las Vegas, passionate about bridging the gap between students and tutors through LessonConnect.
+                                We are a team of senior Computer Science students at the University of Nevada,
+                                Las Vegas, passionate about bridging the gap between students and tutors through
+                                LessonConnect.
                             </p>
                             <p className="text-muted">
-                                Our goal is to create a **secure, efficient, and innovative** learning platform that connects tutors, students, and parents. Through LessonConnect, we empower learning by integrating modern scheduling, messaging, and collaboration tools.
+                                Our goal is to create a secure, efficient, and innovative learning platform that
+                                connects tutors, students, and parents. Through LessonConnect, we empower learning
+                                by integrating modern scheduling, messaging, and collaboration tools.
                             </p>
                         </div>
                         <div className="col-lg-6">
@@ -53,19 +57,36 @@ export default function About() {
                 </div>
             </section>
 
-            {/* Section 2: Our Project */}
-            <section id="our-project" className="py-5" style={{ backgroundColor: "#e2e3e5", textAlign: "center" }}>
+            <section id="our-project" className="py-5">
                 <div className="container">
-                    <h2 className="fw-bold">Our Project</h2>
-                    <p className="lead">
-                        LessonConnect: A Safe, Integrated Communication and Scheduling Platform for Private Tutoring
-                    </p>
-                    <p className="text-muted">
-                        LessonConnect is designed to **streamline communication** between tutors, students, and parents. Our platform offers intuitive scheduling, instant messaging, and shared resources to ensure a structured, productive tutoring experience.
-                        With safety and transparency at its core, LessonConnect empowers students to **focus on learning** while providing parents with full oversight.
-                    </p>
+                    <div className="row align-items-center">
+                        {/* Team Image on the Left */}
+                        <div className="col-lg-6 text-center">
+                            <img
+                                src="assets/images/team_photo.jpg"
+                                alt="LessonConnect Team"
+                                className="img-fluid rounded"
+                            />
+                        </div>
+
+                        {/* Text Content on the Right */}
+                        <div className="col-lg-6 text-content">
+                            <h2 className="fw-bold">Our Project</h2>
+                            <p className="lead">
+                                LessonConnect: A Safe, Integrated Communication and Scheduling Platform for Private Tutoring
+                            </p>
+                            <p className="text-muted">
+                                LessonConnect is designed to streamline communication between tutors, students, and parents.
+                                Our platform offers intuitive scheduling, instant messaging, and shared resources to ensure a
+                                structured, productive tutoring experience.
+                                With **safety and transparency at its core**, LessonConnect empowers students to **focus on learning**
+                                while providing parents with full oversight.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </section>
+
 
             {/* Section 3: Our Team */}
             <section id="our-team" className="py-5 bg-light text-center">
