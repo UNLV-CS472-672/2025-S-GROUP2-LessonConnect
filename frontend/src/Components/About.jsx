@@ -50,7 +50,7 @@ export default function About() {
                                 src="assets/images/UNLV_pic.png"
                                 alt="UNLV"
                                 className="img-fluid rounded"
-                                style={{ maxWidth: "100%" }}
+                                style={{maxWidth: "100%"}}
                             />
                         </div>
                     </div>
@@ -71,13 +71,17 @@ export default function About() {
                         <div className="col-lg-6 text-content">
                             <h2 className="fw-bold">Our Project</h2>
                             <p className="lead">
-                                LessonConnect: A Safe, Integrated Communication and Scheduling Platform for Private Tutoring
+                                LessonConnect: A Safe, Integrated Communication and Scheduling Platform for Private
+                                Tutoring
                             </p>
                             <p className="text-muted">
-                                LessonConnect is designed to streamline communication between tutors, students, and parents.
-                                Our platform offers intuitive scheduling, instant messaging, and shared resources to ensure a
+                                LessonConnect is designed to streamline communication between tutors, students, and
+                                parents.
+                                Our platform offers intuitive scheduling, instant messaging, and shared resources to
+                                ensure a
                                 structured, productive tutoring experience.
-                                With **safety and transparency at its core**, LessonConnect empowers students to **focus on learning**
+                                With **safety and transparency at its core**, LessonConnect empowers students to **focus
+                                on learning**
                                 while providing parents with full oversight.
                             </p>
                         </div>
@@ -96,20 +100,28 @@ export default function About() {
                     </p>
                     <div className="row team-container">
                         {[
-                            { name: "Dorian Akhavan", role: "Lead Developer", img: "assets/team/dorian.jpg" },
-                            { name: "Abdulrahman Alharbi", role: "Backend Engineer", img: "assets/team/abdulrahman.jpg" },
-                            { name: "Ashley Arellano", role: "UI/UX Designer", img: "assets/team/ashley.jpg" },
-                            { name: "Franklin La Rosa Diaz", role: "Project Manager", img: "assets/team/franklin.jpg" },
-                            { name: "Jose Alarcon", role: "Frontend Developer", img: "assets/team/jose.jpg" },
-                            { name: "Christopher Liscano", role: "Security Engineer", img: "assets/team/christopher.jpg" },
-                            { name: "Ethan Zambrano", role: "Database Engineer", img: "assets/team/ethan.jpg" },
-                            { name: "Aviendha Andrus", role: "QA Engineer", img: "assets/team/aviendha.jpg" },
-                            { name: "Sameer Issa", role: "Systems Architect", img: "assets/team/sameer.jpg" },
-                            { name: "Allison Kameda", role: "Full-Stack Developer", img: "assets/team/allison.jpg" },
-                            { name: "Charles Joseph Ballesteros", role: "DevOps Engineer", img: "assets/team/charles.jpg" }
+                            {name: "Dorian Akhavan", role: "Lead Developer", img: "assets/team/dorian.jpg"},
+                            {name: "Abdulrahman Alharbi", role: "Backend Engineer", img: "assets/team/abdulrahman.jpg"},
+                            {name: "Ashley Arellano", role: "UI/UX Designer", img: "assets/team/ashley.jpg"},
+                            {name: "Franklin La Rosa Diaz", role: "Project Manager", img: "assets/team/franklin.jpg"},
+                            {name: "Jose Alarcon", role: "Frontend Developer", img: "assets/team/jose.jpg"},
+                            {
+                                name: "Christopher Liscano",
+                                role: "Security Engineer",
+                                img: "assets/team/christopher.jpg"
+                            },
+                            {name: "Ethan Zambrano", role: "Database Engineer", img: "assets/team/ethan.jpg"},
+                            {name: "Aviendha Andrus", role: "QA Engineer", img: "assets/team/aviendha.jpg"},
+                            {name: "Sameer Issa", role: "Systems Architect", img: "assets/team/sameer.jpg"},
+                            {name: "Allison Kameda", role: "Full-Stack Developer", img: "assets/team/allison.jpg"},
+                            {
+                                name: "Charles Joseph Ballesteros",
+                                role: "DevOps Engineer",
+                                img: "assets/team/charles.jpg"
+                            }
                         ].map((member, index) => (
                             <div className="col-lg-4 col-md-6 col-sm-12 team-member" key={index}>
-                                <img src={member.img} alt={member.name} />
+                                <img src={member.img} alt={member.name}/>
                                 <h4>{member.name}</h4>
                                 <p>{member.role}</p>
                             </div>
@@ -117,6 +129,62 @@ export default function About() {
                     </div>
                 </div>
             </section>
+
+            <footer className="bg-dark text-light py-4">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-3 col-sm-6 mb-3">
+                            <h6 className="fw-semibold">LessonConnect</h6>
+                            <ul className="list-unstyled">
+                                <li>
+                                    <a href="#" className="text-light text-decoration-none"
+                                    >About Us</a
+                                    >
+                                </li>
+                                <li>
+                                    <a href="#" className="text-light text-decoration-none"
+                                    >Learn More</a
+                                    >
+                                </li>
+                                <li>
+                                    <a href="#" className="text-light text-decoration-none"></a>
+                                </li>
+                                <li>
+                                    <a href="#" className="text-light text-decoration-none"
+                                    >Services</a
+                                    >
+                                </li>
+                                <li>
+                                    <a href="#" className="text-light text-decoration-none"
+                                    >Schedule</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="col-md-3 col-sm-6 mb-3">
+                            <h6 className="fw-semibold">Customer Service</h6>
+                            <ul className="list-unstyled">
+                                <li>
+                                    <a href="#" className="text-light text-decoration-none">FAQs</a>
+                                </li>
+                                <li>
+                                    <a href="#" className="text-light text-decoration-none"
+                                    >Support</a
+                                    >
+                                </li>
+                                <li>
+                                    <a href="#" className="text-light text-decoration-none"
+                                    >Contact Us</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div className="text-center mt-3">
+                    <p className="mb-0">&copy; 2025 LessonConnect. All Rights Reserved.</p>
+                </div>
+            </footer>
         </>
     );
 }
