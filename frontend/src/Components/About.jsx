@@ -68,8 +68,6 @@ export default function About() {
                                 className="img-fluid rounded"
                             />
                         </div>
-
-                        {/* Text Content on the Right */}
                         <div className="col-lg-6 text-content">
                             <h2 className="fw-bold">Our Project</h2>
                             <p className="lead">
@@ -87,39 +85,35 @@ export default function About() {
                 </div>
             </section>
 
-
-            {/* Section 3: Our Team */}
-            <section id="our-team" className="py-5 bg-light text-center">
+            <section id="our-team" className="py-5">
                 <div className="container">
                     <h2 className="fw-bold">Our Team</h2>
-                    <p className="lead">Meet the passionate minds behind LessonConnect.</p>
+                    <p className="lead">Meet the passionate minds behind LessonConnect</p>
                     <p className="text-muted">
-                        We are a dedicated team of Computer Science students at UNLV, united by our passion for **problem-solving, software development, and innovation**. We thrive on pushing boundaries, learning continuously, and building impactful solutions.
+                        We are a dedicated team of Computer Science students at UNLV, specializing in
+                        software development, UI/UX, project management, and systems architecture.
+                        Our goal is to build innovative solutions that enhance the online learning experience.
                     </p>
-                    <ul className="list-unstyled text-muted">
+                    <div className="row team-container">
                         {[
-                            "Dorian Akhavan",
-                            "Abdulrahman Alharbi",
-                            "Ashley Arellano",
-                            "Franklin La Rosa Diaz",
-                            "Jose Alarcon",
-                            "Christopher Liscano",
-                            "Ethan Zambrano",
-                            "Aviendha Andrus",
-                            "Sameer Issa",
-                            "Allison Kameda",
-                            "Charles Joseph Ballesteros",
-                        ].map((name, index) => (
-                            <li key={index}>{name}</li>
+                            { name: "Dorian Akhavan", role: "Lead Developer", img: "assets/team/dorian.jpg" },
+                            { name: "Abdulrahman Alharbi", role: "Backend Engineer", img: "assets/team/abdulrahman.jpg" },
+                            { name: "Ashley Arellano", role: "UI/UX Designer", img: "assets/team/ashley.jpg" },
+                            { name: "Franklin La Rosa Diaz", role: "Project Manager", img: "assets/team/franklin.jpg" },
+                            { name: "Jose Alarcon", role: "Frontend Developer", img: "assets/team/jose.jpg" },
+                            { name: "Christopher Liscano", role: "Security Engineer", img: "assets/team/christopher.jpg" },
+                            { name: "Ethan Zambrano", role: "Database Engineer", img: "assets/team/ethan.jpg" },
+                            { name: "Aviendha Andrus", role: "QA Engineer", img: "assets/team/aviendha.jpg" },
+                            { name: "Sameer Issa", role: "Systems Architect", img: "assets/team/sameer.jpg" },
+                            { name: "Allison Kameda", role: "Full-Stack Developer", img: "assets/team/allison.jpg" },
+                            { name: "Charles Joseph Ballesteros", role: "DevOps Engineer", img: "assets/team/charles.jpg" }
+                        ].map((member, index) => (
+                            <div className="col-lg-4 col-md-6 col-sm-12 team-member" key={index}>
+                                <img src={member.img} alt={member.name} />
+                                <h4>{member.name}</h4>
+                                <p>{member.role}</p>
+                            </div>
                         ))}
-                    </ul>
-                    <div className="d-flex justify-content-center mt-4">
-                        <img
-                            src="assets/team_photo.jpg"
-                            alt="Our Team"
-                            className="img-fluid rounded"
-                            style={{ maxWidth: "600px" }}
-                        />
                     </div>
                 </div>
             </section>
