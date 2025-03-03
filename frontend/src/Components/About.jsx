@@ -1,7 +1,32 @@
+import {Link} from "react-router-dom";
 
 export default function About() {
     return (
         <>
+            <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+                <div className="container">
+                    <a href="index.html" className="navbar-brand">
+                        <i className="bi bi-house-door"></i>
+                    </a>
+                    <button
+                        className="navbar-toggler"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#nav-collapse"
+                    >
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div id="nav-collapse" className="collapse navbar-collapse">
+                        <div className="navbar-nav ms-auto">
+                            <Link to="/" className="nav-link">Home</Link>
+                            <a href="#services-target" className="nav-link">Services</a>
+                            <a href="#schedule-target" className="nav-link">Schedule</a>
+                            <Link to="/learn_more" className="nav-link">Learn More</Link>
+                            <Link to="/about" className="nav-link">About Us</Link>
+                            <a href="login.html" className="btn btn-outline-light ms-4">Login</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
             <section id="about-us" className="py-5 bg-light text-center">
                 <div className="container">
                     <h2 className="fw-bold">About US</h2>
@@ -20,16 +45,16 @@ export default function About() {
                     </p>
                     <div className="d-flex justify-content-center">
                         <img
-                            src="assets/UNLV.png"
+                            src="assets/images/UNLV_pic.png"
                             alt="UNLV"
                             className="img-fluid rounded"
-                            style={{ maxWidth: "400px" }}
+                            style={{maxWidth: "400px"}}
                         />
                     </div>
                 </div>
             </section>
 
-            <section id="our-project" className="py-5" style={{ backgroundColor: "#e2e3e5", textAlign: "center" }}>
+            <section id="our-project" className="py-5" style={{backgroundColor: "#e2e3e5", textAlign: "center"}}>
                 <div className="container">
                     <h2 className="fw-bold">Our Project</h2>
                     <p className="lead">
@@ -82,7 +107,7 @@ export default function About() {
                             src="assets/team_photo.jpg"
                             alt="Our Team"
                             className="img-fluid rounded"
-                            style={{ maxWidth: "600px" }}
+                            style={{maxWidth: "600px"}}
                         />
                     </div>
                 </div>
