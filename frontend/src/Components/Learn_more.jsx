@@ -27,6 +27,50 @@ export default function Learn_more() {
                     </div>
                 </div>
             </nav>
+
+            {/* Features Section */}
+            <section id="features" className="py-5 text-center">
+                <div className="container">
+                    <div className="row justify-content-center">
+
+                        {/* Learn More Card */}
+                        <div className="col-md-4">
+                            <div className="feature-card">
+                                <div className="icon">📖</div>
+                                <h3 className="fw-bold">Learn More About LessonConnect</h3>
+                                <p className="text-muted">
+                                    LessonConnect is an online platform designed to connect students with expert tutors
+                                    in a seamless, interactive learning environment.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* How It Works Card */}
+                        <div className="col-md-4">
+                            <div className="feature-card">
+                                <div className="icon">📅</div>
+                                <h3 className="fw-bold">How LessonConnect Works</h3>
+                                <p className="text-muted">
+                                    Students can browse subjects, schedule virtual lessons, and engage in interactive
+                                    one-on-one or group sessions tailored to their needs.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Why Choose Us Card */}
+                        <div className="col-md-4">
+                            <div className="feature-card">
+                                <div className="icon">🏆</div>
+                                <h3 className="fw-bold">Why Choose LessonConnect?</h3>
+                                <p className="text-muted">
+                                    We offer a user-friendly experience covering a variety of subjects, from coding
+                                    to philosophy, ensuring high-quality virtual learning.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </>
     );
 }
