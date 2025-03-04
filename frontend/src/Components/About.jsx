@@ -101,24 +101,16 @@ export default function About() {
                     <div className="row team-container">
                         {[
                             {name: "Dorian Akhavan", role: "Lead Developer", img: "assets/images/UNLV_pic.png"},
-                            {name: "Abdulrahman Alharbi", role: "Backend Engineer", img: "assets/team/abdulrahman.jpg"},
-                            {name: "Ashley Arellano", role: "UI/UX Designer", img: "assets/team/ashley.jpg"},
-                            {name: "Franklin La Rosa Diaz", role: "Project Manager", img: "assets/team/franklin.jpg"},
-                            {name: "Jose Alarcon", role: "Frontend Developer", img: "assets/team/jose.jpg"},
-                            {
-                                name: "Christopher Liscano",
-                                role: "Security Engineer",
-                                img: "assets/team/christopher.jpg"
-                            },
-                            {name: "Ethan Zambrano", role: "Database Engineer", img: "assets/team/ethan.jpg"},
-                            {name: "Aviendha Andrus", role: "QA Engineer", img: "assets/team/aviendha.jpg"},
-                            {name: "Sameer Issa", role: "Systems Architect", img: "assets/team/sameer.jpg"},
-                            {name: "Allison Kameda", role: "Full-Stack Developer", img: "assets/team/allison.jpg"},
-                            {
-                                name: "Charles Joseph Ballesteros",
-                                role: "DevOps Engineer",
-                                img: "assets/team/charles.jpg"
-                            }
+                            {name: "Abdulrahman Alharbi", role: "Backend Engineer", img: "assets/images/UNLV_pic.png"},
+                            {name: "Ashley Arellano", role: "UI/UX Designer", img: "assets/images/UNLV_pic.png"},
+                            {name: "Franklin La Rosa Diaz", role: "Project Manager", img: "assets/images/UNLV_pic.png"},
+                            {name: "Jose Alarcon", role: "Frontend Developer", img: "assets/images/UNLV_pic.png"},
+                            {name: "Christopher Liscano", role: "Security Engineer", img: "assets/images/UNLV_pic.png"},
+                            {name: "Ethan Zambrano", role: "Database Engineer", img: "assets/images/UNLV_pic.png"},
+                            {name: "Aviendha Andrus", role: "QA Engineer", img: "assets/images/UNLV_pic.png"},
+                            {name: "Sameer Issa", role: "Systems Architect", img: "assets/images/UNLV_pic.png"},
+                            {name: "Allison Kameda", role: "Full-Stack Developer", img: "assets/images/UNLV_pic.png"},
+                            {name: "Charles Joseph Ballesteros", role: "DevOps Engineer", img: "assets/images/UNLV_pic.png"}
                         ].map((member, index) => (
                             <div className="col-lg-4 col-md-6 col-sm-12 team-member" key={index}>
                                 <img src={member.img} alt={member.name}/>
