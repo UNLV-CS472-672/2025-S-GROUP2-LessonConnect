@@ -80,7 +80,9 @@ export default function Home() {
 
 
                 <div className="buttons-container">
-                    <button type="button" className="btn btn-outline-dark">Sign Up</button>
+                    <Link to="/SignUp" className="btn btn-outline-light">
+                        SignUp
+                    </Link>
                     <button type="button" className="btn btn-outline-light">Learn More</button>
                 </div>
 
