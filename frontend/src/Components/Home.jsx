@@ -73,10 +73,10 @@ export default function Home() {
                     <span className="text-body-secondary fs-6 staggered-subtitle">with your favorite tutor.</span>
                 </h3>
 
-                <Link to="/SignUp" className="btn btn-outline-light">
-                    SignUp
-                </Link>
-                <Link to="/learn_more" className="btn btn-outline-light">Learn More</Link>
+                {/*<Link to="/SignUp" className="btn btn-outline-light">*/}
+                {/*    SignUp*/}
+                {/*</Link>*/}
+                {/*<Link to="/learn_more" className="btn btn-outline-light">Learn More</Link>*/}
 
 
                 <div className="buttons-container">
