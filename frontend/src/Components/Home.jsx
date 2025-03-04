@@ -83,7 +83,7 @@ export default function Home() {
                     <Link to="/SignUp" className="btn btn-outline-light">
                         SignUp
                     </Link>
-                    <button type="button" className="btn btn-outline-light">Learn More</button>
+                    <Link to="/learn_more" className="btn btn-outline-light">Learn More</Link>
                 </div>
 
             </header>
