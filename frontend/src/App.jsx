@@ -1,14 +1,16 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {Routes, Route } from "react-router-dom";
+import "./Styles/index.css";
+import Header from "./components/Header";
 import Home from "./components/Home";
 import About from "./components/About";
 import Learn_more from "./components/Learn_more";
-import Login from "./Components/Login.jsx";
 import SignUp from "./Components/SignUp.jsx";
-import React from "react";
+import Login from "./Components/Login.jsx";
 
 function App() {
     return (
-        <Router>
+        <div className="App">
+            <Header />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} /> {/* Fixed route path */}
@@ -19,7 +21,7 @@ function App() {
                 {/* 3. Sign up page (path="/signup") */}
                 <Route path="/signup" element={<SignUp />} />
             </Routes>
-        </Router>
+        </div>
     );
 }
 
