@@ -71,6 +71,19 @@ export default function Learn_more() {
                     </div>
                 </div>
             </section>
+
+            {/* Join Now Section */}
+            <section id="join-now" className="py-5 join-section text-center">
+                <div className="container">
+                    <h2 className="fw-bold">Join LessonConnect Today</h2>
+                    <p className="text-muted">
+                        Sign up, explore tutors, and book your first lesson. Whether you're a student
+                        looking to improve or a tutor eager to share knowledge, LessonConnect is the
+                        perfect space for growth.
+                    </p>
+                    <Link to="/signup" className="btn btn-primary btn-lg">Join Now</Link>
+                </div>
+            </section>
         </>
     );
 }

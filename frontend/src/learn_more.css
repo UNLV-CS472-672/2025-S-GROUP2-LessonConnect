@@ -41,11 +41,13 @@ body {
 
 .join-section h2 {
     font-size: 2.5rem;
+    margin-top: 80px; /* Adjust as needed */
 }
 
 .join-section p {
     font-size: 1.2rem;
     color: #333;
+    margin-top: 40px; /* Adjust as needed */
 }
 
 .join-section .btn {
