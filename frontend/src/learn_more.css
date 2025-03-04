@@ -1,131 +1,55 @@
-/* General Styles */
+/*!* General Styles *!*/
 body {
     position: relative;
     font-family: "Montserrat", sans-serif;
 }
 
-/* Navbar Styles */
-.navbar {
-    transition: background-color 0.3s ease-in-out;
+/* Features Section */
+#features {
+    background-color: #ffffff;
+    margin-top: 150px;
+    margin-bottom: 150px;
 }
 
-.navbar-dark .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 400;
-    transition: color 0.3s ease-in-out;
-}
-
-.navbar-dark .navbar-nav .nav-link:hover {
-    color: rgba(255, 255, 255, 1);
-}
-
-.navbar-brand i {
-    font-size: 1.5rem;
-    color: white;
-}
-
-/* Learn More Section */
-#learn-more {
-    padding: 150px 20px 100px; /* Matches the spacing of About Us */
-    background-color: #f8f9fa;
+.feature-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
     text-align: center;
+    transition: transform 0.3s ease-in-out;
 }
 
-#learn-more h2 {
-    font-weight: 700;
-    font-size: 3rem;
-    margin-bottom: 20px;
-    padding-top: 20px;
+.feature-card:hover {
+    transform: scale(1.05);
 }
 
-#learn-more p.lead {
+/* Icon Styling */
+.feature-card .icon {
+    font-size: 2.5rem; /* Adjust size */
+    margin-bottom: 15px;
+}
+
+/* Join Now Section */
+.join-section {
+    background-color: #ffefe0; /* Light peach color */
+    padding: 80px 20px;
+    height: 500px;
+    justify-content: center;
+
+}
+
+.join-section h2 {
+    font-size: 2.5rem;
+}
+
+.join-section p {
     font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 40px;
+    color: #333;
 }
 
-#learn-more p.text-muted {
-    font-size: 1rem;
-    line-height: 1.6;
-    max-width: 800px;
-    margin: auto;
-    margin-bottom: 20px;
-}
-
-/* How LessonConnect Works */
-#how-it-works {
-    padding: 100px 20px;
-    background-color: #e2e3e5;
-    text-align: center;
-}
-
-#how-it-works h2 {
-    font-weight: 700;
-    font-size: 3rem;
-    margin-bottom: 20px;
-}
-
-#how-it-works p.text-muted {
-    font-size: 1rem;
-    line-height: 1.6;
-    max-width: 800px;
-    margin: auto;
-}
-
-/* Why Choose LessonConnect */
-#why-choose {
-    padding: 100px 20px;
-    background-color: #f8f9fa;
-    text-align: center;
-}
-
-#why-choose h2 {
-    font-weight: 700;
-    font-size: 3rem;
-    margin-bottom: 20px;
-}
-
-#why-choose p.text-muted {
-    font-size: 1rem;
-    line-height: 1.6;
-    max-width: 800px;
-    margin: auto;
-}
-
-/* Join LessonConnect */
-#join-now {
-    padding: 100px 20px;
-    background-color: #e2e3e5;
-    text-align: center;
-}
-
-#join-now h2 {
-    font-weight: 700;
-    font-size: 3rem;
-    margin-bottom: 20px;
-}
-
-#join-now p.text-muted {
-    font-size: 1rem;
-    line-height: 1.6;
-    max-width: 800px;
-    margin: auto;
-}
-
-/* Footer Section */
-footer {
-    background-color: #343a40;
-    color: white;
-    padding: 40px 0;
-    text-align: center;
-}
-
-footer a {
-    color: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
-}
-
-footer a:hover {
-    color: white;
-    text-decoration: underline;
+.join-section .btn {
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    border-radius: 30px;
 }
