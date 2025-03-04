@@ -59,7 +59,9 @@ export default function Home() {
                             <a href="#schedule-target" className="nav-link">Schedule</a>
                             <a href="#resources-target" className="nav-link">Resources</a>
                             <Link to="/about" className="nav-link">About Us</Link>
-                            <button type="button" className="btn btn-outline-light">Login</button>
+                            <Link to="/login" className="btn btn-outline-light">
+                                Login
+                            </Link>
                         </div>
                     </div>
                 </div>
