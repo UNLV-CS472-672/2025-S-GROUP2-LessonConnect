@@ -15,7 +15,6 @@ class UploadRecordManager(models.Manager):
         # Convert to datetime object
         created_at_datetime = datetime.fromisoformat(compatible_created_at)
 
-        # WIP
         # Create a new UploadRecord instance with the provided data
         upload_record = self.model(
             media_url=upload_data["secure_url"],
