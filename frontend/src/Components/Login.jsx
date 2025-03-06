@@ -61,16 +61,14 @@ export default function Login() {
                 }
 
                 .login-form input {
-                    padding: 12px;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
+                    border: none;
+                    border-bottom: 1px solid #ccc;
+                    padding: 10px 5px;
                     font-size: 14px;
-                    transition: 0.3s;
                 }
-
                 .login-form input:focus {
-                    border-color: #000;
                     outline: none;
+                    border-bottom-color: #000;
                 }
 
                 .btn {
@@ -164,7 +162,7 @@ export default function Login() {
             `}</style>
 
             <div className="container login-container">
-                <h1>Welcome back</h1>
+                <h1>Welcome to LessonConnect</h1>
                 <form className="login-form" onSubmit={handleSubmit}>
                     <label htmlFor="email">Email address*</label>
                     <input
@@ -185,7 +183,7 @@ export default function Login() {
                     />
 
                     <button type="submit" className="btn">
-                        Continue
+                        Sign in
                     </button>
                 </form>
                 <p>
