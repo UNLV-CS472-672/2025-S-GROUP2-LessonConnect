@@ -12,17 +12,20 @@ class UploadRecord(models.Model):
     # Auto generates a unique identifier
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    # Cloudinary public id
+    # Cloudinary data from upload
     public_id = models.CharField(max_length=255, unique=True)
     file_name = models.CharField(max_length=100)
     file_format = models.CharField(max_length=50)
     created_at = models.DateTimeField()
-    media_url = models.URLField(max_length=1000, null=False, blank=False)
-
-    upload = CloudinaryField(resource_type='auto') # grants access to Cloudinary functionalities
+    resource_type = models.CharField(max_length=50)
+    type = models.CharField(max_length=50)
+    version = models.PositiveBigIntegerField()
 
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE) # many to one relationship
     description = models.TextField(null=True, blank=True)
 
     # Link the custom manager to the model
     objects = UploadRecordManager()
+
+    def __str__(self):
+        return self.file_name

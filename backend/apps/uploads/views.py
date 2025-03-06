@@ -1,3 +1,8 @@
+#TODO: Downgrade back to python 3.10.12
+#after create a function to covert the datetimefield stuff!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
 # uploads/views
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -5,10 +10,6 @@ from rest_framework.parsers import MultiPartParser, JSONParser
 from apps.uploads.models import UploadRecord
 from apps.users.models import Profile
 from rest_framework.permissions import IsAuthenticated
-
-#logging
-#import logging
-#logger = logging.getLogger(__name__)
 
 # https://blog.nonstopio.com/well-handling-of-cloudinary-with-python-drf-api-28271575e21f
 # Create your views here.
@@ -39,12 +40,22 @@ class UploadAPIView(APIView):
         # Use the manager method to save relevant metadata into database
         UploadRecord.objects.create(upload_data, profile)
 
+
+        #DEBUG only: Will delete if i can confirm method works
+        new_url=UploadRecord.objects.buildUrl(upload_data["original_filename"])
+
         #may or may not make a serializer, depends on if we want to give all the info
         # from upload_data to frontend
         return Response({
                     'status': 'success',
-                    'data': upload_data,
+                    'data': new_url,
                 }, status=201)
         # Whenever create() fails, the image should be deleted from
         # cloudinary cause otherwise it takes space
+
+    # Handles DELETE HTTP request from frontend
+    # Deletes an existing uploaded file from the database
+
+    # Handles GET HTTP request from frontend
+    # Deletes an existing uploaded file from the database
 
