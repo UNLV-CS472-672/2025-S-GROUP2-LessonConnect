@@ -25,13 +25,13 @@ class Chat(models.Model):
     return chat
 
 class Message(models.Model):
-  # Allow chat to be nullable
-  chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name="messages", null=True)
+  # Allow default chat
+  chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name="messages", default=Chat.objects.first())
   sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_messages")
   content = models.TextField()
   timestamp = models.DateTimeField(default=now)
   # to register and see in the admin panel
-  id = models.AutoField(primary_key=True)
+  # id = models.AutoField(primary_key=True)
 
   class Meta:
     ordering = ['timestamp']
