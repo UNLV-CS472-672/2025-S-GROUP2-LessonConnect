@@ -10,13 +10,23 @@ class Notification(models.Model):
     WARNING = 'warning'
     ERROR = 'error'
 
+    # constants for INFO subcategories. can add more to if needed. open to suggestions
+    INFO_GENERAL = 'general'
+    INFO_SYSTEM = 'system'
+
     # choices for the notification_type field. the elements in the list is
     # a tuple of (value, display_name)
     NOTIFICATION_TYPES = [
-        (INFO, 'information'),
-        (SUCCESS, 'success'),
-        (WARNING, 'warning'),
-        (ERROR, 'error')
+        (INFO, 'Information'),
+        (SUCCESS, 'Success'),
+        (WARNING, 'Warning'),
+        (ERROR, 'Error')
+    ]
+
+    # choices for INFO subcategories
+    INFO_CATEGORIES = [
+        (INFO_GENERAL, 'General Information'),
+        (INFO_SYSTEM, 'System Update')
     ]
 
     # links to the user who will receive notifications
@@ -25,21 +35,29 @@ class Notification(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications')
 
     # notification message content
-    notification_title = models.CharField(max_length=255)
+    notification_title = models.CharField(max_length=63)
     notification_message = models.TextField()
 
     notification_type = models.CharField(
-        max_length=20,  # maybe increase length if we want lengthy notifications?
+        max_length=127,  # maybe increase length if we want lengthy notifications?
         choices=NOTIFICATION_TYPES,
         default=INFO  # defaults to 'info' if author does not specify
+    )
+
+    # INFO subcategory. only relevant when notification_type is INFO
+    info_category = models.CharField(
+        max_length=127,
+        choices=INFO_CATEGORIES,
+        default=INFO_GENERAL,
+        blank=True,
+        null=True
     )
 
     # when notification was created
     sent_at = models.DateTimeField(default=timezone.now)
 
-    # TODO: cant do this here. gotta do it in Celery im pretty sure
     # for schedule notifications
-    # scheduled_time = models.DateTimeField(blank=True, null=True)
+    scheduled_time = models.DateTimeField(blank=True, null=True)
 
     # tracks if user had read the notification
     is_read = models.BooleanField(default=False)
@@ -59,3 +77,17 @@ class Notification(models.Model):
     def mark_as_sent(self):
         self.is_read = True
         self.save(update_fields=['sent_at'])
+
+    @property
+    def is_scheduled(self):
+        # checks if notification is scheduled
+        return self.scheduled_time is not None
+
+    # --- AI GENERATED CODE
+    # https://chatgpt.com/share/67c91721-0abc-800d-a8df-4c97476f7398
+    @property
+    def info_subcategory(self):
+        """Returns the display name of the info category if notification type is INFO."""
+        if self.notification_type == self.INFO:
+            return dict(self.INFO_CATEGORIES).get(self.info_category, "Unknown")
+        return None
