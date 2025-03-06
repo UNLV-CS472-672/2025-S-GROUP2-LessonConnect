@@ -1,9 +1,11 @@
 # urls.py
 from django.urls import path
-from .views import send_message, inbox
+from .views import select_send_message, send_message, chat_list, chat_detail
 
 urlpatterns = [
-  path('send/', send_message, name='send_message'),
-  path('inbox/', inbox, name='inbox'),
+  path('', chat_list, name='chat_list'),
+  path('<int:chat_id>/', chat_detail, name='chat_detail'),
+  path('send/', select_send_message, name='select_send_message'),
+  path('send/<int:user_id>/', send_message, name='send_message'),
 ]
 
