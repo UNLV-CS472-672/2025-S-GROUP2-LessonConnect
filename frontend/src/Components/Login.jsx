@@ -19,11 +19,7 @@ export default function Login() {
 
                 body {
                     font-family: Arial, sans-serif;
-                    background: linear-gradient(120deg, #fcfcfc, #f5f7fa);
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    min-height: 100vh;
+                    background-color: #f8f9fa;
                 }
 
                 /* ====== Container ====== */
@@ -187,43 +183,19 @@ export default function Login() {
                     </button>
                 </form>
                 <p>
-                    Don&apos;t have an account?{' '}
+                    New to LessonConnect? {' '}
                     <a href="/signup">Sign Up</a>
                 </p>
 
                 <div className="divider">OR</div>
 
                 <div className="social-login">
-                    <button type="button" className="google">
+                    <button type="button">
                         <img
-                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAAA4CAMAAABuU5ChAAAA..."
+                            src="assets/images/google.png"
                             alt="Google"
                         />
-                        Continue with Google
-                    </button>
-
-                    <button type="button" className="microsoft">
-                        <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
-                            alt="Microsoft"
-                        />
-                        Continue with Microsoft Account
-                    </button>
-
-                    <button type="button" className="apple">
-                        <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
-                            alt="Apple"
-                        />
-                        Continue with Apple
-                    </button>
-
-                    <button type="button" className="phone">
-                        <img
-                            src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD..."
-                            alt="Phone"
-                        />
-                        Continue with phone
+                        Sign in with Google
                     </button>
                 </div>
             </div>
