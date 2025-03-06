@@ -1,0 +1,10 @@
+{% block content %}
+<h2>Inbox</h2>
+{% for message in messages %}
+<p>
+  <strong>{{ message.sender }}</strong>: {{ message.content }} <br />
+  <small>{{ message.timestamp }}</small>
+</p>
+{% empty %}
+<p>No messages</p>
+{% endfor %} {% endblock %}

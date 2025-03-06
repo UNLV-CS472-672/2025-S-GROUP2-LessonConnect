@@ -1,7 +1,9 @@
 # urls.py
 from django.urls import path
-from . import views
+from .views import send_message, inbox
 
 urlpatterns = [
-    # HTTP-based routes will go here (for views) as needed
+  path('send/', send_message, name='send_message'),
+  path('inbox/', inbox, name='inbox'),
 ]
+
