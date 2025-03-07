@@ -238,7 +238,7 @@ export default function Login() {
                             alt="Artistic bird illustration"
                         />
                         <div className="info-card">
-                            <h2>LessConnect</h2>
+                            <h2>LessonConnect</h2>
                             <p>
                                 The safe and engaging way to connect tutors, students, and parents.
                                 Join us to streamline your tutoring sessions, share resources,
@@ -284,7 +284,7 @@ export default function Login() {
 
                         <p className="small-text">
                             {/*New to LessonConnect? */}
-                            <a href="/signup">New to LessonConnect?</a>
+                            <a href="/dateofbirth">New to LessonConnect?</a>
                         </p>
 
                         <div className="divider">OR</div>
