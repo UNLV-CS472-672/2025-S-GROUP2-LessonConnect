@@ -15,10 +15,6 @@ def process_scheduled_notifications():
 
     num_of_notifs = 0  # mainly used for debugging purposes. can remove later
     for notification in pending_notifications:
-        # in-app notifs (easy), email notif (should be easy),
-        # push notifs (web) (have to use some sort of database), SMS notifs (can use something called Twilio)
-        # personally, I prefer just to do in-app notifs for now
-
         # TODO: this is where the code for notification delivery will be added.
         #  haven't added since I haven't coded it yet :)
         # delivered = deliver_notifications(notification)

@@ -3,13 +3,13 @@ from .models import Notification
 '''Helper function(s) for notifications/models.py and notifications/tasks.py '''
 
 
-# TODO: add schedule_time here once implemented
-def create_notification(user, title, message, notification_type='INFO'):
+def create_notification(user, title, message, notification_type='INFO', schedule_at=None):
     notification = Notification.objects.create(
         user=user,
         title=title,
         message=message,
         notification_type=notification_type,
+        schedule_at=schedule_at
     )
 
     return notification
