@@ -1,13 +1,13 @@
-import { Link } from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
 export default function About() {
     return (
         <>
             <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
                 <div className="container">
-                    <a href="index.html" className="navbar-brand">
+                    <NavLink to="index.html" className="navbar-brand">
                         <i className="bi bi-house-door"></i>
-                    </a>
+                    </NavLink>
                     <button
                         className="navbar-toggler"
                         data-bs-toggle="collapse"

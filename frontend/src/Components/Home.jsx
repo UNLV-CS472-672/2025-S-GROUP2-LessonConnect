@@ -59,7 +59,9 @@ export default function Home() {
                             <a href="#schedule-target" className="nav-link">Schedule</a>
                             <a href="#resources-target" className="nav-link">Resources</a>
                             <Link to="/about" className="nav-link">About Us</Link>
-                            <button type="button" className="btn btn-outline-light">Login</button>
+                            <Link to="/login" className="btn btn-outline-light">
+                                Login
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -71,13 +73,17 @@ export default function Home() {
                     <span className="text-body-secondary fs-6 staggered-subtitle">with your favorite tutor.</span>
                 </h3>
 
-                <button type="button" className="btn btn-outline-dark">Sign Up</button>
-                <Link to="/learn_more" className="btn btn-outline-light">Learn More</Link>
+                {/*<Link to="/SignUp" className="btn btn-outline-light">*/}
+                {/*    SignUp*/}
+                {/*</Link>*/}
+                {/*<Link to="/learn_more" className="btn btn-outline-light">Learn More</Link>*/}
 
 
                 <div className="buttons-container">
-                    <button type="button" className="btn btn-outline-dark">Sign Up</button>
-                    <button type="button" className="btn btn-outline-light">Learn More</button>
+                    <Link to="/SignUp" className="btn btn-outline-light">
+                        SignUp
+                    </Link>
+                    <Link to="/learn_more" className="btn btn-outline-light">Learn More</Link>
                 </div>
 
             </header>
