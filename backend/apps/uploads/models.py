@@ -7,17 +7,17 @@ from apps.users.models import Profile
 
 # https://blog.nonstopio.com/well-handling-of-cloudinary-with-python-drf-api-28271575e21f
 class UploadRecord(models.Model):
-    #Fields
-
+    # Fields
+    id = models.AutoField(primary_key=True)  # Internal sequential ID (hidden from URL)
     # Auto generates a unique identifier
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    public_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)  # Exposed in URL
 
     # Cloudinary data from upload
-    public_id = models.CharField(max_length=255, unique=True)
+    cloudinary_public_id = models.CharField(max_length=255, unique=True) # Used to build Cloudinary URL
+    resource_type = models.CharField(max_length=50) # Used to build Cloudinary URL
     file_name = models.CharField(max_length=100)
     file_format = models.CharField(max_length=50)
     created_at = models.DateTimeField()
-    resource_type = models.CharField(max_length=50)
     type = models.CharField(max_length=50)
     version = models.PositiveBigIntegerField()
 

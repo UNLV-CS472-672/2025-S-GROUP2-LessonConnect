@@ -23,20 +23,23 @@ class UploadRecordManager(models.Manager):
             file_name=upload_data["original_filename"],
             file_format=upload_data["format"],
             created_at=created_at_datetime,
-            public_id=upload_data["public_id"],
+            cloudinary_public_id=upload_data["public_id"],
             profile=profile,
             version=upload_data["version"]
+
         )
         # Save the instance to the database
         upload_record.save()
 
     #Probably GET and DELETE will use this URL
-    #but will use POST as temp way to see if it works************************
-    def buildUrl(self,file_name):
-        upload_record = self.get_queryset().filter(file_name=file_name).values('public_id', 'resource_type').first()
+    def buildUrl(self, id):
+        upload_record = self.get_queryset().filter(id=id).values('cloudinary_public_id', 'resource_type').first()
 
-        public_id = upload_record['public_id']
+        cloudinary_public_id = upload_record['cloudinary_public_id']
         resource_type = upload_record['resource_type']
 
-        dynamic_asset_url, _ = cloudinary.utils.cloudinary_url(public_id, resource_type = resource_type)
+        dynamic_asset_url, _ = cloudinary.utils.cloudinary_url(cloudinary_public_id, resource_type = resource_type)
         return dynamic_asset_url
+
+    def getUpload(self,public_id):
+        return get_object_or_404(UploadRecord, public_id=public_id)

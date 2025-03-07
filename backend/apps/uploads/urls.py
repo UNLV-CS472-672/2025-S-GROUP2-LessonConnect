@@ -2,6 +2,9 @@ from django.urls import path
 from apps.uploads.views import UploadAPIView
 
 urlpatterns = [
-    path('upload/', UploadAPIView.as_view(), name="upload"), #to access add uploads/upload to url
+    # Path to all uploads
+    path('uploads/', UploadListView.as_view(), name="upload-list"),
+    # Path to upload by ID
+    path('uploads/<uuid:public_id>/', UploadDetailView.as_view(), name="upload-detail"),
 ]
 
