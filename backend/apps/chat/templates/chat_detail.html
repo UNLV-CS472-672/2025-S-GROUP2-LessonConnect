@@ -15,10 +15,12 @@
   {% endfor %}
 </div>
 
+{% comment %}
 <form method="post">
   {% csrf_token %} {{ form.as_p }}
   <button type="submit">Send</button>
 </form>
+{% endcomment %}
 
 <a href="{% url 'chat_list' %}">Back to chats</a>
 {% endblock %}
