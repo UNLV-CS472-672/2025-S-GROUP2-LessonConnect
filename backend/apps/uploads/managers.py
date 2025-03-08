@@ -44,3 +44,7 @@ class UploadRecordManager(models.Manager):
     def getUpload(self,public_id):
         upload_record = self.get_queryset().filter(public_id=public_id).first()
         return upload_record
+
+    def getAllUploads(self):
+        all_uploads = self.get_queryset().all()
+        return all_uploads

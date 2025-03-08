@@ -5,11 +5,10 @@ from rest_framework.parsers import MultiPartParser, JSONParser
 from apps.uploads.models import UploadRecord
 from apps.users.models import Profile
 from rest_framework.permissions import IsAuthenticated
-from apps.uploads.serializers import UploadDetailSerializer
+from apps.uploads.serializers import UploadDetailSerializer, UploadListSerializer
 
 # https://blog.nonstopio.com/well-handling-of-cloudinary-with-python-drf-api-28271575e21f
 # Create your views here.
-# Need to test + fix the model migration****
 class UploadDetailView(APIView):
     permission_classes = []  # Debug only: No authentication required
     parser_classes = (
@@ -65,4 +64,11 @@ class UploadListView(APIView):
 
     # Handles GET HTTP request from frontend
     #  Get all uploads
+    def get(self, request):
+        # Use the manager method to find all uploads
+        all_uploads = UploadRecord.objects.getAllUploads()
+        # Serialize the upload into JSON format
+        serializer = UploadListSerializer(all_uploads, many=True)
+
+        return Response(serializer.data)
 
