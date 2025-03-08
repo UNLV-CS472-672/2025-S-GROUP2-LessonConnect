@@ -31,7 +31,7 @@ export default function ServicesPage() {
                 <section id="panels">
                     <div className="service-panel">
                         <div className="panel">
-                            <img src="UNLV.png" alt="alternatetext"/>
+                            <img src="assets/images/UNLV_pic.png" alt="alternatetext"/>
                             <div className="text">Tutoring</div>
                             <ul>
                                 <li className="panel-item"><a href="">Art</a></li>
@@ -42,7 +42,7 @@ export default function ServicesPage() {
                             </ul>
                         </div>
                         <div className="panel">
-                            <img src="UNLV.png" alt="alternatetext"/>
+                            <img src="assets/images/UNLV_pic.png" alt="alternatetext"/>
                             <div className="text">Resources</div>
                             <ul>
                                 <li className="panel-item"><a href="#link">Games</a></li>
@@ -53,7 +53,7 @@ export default function ServicesPage() {
                             </ul>
                         </div>
                         <div className="panel">
-                            <img src="UNLV.png" alt="alternatetext"/>
+                            <img src="assets/images/UNLV_pic.png" alt="alternatetext"/>
                             <div className="text">Pomodoro</div>
                             <ul>
                                 <li className="panel-item"><a href="#link">Pomodoro Timer</a></li>

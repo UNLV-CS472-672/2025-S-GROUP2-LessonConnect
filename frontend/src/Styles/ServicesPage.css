@@ -1,4 +1,9 @@
-.services-page-container .h1 {
+.services-page-container {
+    padding-top: 80px;
+}
+
+.services-page-container h1 {
+    text-align: center;
     margin-top: 100px;
 }
 
@@ -79,6 +84,7 @@ footer{
     padding-right: 30px;
     background-color: #d4d4d4;
     min-height: 38vh;
+    text-align: center;
 }
 
 .services-page-container .info-para {
