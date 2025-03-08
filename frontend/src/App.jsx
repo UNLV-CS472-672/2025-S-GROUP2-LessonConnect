@@ -6,6 +6,7 @@ import Learn_more from "./components/Learn_more";
 import SignUp from "./Components/SignUp.jsx";
 import Login from "./Components/Login.jsx";
 import DateOfBirth from "./Components/DateOfBirth.jsx";
+import ServicesPage from "./components/ServicesPage.jsx";
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} /> {/* Fixed route path */}
                 <Route path="/learn_more" element={<Learn_more />} />
+                <Route path="/ServicesPage" element={<ServicesPage />} />
                 {/* 2. Login page (path="/login") */}
                 <Route path="/login" element={<Login />} />
                 {/* 3. Sign up page (path="/signup") */}

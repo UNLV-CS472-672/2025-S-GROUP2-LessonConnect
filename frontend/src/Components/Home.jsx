@@ -55,7 +55,7 @@ export default function Home() {
                             <a href="tutor.html" className="nav-link">Find a tutor</a>
                             <a href="#home-target" className="nav-link">Home</a>
 
-                            <a href="#services-target" className="nav-link">Services</a>
+                            <Link to="/ServicesPage" className="nav-link">Services</Link>
                             <a href="#schedule-target" className="nav-link">Schedule</a>
                             <a href="#resources-target" className="nav-link">Resources</a>
                             <Link to="/about" className="nav-link">About Us</Link>

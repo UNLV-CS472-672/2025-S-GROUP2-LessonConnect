@@ -1,0 +1,70 @@
+.navbar {
+    transition: background-color 0.3s ease-in-out;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 400;
+    transition: color 0.3s ease-in-out;
+}
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: rgba(255, 255, 255, 1);
+}
+.navbar-brand i {
+    font-size: 1.5rem;
+    color: white;
+    padding-left: 45px;
+}
+.btn-outline-light {
+    border-radius: 20px;
+    padding: 8px 16px;
+    transition: background-color 0.3s ease-in-out;
+}
+.btn-outline-light:hover {
+    background-color: white;
+    color: black;
+}
+footer{
+    height: 225px;
+    bottom: 0;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+    display: flex;
+}
+
+.services-page-container .service-panel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    padding: 20px;
+
+}
+.services-page-container .panel-item {
+    list-style-type: none;
+    text-align: center;
+}
+.services-page-container ul {
+    margin: 0;
+    padding: 0;
+}
+.services-page-container .panel {
+    width: 400px;
+    height: 400px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+.services-page-container .panel img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+.services-page-container .panel .text {
+    padding: 15px;
+    font-size: 16px;
+}
