@@ -20,12 +20,27 @@ class UploadDetailView(APIView):
     # curl -X GET http://127.0.0.1:8000/uploads/{public_id}/
     def get(self, request, public_id):
         # Use the manager method to find specific upload using public_id (UUID)
-        upload = UploadRecord.objects.getUpload(public_id)
+        upload = UploadRecord.objects.get_upload(public_id)
 
         # Serialize the upload into JSON format
         serializer = UploadDetailSerializer(upload)
 
         return Response(serializer.data)
+    # Handles DELETE HTTP request from frontend
+    # Deletes an existing uploaded file from the database
+    # Note: Tested this DELETE request by entering this into the command line
+    # curl -X DELETE http://127.0.0.1:8000/uploads/{public_id}/
+    def delete(self, request, public_id):
+        # Use the manager method to find specific upload using public_id (UUID)
+        upload = UploadRecord.objects.get_upload(public_id)
+
+        UploadRecord.objects.delete_upload(upload.cloudinary_public_id)
+
+        upload.delete()
+
+        return Response({
+                    'status': 'success',
+                }, status=201)
 
 class UploadListView(APIView):
     permission_classes = []  # Debug only: No authentication required
@@ -59,16 +74,12 @@ class UploadListView(APIView):
         # Whenever create() fails, the image should be deleted from
         # cloudinary cause otherwise it takes space
 
-    # Handles DELETE HTTP request from frontend
-    # Deletes an existing uploaded file from the database
-
     # Handles GET HTTP request from frontend
     #  Get all uploads
     def get(self, request):
         # Use the manager method to find all uploads
-        all_uploads = UploadRecord.objects.getAllUploads()
+        all_uploads = UploadRecord.objects.get_all_uploads()
         # Serialize the upload into JSON format
         serializer = UploadListSerializer(all_uploads, many=True)
 
         return Response(serializer.data)
-

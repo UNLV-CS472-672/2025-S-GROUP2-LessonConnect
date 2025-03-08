@@ -7,10 +7,10 @@ class UploadDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UploadRecord
-        fields = ['file_url', 'file_name', 'description', 'file_format']
+        fields = ['file_url', 'description']
 
     def get_file_url(self, upload):
-        return UploadRecord.objects.buildUrl(upload.id)
+        return UploadRecord.objects.build_url(upload)
 
 class UploadListSerializer(serializers.ModelSerializer):
     class Meta:
