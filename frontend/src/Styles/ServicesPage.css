@@ -1,3 +1,7 @@
+.services-page-container .h1 {
+    margin-top: 100px;
+}
+
 .navbar {
     transition: background-color 0.3s ease-in-out;
 }
@@ -67,4 +71,19 @@ footer{
 .services-page-container .panel .text {
     padding: 15px;
     font-size: 16px;
+}
+.services-page-container .info-sec {
+    padding-bottom: 50px;
+    padding-top: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    background-color: #d4d4d4;
+    min-height: 38vh;
+}
+
+.services-page-container .info-para {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 1400px;
+    margin: auto;
 }

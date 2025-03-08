@@ -61,7 +61,30 @@ export default function ServicesPage() {
                         </div>
                     </div>
                 </section>
-
+                <section id="info-section">
+                    <div className="info-sec">
+                        <h2>Information</h2>
+                        <div className="info-para">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati, a facere sit ducimus
+                            aut excepturi laudantium saepe, fuga delectus cupiditate officiis sunt blanditiis rerum
+                            repudiandae est. Nobis dignissimos eveniet voluptatum corporis, vitae laudantium, numquam,
+                            expedita qui velit nihil ullam voluptas? Reiciendis quo libero inventore reprehenderit.
+                            Minima fugiat tempora impedit quisquam sapiente illo rem illum rerum consequuntur tempore,
+                            magni quam ab optio. Nostrum adipisci animi itaque eos provident sit assumenda fugiat
+                            mollitia quo maiores reiciendis magnam, id tempora deserunt voluptas illo doloremque
+                            laudantium distinctio sed ipsam, veniam ex. Dolores incidunt laudantium dolor sequi quaerat
+                            aliquid enim voluptatem autem adipisci aperiam. Illo beatae, magni laudantium unde impedit
+                            rerum incidunt ratione necessitatibus maxime a quia ab animi saepe maiores qui doloremque
+                            odio molestias illum cum assumenda provident commodi nostrum quod fuga. Velit voluptas
+                            similique incidunt reiciendis nam. Dolorum, quasi cumque, tempora ipsam repellat minima,
+                            sunt aut culpa ad distinctio odit! Numquam ex quia vitae quas reiciendis modi fugiat
+                            reprehenderit ipsam maxime cumque dolorem blanditiis animi, cupiditate illum excepturi enim
+                            delectus est commodi, aperiam voluptate iusto. Modi ratione aperiam esse eos dolorum,
+                            provident laudantium optio sequi tempora dolores assumenda nobis veritatis aut eveniet odio
+                            possimus voluptate quis soluta similique ex eius eum tenetur ad?
+                        </div>
+                    </div>
+                </section>
                 <section id="footer">
                     <footer className="bg-dark text-light py-4">
                         <div className="container">
