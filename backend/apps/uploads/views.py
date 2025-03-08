@@ -12,8 +12,13 @@ from apps.uploads.serializers import UploadDetailSerializer
 # Need to test + fix the model migration****
 class UploadDetailView(APIView):
     permission_classes = []  # Debug only: No authentication required
+    parser_classes = (
+            JSONParser,
+    )
     # Handles GET HTTP request from frontend
     # Get a specific upload by id
+    # Note: Tested this GET request by entering this into the command line
+    # curl -X GET http://127.0.0.1:8000/uploads/{public_id}/
     def get(self, request, public_id):
         # Use the manager method to find specific upload using public_id (UUID)
         upload = UploadRecord.objects.getUpload(public_id)

@@ -1,6 +1,6 @@
 # uploads/serializers.py
 from rest_framework import serializers
-from apps.users.models import UploadRecord
+from apps.uploads.models import UploadRecord
 
 class UploadDetailSerializer(serializers.ModelSerializer):
     file_url = serializers.SerializerMethodField()
@@ -10,4 +10,4 @@ class UploadDetailSerializer(serializers.ModelSerializer):
         fields = ['file_url', 'file_name', 'description', 'file_format', 'public_id']
 
     def get_file_url(self, upload):
-        return upload.buildUrl(upload.id)
+        return UploadRecord.objects.buildUrl(upload.id)

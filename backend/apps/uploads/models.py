@@ -13,7 +13,7 @@ class UploadRecord(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)  # Exposed in URL
 
     # Cloudinary data from upload
-    cloudinary_public_id = models.CharField(max_length=255, unique=True) # Used to build Cloudinary URL
+    cloudinary_public_id = models.CharField(max_length=255) # Used to build Cloudinary URL
     resource_type = models.CharField(max_length=50) # Used to build Cloudinary URL
     file_name = models.CharField(max_length=100)
     file_format = models.CharField(max_length=50)

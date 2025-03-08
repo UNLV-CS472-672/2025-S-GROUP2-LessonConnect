@@ -42,4 +42,5 @@ class UploadRecordManager(models.Manager):
         return dynamic_asset_url
 
     def getUpload(self,public_id):
-        return get_object_or_404(UploadRecord, public_id=public_id)
+        upload_record = self.get_queryset().filter(public_id=public_id).first()
+        return upload_record
