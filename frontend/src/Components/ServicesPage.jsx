@@ -6,7 +6,7 @@ export default function ServicesPage() {
             <div className="services-page-container">
                 <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
                     <div className="container">
-                        <NavLink to="index.html" className="navbar-brand">
+                        <NavLink to="/" className="navbar-brand">
                             <i className="bi bi-house-door"></i>
                         </NavLink>
                         <button
