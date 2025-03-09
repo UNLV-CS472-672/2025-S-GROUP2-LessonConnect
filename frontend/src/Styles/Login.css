@@ -1,0 +1,241 @@
+/* Login.css */
+
+/* Scope all styles under .login-page */
+.login-page * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* You can also style .login-page itself */
+.login-page {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* ====== Wrapper for Split Layout ====== */
+.login-page .wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ====== Left Panel (Bird & Info) ====== */
+.login-page .left-panel {
+    flex: 1;
+    /* Soft gradient background */
+    background: linear-gradient(135deg, #d2e4df 20%, #c5dad5 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+/* Bird Container: Stack the image and info card in a column */
+.login-page .bird-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1; /* So it appears above background/pattern */
+    max-width: 350px;
+    text-align: center; /* So the text is centered as well */
+}
+
+.login-page .bird-container img {
+    width: 280px;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    /* Subtle drop shadow */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Translucent Card for Headings */
+.login-page .info-card {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 20px 30px;
+    border-radius: 12px;
+    max-width: 300px;
+}
+
+.login-page .info-card h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #333;
+}
+
+.login-page .info-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* ====== Right Panel (Login Form) ====== */
+.login-page .right-panel {
+    flex: 1;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.login-page .login-container {
+    width: 100%;
+    max-width: 350px;
+    text-align: left;
+}
+
+.login-page .login-container h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.login-page .login-container h2 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* ====== Form Styles ====== */
+.login-page .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.login-page .login-form label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.login-page .login-form input {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 5px;
+    font-size: 14px;
+}
+
+.login-page .login-form input:focus {
+    outline: none;
+    border-bottom-color: #000;
+}
+
+/* ====== Sign-in Button ====== */
+.login-page .btn {
+    background-color: #000;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.login-page .btn:hover {
+    background-color: #555;
+}
+
+/* ====== Links & Text ====== */
+.login-page .login-container .small-text {
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.login-page .login-container a {
+    color: #0073e6;
+    text-decoration: none;
+}
+
+.login-page .login-container a:hover {
+    text-decoration: underline;
+}
+
+/* ====== Divider ====== */
+.login-page .divider {
+    margin: 20px 0;
+    font-size: 14px;
+    color: #777;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-page .divider::before,
+.login-page .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #ddd;
+    margin: 0 10px;
+}
+
+/* ====== Social Login Buttons ====== */
+.login-page .social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.login-page .social-login button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.login-page .social-login button:hover {
+    background-color: #f1f1f1;
+}
+
+.login-page .social-login button img {
+    width: 20px;
+    height: 20px;
+}
+
+/* ====== Responsive Design ====== */
+@media (max-width: 768px) {
+    .login-page .wrapper {
+        flex-direction: column;
+    }
+
+    .login-page .left-panel,
+    .login-page .right-panel {
+        flex: none;
+        width: 100%;
+    }
+
+    .login-page .left-panel {
+        padding: 20px;
+    }
+
+    .login-page .right-panel {
+        padding: 20px;
+    }
+
+    .login-page .bird-container img {
+        width: 220px;
+    }
+}

@@ -1,0 +1,157 @@
+/* SignUp.css */
+
+/* Scope all rules to .signup-page */
+.signup-page * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.signup-page {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* ====== Wrapper for Split Layout ====== */
+.signup-page .wrapper { 
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ====== Left Panel (Branding / Imagery) ====== */
+.signup-page .left-panel {
+    flex: 1;
+    background: linear-gradient(135deg, #d2e4df 20%, #c5dad5 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.signup-page .brand-container {
+    max-width: 350px;
+    text-align: center;
+}
+
+.signup-page .brand-container img {
+    width: 240px;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.signup-page .brand-card {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 20px 30px;
+    border-radius: 12px;
+}
+
+.signup-page .brand-card h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #333;
+}
+
+.signup-page .brand-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* ====== Right Panel (SignUp Form) ====== */
+.signup-page .right-panel {
+    flex: 1;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.signup-page .signup-container {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.signup-page .signup-container h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.signup-page .signup-container h2 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* ====== Form Styles ====== */
+.signup-page .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.signup-page .signup-form select,
+.signup-page .signup-form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* ====== Checkbox & Terms ====== */
+.signup-page .checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    text-align: left;
+}
+
+.signup-page .checkbox-container a {
+    color: #0073e6;
+    text-decoration: none;
+}
+
+.signup-page .checkbox-container a:hover {
+    text-decoration: underline;
+}
+
+/* ====== Button ====== */
+.signup-page .btn {
+    background-color: #000;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.signup-page .btn:hover {
+    background-color: #555;
+}
+
+/* ====== Responsive Design ====== */
+@media (max-width: 768px) {
+    .signup-page .wrapper {
+        flex-direction: column;
+    }
+
+    .signup-page .left-panel,
+    .signup-page .right-panel {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .signup-page .brand-container img {
+        width: 200px;
+    }
+}
