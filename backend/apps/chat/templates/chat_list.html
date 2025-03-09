@@ -1,0 +1,17 @@
+{% block content %}
+<a href="{% url 'select_send_message' %}">New Chat</a>
+<h2>Your Chats</h2>
+<ul>
+  {% for chat in chats %}
+  <li>
+    <a href="{% url 'chat_detail' chat.id %}">
+      Chat with {% if chat.user1 == request.user %} {{ chat.user2 }} {% else %}
+      {{ chat.user1 }} {% endif %}
+    </a>
+    (Last updated: {{ chat.updatedAt }})
+  </li>
+  {% empty %}
+  <p>No active chats</p>
+  {% endfor %}
+</ul>
+{% endblock %}
