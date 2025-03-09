@@ -16,7 +16,7 @@ class UploadRecordManager(models.Manager):
         result = cloudinary.uploader.destroy(cloudinary_public_id, invalidate = True)
         return result
 
-    def create(self, upload_data, profile):
+    def create(self, upload_data, user):
         # Replace 'Z' with '+00:00' for compatibility with fromisoformat
         compatible_created_at = upload_data['created_at'].replace('Z', '+00:00')
         # Convert to datetime object
@@ -30,7 +30,7 @@ class UploadRecordManager(models.Manager):
             file_format=upload_data["format"],
             created_at=created_at_datetime,
             cloudinary_public_id=upload_data["public_id"],
-            profile=profile,
+            user=user,
             version=upload_data["version"],
             asset_id=upload_data["asset_id"]
         )

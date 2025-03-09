@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 from apps.uploads.managers import UploadRecordManager
 from cloudinary.models import CloudinaryField
-from apps.users.models import Profile
+from django.conf import settings
 
 # https://blog.nonstopio.com/well-handling-of-cloudinary-with-python-drf-api-28271575e21f
 class UploadRecord(models.Model):
@@ -22,7 +22,8 @@ class UploadRecord(models.Model):
     version = models.PositiveBigIntegerField()
     asset_id = models.CharField(max_length=255)
 
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE) # many to one relationship
+    # default = 1 for first user (for now)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='uploads', default = 1)
     description = models.TextField(default="", blank=True, null=False)
 
     # Link the custom manager to the model

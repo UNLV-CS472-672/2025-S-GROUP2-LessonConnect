@@ -3,10 +3,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, JSONParser
 from apps.uploads.models import UploadRecord
-from apps.users.models import Profile
 from rest_framework.permissions import IsAuthenticated
 from apps.uploads.serializers import UploadDetailSerializer, UploadListSerializer
 from rest_framework import status
+
+# Debug Only to get test user
+from django.conf import settings
+from django.apps import apps
 
 # https://blog.nonstopio.com/well-handling-of-cloudinary-with-python-drf-api-28271575e21f
 # Create your views here.
@@ -95,6 +98,19 @@ class UploadListView(APIView):
     # Handles POST HTTP request from frontend
     # Uploading a new file
     def post(self, request):
+        # request to get user
+        # user = request.user # once authentication is a thing
+
+        # Get the user model class (Debug only)
+        User = apps.get_model(settings.AUTH_USER_MODEL)
+
+        # Get the first user in the database (Debug only)
+        user = User.objects.first()
+
+        # Check if user exists
+        if not user:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
         # request to get file to be uploaded
         file = request.data.get('file')
 
@@ -102,16 +118,11 @@ class UploadListView(APIView):
         if not file:
             return Response({'error': 'No file provided'}, status=status.HTTP_400_BAD_REQUEST)
 
-        #profile = Profile.objects.get(user=request.user) # once authentication is a thing
-        profile = Profile.objects.first()  # Debug Only: Assign a test user
-        if not profile:
-            return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
-
         # Use the manager method to handle file upload
         upload_data = UploadRecord.objects.upload(file)
 
         # Use the manager method to save relevant metadata into database
-        UploadRecord.objects.create(upload_data, profile)
+        UploadRecord.objects.create(upload_data, user)
 
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
     # Note: Tested this POST request by entering this into the command line
