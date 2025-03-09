@@ -6,6 +6,7 @@ from apps.uploads.models import UploadRecord
 from apps.users.models import Profile
 from rest_framework.permissions import IsAuthenticated
 from apps.uploads.serializers import UploadDetailSerializer, UploadListSerializer
+from rest_framework import status
 
 # https://blog.nonstopio.com/well-handling-of-cloudinary-with-python-drf-api-28271575e21f
 # Create your views here.
@@ -78,8 +79,7 @@ class UploadDetailView(APIView):
         else:
             return Response(status=HTTP_400_BAD_REQUEST)
     # Note: Tested this PATCH request by entering this into the command line
-    # curl -X PATCH http://127.0.0.1:8000/uploads/{public_id}/
-    # -H "Content-Type: application/json" -d '{"description": "Updated upload description"}
+    # curl -X PATCH http://127.0.0.1:8000/uploads/{public_id}/ -H "Content-Type: application/json" -d '{"description": "Updated upload description"}'
 
 
 
