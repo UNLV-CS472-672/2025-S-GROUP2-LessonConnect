@@ -90,10 +90,12 @@ export default function ServicesPage() {
                         <div className="container">
                             <div className="row">
                                 <div className="col-md-3 col-sm-6 mb-3">
-                                    <h6>LessonConnect</h6>
+                                    <h6 className="fw-semibold">LessonConnect</h6>
                                     <ul className="list-unstyled">
                                         <li>
-                                            <a href="#" className="text-light text-decoration-none">About Us</a>
+                                            <a href="#" className="text-light text-decoration-none"
+                                            >About Us</a
+                                            >
                                         </li>
                                         <li>
                                             <a href="#" className="text-light text-decoration-none"
@@ -101,21 +103,30 @@ export default function ServicesPage() {
                                             >
                                         </li>
                                         <li>
-                                            <a href="#" className="text-light text-decoration-none">Services</a>
+                                            <a href="#" className="text-light text-decoration-none"></a>
                                         </li>
                                         <li>
-                                            <a href="#" className="text-light text-decoration-none">Schedule</a>
+                                            <a href="#" className="text-light text-decoration-none"
+                                            >Services</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <a href="#" className="text-light text-decoration-none"
+                                            >Schedule</a
+                                            >
                                         </li>
                                     </ul>
                                 </div>
                                 <div className="col-md-3 col-sm-6 mb-3">
-                                    <h6>Customer Service</h6>
+                                    <h6 className="fw-semibold">Customer Service</h6>
                                     <ul className="list-unstyled">
                                         <li>
                                             <a href="#" className="text-light text-decoration-none">FAQs</a>
                                         </li>
                                         <li>
-                                            <a href="#" className="text-light text-decoration-none">Support</a>
+                                            <a href="#" className="text-light text-decoration-none"
+                                            >Support</a
+                                            >
                                         </li>
                                         <li>
                                             <a href="#" className="text-light text-decoration-none"
@@ -124,10 +135,10 @@ export default function ServicesPage() {
                                         </li>
                                     </ul>
                                 </div>
-                                <div className="col-md-3 col-sm-6 mb-3 text-md-end">
-                                    <p className="mb-0">&copy; 2025 LessonConnect. All Rights Reserved.</p>
-                                </div>
                             </div>
+                        </div>
+                        <div className="text-center mt-3">
+                            <p className="mb-0">&copy; 2025 LessonConnect. All Rights Reserved.</p>
                         </div>
                     </footer>
                 </section>
