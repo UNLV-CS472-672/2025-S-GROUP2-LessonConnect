@@ -20,6 +20,7 @@ class UploadRecord(models.Model):
     created_at = models.DateTimeField()
     type = models.CharField(max_length=50)
     version = models.PositiveBigIntegerField()
+    asset_id = models.CharField(max_length=255)
 
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE) # many to one relationship
     description = models.TextField(null=True, blank=True)

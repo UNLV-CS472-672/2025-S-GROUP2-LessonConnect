@@ -10,6 +10,7 @@ class UploadRecordManager(models.Manager):
         # Upload the file to Cloudinary
         upload_data = cloudinary.uploader.upload(file, use_filename = True, unique_filename = True)
         return upload_data
+
     def delete_upload(self, cloudinary_public_id):
         # delete upload from cloudinary
         cloudinary.uploader.destroy(cloudinary_public_id, invalidate = True)
@@ -30,8 +31,8 @@ class UploadRecordManager(models.Manager):
             created_at=created_at_datetime,
             cloudinary_public_id=upload_data["public_id"],
             profile=profile,
-            version=upload_data["version"]
-
+            version=upload_data["version"],
+            asset_id=upload_data["asset_id"]
         )
         # Save the instance to the database
         upload_record.save()

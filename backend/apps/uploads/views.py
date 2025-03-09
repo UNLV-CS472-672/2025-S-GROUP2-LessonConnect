@@ -41,6 +41,24 @@ class UploadDetailView(APIView):
         return Response({
                     'status': 'success',
                 }, status=201)
+    # Note: Tested this PATCH request by entering this into the command line
+    # curl -X PATCH http://127.0.0.1:8000/uploads/{public_id}/
+    # -H "Content-Type: application/json" -d '{"description": "Updated upload description"}
+    def patch(self, request, public_id):
+        new_description = request.data.get('description')  # Get 'description' from request body
+
+        # Use the manager method to find specific upload using public_id (UUID)
+        upload = UploadRecord.objects.get_upload(public_id)
+
+        serializer = UploadDetailSerializer(upload, data={'description': new_description}, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'status': 'success',
+                'data': serializer.data
+            }, status=201)
+        else:
+            return Response(status=HTTP_400_BAD_REQUEST)
 
 class UploadListView(APIView):
     permission_classes = []  # Debug only: No authentication required
@@ -52,7 +70,7 @@ class UploadListView(APIView):
     # Handles POST HTTP request from frontend
     # Uploading a new file
     # Note: Tested this POST request by entering this into the command line
-    # curl -X POST http://127.0.0.1:8000/uploads/upload/ -F "file=@path_to_file"
+    # curl -X POST http://127.0.0.1:8000/uploads/ -F "file=@path_to_file"
     def post(self, request):
         # request to get file to be uploaded (the way of getting file may have to be changed later)
         file = request.data.get('file')
@@ -75,7 +93,9 @@ class UploadListView(APIView):
         # cloudinary cause otherwise it takes space
 
     # Handles GET HTTP request from frontend
-    #  Get all uploads
+    # Get all uploads
+    # Note: Tested this POST request by entering this into the command line
+    # curl -X GET http://127.0.0.1:8000/uploads/
     def get(self, request):
         # Use the manager method to find all uploads
         all_uploads = UploadRecord.objects.get_all_uploads()
