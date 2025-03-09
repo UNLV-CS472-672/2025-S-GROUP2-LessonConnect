@@ -12,9 +12,9 @@ class UploadRecordManager(models.Manager):
         return upload_data
 
     def delete_upload(self, cloudinary_public_id):
-        # delete upload from cloudinary
-        cloudinary.uploader.destroy(cloudinary_public_id, invalidate = True)
-        return
+        # Delete upload from Cloudinary
+        result = cloudinary.uploader.destroy(cloudinary_public_id, invalidate = True)
+        return result
 
     def create(self, upload_data, profile):
         # Replace 'Z' with '+00:00' for compatibility with fromisoformat
@@ -38,15 +38,18 @@ class UploadRecordManager(models.Manager):
         upload_record.save()
 
     def build_url(self, upload):
+        # Build the dynamic URL for the uploaded asset using the public ID and resource type
         cloudinary_public_id = upload.cloudinary_public_id
         resource_type = upload.resource_type
         dynamic_asset_url, _ = cloudinary.utils.cloudinary_url(cloudinary_public_id, resource_type = resource_type)
         return dynamic_asset_url
 
     def get_upload(self,public_id):
+        # Retrieve the upload record by its public ID
         upload_record = self.get_queryset().filter(public_id=public_id).first()
         return upload_record
 
     def get_all_uploads(self):
+        # Retrieve all upload records from the database
         all_uploads = self.get_queryset().all()
         return all_uploads

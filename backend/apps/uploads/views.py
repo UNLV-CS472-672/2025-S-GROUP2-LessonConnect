@@ -9,59 +9,84 @@ from apps.uploads.serializers import UploadDetailSerializer, UploadListSerialize
 
 # https://blog.nonstopio.com/well-handling-of-cloudinary-with-python-drf-api-28271575e21f
 # Create your views here.
+
 class UploadDetailView(APIView):
     permission_classes = []  # Debug only: No authentication required
+    # Specifies that the view should only accept JSON-formatted request bodies.
     parser_classes = (
             JSONParser,
     )
+
     # Handles GET HTTP request from frontend
     # Get a specific upload by id
-    # Note: Tested this GET request by entering this into the command line
-    # curl -X GET http://127.0.0.1:8000/uploads/{public_id}/
     def get(self, request, public_id):
         # Use the manager method to find specific upload using public_id (UUID)
         upload = UploadRecord.objects.get_upload(public_id)
 
+        if not upload:  # Check if the object exists
+            return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
+
         # Serialize the upload into JSON format
         serializer = UploadDetailSerializer(upload)
 
-        return Response(serializer.data)
+        # Return specific upload details to front-end
+        return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_200_OK)
+    # Note: Tested this GET request by entering this into the command line
+    # curl -X GET http://127.0.0.1:8000/uploads/{public_id}/
+
+
     # Handles DELETE HTTP request from frontend
     # Deletes an existing uploaded file from the database
-    # Note: Tested this DELETE request by entering this into the command line
-    # curl -X DELETE http://127.0.0.1:8000/uploads/{public_id}/
+
     def delete(self, request, public_id):
         # Use the manager method to find specific upload using public_id (UUID)
         upload = UploadRecord.objects.get_upload(public_id)
 
-        UploadRecord.objects.delete_upload(upload.cloudinary_public_id)
+        if not upload:  # Check if the object exists
+            return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
 
+        # Delete from Cloudinary
+        result = UploadRecord.objects.delete_upload(upload.cloudinary_public_id)
+        if result.get("result") != "ok":
+            return Response({'error': 'Delete unsuccessful'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        # Delete from database
         upload.delete()
+        return Response({'status': 'success'}, status=status.HTTP_200_OK)
+    # Note: Tested this DELETE request by entering this into the command line
+    # curl -X DELETE http://127.0.0.1:8000/uploads/{public_id}/
 
-        return Response({
-                    'status': 'success',
-                }, status=201)
-    # Note: Tested this PATCH request by entering this into the command line
-    # curl -X PATCH http://127.0.0.1:8000/uploads/{public_id}/
-    # -H "Content-Type: application/json" -d '{"description": "Updated upload description"}
+
+    # Handles PATCH request from the frontend
+    # Updates the description of a file
     def patch(self, request, public_id):
         new_description = request.data.get('description')  # Get 'description' from request body
 
         # Use the manager method to find specific upload using public_id (UUID)
         upload = UploadRecord.objects.get_upload(public_id)
 
+        if not upload:  # Check if the object exists
+            return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Partially update the upload record with the new description
         serializer = UploadDetailSerializer(upload, data={'description': new_description}, partial=True)
         if serializer.is_valid():
+            # Save the updated upload record if validation passes
             serializer.save()
-            return Response({
-                'status': 'success',
-                'data': serializer.data
-            }, status=201)
+            # Return updated specific upload details to front-end
+            return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_200_OK)
         else:
             return Response(status=HTTP_400_BAD_REQUEST)
+    # Note: Tested this PATCH request by entering this into the command line
+    # curl -X PATCH http://127.0.0.1:8000/uploads/{public_id}/
+    # -H "Content-Type: application/json" -d '{"description": "Updated upload description"}
+
+
 
 class UploadListView(APIView):
     permission_classes = []  # Debug only: No authentication required
+    # Specifies that the view can accept both multipart form data
+    # and JSON-formatted request bodies.
     parser_classes = (
             MultiPartParser,
             JSONParser,
@@ -69,14 +94,18 @@ class UploadListView(APIView):
 
     # Handles POST HTTP request from frontend
     # Uploading a new file
-    # Note: Tested this POST request by entering this into the command line
-    # curl -X POST http://127.0.0.1:8000/uploads/ -F "file=@path_to_file"
     def post(self, request):
-        # request to get file to be uploaded (the way of getting file may have to be changed later)
+        # request to get file to be uploaded
         file = request.data.get('file')
+
+        # Check if file is provided in the request
+        if not file:
+            return Response({'error': 'No file provided'}, status=status.HTTP_400_BAD_REQUEST)
 
         #profile = Profile.objects.get(user=request.user) # once authentication is a thing
         profile = Profile.objects.first()  # Debug Only: Assign a test user
+        if not profile:
+            return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
 
         # Use the manager method to handle file upload
         upload_data = UploadRecord.objects.upload(file)
@@ -84,22 +113,27 @@ class UploadListView(APIView):
         # Use the manager method to save relevant metadata into database
         UploadRecord.objects.create(upload_data, profile)
 
-        #may or may not make a serializer, depends on if we want to give all the info
-        # from upload_data to frontend
-        return Response({
-                    'status': 'success',
-                }, status=201)
-        # Whenever create() fails, the image should be deleted from
-        # cloudinary cause otherwise it takes space
+        return Response({'status': 'success'}, status=status.HTTP_200_OK)
+    # Note: Tested this POST request by entering this into the command line
+    # curl -X POST http://127.0.0.1:8000/uploads/ -F "file=@path_to_file"
+
 
     # Handles GET HTTP request from frontend
     # Get all uploads
-    # Note: Tested this POST request by entering this into the command line
-    # curl -X GET http://127.0.0.1:8000/uploads/
     def get(self, request):
-        # Use the manager method to find all uploads
+        # Use the manager method to fetch all uploads
         all_uploads = UploadRecord.objects.get_all_uploads()
-        # Serialize the upload into JSON format
+
+        if not all_uploads.exists():  # Check if the queryset is empty
+            return Response({'error': 'No uploads found'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Serialize the uploads
         serializer = UploadListSerializer(all_uploads, many=True)
 
-        return Response(serializer.data)
+        # Return upload information of each upload to front-end
+        return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_200_OK)
+
+        # Note: Tested this GET request by entering this into the command line
+        # curl -X GET http://127.0.0.1:8000/uploads/
+
+
