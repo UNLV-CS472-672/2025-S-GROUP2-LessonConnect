@@ -32,21 +32,22 @@ class Notification(models.Model):
     # links to the user who will receive notifications
     # on_delete=CASCADE means that if the user is deleted, their notifs will be deleted too
     # related_name='notifications' gets all notifs for a user
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications',
+                             default=settings.AUTH_USER_MODEL.objects.first())
 
     # notification message content
     notification_title = models.CharField(max_length=63)
     notification_message = models.TextField()
 
     notification_type = models.CharField(
-        max_length=127,  # maybe increase length if we want lengthy notifications?
+        max_length=20,  # maybe increase length if we want lengthy notifications?
         choices=NOTIFICATION_TYPES,
         default=INFO  # defaults to 'info' if author does not specify
     )
 
     # INFO subcategory. only relevant when notification_type is INFO
     info_category = models.CharField(
-        max_length=127,
+        max_length=20,
         choices=INFO_CATEGORIES,
         default=INFO_GENERAL,
         blank=True,
@@ -75,7 +76,7 @@ class Notification(models.Model):
         self.save(update_fields=['is_read'])
 
     def mark_as_sent(self):
-        self.is_read = True
+        self.sent_at = True
         self.save(update_fields=['sent_at'])
 
     @property
