@@ -57,7 +57,7 @@ export default function Learn_more() {
                             looking to improve or a tutor eager to share knowledge, LessonConnect is the
                             perfect space for growth.
                         </p>
-                        <Link to="/signup" className="btn btn-primary btn-lg">Join Now</Link>
+                        <Link to="/dateofbirth" className="btn btn-primary btn-lg">Join Now</Link>
                     </div>
                 </section>
             </div>

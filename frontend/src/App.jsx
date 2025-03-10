@@ -7,17 +7,19 @@ import Learn_more from "./components/Learn_more.jsx";
 import Login from "./Components/Login.jsx";
 import SignUp from "./Components/SignUp.jsx";
 import DateOfBirth from "./Components/DateOfBirth.jsx";
+import Footer from "./Components/Footer.jsx";
+
 
 function App() {
     const location = useLocation();
 
     useEffect(() => {
-        window.scrollTo(0, 0); 
+        window.scrollTo(0, 0);
     }, [location]);
 
     return (
         <div className="App">
-            <Header />
+            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Header />}
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
@@ -26,6 +28,7 @@ function App() {
                 <Route path="/SignUp" element={<SignUp />} />
                 <Route path="/dateofbirth" element={<DateOfBirth />} />
             </Routes>
+            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>
     );
 }
