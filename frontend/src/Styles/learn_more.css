@@ -1,11 +1,11 @@
 /* Features Section */
-#features {
+.learn_more-page #features {
     background-color: #ffffff;
     margin-top: 150px;
     margin-bottom: 150px;
 }
 
-.feature-card {
+.learn_more-page .feature-card {
     background: #fff;
     border-radius: 10px;
     padding: 30px;
@@ -14,37 +14,36 @@
     transition: transform 0.3s ease-in-out;
 }
 
-.feature-card:hover {
+.learn_more-page .feature-card:hover {
     transform: scale(1.05);
 }
 
 /* Icon Styling */
-.feature-card .icon {
+.learn_more-page .feature-card .icon {
     font-size: 2.5rem; /* Adjust size */
     margin-bottom: 15px;
 }
 
 /* Join Now Section */
-.join-section {
+.learn_more-page .join-section {
     background-color: #ffefe0; /* Light peach color */
     padding: 80px 20px;
     height: 500px;
     justify-content: center;
-
 }
 
-.join-section h2 {
+.learn_more-page .join-section h2 {
     font-size: 2.5rem;
     margin-top: 80px; /* Adjust as needed */
 }
 
-.join-section p {
+.learn_more-page .join-section p {
     font-size: 1.2rem;
     color: #333;
     margin-top: 40px; /* Adjust as needed */
 }
 
-.join-section .btn {
+.learn_more-page .join-section .btn {
     padding: 12px 25px;
     font-size: 1.2rem;
     border-radius: 30px;

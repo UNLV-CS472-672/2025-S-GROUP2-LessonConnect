@@ -3,118 +3,64 @@ import '../Styles/learn_more.css'
 export default function Learn_more() {
     return (
         <>
-            {/* Features Section */}
-            <section id="features" className="py-5 text-center">
-                <div className="container">
-                    <div className="row justify-content-center">
+            <div className="learn_more-page">
+                {/* Features Section */}
+                <section id="features" className="py-5 text-center">
+                    <div className="container">
+                        <div className="row justify-content-center">
 
-                        {/* Learn More Card */}
-                        <div className="col-md-4">
-                            <div className="feature-card">
-                                <div className="icon">📖</div>
-                                <h3 className="fw-bold">Learn More About LessonConnect</h3>
-                                <p className="text-muted">
-                                    LessonConnect is an online platform designed to connect students with expert tutors
-                                    in a seamless, interactive learning environment.
-                                </p>
+                            {/* Learn More Card */}
+                            <div className="col-md-4">
+                                <div className="feature-card">
+                                    <div className="icon">📖</div>
+                                    <h3 className="fw-bold">Learn More About LessonConnect</h3>
+                                    <p className="text-muted">
+                                        LessonConnect is an online platform designed to connect students with expert tutors
+                                        in a seamless, interactive learning environment.
+                                    </p>
+                                </div>
                             </div>
-                        </div>
 
-                        {/* How It Works Card */}
-                        <div className="col-md-4">
-                            <div className="feature-card">
-                                <div className="icon">📅</div>
-                                <h3 className="fw-bold">How LessonConnect Works</h3>
-                                <p className="text-muted">
-                                    Students can browse subjects, schedule virtual lessons, and engage in interactive
-                                    one-on-one or group sessions tailored to their needs.
-                                </p>
+                            {/* How It Works Card */}
+                            <div className="col-md-4">
+                                <div className="feature-card">
+                                    <div className="icon">📅</div>
+                                    <h3 className="fw-bold">How LessonConnect Works</h3>
+                                    <p className="text-muted">
+                                        Students can browse subjects, schedule virtual lessons, and engage in interactive
+                                        one-on-one or group sessions tailored to their needs.
+                                    </p>
+                                </div>
                             </div>
-                        </div>
 
-                        {/* Why Choose Us Card */}
-                        <div className="col-md-4">
-                            <div className="feature-card">
-                                <div className="icon">🏆</div>
-                                <h3 className="fw-bold">Why Choose LessonConnect?</h3>
-                                <p className="text-muted">
-                                    We offer a user-friendly experience covering a variety of subjects, from coding
-                                    to philosophy, ensuring high-quality virtual learning.
-                                </p>
+                            {/* Why Choose Us Card */}
+                            <div className="col-md-4">
+                                <div className="feature-card">
+                                    <div className="icon">🏆</div>
+                                    <h3 className="fw-bold">Why Choose LessonConnect?</h3>
+                                    <p className="text-muted">
+                                        We offer a user-friendly experience covering a variety of subjects, from coding
+                                        to philosophy, ensuring high-quality virtual learning.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            {/* Join Now Section */}
-            <section id="join-now" className="py-5 join-section text-center">
-                <div className="container">
-                    <h2 className="fw-bold">Join LessonConnect Today</h2>
-                    <p className="text-muted">
-                        Sign up, explore tutors, and book your first lesson. Whether you're a student
-                        looking to improve or a tutor eager to share knowledge, LessonConnect is the
-                        perfect space for growth.
-                    </p>
-                    <Link to="/signup" className="btn btn-primary btn-lg">Join Now</Link>
-                </div>
-            </section>
-
-            <footer className="bg-dark text-light py-4">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-3 col-sm-6 mb-3">
-                            <h6 className="fw-semibold">LessonConnect</h6>
-                            <ul className="list-unstyled">
-                                <li>
-                                    <a href="#" className="text-light text-decoration-none"
-                                    >About Us</a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="#" className="text-light text-decoration-none"
-                                    >Learn More</a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="#" className="text-light text-decoration-none"></a>
-                                </li>
-                                <li>
-                                    <a href="#" className="text-light text-decoration-none"
-                                    >Services</a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="#" className="text-light text-decoration-none"
-                                    >Schedule</a
-                                    >
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="col-md-3 col-sm-6 mb-3">
-                            <h6 className="fw-semibold">Customer Service</h6>
-                            <ul className="list-unstyled">
-                                <li>
-                                    <a href="#" className="text-light text-decoration-none">FAQs</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="text-light text-decoration-none"
-                                    >Support</a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="#" className="text-light text-decoration-none"
-                                    >Contact Us</a
-                                    >
-                                </li>
-                            </ul>
-                        </div>
+                {/* Join Now Section */}
+                <section id="join-now" className="py-5 join-section text-center">
+                    <div className="container">
+                        <h2 className="fw-bold">Join LessonConnect Today</h2>
+                        <p className="text-muted">
+                            Sign up, explore tutors, and book your first lesson. Whether you're a student
+                            looking to improve or a tutor eager to share knowledge, LessonConnect is the
+                            perfect space for growth.
+                        </p>
+                        <Link to="/signup" className="btn btn-primary btn-lg">Join Now</Link>
                     </div>
-                </div>
-                <div className="text-center mt-3">
-                    <p className="mb-0">&copy; 2025 LessonConnect. All Rights Reserved.</p>
-                </div>
-            </footer>
+                </section>
+            </div>
         </>
     );
 }
