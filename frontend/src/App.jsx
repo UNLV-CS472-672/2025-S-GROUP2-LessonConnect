@@ -1,26 +1,34 @@
-import {Routes, Route } from "react-router-dom";
-import "./Styles/index.css";
-import Home from "./components/Home";
-import About from "./components/About";
-import Learn_more from "./components/Learn_more";
-import SignUp from "./Components/SignUp.jsx";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import Header from "./Components/Header.jsx";
+import Home from "./components/Home.jsx";
+import About from "./components/About.jsx";
+import Learn_more from "./components/Learn_more.jsx";
 import Login from "./Components/Login.jsx";
+import SignUp from "./Components/SignUp.jsx";
 import DateOfBirth from "./Components/DateOfBirth.jsx";
+import Footer from "./Components/Footer.jsx";
+
 
 function App() {
+    const location = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location]);
+
     return (
         <div className="App">
+            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Header />}
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} /> {/* Fixed route path */}
+                <Route path="/about" element={<About />} />
                 <Route path="/learn_more" element={<Learn_more />} />
-                {/* 2. Login page (path="/login") */}
                 <Route path="/login" element={<Login />} />
-                {/* 3. Sign up page (path="/signup") */}
-                <Route path="/signup" element={<SignUp />} />
-                {/* 4. middle page of date of birth (path="/dateofbirth") */}
+                <Route path="/SignUp" element={<SignUp />} />
                 <Route path="/dateofbirth" element={<DateOfBirth />} />
             </Routes>
+            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>
     );
 }
