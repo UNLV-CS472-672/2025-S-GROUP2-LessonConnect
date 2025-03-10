@@ -52,10 +52,10 @@ export default function Home() {
                                 marginBottom: "60px",
                                 fontSize: "30px",
                                 fontWeight: 600
-                            }}>Some subtitle will go here!</h2>
+                            }}>📚 Connect, Learn, and Grow with Your Favorite Tutor
+                            </h2>
                             <p>
-                               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam dolore ipsa magnam minima odit provident, quia quidem, reprehenderit repudiandae rerum sed unde? A delectus error fuga laborum omnis quo similique.
-                            </p>
+                                LessonConnect makes learning effortless—video calls, messaging, and easy scheduling, all in one place. Connect with your tutor instantly and stay on track without the hassle..                            </p>
                         </div>
                         <div className="col-md-6">
                             <img className="middleUpper-pic" src="assets/images/Pic1.webp" alt="some image" />
@@ -73,10 +73,9 @@ export default function Home() {
                                 marginBottom: "60px",
                                 fontSize: "30px",
                                 fontWeight: 600
-                            }}>Some subtitle will go here!</h2>
+                            }}>Everything You Need for Seamless Learning</h2>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad cum dicta eius illum iusto nemo suscipit vel voluptatem. Accusamus aliquid assumenda consectetur, enim est facere mollitia nihil non omnis quam.
-                            </p>
+                                From live sessions to file sharing and a built-in scheduler, LessonConnect brings all the tools you need to make tutoring seamless and interactive.                            </p>
                         </div>
                         <div className="col-md-6 order-md-1">
                             <img className="middleUpper-pic" src="assets/images/Pic2.avif" alt="some image" />
@@ -116,96 +115,122 @@ export default function Home() {
                 <div className="gallery-container">
                     <div className="scrolling-gallery">
                         <div className="p-2">
-                            <img
-                                src="assets/images/coding.jpg"
-                                className="gallery-item"
-                                alt="Image 1"
-                            />
+                            <a href="#a">
+                                <img
+                                    src="assets/images/coding.jpg"
+                                    className="gallery-item"
+                                    alt="Image 1"
+                                />
+                            </a>
                         </div>
                         <div className="p-2">
                             <img src="assets/images/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
                         </div>
                         <div className="p-2">
-                            <img
-                                src="assets/images/Music.webp"
-                                className="gallery-item"
-                                alt="Image 3"
-                            />
+                            <a href="#b">
+                                <img
+                                    src="assets/images/Music.webp"
+                                    className="gallery-item"
+                                    alt="Image 3"
+                                />
+                            </a>
                         </div>
                         <div className="p-2">
-                            <img
-                                src="assets/images/philosophy_pic.webp"
-                                className="gallery-item"
-                                alt="Image 4"
-                            />
+                            <a href="#c">
+                                <img
+                                    src="assets/images/philosophy_pic.webp"
+                                    className="gallery-item"
+                                    alt="Image 4"
+                                />
+                            </a>
                         </div>
                         <div className="p-2">
-                            <img
-                                src="assets/images/Science_pic.jpg"
-                                className="gallery-item"
-                                alt="Image 5"
-                            />
+                            <a href="#d">
+                                <img
+                                    src="assets/images/Science_pic.jpg"
+                                    className="gallery-item"
+                                    alt="Image 5"
+                                />
+                            </a>
                         </div>
                         <div className="p-2">
-                            <img
-                                src="assets/images/languages.avif"
-                                className="gallery-item"
-                                alt="Image 6"
-                            />
+                            <a href="#e">
+                                <img
+                                    src="assets/images/languages.avif"
+                                    className="gallery-item"
+                                    alt="Image 6"
+                                />
+                            </a>
                         </div>
                         <div className="p-2">
-                            <img
-                                src="assets/images/writing.jpg"
-                                className="gallery-item"
-                                alt="Image 7"
-                            />
+                            <a href="#f">
+                                <img
+                                    src="assets/images/writing.jpg"
+                                    className="gallery-item"
+                                    alt="Image 7"
+                                />
+                            </a>
                         </div>
                     </div>
                     <div className="scrolling-gallery-copy">
                         <div className="p-2">
-                            <img
-                                src="assets/images/coding.jpg"
-                                className="gallery-item"
-                                alt="Image 1"
-                            />
+                            <a href="#a">
+                                <img
+                                    src="assets/images/coding.jpg"
+                                    className="gallery-item"
+                                    alt="Image 1"
+                                />
+                            </a>
                         </div>
                         <div className="p-2">
-                            <img src="assets/images/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
+                            <a href="#b">
+                                <img src="assets/images/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
+                            </a>
                         </div>
                         <div className="p-2">
-                            <img
-                                src="assets/images/Music.webp"
-                                className="gallery-item"
-                                alt="Image 3"
-                            />
+                            <a href="#c">
+                                <img
+                                    src="assets/images/Music.webp"
+                                    className="gallery-item"
+                                    alt="Image 3"
+                                />
+                            </a>
                         </div>
                         <div className="p-2">
-                            <img
-                                src="assets/images/philosophy_pic.webp"
-                                className="gallery-item"
-                                alt="Image 4"
-                            />
+                            <a href="#e">
+                                <img
+                                    src="assets/images/philosophy_pic.webp"
+                                    className="gallery-item"
+                                    alt="Image 4"
+                                />
+                            </a>
                         </div>
                         <div className="p-2">
-                            <img
-                                src="assets/images/Science_pic.jpg"
-                                className="gallery-item"
-                                alt="Image 5"
-                            />
+                            <a href="#f">
+                                <img
+                                    src="assets/images/Science_pic.jpg"
+                                    className="gallery-item"
+                                    alt="Image 5"
+                                />
+                            </a>
                         </div>
                         <div className="p-2">
-                            <img
-                                src="assets/images/languages.avif"
-                                className="gallery-item"
-                                alt="Image 6"
-                            />
+                            <a href="#e">
+                                <img
+                                    src="assets/images/languages.avif"
+                                    className="gallery-item"
+                                    alt="Image 6"
+                                />
+                            </a>
                         </div>
                         <div className="p-2">
-                            <img
-                                src="assets/images/writing.jpg"
-                                className="gallery-item"
-                                alt="Image 7"
-                            />
+                            <a href="#f">
+                                <img
+                                    src="assets/images/writing.jpg"
+                                    className="gallery-item"
+                                    alt="Image 7"
+                                />
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -134,6 +134,12 @@ section#lower-section {
   object-fit: cover;
   margin-right: 10px;
   border-radius: 20px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.gallery-container a:hover .gallery-item {
+  transform: scale(1.2);
+  filter: brightness(1.2);
 }
 
 .gallery-container {
@@ -151,15 +157,21 @@ section#lower-section {
   }
 }
 
-.scrolling-gallery {
-  display: flex;
-  animation: scroll-left 15s linear infinite;
-}
-
+.scrolling-gallery,
 .scrolling-gallery-copy {
   display: flex;
-  animation: scroll-left 15s linear infinite;
+  animation: scroll-left 30s linear infinite;
 }
+
+.scrolling-gallery:hover,
+.scrolling-gallery-copy:hover {
+  animation-duration: 30s;
+}
+
+.gallery-container a:hover .gallery-item {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
 
 #footer .text-center p {
   color: white;
