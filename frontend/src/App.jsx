@@ -1,12 +1,12 @@
 import {Routes, Route } from "react-router-dom";
 import "./Styles/index.css";
+import Header from "./Components/Header.jsx";
 import Home from "./components/Home";
 import About from "./components/About";
 import Learn_more from "./components/Learn_more";
-import SignUp from "./Components/SignUp.jsx";
 import Login from "./Components/Login.jsx";
+import SignUp from "./Components/SignUp.jsx";
 import DateOfBirth from "./Components/DateOfBirth.jsx";
-import Header from "./Components/Header.jsx";
 
 function App() {
     return (
