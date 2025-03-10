@@ -39,7 +39,7 @@ export default function Home() {
                     <span className="text-body-secondary fs-6 staggered-subtitle">with your favorite tutor.</span>
                 </h3>
                 <div className="buttons-container">
-                    <Link to="/SignUp" className="btn btn-outline-light">SignUp</Link>
+                    <Link to="/dateofbirth" className="btn btn-outline-light">SignUp</Link>
                     <Link to="/learn_more" className="btn btn-outline-light">Learn More</Link>
                 </div>
             </section>

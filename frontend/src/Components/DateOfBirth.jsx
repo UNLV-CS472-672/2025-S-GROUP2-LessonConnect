@@ -17,7 +17,7 @@ export default function DateOfBirth() {
             return;
         }
         // Pass the DOB to /signup via react-router's navigate
-        navigate("/signup", { state: dob });
+        navigate("/SignUp", { state: dob });
     };
 
     return (

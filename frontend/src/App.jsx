@@ -1,5 +1,4 @@
-import {Routes, Route } from "react-router-dom";
-import "./Styles/index.css";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Header from "./Components/Header.jsx";
 import Home from "./components/Home";
 import About from "./components/About";
@@ -9,15 +8,16 @@ import SignUp from "./Components/SignUp.jsx";
 import DateOfBirth from "./Components/DateOfBirth.jsx";
 
 function App() {
+    const location = useLocation();
     return (
         <div className="App">
-            <Header/>
+            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Header />}
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} /> {/* Fixed route path */}
-                <Route path="/learn_more" element={<Learn_more />} /> {/* 2. Login page (path="/login") */}
-                <Route path="/login" element={<Login />} /> {/* 3. Sign up page (path="/signup") */}
-                <Route path="/signup" element={<SignUp />} /> {/* 4. middle page of date of birth (path="/dateofbirth") */}
+                <Route path="/about" element={<About />} />
+                <Route path="/learn_more" element={<Learn_more />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/SignUp" element={<SignUp />} />
                 <Route path="/dateofbirth" element={<DateOfBirth />} />
             </Routes>
         </div>
