@@ -1,3 +1,5 @@
+import {NavLink} from "react-router-dom";
+
 export default function Footer() {
     return (
         <>
@@ -8,27 +10,16 @@ export default function Footer() {
                             <h6 className="fw-semibold">LessonConnect</h6>
                             <ul className="list-unstyled">
                                 <li>
-                                    <a href="#" className="text-light text-decoration-none"
-                                    >About Us</a
-                                    >
+                                    <NavLink to="/about" className="text-light text-decoration-none">About Us</NavLink>
                                 </li>
                                 <li>
-                                    <a href="#" className="text-light text-decoration-none"
-                                    >Learn More</a
-                                    >
+                                    <NavLink to="/learn_more" className="text-light text-decoration-none">Learn More</NavLink>
                                 </li>
                                 <li>
-                                    <a href="#" className="text-light text-decoration-none"></a>
+                                    <NavLink to="#" className="text-light text-decoration-none">Services</NavLink>
                                 </li>
                                 <li>
-                                    <a href="#" className="text-light text-decoration-none"
-                                    >Services</a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="#" className="text-light text-decoration-none"
-                                    >Schedule</a
-                                    >
+                                    <NavLink to="#" className="text-light text-decoration-none">Schedule</NavLink>
                                 </li>
                             </ul>
                         </div>
@@ -36,17 +27,13 @@ export default function Footer() {
                             <h6 className="fw-semibold">Customer Service</h6>
                             <ul className="list-unstyled">
                                 <li>
-                                    <a href="#" className="text-light text-decoration-none">FAQs</a>
+                                    <NavLink to="#" className="text-light text-decoration-none">FAQs</NavLink>
                                 </li>
                                 <li>
-                                    <a href="#" className="text-light text-decoration-none"
-                                    >Support</a
-                                    >
+                                    <NavLink to="#" className="text-light text-decoration-none">Support </NavLink>
                                 </li>
                                 <li>
-                                    <a href="#" className="text-light text-decoration-none"
-                                    >Contact Us</a
-                                    >
+                                    <NavLink to="#" className="text-light text-decoration-none">Contact Us </NavLink>
                                 </li>
                             </ul>
                         </div>
