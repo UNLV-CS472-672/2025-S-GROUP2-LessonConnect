@@ -1,5 +1,5 @@
 import "../Styles/ServicesPage.css";
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 export default function ServicesPage() {
     return (
         <>
@@ -18,11 +18,11 @@ export default function ServicesPage() {
                         </button>
                         <div id="nav-collapse" className="collapse navbar-collapse">
                             <div className="navbar-nav ms-auto">
-                                <a href="services.html" className="nav-link">Services</a>
+                                <Link to="/ServicesPage" className="nav-link">Services</Link>
                                 <a href="#schedule-target" className="nav-link">Schedule</a>
-                                <a href="#resources-target" className="nav-link">Learn More</a>
-                                <a href="about.html" className="nav-link">About Us</a>
-                                <a href="login.html" className="btn btn-outline-light ms-4">Login</a>
+                                <Link to="/Learn_more" className="nav-link">Learn More</Link>
+                                <Link to="/About" className="nav-link">About Us</Link>
+                                <Link to="/Login" className="btn btn-outline-light ms-4">Login</Link>
                             </div>
                         </div>
                     </div>
@@ -93,22 +93,16 @@ export default function ServicesPage() {
                                     <h6 className="fw-semibold">LessonConnect</h6>
                                     <ul className="list-unstyled">
                                         <li>
-                                            <a href="#" className="text-light text-decoration-none"
-                                            >About Us</a
-                                            >
+                                            <Link to="/About" className="nav-link">About Us</Link>
                                         </li>
                                         <li>
-                                            <a href="#" className="text-light text-decoration-none"
-                                            >Learn More</a
-                                            >
+                                            <Link to="/Learn_more" className="nav-link">Learn More</Link>
                                         </li>
                                         <li>
                                             <a href="#" className="text-light text-decoration-none"></a>
                                         </li>
                                         <li>
-                                            <a href="#" className="text-light text-decoration-none"
-                                            >Services</a
-                                            >
+                                            <Link to="/ServicesPage" className="nav-link">Services</Link>
                                         </li>
                                         <li>
                                             <a href="#" className="text-light text-decoration-none"
