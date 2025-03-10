@@ -33,61 +33,16 @@ export default function Home() {
 
     return (
         <>
-            <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-                <div className="container">
-                    <a href="#home" className="navbar-brand">
-                        <i className="bi bi-house-door"></i>
-                    </a>
-
-                    <button
-                        className="navbar-toggler"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#nav-collapse"
-                    >
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div id="nav-collapse" className="collapse navbar-collapse">
-                        <div className="navbar-nav ms-auto">
-
-                            <Link to="/" className="nav-link">Home</Link>
-
-                            <a href="tutor.html" className="nav-link">Find a tutor</a>
-                            <a href="#home-target" className="nav-link">Home</a>
-
-                            <a href="#services-target" className="nav-link">Services</a>
-                            <a href="#schedule-target" className="nav-link">Schedule</a>
-                            <a href="#resources-target" className="nav-link">Resources</a>
-                            <Link to="/about" className="nav-link">About Us</Link>
-                            <Link to="/login" className="btn btn-outline-light">
-                                Login
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            <header id="home">
+            <section id="header-section">
                 <h3 className="display-2 header-title">
                     LessonConnect
                     <span className="text-body-secondary fs-6 staggered-subtitle">with your favorite tutor.</span>
                 </h3>
-
-                {/*<Link to="/SignUp" className="btn btn-outline-light">*/}
-                {/*    SignUp*/}
-                {/*</Link>*/}
-                {/*<Link to="/learn_more" className="btn btn-outline-light">Learn More</Link>*/}
-
-
                 <div className="buttons-container">
-                    <Link to="/SignUp" className="btn btn-outline-light">
-                        SignUp
-                    </Link>
+                    <Link to="/SignUp" className="btn btn-outline-light">SignUp</Link>
                     <Link to="/learn_more" className="btn btn-outline-light">Learn More</Link>
                 </div>
-
-            </header>
-
+            </section>
             <section id="middleUpper-section">
                 <div className="container">
                     <div className="row align-items-center">

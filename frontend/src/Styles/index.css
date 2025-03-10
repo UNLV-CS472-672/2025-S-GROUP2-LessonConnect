@@ -4,7 +4,7 @@ body {
 
 }
 
-header#home {
+#header-section {
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
   url(../assets/header_background.jpg);
   background-size: cover;
@@ -32,7 +32,7 @@ header#home {
   display: inline-block;
 }
 
-header#home .staggered-subtitle {
+#header-section .staggered-subtitle {
   color: #d4d4d4 !important;
 }
 
