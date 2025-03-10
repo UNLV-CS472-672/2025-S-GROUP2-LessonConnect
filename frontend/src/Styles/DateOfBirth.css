@@ -1,19 +1,9 @@
 /* DateOfBirth.css */
 
 /* Scope all rules to .dob-page */
-.dob-page * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 .dob-page {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
-}
-
-/* ====== Wrapper for Split Layout ====== */
-.dob-page .wrapper {
     display: flex;
     min-height: 100vh;
 }
@@ -122,10 +112,6 @@
 
 /* ====== Responsive Design ====== */
 @media (max-width: 768px) {
-    .dob-page .wrapper {
-        flex-direction: column;
-    }
-
     .dob-page .left-panel,
     .dob-page .right-panel {
         width: 100%;
