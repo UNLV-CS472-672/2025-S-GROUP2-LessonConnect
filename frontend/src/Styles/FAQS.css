@@ -1,1 +1,75 @@
 /*Add your CSS style here*/
+
+.faq-page {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px;
+}
+
+/* FAQ Container */
+.faq-page .faq-container {
+    width: 100%;
+    max-width: 800px;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+.faq-page .faq-container h2 {
+    font-size: 24px;
+    color: #004a99;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Accordion Styles */
+.faq-page .accordion-item {
+    border: none;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.faq-page .accordion-button {
+    background: #004a99;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 15px;
+    text-align: left;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+
+.faq-page .accordion-button:hover {
+    background: #003580;
+}
+
+.faq-page .accordion-collapse {
+    background: #fff;
+}
+
+.faq-page .accordion-body {
+    padding: 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .faq-page {
+        padding: 20px;
+    }
+
+    .faq-container {
+        padding: 30px;
+    }
+}
