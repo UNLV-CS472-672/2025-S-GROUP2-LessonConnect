@@ -1,0 +1,24 @@
+{% block content %}
+<h2>Select a User to Message</h2>
+<form id="sendMessageForm" method="post" action="{% url 'send_message' 0 %}">
+  {% csrf_token %}
+  <label for="receiver">Choose a recipient:</label>
+  <select name="receiver" id="receiver" required>
+    <option value="" disabled selected>Select a user</option>
+    {% for user in users %}
+    <option value="{{ user.id }}">{{ user.username }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Next</button>
+</form>
+
+<script>
+  document.getElementById("receiver").addEventListener("change", function () {
+    let form = document.getElementById("sendMessageForm");
+    let userId = this.value;
+    form.action = `/chat/send/${userId}/`; // Update form action dynamically
+  });
+</script>
+
+<a href="{% url 'chat_list' %}">Back to chats</a>
+{% endblock %}
