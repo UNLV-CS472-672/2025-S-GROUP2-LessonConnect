@@ -1,4 +1,4 @@
-import '../Styles/Pomodoro.css.css'
+import '../Styles/Pomodoro.css'
 export default function Podomoro() {
     return (
         <>
