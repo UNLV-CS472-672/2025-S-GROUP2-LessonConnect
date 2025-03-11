@@ -27,7 +27,13 @@ export default function ServicesPage() {
                         </div>
                     </div>
                 </nav>
-                <h1>Services </h1>
+                <section id = "top-header-section">
+                    <div className="header-top">
+                        <h1>Services Offered </h1>
+                        <h3>Our tutoring website connects students with experienced tutors and customized lesson plans in subjects like art, science, math, English, and technology. In addition to one-on-one tutoring, we offer interactive resources, educational games, and engaging study tools to enhance learning. LessonConnect is designed to streamline communication between tutors, students, and parents, offering intuitive scheduling, instant messaging, and shared resources to ensure a structured, productive tutoring experience. With safety and transparency at its core, LessonConnect empowers students to focus on learning while providing parents with full oversight. Students can also connect with tutors through messaging and virtual sessions, ensuring personalized support tailored to their needs.</h3>
+                    </div>
+
+                </section>
                 <section id="panels">
                     <div className="service-panel">
                         <div className="panel">
@@ -58,30 +64,6 @@ export default function ServicesPage() {
                             <ul>
                                 <li className="panel-item"><a href="#link">Pomodoro Timer</a></li>
                             </ul>
-                        </div>
-                    </div>
-                </section>
-                <section id="info-section">
-                    <div className="info-sec">
-                        <h2>Information</h2>
-                        <div className="info-para">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati, a facere sit ducimus
-                            aut excepturi laudantium saepe, fuga delectus cupiditate officiis sunt blanditiis rerum
-                            repudiandae est. Nobis dignissimos eveniet voluptatum corporis, vitae laudantium, numquam,
-                            expedita qui velit nihil ullam voluptas? Reiciendis quo libero inventore reprehenderit.
-                            Minima fugiat tempora impedit quisquam sapiente illo rem illum rerum consequuntur tempore,
-                            magni quam ab optio. Nostrum adipisci animi itaque eos provident sit assumenda fugiat
-                            mollitia quo maiores reiciendis magnam, id tempora deserunt voluptas illo doloremque
-                            laudantium distinctio sed ipsam, veniam ex. Dolores incidunt laudantium dolor sequi quaerat
-                            aliquid enim voluptatem autem adipisci aperiam. Illo beatae, magni laudantium unde impedit
-                            rerum incidunt ratione necessitatibus maxime a quia ab animi saepe maiores qui doloremque
-                            odio molestias illum cum assumenda provident commodi nostrum quod fuga. Velit voluptas
-                            similique incidunt reiciendis nam. Dolorum, quasi cumque, tempora ipsam repellat minima,
-                            sunt aut culpa ad distinctio odit! Numquam ex quia vitae quas reiciendis modi fugiat
-                            reprehenderit ipsam maxime cumque dolorem blanditiis animi, cupiditate illum excepturi enim
-                            delectus est commodi, aperiam voluptate iusto. Modi ratione aperiam esse eos dolorum,
-                            provident laudantium optio sequi tempora dolores assumenda nobis veritatis aut eveniet odio
-                            possimus voluptate quis soluta similique ex eius eum tenetur ad?
                         </div>
                     </div>
                 </section>

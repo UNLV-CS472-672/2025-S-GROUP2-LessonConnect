@@ -4,7 +4,10 @@
 
 .services-page-container h1 {
     text-align: center;
-    margin-top: 100px;
+}
+.services-page-container h3 {
+    text-align: center;
+    font-size: 24px;
 }
 
 .navbar {
@@ -40,7 +43,16 @@ footer{
     margin-bottom: 0px;
     display: flex;
 }
-
+.services-page-container .header-top{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
+    url(../assets/header_background.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    padding: 5%;
+    color: white;
+    text-shadow: 2px 2px 5px rgb(101, 98, 98);
+}
 .services-page-container .service-panel {
     display: flex;
     flex-wrap: wrap;
@@ -76,20 +88,4 @@ footer{
 .services-page-container .panel .text {
     padding: 10px;
     font-size: 24px;
-}
-.services-page-container .info-sec {
-    padding-bottom: 50px;
-    padding-top: 30px;
-    padding-left: 30px;
-    padding-right: 30px;
-    background-color: #d4d4d4;
-    min-height: 38vh;
-    text-align: center;
-}
-
-.services-page-container .info-para {
-    font-size: 1rem;
-    line-height: 1.6;
-    max-width: 1400px;
-    margin: auto;
 }
