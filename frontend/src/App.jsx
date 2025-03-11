@@ -7,8 +7,13 @@ import Learn_more from "./components/Learn_more.jsx";
 import Login from "./Components/Login.jsx";
 import SignUp from "./Components/SignUp.jsx";
 import DateOfBirth from "./Components/DateOfBirth.jsx";
+import Contact from "./Components/Contact.jsx";
+import FAQS from "./Components/FAQS.jsx";
+import Services from "./Components/Services.jsx";
+import Support from "./Components/Support.jsx";
+import FindTutor from "./Components/FindTutor.jsx";
+import Pomodoro from "./Components/Podomoro.jsx";
 import Footer from "./Components/Footer.jsx";
-
 
 function App() {
     const location = useLocation();
@@ -27,6 +32,12 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/SignUp" element={<SignUp />} />
                 <Route path="/dateofbirth" element={<DateOfBirth />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/support" element={<Support />} />
+                <Route path="/faqs" element={<FAQS />} />
+                <Route path="/findTutor" element={<FindTutor />} />
+                <Route path="/pomodoro" element={<Pomodoro />} />
             </Routes>
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>

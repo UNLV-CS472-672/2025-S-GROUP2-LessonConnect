@@ -16,10 +16,10 @@ export default function Footer() {
                                     <NavLink to="/learn_more" className="text-light text-decoration-none">Learn More</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="#" className="text-light text-decoration-none">Services</NavLink>
+                                    <NavLink to="/services" className="text-light text-decoration-none">Services</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="#" className="text-light text-decoration-none">Schedule</NavLink>
+                                    <NavLink to="/schedule" className="text-light text-decoration-none">Schedule</NavLink>
                                 </li>
                             </ul>
                         </div>
@@ -27,13 +27,13 @@ export default function Footer() {
                             <h6 className="fw-semibold">Customer Service</h6>
                             <ul className="list-unstyled">
                                 <li>
-                                    <NavLink to="#" className="text-light text-decoration-none">FAQs</NavLink>
+                                    <NavLink to="faqs" className="text-light text-decoration-none">FAQs</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="#" className="text-light text-decoration-none">Support </NavLink>
+                                    <NavLink to="support" className="text-light text-decoration-none">Support </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="#" className="text-light text-decoration-none">Contact Us </NavLink>
+                                    <NavLink to="contact" className="text-light text-decoration-none">Contact Us </NavLink>
                                 </li>
                             </ul>
                         </div>
