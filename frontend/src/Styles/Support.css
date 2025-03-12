@@ -1,1 +1,90 @@
 /*Add your CSS style here*/
+/* Support Page */
+.support-page {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 40px;
+    background-color: #fff;
+    padding-top: 200px;
+    padding-bottom: 150px;
+}
+
+/* Title */
+.support-page .support-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 60px;
+}
+
+/* Support Categories */
+.support-page .support-categories {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.support-page .support-item {
+    text-align: center;
+    cursor: pointer;
+}
+
+.support-page .support-item img {
+    width: 60px;
+    height: auto;
+}
+
+.support-page .support-item p {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Support Options */
+.support-page .support-options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.support-page .option-card {
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    transition: 0.3s;
+}
+
+.support-page .option-card img {
+    width: 40px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.support-page .option-card a {
+    font-size: 16px;
+    font-weight: bold;
+    color: #0073e6;
+    text-decoration: none;
+}
+
+.support-page .option-card:hover {
+    background-color: #e8f0fe;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .support-categories {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .support-options {
+        flex-direction: column;
+        align-items: center;
+    }
+}
