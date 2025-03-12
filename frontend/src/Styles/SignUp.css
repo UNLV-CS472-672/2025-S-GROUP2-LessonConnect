@@ -1,19 +1,9 @@
 /* SignUp.css */
 
 /* Scope all rules to .signup-page */
-.signup-page * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 .signup-page {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
-}
-
-/* ====== Wrapper for Split Layout ====== */
-.signup-page .wrapper { 
     display: flex;
     min-height: 100vh;
 }
@@ -141,10 +131,6 @@
 
 /* ====== Responsive Design ====== */
 @media (max-width: 768px) {
-    .signup-page .wrapper {
-        flex-direction: column;
-    }
-
     .signup-page .left-panel,
     .signup-page .right-panel {
         width: 100%;
