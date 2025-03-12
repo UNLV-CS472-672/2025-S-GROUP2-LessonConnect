@@ -36,6 +36,7 @@ class UploadRecordManager(models.Manager):
         )
         # Save the instance to the database
         upload_record.save()
+        return upload_record
 
     def build_url(self, upload):
         # Build the dynamic URL for the uploaded asset using the public ID and resource type
