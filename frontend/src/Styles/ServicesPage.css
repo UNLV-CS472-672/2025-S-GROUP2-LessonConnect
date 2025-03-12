@@ -1,42 +1,16 @@
 .services-page-container {
-    padding-top: 80px;
+    padding-top: 50px;
 }
-
 .services-page-container h1 {
     text-align: center;
+    font-size: 38px;
 }
 .services-page-container h3 {
     text-align: center;
-    font-size: 24px;
-}
-
-.navbar {
-    transition: background-color 0.3s ease-in-out;
-}
-.navbar-dark .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 400;
-    transition: color 0.3s ease-in-out;
-}
-.navbar-dark .navbar-nav .nav-link:hover {
-    color: rgba(255, 255, 255, 1);
-}
-.navbar-brand i {
-    font-size: 1.5rem;
-    color: white;
-    padding-left: 45px;
-}
-.btn-outline-light {
-    border-radius: 20px;
-    padding: 8px 16px;
-    transition: background-color 0.3s ease-in-out;
-}
-.btn-outline-light:hover {
-    background-color: white;
-    color: black;
+    font-size: 22px;
 }
 footer{
-    height: 225px;
+    height: 185px;
     bottom: 0;
     left: 0px;
     right: 0px;
@@ -49,7 +23,7 @@ footer{
     background-size: cover;
     background-position: center;
     width: 100%;
-    padding: 5%;
+    padding: 4%;
     color: white;
     text-shadow: 2px 2px 5px rgb(101, 98, 98);
 }
@@ -61,15 +35,51 @@ footer{
     gap: 40px;
     width: 100%;
     padding: 20px;
-
 }
-.services-page-container .panel-item {
-    list-style-type: none;
-    text-align: center;
+.services-page-container .panel:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
-.services-page-container ul {
-    margin: 0;
+.services-page-container .panel ul {
     padding: 0;
+    margin-top: 10px;
+}
+.services-page-container .panel ul li {
+    padding: 3px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+}
+.services-page-container .panel ul li a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+}
+.services-page-container .panel ul li a:hover {
+    color: #d9534f;
+}
+.services-page-container .panel ul li::before {
+    content: "▶";
+    font-size: 12px;
+    color: #d9534f;
+    margin-right: 10px;
+    transition: margin-right 0.3s ease-in-out;
+}
+.services-page-container .panel ul li:hover::before {
+    margin-right: 15px;
+}
+.services-page-container .panel h5 {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    border-top: 2px solid #d9534f;
+    border-bottom: 2px solid #d9534f;
+    padding: 10px 0;
+    margin: 10px 0;
 }
 .services-page-container .panel {
     width: 400px;
@@ -78,14 +88,20 @@ footer{
     border-radius: 10px;
     overflow: hidden;
     text-align: center;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    padding: 30px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
 }
 .services-page-container .panel img {
     width: 100%;
-    height: 250px;
+    height: 185px;
     object-fit: cover;
 }
 .services-page-container .panel .text {
     padding: 10px;
     font-size: 24px;
+}
+.services-page-container .container-section {
+    padding-bottom: 250px;
 }

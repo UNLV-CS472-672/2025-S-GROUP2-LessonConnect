@@ -27,46 +27,65 @@ export default function ServicesPage() {
                         </div>
                     </div>
                 </nav>
+
                 <section id = "top-header-section">
                     <div className="header-top">
                         <h1>Services Offered </h1>
-                        <h3>Our tutoring website connects students with experienced tutors and customized lesson plans in subjects like art, science, math, English, and technology. In addition to one-on-one tutoring, we offer interactive resources, educational games, and engaging study tools to enhance learning. LessonConnect is designed to streamline communication between tutors, students, and parents, offering intuitive scheduling, instant messaging, and shared resources to ensure a structured, productive tutoring experience. With safety and transparency at its core, LessonConnect empowers students to focus on learning while providing parents with full oversight. Students can also connect with tutors through messaging and virtual sessions, ensuring personalized support tailored to their needs.</h3>
+                        <h3>LessonConnect connects students with experienced tutors and personalized lesson plans across subjects like Art, Science, Math, English, and Technology. It offers one-on-one tutoring, interactive resources, and tools to enhance learning. With easy communication, scheduling, and full transparency, it ensures a productive and safe learning experience for students and parents.</h3>
                     </div>
+                </section>
 
-                </section>
-                <section id="panels">
-                    <div className="service-panel">
-                        <div className="panel">
-                            <img src="assets/images/UNLV_pic.png" alt="alternatetext"/>
-                            <div className="text">Tutoring</div>
-                            <ul>
-                                <li className="panel-item"><a href="">Art</a></li>
-                                <li className="panel-item"><a href="#link">Math</a></li>
-                                <li className="panel-item"><a href="">English</a></li>
-                                <li className="panel-item"><a href="">Science</a></li>
-                                <li className="panel-item"><a href="">Technology</a></li>
-                            </ul>
-                        </div>
-                        <div className="panel">
-                            <img src="assets/images/UNLV_pic.png" alt="alternatetext"/>
-                            <div className="text">Resources</div>
-                            <ul>
-                                <li className="panel-item"><a href="#link">Games</a></li>
-                                <li className="panel-item"><a href="">Scheduling</a></li>
-                                <li className="panel-item"><a href="">Whiteboard</a></li>
-                                <li className="panel-item"><a href="">Find A Tutor</a></li>
-                                <li className="panel-item"><a href="">Find a Lesson</a></li>
-                            </ul>
-                        </div>
-                        <div className="panel">
-                            <img src="assets/images/UNLV_pic.png" alt="alternatetext"/>
-                            <div className="text">Pomodoro</div>
-                            <ul>
-                                <li className="panel-item"><a href="#link">Pomodoro Timer</a></li>
-                            </ul>
+                <section id="panels" className="py-5">
+                    <div className="container">
+                        <div className="row justify-content-center gx-3 gy-4">
+                            <div className="col-lg-4 col-md-6 col-sm-12 d-flex">
+                                <div className="panel card shadow-lg p-3 flex-fill" id="panel1">
+                                    <img src="assets/images/UNLV_pic.png" alt="Tutoring"
+                                         className="card-img-top panel-img"/>
+                                    <div className="card-body">
+                                        <h5 className="card-title">Tutoring</h5>
+                                        <ul className="list-unstyled">
+                                            <li><a href="#">Art</a></li>
+                                            <li><a href="#link">Math</a></li>
+                                            <li><a href="#">English</a></li>
+                                            <li><a href="#">Science</a></li>
+                                            <li><a href="#">Technology</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-lg-4 col-md-6 col-sm-12 d-flex">
+                                <div className="panel card shadow-lg p-3 flex-fill" id="panel2">
+                                    <img src="assets/images/UNLV_pic.png" alt="Resources"
+                                         className="card-img-top panel-img"/>
+                                    <div className="card-body">
+                                        <h5 className="card-title">Resources</h5>
+                                        <ul className="list-unstyled">
+                                            <li><a href="#link">Games</a></li>
+                                            <li><a href="#">Scheduling</a></li>
+                                            <li><a href="#">Whiteboard</a></li>
+                                            <li><a href="#">Find A Tutor</a></li>
+                                            <li><a href="#">Find a Lesson</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-lg-4 col-md-6 col-sm-12 d-flex">
+                                <div className="panel card shadow-lg p-3 flex-fill" id="panel3">
+                                    <img src="assets/images/UNLV_pic.png" alt="Pomodoro"
+                                         className="card-img-top panel-img"/>
+                                    <div className="card-body">
+                                        <h5 className="card-title">Pomodoro</h5>
+                                        <ul className="list-unstyled">
+                                            <li><a href="#link">Pomodoro Timer</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
+
                 <section id="footer">
                     <footer className="bg-dark text-light py-4">
                         <div className="container">
@@ -105,7 +124,7 @@ export default function ServicesPage() {
                                             >
                                         </li>
                                         <li>
-                                            <a href="#" className="text-light text-decoration-none"
+                                        <a href="#" className="text-light text-decoration-none"
                                             >Contact Us</a
                                             >
                                         </li>
@@ -118,9 +137,8 @@ export default function ServicesPage() {
                         </div>
                     </footer>
                 </section>
+
             </div>
-
-
         </>
     );
 }
