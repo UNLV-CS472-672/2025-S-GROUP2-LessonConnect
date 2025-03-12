@@ -6,22 +6,30 @@ import Learn_more from "./components/Learn_more";
 import SignUp from "./Components/SignUp.jsx";
 import Login from "./Components/Login.jsx";
 import DateOfBirth from "./Components/DateOfBirth.jsx";
-import ServicesPage from "./components/ServicesPage.jsx";
+import Contact from "./Components/Contact.jsx";
+import FAQS from "./Components/FAQS.jsx";
+import Services from "./Components/Services.jsx";
+import Support from "./Components/Support.jsx";
+import FindTutor from "./Components/FindTutor.jsx";
+import Pomodoro from "./Components/Podomoro.jsx";
+import Footer from "./Components/Footer.jsx";
 
 function App() {
     return (
         <div className="App">
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} /> {/* Fixed route path */}
+                <Route path="/about" element={<About />} />
                 <Route path="/learn_more" element={<Learn_more />} />
-                <Route path="/ServicesPage" element={<ServicesPage />} />
-                {/* 2. Login page (path="/login") */}
                 <Route path="/login" element={<Login />} />
-                {/* 3. Sign up page (path="/signup") */}
-                <Route path="/signup" element={<SignUp />} />
-                {/* 4. middle page of date of birth (path="/dateofbirth") */}
+                <Route path="/SignUp" element={<SignUp />} />
                 <Route path="/dateofbirth" element={<DateOfBirth />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/support" element={<Support />} />
+                <Route path="/faqs" element={<FAQS />} />
+                <Route path="/findTutor" element={<FindTutor />} />
+                <Route path="/pomodoro" element={<Pomodoro />} />
             </Routes>
         </div>
     );
