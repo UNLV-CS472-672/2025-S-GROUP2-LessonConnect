@@ -1,10 +1,11 @@
-import {Routes, Route } from "react-router-dom";
-import "./Styles/index.css";
-import Home from "./components/Home";
-import About from "./components/About";
-import Learn_more from "./components/Learn_more";
-import SignUp from "./Components/SignUp.jsx";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import Header from "./Components/Header.jsx";
+import Home from "./components/Home.jsx";
+import About from "./components/About.jsx";
+import Learn_more from "./components/Learn_more.jsx";
 import Login from "./Components/Login.jsx";
+import SignUp from "./Components/SignUp.jsx";
 import DateOfBirth from "./Components/DateOfBirth.jsx";
 import Contact from "./Components/Contact.jsx";
 import FAQS from "./Components/FAQS.jsx";
@@ -15,8 +16,15 @@ import Pomodoro from "./Components/Podomoro.jsx";
 import Footer from "./Components/Footer.jsx";
 
 function App() {
+    const location = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location]);
+
     return (
         <div className="App">
+            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Header />}
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
@@ -31,6 +39,7 @@ function App() {
                 <Route path="/findTutor" element={<FindTutor />} />
                 <Route path="/pomodoro" element={<Pomodoro />} />
             </Routes>
+            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>
     );
 }

@@ -1,20 +1,9 @@
 /* Login.css */
 
 /* Scope all styles under .login-page */
-.login-page * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* You can also style .login-page itself */
 .login-page {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
-}
-
-/* ====== Wrapper for Split Layout ====== */
-.login-page .wrapper {
     display: flex;
     min-height: 100vh;
 }
@@ -217,21 +206,13 @@
 
 /* ====== Responsive Design ====== */
 @media (max-width: 768px) {
-    .login-page .wrapper {
+    .login-page {
         flex-direction: column;
     }
 
     .login-page .left-panel,
     .login-page .right-panel {
-        flex: none;
         width: 100%;
-    }
-
-    .login-page .left-panel {
-        padding: 20px;
-    }
-
-    .login-page .right-panel {
         padding: 20px;
     }
 
