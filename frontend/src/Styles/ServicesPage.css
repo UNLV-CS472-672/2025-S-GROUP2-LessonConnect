@@ -1,4 +1,7 @@
 .services-page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     padding-top: 50px;
 }
 .services-page-container h1 {
@@ -9,14 +12,7 @@
     text-align: center;
     font-size: 22px;
 }
-footer{
-    height: 185px;
-    bottom: 0;
-    left: 0px;
-    right: 0px;
-    margin-bottom: 0px;
-    display: flex;
-}
+
 .services-page-container .header-top{
     background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
     url(../assets/header_background.jpg);
@@ -101,7 +97,4 @@ footer{
 .services-page-container .panel .text {
     padding: 10px;
     font-size: 24px;
-}
-.services-page-container .container-section {
-    padding-bottom: 250px;
 }

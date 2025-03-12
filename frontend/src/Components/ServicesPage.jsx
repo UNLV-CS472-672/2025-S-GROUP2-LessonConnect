@@ -31,7 +31,7 @@ export default function ServicesPage() {
                 <section id = "top-header-section">
                     <div className="header-top">
                         <h1>Services Offered </h1>
-                        <h3>LessonConnect connects students with experienced tutors and personalized lesson plans across subjects like Art, Science, Math, English, and Technology. It offers one-on-one tutoring, interactive resources, and tools to enhance learning. With easy communication, scheduling, and full transparency, it ensures a productive and safe learning experience for students and parents.</h3>
+                        <h3>LessonConnect aims to connect students with experienced tutors and personalized lesson plans across subjects like Art, Science, Math, English, and Technology. It offers one-on-one tutoring, interactive resources, and tools to enhance learning. With easy communication, scheduling, and full transparency, it ensures a productive and safe learning experience for students and parents.</h3>
                     </div>
                 </section>
 
