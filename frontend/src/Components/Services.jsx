@@ -18,7 +18,7 @@ export default function Services() {
                         </button>
                         <div id="nav-collapse" className="collapse navbar-collapse">
                             <div className="navbar-nav ms-auto">
-                                <Link to="/ServicesPage" className="nav-link">Services</Link>
+                                <Link to="/services" className="nav-link">Services</Link>
                                 <a href="#schedule-target" className="nav-link">Schedule</a>
                                 <Link to="/Learn_more" className="nav-link">Learn More</Link>
                                 <Link to="/About" className="nav-link">About Us</Link>
