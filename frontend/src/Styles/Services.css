@@ -15,11 +15,11 @@
 
 .services-page-container .header-top{
     background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
-    url(../assets/header_background.jpg);
+    url(../assets/images/Services_header.jpg);
     background-size: cover;
     background-position: center;
     width: 100%;
-    padding: 4%;
+    padding: 12%;
     color: white;
     text-shadow: 2px 2px 5px rgb(101, 98, 98);
 }
