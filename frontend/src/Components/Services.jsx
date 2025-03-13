@@ -1,33 +1,9 @@
 import "../Styles/Services.css";
-import {Link, NavLink} from "react-router-dom";
+
 export default function Services() {
     return (
         <>
             <div className="services-page-container">
-                <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-                    <div className="container">
-                        <NavLink to="/" className="navbar-brand">
-                            <i className="bi bi-house-door"></i>
-                        </NavLink>
-                        <button
-                            className="navbar-toggler"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#nav-collapse"
-                        >
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div id="nav-collapse" className="collapse navbar-collapse">
-                            <div className="navbar-nav ms-auto">
-                                <Link to="/services" className="nav-link">Services</Link>
-                                <a href="#schedule-target" className="nav-link">Schedule</a>
-                                <Link to="/Learn_more" className="nav-link">Learn More</Link>
-                                <Link to="/About" className="nav-link">About Us</Link>
-                                <Link to="/Login" className="btn btn-outline-light ms-4">Login</Link>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-
                 <section id = "top-header-section">
                     <div className="header-top">
                         <h1>Empowering Students Through Personalized Learning </h1>
