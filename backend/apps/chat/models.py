@@ -25,13 +25,10 @@ class Chat(models.Model):
     return chat
 
 class Message(models.Model):
-  # Allow default chat
-  chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name="messages", default=Chat.objects.first())
+  chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name="messages")
   sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_messages")
   content = models.TextField()
   timestamp = models.DateTimeField(default=now)
-  # to register and see in the admin panel
-  # id = models.AutoField(primary_key=True)
 
   class Meta:
     ordering = ['timestamp']
