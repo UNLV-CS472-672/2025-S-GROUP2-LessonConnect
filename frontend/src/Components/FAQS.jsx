@@ -128,6 +128,11 @@ export default function FAQS() {
                         </div>
                     </div>
                 </div>
+                {/* Didn't find your answer button */}
+                <div className="faq-footer">
+                    <p>Didn't find your answer?</p>
+                    <a href="/contact" className="faq-button">Click here</a>
+                </div>
             </div>
         </div>
     );
