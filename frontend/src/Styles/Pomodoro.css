@@ -1,1 +1,142 @@
 /*Add your CSS style here*/
+/* Pomodoro.css */
+
+/* Basic reset and typography */
+.pomodoro-page * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* We'll apply the background to the .pomodoro-page itself */
+.pomodoro-page {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #FF9A9E 0%, #FFDDE1 100%);
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header styling */
+.pomodoro-page header {
+    text-align: center;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.pomodoro-page header h1 {
+    font-weight: 700;
+    font-size: 2rem;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer styling */
+.pomodoro-page footer {
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto; /* So the footer sits at the bottom */
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.pomodoro-page footer p {
+    color: #fff;
+    font-weight: 500;
+}
+
+/* Main container */
+.pomodoro-page main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+}
+
+/* Timer container */
+.pomodoro-page .timer-container {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin-bottom: 2rem;
+}
+
+/* Progress ring background */
+.pomodoro-page .progress-ring__background {
+    stroke: rgba(255, 255, 255, 0.25);
+}
+
+/* Progress ring circle */
+.pomodoro-page .progress-ring__circle {
+    transition: stroke-dashoffset 0.35s;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+/* Time display (in the center) */
+.pomodoro-page .time-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Control buttons */
+.pomodoro-page .controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.pomodoro-page .btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    color: #fff;
+    background-color: #ff6b6b;
+}
+
+.pomodoro-page .btn:hover {
+    background-color: #ff4a4a;
+}
+
+.pomodoro-page .primary {
+    background-color: #4ecdc4 !important;
+}
+
+.pomodoro-page .primary:hover {
+    background-color: #3bc2b9 !important;
+}
+
+/* Session controls */
+.pomodoro-page .session-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+.pomodoro-page .session-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.pomodoro-page .session-btn:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+    transform: translateY(-2px);
+}
+
+.pomodoro-page .session-btn.active {
+    background-color: #fed766;
+    color: #333;
+}
