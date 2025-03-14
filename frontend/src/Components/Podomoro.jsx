@@ -93,8 +93,84 @@ export default function Pomodoro() {
 
     // --------------------- RENDER ---------------------
     return (
-        <>
-            {/*Add your code below this line*/}
-        </>
+        <div className="pomodoro-page">
+            <header>
+                <h1>LessonConnect Pomodoro Timer</h1>
+            </header>
+
+            <main>
+                {/* Timer Display + Circle Progress */}
+                <div className="timer-container">
+                    <svg className="progress-ring" width="280" height="280">
+                        {/* Circle background */}
+                        <circle
+                            className="progress-ring__background"
+                            stroke="#ccc"
+                            strokeWidth="12"
+                            fill="transparent"
+                            r="125"
+                            cx="140"
+                            cy="140"
+                        />
+                        {/* Circle progress */}
+                        <circle
+                            ref={circleRef}
+                            className="progress-ring__circle"
+                            stroke="#FF6B6B"
+                            strokeWidth="12"
+                            fill="transparent"
+                            r="125"
+                            cx="140"
+                            cy="140"
+                        />
+                    </svg>
+                    <div className="time-display" id="time-display">
+                        {timeDisplay}
+                    </div>
+                </div>
+
+                {/* Controls */}
+                <div className="controls">
+                    <button onClick={startTimer} className="btn primary" id="start-btn">
+                        Start
+                    </button>
+                    <button onClick={pauseTimer} className="btn" id="pause-btn">
+                        Pause
+                    </button>
+                    <button onClick={resetTimer} className="btn" id="reset-btn">
+                        Reset
+                    </button>
+                </div>
+
+                {/* Session Toggle */}
+                <div className="session-controls">
+                    <button
+                        onClick={() => setSession(WORK_MINUTES, "work")}
+                        className={sessionBtnClass("work")}
+                        id="work-session"
+                    >
+                        Work 25
+                    </button>
+                    <button
+                        onClick={() => setSession(SHORT_BREAK_MINUTES, "shortBreak")}
+                        className={sessionBtnClass("shortBreak")}
+                        id="short-break"
+                    >
+                        Break 5
+                    </button>
+                    <button
+                        onClick={() => setSession(LONG_BREAK_MINUTES, "longBreak")}
+                        className={sessionBtnClass("longBreak")}
+                        id="long-break"
+                    >
+                        Break 15
+                    </button>
+                </div>
+            </main>
+
+            <footer>
+                <p>Powered by LessonConnect</p>
+            </footer>
+        </div>
     );
 }
