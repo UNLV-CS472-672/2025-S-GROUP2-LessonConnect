@@ -83,7 +83,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            
+
             {/*Pomodoro section */}
             <section id="lower-section">
                 <div className="container">
