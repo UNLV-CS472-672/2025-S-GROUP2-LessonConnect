@@ -51,11 +51,12 @@ jobs:
         run: |
           coverage run manage.py test
           coverage report
-          coverage xml 
+        # Generates the HTML report in 'htmlcov' directory
+          coverage html
 
-      # Upload coverage report as artifact
-      - name: Upload coverage report
+      # Upload coverage HTML report as artifact
+      - name: Upload coverage HTML report
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
-          path: backend/coverage.xml
+          name: coverage-report-html
+          path: backend/htmlcov/  # Upload the entire 'htmlcov' directory
