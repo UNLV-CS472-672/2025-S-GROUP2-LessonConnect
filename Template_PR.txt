@@ -1,6 +1,5 @@
 ## **Pull Request Title**  
-_A short, descriptive title summarizing the change (e.g., "Add Pomodoro 
-Timer Feature to LessonConnect")_
+_A short, descriptive title summarizing the change (e.g., "Add Pomodoro Timer Feature to LessonConnect")_
 
 ---
 
@@ -9,23 +8,16 @@ Timer Feature to LessonConnect")_
 _A brief description of what changes were made in this PR and why._  
 
 **Example:**  
-> This PR introduces a fully functional **Pomodoro Timer** feature to 
-LessonConnect, allowing users to manage study sessions efficiently. The 
-timer supports **work sessions, short breaks, and long breaks** while 
-providing an interactive UI with animated progress tracking.
+> This PR introduces a fully functional **Pomodoro Timer** feature to LessonConnect, allowing users to manage study sessions efficiently. The timer supports **work sessions, short breaks, and long breaks** while providing an interactive UI with animated progress tracking.
 
 ---
 
 ## **Key Features & Changes**  
 ### **What has been added or changed?**  
-✔ **Core Feature Implementation**: _(Explain the main functionality 
-added)_  
-✔ **UI/UX Enhancements**: _(Mention any design updates or interactive 
-elements)_  
-✔ **Navigation & Routing Fixes**: _(If applicable, specify updates to 
-routing)_  
-✔ **State Management Improvements**: _(Describe how state is managed, if 
-relevant)_  
+✔ **Core Feature Implementation**: _(Explain the main functionality added)_  
+✔ **UI/UX Enhancements**: _(Mention any design updates or interactive elements)_  
+✔ **Navigation & Routing Fixes**: _(If applicable, specify updates to routing)_  
+✔ **State Management Improvements**: _(Describe how state is managed, if relevant)_  
 ✔ **New Components/Files**: _(List any new files created or modified)_  
 
 **Example:**  
@@ -41,15 +33,12 @@ relevant)_
 _A concise explanation of why this feature or fix is important._  
 
 **Example:**  
-> Many users struggle with **time management while studying**. A built-in 
-**Pomodoro Timer** improves productivity by helping them maintain focus 
-through structured work-break cycles.
+> Many users struggle with **time management while studying**. A built-in **Pomodoro Timer** improves productivity by helping them maintain focus through structured work-break cycles.
 
 ---
 
 ## **Related Issue**  
-🔗 **This PR addresses** [Issue #XX - _Brief Issue Description_](#) _(link 
-to issue if applicable)_
+🔗 **This PR addresses** [Issue #XX - _Brief Issue Description_](#) _(link to issue if applicable)_
 
 ---
 
@@ -57,24 +46,18 @@ to issue if applicable)_
 ### **How was this feature developed?**  
 _A technical summary of how the feature works._  
 
-- Developed using **React JSX**, with `useState` and `useEffect` for state 
-management.  
-- Animated **SVG progress ring** with `stroke-dasharray` and 
-`stroke-dashoffset`.  
+- Developed using **React JSX**, with `useState` and `useEffect` for state management.  
+- Animated **SVG progress ring** with `stroke-dasharray` and `stroke-dashoffset`.  
 - Implemented **session persistence** so the selected mode remains active.  
-- Ensured **accessibility & responsive design** for seamless usage on all 
-devices.  
+- Ensured **accessibility & responsive design** for seamless usage on all devices.  
 
 ---
 
 ## **Design Documentation (If Applicable)**  
-📌 **Diagrams & Visuals** _(If the PR involves a major feature, link UML 
-diagrams)_  
+**Diagrams & Visuals** _(If the PR involves a major feature, link UML diagrams)_  
 
-- **Sequence Diagram**: 
-![docs/diagrams/sequence.png](docs/diagrams/sequence.png)  
-- **Use Case Diagram**: 
-![docs/diagrams/usecase.png](docs/diagrams/usecase.png)  
+- **Sequence Diagram**: ![docs/diagrams/sequence.png](docs/diagrams/sequence.png)  
+- **Use Case Diagram**: ![docs/diagrams/usecase.png](docs/diagrams/usecase.png)  
 
 ---
 
@@ -85,8 +68,7 @@ diagrams)_
 3️⃣ Use **Pause & Reset** to confirm expected behavior.  
 4️⃣ Switch between **Work, Short Break, and Long Break** sessions.  
 5️⃣ Verify the **progress ring animation updates correctly**.  
-6️⃣ Test the feature on **different devices & screen sizes** _(desktop, 
-tablet, mobile)_ to ensure responsiveness.  
+6️⃣ Test the feature on **different devices & screen sizes** _(desktop, tablet, mobile)_ to ensure responsiveness.  
 
 ---
 
@@ -107,35 +89,29 @@ tablet, mobile)_ to ensure responsiveness.
 ## **AI Code Usage**  
 🤖 **Was AI-generated code used in this PR?**  
 
-- [ ] Yes (_Explain how AI was used and provide annotations if 
-applicable._)  
+- [ ] Yes (_Explain how AI was used and provide annotations if applicable._)  
 - [x] No (_All code was manually implemented._)  
 
 ---
 
 ## **Checklist for Reviewers**  
-👀 **Things to check before approving this PR:**  
+**Things to check before approving this PR:**  
 - [x] Does the feature work as expected?  
 - [x] Are the UI and animations smooth?  
 - [x] Do the session buttons and controls function properly?  
 - [x] Is the code **clean, modular, and well-documented**?  
-- [x] Does the feature work on **different screen sizes** (desktop, 
-mobile, tablet)?  
+- [x] Does the feature work on **different screen sizes** (desktop, mobile, tablet)?  
 
 ---
 
 ## **Next Steps & Future Enhancements**  
 ### **What improvements can be made after merging?**  
-- 🔹 **Custom session durations** _(allow users to set their own timer 
-values)_  
-- 🔹 **Local storage integration** _(retain timer state between page 
-reloads)_  
-- 🔹 **Sound notifications** _(play alert sound when session ends)_  
-- 🔹 **Dark mode support** _(enhanced accessibility for night users)_  
+- **Custom session durations** _(allow users to set their own timer values)_  
+- **Local storage integration** _(retain timer state between page reloads)_  
+- **Sound notifications** _(play alert sound when session ends)_  
+- **Dark mode support** _(enhanced accessibility for night users)_  
 
 ---
 
 ### **Final Notes**  
-🙏 **Thank you for reviewing!** Please leave feedback if you have any 
-suggestions or concerns. Let’s make this feature even better! 🚀  
-
+**Thank you for reviewing!** Please leave feedback if you have any suggestions or concerns. Let’s make this feature even better!  
