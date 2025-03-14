@@ -3,7 +3,7 @@ name: Django CI/CD
 on:
   push:
     branches:
-      - main
+      - ci-workflow-set-up
 
 jobs:
   build:
