@@ -1,35 +1,59 @@
-/*Add your CSS style here*/
-
+/*!*!*Add your CSS style here*!*!*/
 .faq-page {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    padding: 40px;
+    padding: 40px 0;
 }
 
-/* FAQ Container */
-.faq-page .faq-container {
+/* FAQ Background Section */
+.faq-background {
+    position: relative;
     width: 100%;
-    max-width: 800px;
+    height: 500px;
+    overflow: hidden;
+}
+
+.faq-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.faq-title {
+    position: absolute;
+    bottom: 30px; /* Adjusted for better positioning */
+    left: 40px;
+    color: white;
+    font-size: 42px;
+    font-weight: bold;
+}
+
+
+.faq-container {
+    width: 100%;
+    max-width: 900px;
     background: white;
-    padding: 40px;
+    padding: 50px;
     border-radius: 12px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 120px;
+    margin-bottom: 120px;
 }
 
 /* Heading */
-.faq-page .faq-container h2 {
-    font-size: 24px;
+.faq-container h2 {
+    font-size: 28px;
     color: #004a99;
     text-align: center;
     margin-bottom: 20px;
 }
 
 /* Accordion Styles */
-.faq-page .accordion-item {
+.accordion-item {
     border: none;
     margin-bottom: 10px;
     border-radius: 8px;
@@ -37,7 +61,7 @@
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.faq-page .accordion-button {
+.accordion-button {
     background: #004a99;
     color: white;
     font-size: 16px;
@@ -49,15 +73,15 @@
     cursor: pointer;
 }
 
-.faq-page .accordion-button:hover {
+.accordion-button:hover {
     background: #003580;
 }
 
-.faq-page .accordion-collapse {
+.accordion-collapse {
     background: #fff;
 }
 
-.faq-page .accordion-body {
+.accordion-body {
     padding: 15px;
     font-size: 14px;
     color: #333;
@@ -69,7 +93,18 @@
         padding: 20px;
     }
 
+    .faq-background {
+        height: 250px;
+    }
+
+    .faq-title {
+        font-size: 32px;
+        bottom: 15px;
+        left: 20px;
+    }
+
     .faq-container {
         padding: 30px;
+        margin-top: 30px;
     }
 }

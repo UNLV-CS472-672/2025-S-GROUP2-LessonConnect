@@ -4,6 +4,12 @@ export default function FAQS() {
     return (
         <div className="faq-page">
             {/* FAQ Section */}
+            // FAQ Background Section
+            <div className="faq-background">
+                <img src="assets/images/FAQs.webp" alt="FAQs Background" className="faq-bg-image" />
+                <h1 className="faq-title">FAQs:</h1>
+            </div>
+
             <div className="faq-container">
                 <h2 className="text-center fw-bold mb-4">Frequently Asked Questions</h2>
                 <div className="accordion" id="faqAccordion">
