@@ -83,7 +83,8 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-
+            
+            {/*Pomodoro section */}
             <section id="lower-section">
                 <div className="container">
                     <h2 style={{
@@ -92,25 +93,35 @@ export default function Home() {
                         fontSize: "30px",
                         fontWeight: 600
                     }}>
-                        Some subtitle will go here!
+                        Boost Focus & Productivity with Our Built-In Pomodoro Timer
                     </h2>
                     <div className="row d-flex justify-content-center">
                         <div className="col-md-6 text-center">
                             <img
-                                src="assets/images/Pic3.webp"
+                                src="assets/images/Pomodoro_pic.png"
                                 className="lower-section-img"
-                                alt="Some image"
+                                alt="Pomodoro Timer Feature"
                             />
                         </div>
                     </div>
                     <div className="row justify-content-center mt-4">
                         <div className="col-md-6 text-center">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A assumenda atque distinctio doloremque ducimus eius hic inventore minus, natus obcaecati omnis quam recusandae similique sunt velit veritatis vero. Accusamus, nisi.</p>
+                            <p>
+                                Staying focused while studying can be tough, but LessonConnect
+                                makes it easier! Our integrated Pomodoro Timer helps students stay
+                                on track by breaking study sessions into manageable intervals with
+                                short breaks in between. This proven technique enhances
+                                concentration, prevents burnout, and maximizes learning
+                                efficiency. Whether you tackling homework, reviewing for a
+                                test, or working on a project, our Pomodoro feature keeps you
+                                productive and motivated.
+                            </p>
+                            <Link to="/pomodoro" className="btn-pomodoro">Try the Pomodoro Timer Now</Link>
                         </div>
                     </div>
                 </div>
             </section>
-
+            {/*End of pomodoro section*/}
             <div className="container my-5">
                 <div className="gallery-container">
                     <div className="scrolling-gallery">
