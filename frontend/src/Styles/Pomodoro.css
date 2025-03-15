@@ -60,6 +60,11 @@
     width: 280px;
     height: 280px;
     margin-bottom: 2rem;
+    background: linear-gradient(135deg, #bb686b 0%, #FFDDE1 100%);
+    border-radius: 10px;
+    /* Slightly bigger shadow */
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* A small hover effect to make it pop */
