@@ -8,4 +8,8 @@ class UsersConfig(AppConfig):
     # https://idiomaticprogrammers.com/post/django-watson-full-text-search-guide/
     def ready(self):
         tutor_profile_model = self.get_model("TutorProfile")
-        search.register(tutor_profile_model)
+        search.register(tutor_profile_model,
+            fields=[
+            "location", "hourly_rate", "profile__user__first_name", "profile__user__last_name"
+        ])
+        #"profile__user__first_name", "profile__user__last_name"

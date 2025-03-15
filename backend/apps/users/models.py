@@ -40,5 +40,7 @@ class TutorProfile(models.Model):
         self.full_clean()
         super().save(*args, **kwargs)
 
+    # Note: Django-watson includes what ever is returned in __str__
     def __str__(self):
-        return f"{self.profile.user.username}'s tutor profile"
+        return self.profile.user.username
+        #return f"{self.profile.user.first_name} {self.profile.user.last_name}"
