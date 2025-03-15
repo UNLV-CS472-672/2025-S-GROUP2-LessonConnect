@@ -32,8 +32,7 @@ class Notification(models.Model):
     # links to the user who will receive notifications
     # on_delete=CASCADE means that if the user is deleted, their notifs will be deleted too
     # related_name='notifications' gets all notifs for a user
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications',
-                             default=settings.AUTH_USER_MODEL.objects.first())
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications')
 
     # notification message content
     notification_title = models.CharField(max_length=63)
