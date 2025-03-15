@@ -166,6 +166,21 @@ export default function Pomodoro() {
                         Break 15
                     </button>
                 </div>
+                <section className="info-section">
+                    <h2>What is the Pomodoro Technique?</h2>
+                    <p>
+                        The Pomodoro Technique is a time management method that breaks work into intervals,
+                        typically 25 minutes of focused work followed by a 5-minute break. This improves productivity
+                        and reduces burnout.
+                    </p>
+
+                    <h3>How to Use This Timer</h3>
+                    <ul>
+                        <li>Click <strong>Start</strong> to begin your 25-minute session.</li>
+                        <li>Take a short break when the timer ends.</li>
+                        <li>Repeat for 4 cycles, then take a longer break.</li>
+                    </ul>
+                </section>
             </main>
 
             <footer>

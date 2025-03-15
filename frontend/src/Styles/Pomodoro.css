@@ -147,3 +147,41 @@
     background-color: #fed766;
     color: #333;
 }
+
+pomodoro-page .info-section {
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    /* Subtle translucent background */
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    /* Fade-in animation */
+    animation: fadeIn 0.8s ease forwards;
+    opacity: 0; /* Start hidden, fade in */
+}
+
+/* we could change the text color a bit brighter to contrast with the background: */
+.pomodoro-page .info-section h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.pomodoro-page .info-section p,
+.pomodoro-page .info-section ul {
+    list-style-type: disc;         /* Or circle, square, etc. */
+    list-style-position: inside;   /* Moves bullet inside the text area */
+    margin: 1rem auto;            /* Centers the list container */
+    padding: 0;                   /* Remove default padding */
+    text-align: left;             /* Left-align the content for readability */
+    width: 80%;                   /* Keep things nicely centered within the section */
+    max-width: 600px;            /* Optional max width for narrower displays */
+}
+
+/* Keyframes for fade-in */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
