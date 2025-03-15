@@ -23,6 +23,7 @@
     text-align: center;
     padding: 2rem;
     background-color: rgba(255, 255, 255, 0.2);
+    margin-top: 90px;
 }
 
 .pomodoro-page header h1 {
@@ -61,9 +62,10 @@
     margin-bottom: 2rem;
 }
 
-/* Progress ring background */
-.pomodoro-page .progress-ring__background {
-    stroke: rgba(255, 255, 255, 0.25);
+/* A small hover effect to make it pop */
+.pomodoro-page .timer-container:hover {
+    transform: scale(1.03);
+    box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Progress ring circle */
