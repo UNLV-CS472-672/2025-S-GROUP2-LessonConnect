@@ -179,4 +179,21 @@ section#lower-section {
   font-size: 15px;
 }
 
+/* Pomodoro Timer Button */
+.btn-pomodoro {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+  background-color: #ff6347;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
+.btn-pomodoro:hover {
+  background-color: #e5533d;
+  transform: scale(1.05);
+}
