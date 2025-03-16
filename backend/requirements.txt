@@ -15,3 +15,5 @@ channels-redis == 4.2.1
 django-celery-results == 2.5.1
 django-celery-beat == 2.7.0
 django-redis == 5.4.0
+cloudinary == 1.42.2
+django-watson==1.6.3

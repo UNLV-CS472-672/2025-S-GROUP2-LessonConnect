@@ -3,10 +3,45 @@ body {
   font-family: "Montserrat", sans-serif;
 
 }
+/* Navbar Styles */
+.navbar {
+  height: 70px;
+  transition: background-color 0.3s ease-in-out;
+}
 
-header#home {
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+  transition: color 0.3s ease-in-out;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.navbar-brand i {
+  font-size: 1.5rem;
+  color: white;
+}
+.scroll-top .navbar {
+  background-color: transparent !important;
+}
+
+.btn-outline-light {
+  border-radius: 20px;
+  padding: 8px 16px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btn-outline-light:hover {
+  background-color: white;
+  color: black;
+}
+
+
+#header-section {
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
-  url(assets/header_background.jpg);
+  url(../assets/header_background.jpg);
   background-size: cover;
   background-position: center;
   width: 100%;
@@ -32,7 +67,7 @@ header#home {
   display: inline-block;
 }
 
-header#home .staggered-subtitle {
+#header-section .staggered-subtitle {
   color: #d4d4d4 !important;
 }
 
@@ -41,10 +76,6 @@ header#home .staggered-subtitle {
   position: relative;
   left: 200px;
   top: 5px;
-}
-
-.scroll-top .navbar {
-  background-color: transparent !important;
 }
 
 .container .middleUpper-pic {
@@ -103,6 +134,12 @@ section#lower-section {
   object-fit: cover;
   margin-right: 10px;
   border-radius: 20px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.gallery-container a:hover .gallery-item {
+  transform: scale(1.2);
+  filter: brightness(1.2);
 }
 
 .gallery-container {
@@ -120,15 +157,21 @@ section#lower-section {
   }
 }
 
-.scrolling-gallery {
-  display: flex;
-  animation: scroll-left 15s linear infinite;
-}
-
+.scrolling-gallery,
 .scrolling-gallery-copy {
   display: flex;
-  animation: scroll-left 15s linear infinite;
+  animation: scroll-left 30s linear infinite;
 }
+
+.scrolling-gallery:hover,
+.scrolling-gallery-copy:hover {
+  animation-duration: 30s;
+}
+
+.gallery-container a:hover .gallery-item {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
 
 #footer .text-center p {
   color: white;
