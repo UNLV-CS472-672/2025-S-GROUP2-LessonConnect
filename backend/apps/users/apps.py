@@ -10,6 +10,6 @@ class UsersConfig(AppConfig):
         tutor_profile_model = self.get_model("TutorProfile")
         search.register(tutor_profile_model,
             fields=[
-            "location", "hourly_rate", "profile__user__first_name", "profile__user__last_name"
+            "profile__user__first_name", "profile__user__last_name"
+            #"zipcode", "city",
         ])
-        #"profile__user__first_name", "profile__user__last_name"

@@ -48,13 +48,37 @@ def delete_user(request):
 class SearchView(APIView):
     permission_classes = []  # Debug only: No authentication required
     def get(self, request, format=None):
-        #Extracts the q parameter from the request URL (ex: users/search/?q=python)
-        q = self.request.query_params.get('q', "")
-        if q == "":
+        # Extracts the what and where parameters from the request URL
+        # (ex: users/search/?what=Jill&where=New%20York%2C%20NY)
+        what = self.request.query_params.get('what', "")  # Search term (Tutor name, Subject)
+        where = self.request.query_params.get('where', "")  # City, State
+
+        if what == "" or where == "": #what and where should be required input
             search_results = TutorProfile.objects.none()
+            return Response({"message": "No results found"}, status=status.HTTP_204_NO_CONTENT)
         else:
-            search_results = search.filter(TutorProfile, q)
-            print(search_results)
-        #serializer = TutorProfileSerializer(search_results, many=True)
-        #return Response(serializer.data)
-        return Response(status=status.HTTP_200_OK)
+            #Parse
+            city, state = where.split(",")
+            city = city.strip()  # Removes any leading/trailing whitespace
+            state = state.strip()
+
+            #will put this query in managers.py****
+            # Filter tutor profiles based on city and state
+            filtered_profiles = TutorProfile.objects.filter(city=city, state=state)
+
+            # Apply search filtering
+            search_results = search.filter(filtered_profiles, what)
+
+            # Optimize query with select_related and only required fields
+            search_results = search_results.select_related('profile__user').only(
+                'profile__user__first_name',
+                'profile__user__last_name',
+                'bio',
+                'hourly_rate',
+                'state',
+                'city'
+            )
+
+            serializer = TutorProfileSerializer(search_results, many=True)
+            return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_200_OK)
+

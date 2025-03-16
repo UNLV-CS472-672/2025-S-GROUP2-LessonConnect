@@ -22,7 +22,11 @@ class Profile(models.Model):
 
 class TutorProfile(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    location = models.CharField(max_length=255)
+
+    city = models.CharField(max_length=100, default="Unknown")
+    #where does the state convert to 2 letters
+    state = models.CharField(max_length=2, default="NA")
+
     bio = models.TextField(blank=True)
     hourly_rate = models.DecimalField(max_digits=6, decimal_places=2)
 
