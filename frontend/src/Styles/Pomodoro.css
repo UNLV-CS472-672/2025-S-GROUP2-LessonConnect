@@ -68,7 +68,7 @@
 }
 
 /* A small hover effect to make it pop */
-/* 📌 TIMER CONTAINER */
+/* TIMER CONTAINER */
 .pomodoro-page .timer-container {
     position: relative;
     width: 280px;
@@ -81,14 +81,14 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* 🎯 Hover effect - Slight lift */
+/* Hover effect - Slight lift */
 .pomodoro-page .timer-container:hover {
     transform: scale(1.03);
     box-shadow: 12px 12px 20px rgba(0, 0, 0, 0.25),
     -12px -12px 20px rgba(255, 255, 255, 0.2);
 }
 
-/* ⭕ PROGRESS RING - Make it smoother */
+/* PROGRESS RING - Make it smoother */
 .pomodoro-page .progress-ring__circle {
     transition: stroke-dashoffset 0.35s;
     transform: rotate(-90deg);
@@ -97,7 +97,7 @@
     filter: drop-shadow(0px 0px 6px rgba(255, 107, 107, 0.6)); /* Soft glow */
 }
 
-/* ⏳ TIME DISPLAY - Slightly bolder */
+/* TIME DISPLAY - Slightly bolder */
 .pomodoro-page .time-display {
     position: absolute;
     top: 50%;
@@ -166,7 +166,7 @@
     color: #333;
 }
 
-/* 🔥 INFO SECTION STYLING - Glassmorphic, Clean & Readable */
+/* INFO SECTION STYLING - Glassmorphic, Clean & Readable */
 .pomodoro-page .info-section {
     text-align: center;
     margin-top: 30px;
@@ -183,13 +183,13 @@
     animation: fadeIn 1s ease-in-out forwards;
 }
 
-/* 🖱️ Slight "pop" effect on hover */
+/* Slight "pop" effect on hover */
 .pomodoro-page .info-section:hover {
     transform: scale(1.02);
     box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.15);
 }
 
-/* ✨ TEXT STYLING - Unified Bright White */
+/* TEXT STYLING - Unified Bright White */
 .pomodoro-page .info-section h2,
 .pomodoro-page .info-section p,
 .pomodoro-page .info-section ul li {
@@ -197,21 +197,21 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Light shadow for depth */
 }
 
-/* 📌 HEADINGS */
+/* HEADINGS */
 .pomodoro-page .info-section h2 {
     font-size: 26px;
     font-weight: 700;
     margin-bottom: 14px;
 }
 
-/* 📌 PARAGRAPH TEXT */
+/* PARAGRAPH TEXT */
 .pomodoro-page .info-section p {
     font-size: 17px;
     line-height: 1.7;
     font-weight: 400;
 }
 
-/* 📌 LIST ITEMS - Better Spacing & Interactivity */
+/* LIST ITEMS - Better Spacing & Interactivity */
 .pomodoro-page .info-section ul {
     list-style: none;
     padding: 0;
@@ -221,7 +221,7 @@
     max-width: 600px;
 }
 
-/* 💡 LIST ITEM STYLE */
+/* LIST ITEM STYLE */
 .pomodoro-page .info-section ul li {
     font-size: 16px;
     font-weight: 600;
@@ -233,11 +233,20 @@
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* 🖱️ INTERACTIVE HOVER EFFECT */
+/* INTERACTIVE HOVER EFFECT */
 .pomodoro-page .info-section ul li:hover {
     background: rgba(255, 255, 255, 0.4);
     transform: translateY(-3px);
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Add space above "How to Use This Timer" */
+.pomodoro-page .info-section h3 {
+    margin-top: 24px; /* Adjust the space as needed */
+    font-size: 22px; /* Slightly larger for hierarchy */
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 /* 🎬 FADE-IN ANIMATION */
