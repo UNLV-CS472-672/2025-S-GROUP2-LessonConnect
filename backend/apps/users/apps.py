@@ -13,3 +13,4 @@ class UsersConfig(AppConfig):
             "profile__user__first_name", "profile__user__last_name"
             #"zipcode", "city",
         ])
+
