@@ -36,7 +36,7 @@ export default function SignUp() {
         console.log("Sign-Up form submitted", formData);
 
         try {
-            const response = await axios.post("http://127.0.0.1:8000/users/register", formData);
+            const response = await axios.post("http://127.0.0.1:8000/users/register/", formData);
 
             // Store only the access and refresh tokens
             localStorage.setItem("accessToken", response.data.accessToken);

@@ -6,7 +6,8 @@ from django.middleware.csrf import get_token
 from .models import Profile
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 
 login_template = "login.html"
@@ -36,14 +37,17 @@ def logout_view(request):
   logout(request)
   return redirect("login")
 
+
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def register_profile(request):
-  username = request.POST["username"]
-  password = request.POST["password"]
-  first_name = request.POST["first_name"]
-  last_name = request.POST["last_name"]
-  email = request.POST["email"]
-  role = request.POST["role"]  # Get the selected role
+  country = request.data["country"]
+  username = request.data["displayName"]
+  email = request.data["email"]
+  first_name = request.data["firstName"]
+  last_name = request.data["lastName"]
+  password = request.data["password"]
+  # role = request.data["role"]  # Get the selected role
   # Create user
   user = User.objects.create_user(
     username=username,
@@ -53,7 +57,7 @@ def register_profile(request):
     email=email,
   )
   # Create associated Profile
-  Profile.objects.create(user=user, role=role)
+  Profile.objects.create(user=user, role=1)
   return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
 
 def delete_user(request):
