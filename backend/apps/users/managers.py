@@ -20,12 +20,10 @@ class TutorProfileManager(models.Manager):
         return filtered_tutors
 
     def filter_tutors_by_subject(self, filtered_tutors, subject_query):
-        #print(subject_query.values_list("id", flat=True))
         filtered_tutors = filtered_tutors.filter(subjects__in=subject_query)
-        print(filtered_tutors)
 
         filtered_tutors = filtered_tutors.prefetch_related('subjects')
-        print(filtered_tutors)
+
         return filtered_tutors
 
     def search(self, filtered_tutors, what):
@@ -46,7 +44,7 @@ class TutorProfileManager(models.Manager):
         return search_results
 
     def parse_where_query(self, where):
-            city, state = where.split(",")
-            city = city.strip()  # Removes any leading/trailing whitespace
-            state = state.strip()
-            return city, state
+        city, state = where.split(",")
+        city = city.strip()  # Removes any leading/trailing whitespace
+        state = state.strip()
+        return city, state

@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from apps.users.managers import TutorProfileManager
 from django.core.exceptions import ValidationError
+from .managers import TutorProfileManager
 
 # https://simpleisbetterthancomplex.com/tutorial/2016/11/23/how-to-add-user-profile-to-django-admin.html
 class Profile(models.Model):
@@ -30,7 +30,7 @@ class TutorProfile(models.Model):
     bio = models.TextField(blank=True)
     hourly_rate = models.DecimalField(max_digits=6, decimal_places=2)
 
-    subjects = models.ManyToManyField(to='Subject')
+    subjects = models.ManyToManyField(to="search.Subject")
 
     # Link the custom manager to the model
     objects = TutorProfileManager()
@@ -50,22 +50,4 @@ class TutorProfile(models.Model):
     def __str__(self):
         return self.profile.user.username
         #return f"{self.profile.user.first_name} {self.profile.user.last_name}"
-
-# Below will be moved to a search app
-class Category(models.Model):
-    title = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.title
-
-def get_default_category():
-    # Assuming the default tutor is the first tutor in the database
-    return Category.objects.first()
-
-class Subject(models.Model):
-    title = models.CharField(max_length=100, unique=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="subjects", default = get_default_category)
-
-    def __str__(self):
-        return self.title
 

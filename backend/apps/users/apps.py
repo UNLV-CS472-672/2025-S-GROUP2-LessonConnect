@@ -11,6 +11,5 @@ class UsersConfig(AppConfig):
         search.register(tutor_profile_model,
             fields=[
             "profile__user__first_name", "profile__user__last_name"
-            #"zipcode", "city",
         ])
 

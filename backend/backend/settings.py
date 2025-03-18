@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "apps.notifications", # our notifications app
     "apps.chat",          # our chat app
     "apps.uploads",       # our uploads app
+    "apps.search",        # out search app
     "rest_framework",     # rest framework
     "channels",           # Django channels
     "django_celery_results", # get celery results in Django admin
