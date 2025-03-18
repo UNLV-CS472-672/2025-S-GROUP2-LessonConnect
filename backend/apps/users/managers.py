@@ -2,6 +2,7 @@ from django.db import models
 from watson import search
 
 class TutorProfileManager(models.Manager):
+
     def create_tutor_profile(self, profile, location, bio="", hourly_rate=0.0):
         # Create a new TutorProfile instance with the provided data
         tutor_profile = self.model(
@@ -20,19 +21,19 @@ class TutorProfileManager(models.Manager):
         return filtered_tutors
 
     def filter_tutors_by_subject(self, filtered_tutors, subject_query):
-        filtered_tutors = filtered_tutors.filter(subjects__in=subject_query)
-
+        # Prefetch related subjects to optimize database queries
         filtered_tutors = filtered_tutors.prefetch_related('subjects')
-
+        # Filter tutors who have any of the subjects in the subject_query
+        filtered_tutors = filtered_tutors.filter(subjects__in=subject_query)
         return filtered_tutors
 
     def search(self, filtered_tutors, what):
-        # Apply search filtering
+        # Use Watson to filter the tutors based on the 'what' search term
         search_results = search.filter(filtered_tutors, what)
         return search_results
 
     def get_result_data(self, search_results):
-        # Optimize query with select_related and only required fields
+        # Use select_related to reduce queries and retrieve only the required fields
         search_results = search_results.select_related('profile__user').only(
             'profile__user__first_name',
             'profile__user__last_name',
@@ -43,6 +44,7 @@ class TutorProfileManager(models.Manager):
         )
         return search_results
 
+    # Method to parse the 'where' query and extract city and state
     def parse_where_query(self, where):
         city, state = where.split(",")
         city = city.strip()  # Removes any leading/trailing whitespace
