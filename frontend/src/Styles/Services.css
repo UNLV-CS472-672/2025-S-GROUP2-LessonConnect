@@ -1,1 +1,107 @@
-/*Add your CSS style here*/
+.services-page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 50px;
+}
+.services-page-container h1 {
+    text-align: center;
+    font-size: 38px;
+    margin-bottom: 35px;
+}
+.services-page-container h2 {
+    text-align: center;
+    padding-top: 40px;
+    padding-bottom: 15px;
+    font-size: 40px;
+    font-weight: bold;
+}
+.services-page-container p {
+    text-align: center;
+}
+
+.services-page-container .header-top{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
+    url(../assets/images/Services_header.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    padding: 12%;
+    color: white;
+    text-shadow: 2px 2px 5px rgb(101, 98, 98);
+}
+.services-page-container .service-panel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    padding: 20px;
+}
+.services-page-container .panel:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+.services-page-container .panel ul {
+    padding: 0;
+    margin-top: 10px;
+}
+.services-page-container .panel ul li {
+    padding: 3px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+}
+.services-page-container .panel ul li a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+}
+.services-page-container .panel ul li a:hover {
+    color: #d9534f;
+}
+.services-page-container .panel ul li::before {
+    content: "▶";
+    font-size: 12px;
+    color: #d9534f;
+    margin-right: 10px;
+    transition: margin-right 0.3s ease-in-out;
+}
+.services-page-container .panel ul li:hover::before {
+    margin-right: 15px;
+}
+.services-page-container .panel h5 {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    border-top: 2px solid #d9534f;
+    border-bottom: 2px solid #d9534f;
+    padding: 10px 0;
+    margin: 10px 0;
+}
+.services-page-container .panel {
+    width: 400px;
+    height: 450px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    background: #fff;
+    padding: 30px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+.services-page-container .panel img {
+    width: 100%;
+    height: 185px;
+    object-fit: cover;
+}
+.services-page-container .panel .text {
+    padding: 10px;
+    font-size: 24px;
+}
