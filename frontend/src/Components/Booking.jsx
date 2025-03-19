@@ -1,177 +1,191 @@
-import {Link, NavLink} from "react-router-dom";
 import React, { useState } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css"; // npm install react-calendar; npm install react-calendar
 import "../Styles/Booking.css";
-// import Header from "./Header";
-// import Footer from "./Footer";
-// Import global and booking styles: (tbh idk for now, but will sort out later )
-import "../Styles/./Home.css";
-import "../Styles/./Booking.css";
 
-// Optional placeholder images for tutors:
-const TUTOR_IMAGES = {
-    john: "assets/images/coding.jpg",
-    jane: "assets/images/coding.jpg",
-    alex: "assets/images/coding.jpg",
+const TUTOR_DATA = {
+    id: 1,
+    name: "Mr. Tom Cook",
+    yearsOfExperience: 20,
+    specialty: "Computer Scientist",
+    location: "547 Carrington Trace Drive, Cornelius",
+    aboutMe:
+        "Hi! I'm a passionate coding tutor with a strong background in computer science and programming. I specialize in helping students and professionals grasp complex coding concepts, improve their problem-solving skills, and build real-world projects.\n" +
+        "\n" +
+        "With a Bachelor’s in Computer Science and currently pursuing my Master’s in Computer Science, I have a deep understanding of data structures, algorithms, AI, and cybersecurity. I also work as a researcher, which keeps me up-to-date with the latest advancements in technology.\n" +
+        "\n" +
+        "Whether you're a beginner looking to learn the basics or an advanced coder aiming to refine your skills, I provide clear explanations, hands-on exercises, and personalized guidance to help you succeed. My goal is to make coding fun, accessible, and rewarding for everyone.\n" +
+        "\n" +
+        "Let’s learn, code, and create together! ",
+    profileImage: "assets/images/CodingTutor.png",
+    socialLinks: {
+        youtube: "https://youtube.com",
+        linkedin: "https://www.linkedin.com",
+        twitter: "https://twitter.com",
+        facebook: "https://facebook.com",
+    },
+    // Mock availability: 'YYYY-MM-DD': [timeSlot, ...]
+    availableSlots: {
+        "2025-03-20": ["10:00 AM", "2:00 PM", "4:00 PM"],
+        "2025-03-21": ["9:00 AM", "11:00 AM", "3:00 PM"],
+        "2025-03-22": ["8:00 AM", "1:00 PM", "5:00 PM"],
+    },
 };
 
 export default function Booking() {
-    // Mock data for tutors and their available time slots
-    const [tutors] = useState([
-        {
-            id: 1,
-            name: "John Doe",
-            imgKey: "john",
-            availableSlots: [
-                "2025-05-01T10:00",
-                "2025-05-01T14:00",
-                "2025-05-02T09:00",
-                "2025-05-02T15:00",
-            ],
-        },
-        {
-            id: 2,
-            name: "Jane Smith",
-            imgKey: "jane",
-            availableSlots: [
-                "2025-05-03T11:00",
-                "2025-05-03T16:00",
-                "2025-05-04T10:00",
-            ],
-        },
-        {
-            id: 3,
-            name: "Alex Johnson",
-            imgKey: "alex",
-            availableSlots: [
-                "2025-06-01T09:00",
-                "2025-06-01T13:00",
-                "2025-06-02T10:00",
-                "2025-06-02T14:00",
-            ],
-        },
-    ]);
-
-    // Local state for user selections
-    const [selectedTutor, setSelectedTutor] = useState(null);
-    const [selectedSlot, setSelectedSlot] = useState("");
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [timeOptions, setTimeOptions] = useState([]);
+    const [selectedTime, setSelectedTime] = useState("");
     const [bookingConfirmed, setBookingConfirmed] = useState(false);
 
-    const handleSelectTutor = (tutor) => {
-        setSelectedTutor(tutor);
-        setSelectedSlot("");
-        setBookingConfirmed(false);
-        // Scroll smoothly to the timeslot area
-        document
-            .getElementById("timeslot-section")
-            ?.scrollIntoView({ behavior: "smooth" });
-    };
+    // Convert Date object to YYYY-MM-DD
+    const formatDateKey = (date) => date.toISOString().split("T")[0];
 
-    const handleSlotChange = (e) => {
-        setSelectedSlot(e.target.value);
+    // Nicely formatted date for display
+    const formatDisplayDate = (date) =>
+        date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+        setSelectedTime("");
         setBookingConfirmed(false);
+
+        const dateKey = formatDateKey(date);
+        if (TUTOR_DATA.availableSlots[dateKey]) {
+            setTimeOptions(TUTOR_DATA.availableSlots[dateKey]);
+        } else {
+            setTimeOptions([]);
+        }
     };
 
     const handleBook = () => {
-        if (selectedTutor && selectedSlot) {
+        if (selectedDate && selectedTime) {
             setBookingConfirmed(true);
         }
     };
 
     return (
-        <>
-            {/* Global Header */}
-            {/*<Header />*/}
-            {/*JUst keeping it in mind so i dont forget lol */}
+        <div className="booking-page-container">
+            {/* ====== Details Section (image + info) ====== */}
+            <section className="details-section">
+                <div className="details-header">
+                    <div className="details-image-wrapper">
+                        <img
+                            src={TUTOR_DATA.profileImage}
+                            alt={TUTOR_DATA.name}
+                            className="details-image"
+                        />
+                    </div>
+                    <div className="details-info">
+                        <h1>{TUTOR_DATA.name}</h1>
+                        <p className="experience">
+                            {TUTOR_DATA.yearsOfExperience} Years of Experience
+                        </p>
+                        <p className="location">{TUTOR_DATA.location}</p>
+                        <span className="specialty-tag">{TUTOR_DATA.specialty}</span>
+                        <div className="social-icons">
+                            <a href={TUTOR_DATA.socialLinks.youtube} target="_blank" rel="noreferrer">
+                                <i className="fab fa-youtube" />
+                            </a>
+                            <a href={TUTOR_DATA.socialLinks.linkedin} target="_blank" rel="noreferrer">
+                                <i className="fab fa-linkedin" />
+                            </a>
+                            <a href={TUTOR_DATA.socialLinks.twitter} target="_blank" rel="noreferrer">
+                                <i className="fab fa-twitter" />
+                            </a>
+                            <a href={TUTOR_DATA.socialLinks.facebook} target="_blank" rel="noreferrer">
+                                <i className="fab fa-facebook" />
+                            </a>
+                        </div>
+                        <button
+                            className="appointment-btn"
+                            onClick={() => {
+                                // Scroll down to the booking calendar
+                                document
+                                    .getElementById("booking-calendar-section")
+                                    .scrollIntoView({ behavior: "smooth" });
+                            }}
+                        >
+                            Book Appointment
+                        </button>
+                    </div>
+                </div>
+            </section>
 
-            {/* Main booking container */}
-            <div className="booking-container">
-                {/* Hero / page heading */}
-                <div className="booking-hero">
-                    <h1>Book Your Session</h1>
-                    <p>Find the right tutor and schedule a time!</p>
+            {/* ====== About Me Section ====== */}
+            <section className="about-me-section">
+                <h2>About Me</h2>
+                <p>{TUTOR_DATA.aboutMe}</p>
+            </section>
+
+            {/* ====== Booking Calendar Section ====== */}
+            <section id="booking-calendar-section" className="calendar-section">
+                <h2>Select a Date</h2>
+                <Calendar onChange={handleDateChange} value={selectedDate} />
+
+                {/* Time Slots */}
+                <div className="time-slot-section">
+                    <h3>Available Time Slots</h3>
+                    {selectedDate ? (
+                        timeOptions.length > 0 ? (
+                            <div className="time-slot-buttons">
+                                {timeOptions.map((time) => (
+                                    <button
+                                        key={time}
+                                        onClick={() => {
+                                            setSelectedTime(time);
+                                            setBookingConfirmed(false);
+                                        }}
+                                        className={`time-slot-btn ${
+                                            selectedTime === time ? "selected" : ""
+                                        }`}
+                                    >
+                                        {time}
+                                    </button>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="no-slots">
+                                No available slots on {formatDisplayDate(selectedDate)}.
+                            </p>
+                        )
+                    ) : (
+                        <p className="no-slots">Please pick a date to see available times.</p>
+                    )}
                 </div>
 
-                {/* Tutors Section */}
-                <section className="tutors-section">
-                    <h2 className="section-title">1. Choose Your Tutor</h2>
-                    <div className="tutors-grid">
-                        {tutors.map((tutor) => (
-                            <div
-                                key={tutor.id}
-                                className="tutor-card"
-                                onClick={() => handleSelectTutor(tutor)}
-                            >
-                                <div className="tutor-image">
-                                    <img
-                                        src={TUTOR_IMAGES[tutor.imgKey]}
-                                        alt={tutor.name}
-                                    />
-                                </div>
-                                <div className="tutor-info">
-                                    <h3>{tutor.name}</h3>
-                                    <button className="select-btn">Select</button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+                <div className="confirm-btn-wrapper">
+                    <button
+                        className="confirm-btn"
+                        disabled={!selectedDate || !selectedTime}
+                        onClick={handleBook}
+                    >
+                        Confirm Booking
+                    </button>
+                </div>
 
-                {/* Time Slots Section */}
-                <section id="timeslot-section" className="timeslot-section">
-                    <h2 className="section-title">2. Pick a Time Slot</h2>
-                    {selectedTutor ? (
-                        <>
-                            <p className="selected-tutor">
-                                You selected <strong>{selectedTutor.name}</strong>.
-                            </p>
-                            <select
-                                className="timeslot-select"
-                                value={selectedSlot}
-                                onChange={handleSlotChange}
-                            >
-                                <option value="">-- Select a Time Slot --</option>
-                                {selectedTutor.availableSlots.map((slot) => (
-                                    <option key={slot} value={slot}>
-                                        {slot}
-                                    </option>
-                                ))}
-                            </select>
-                            <div className="timeslot-buttons">
-                                <button
-                                    className="booking-btn"
-                                    disabled={!selectedSlot}
-                                    onClick={handleBook}
-                                >
-                                    Book Now
-                                </button>
-                            </div>
-                        </>
-                    ) : (
-                        <p className="no-tutor-warning">
-                            Please select a tutor above to see available slots.
-                        </p>
-                    )}
-                </section>
-
-                {/* Confirmation Section */}
                 {bookingConfirmed && (
-                    <section className="booking-confirmation">
+                    <div className="booking-confirmation">
                         <h3>Booking Confirmation</h3>
                         <p>
-                            <strong>Tutor:</strong> {selectedTutor.name}
+                            <strong>Tutor:</strong> {TUTOR_DATA.name}
                         </p>
                         <p>
-                            <strong>Time Slot:</strong> {selectedSlot}
+                            <strong>Date:</strong> {formatDisplayDate(selectedDate)}
                         </p>
                         <p>
-                            <em>(This is a placeholder. Backend integration comes later.)</em>
+                            <strong>Time:</strong> {selectedTime}
                         </p>
-                    </section>
+                        <p>
+                            <em>(This is just a placeholder; no backend integration yet.)</em>
+                        </p>
+                    </div>
                 )}
-            </div>
-
-            {/* Global Footer */}
-            {/*<Footer />*/}
-        </>
+            </section>
+        </div>
     );
 }
