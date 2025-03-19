@@ -20,23 +20,33 @@ class Submissions(models.Model):
     student_profile = models.ForeignKey(
         'users.Profile', 
         on_delete=models.CASCADE, 
-        limit_choices_to={'role': 3}
+        limit_choices_to={'role': 3} # only students submitting for now?
     )
     ### assignment = models.ForeignKey("app.Assignment", on_delete=models.CASCADE)
-    submissionStatus = models.CharField(max_length=50, default=NOT_SUBMITTED)
-    score = models.DecimalField(max_digits=5, decimal_places=2)
-    submittedAt = models.DateField(default=timezone.now)
-    gradedAt = models.DateField(default=timezone.now)
+    submission_status = models.CharField(
+        max_length=50, 
+        choices=SUBMISSION_STATUS_CHOICES,
+        default=NOT_SUBMITTED,
+        blank=True
+    )
+    score = models.DecimalField(
+        max_digits=5, 
+        decimal_places=2, 
+        null=True, 
+        blank=True
+    )
+    submitted_at = models.DateTimeField(default=timezone.now)  # Changed to DateTimeField for better accuracy
+    graded_at = models.DateTimeField(null=True, blank=True, auto_now_add=True)  # Ensures it's only set once
 
     def __str__(self):
         return (
             f"Submission for {self.student_profile.user.username}, "
-            f"Status: {self.submissionStatus}, "
+            f"Status: {self.submission_status}, "
             f"Score: {self.score}"
         )
     
     class Meta:
-        verbose_name_plural = "Submission"
+        verbose_name = "Submission"
         verbose_name_plural = "Submissions"
     
 class FileSubmissions(models.Model):
@@ -70,16 +80,16 @@ class QuizSubmissions(models.Model):
 
 class StudentQuizAnswers(models.Model):
     # student quiz answer fields
-    submission = models.ForeignKey(QuizSubmissions, on_delete=models.CASCADE)
+    quiz_submission = models.ForeignKey(QuizSubmissions, on_delete=models.CASCADE)
     ### question = models.ForeignKey('app.Question', on_delete=models.CASCADE)
-    studentResponse = models.TextField()
-    isCorrect = models.BooleanField(default=True)
+    student_response = models.TextField()
+    is_correct = models.BooleanField(default=True)
 
     def __str__(self):
         return (
-            f"Answer for {self.submission.id}, "
-            f"Response: {self.studentResponse}, "
-            f"Correct: {self.isCorrect}"
+            f"Answer for {self.quiz_submission.id}, "
+            f"Response: {self.student_response}, "
+            f"Correct: {self.is_correct}"
         )
     class Meta:
         verbose_name = "Student Quiz Answer"
