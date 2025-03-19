@@ -15,13 +15,12 @@ def process_scheduled_notifications():
 
     num_of_notifs = 0  # mainly used for debugging purposes. can remove later
     for notification in pending_notifications:
-        # TODO: this is where the code for notification delivery will be added.
-        # haven't added since I haven't coded it yet :)
-        # delivered = deliver_notifications(notification)
+        from .utils import deliver_notification
+        delivered = deliver_notification(notification)
 
-        # if delivered:
-        #     notification.mark_as_sent()
-        #     num_of_notifs += 1
+        if delivered:
+            notification.mark_as_sent()
+            num_of_notifs += 1
 
         notification.mark_as_sent()
         num_of_notifs += 1
