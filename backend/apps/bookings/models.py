@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
@@ -75,3 +76,32 @@ class Booking(models.Model):
         """Run full validation before saving."""
         self.full_clean()  # Ensures validation runs before saving
         super().save(*args, **kwargs)
+
+
+class Review(models.Model):
+    tutor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviews")
+    reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviewer")
+    rating = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    feedback = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    is_visible = models.BooleanField(default=True)  # Whether the review is visible to others
+    is_moderated = models.BooleanField(
+        default=False)  # Whether the review has been moderated (e.g., checked for inappropriate content)
+
+    def __str__(self):
+        return f"Review for {self.tutor.username} by {self.reviewer.username}"
+
+    class Meta:
+        ordering = ['-created_at']  # Sort reviews by most recent first
+
+    def is_valid_review(self):
+        """Checks if the review has a valid rating and comments."""
+        return self.rating is not None and self.feedback.strip() != ""
+
+    @staticmethod
+    def average_rating(tutor):
+        """Calculates the average rating for a tutor based on all reviews."""
+        reviews = Review.objects.filter(tutor=tutor)
+        total_rating = sum([review.rating for review in reviews])
+        return total_rating / len(reviews) if reviews else 0
