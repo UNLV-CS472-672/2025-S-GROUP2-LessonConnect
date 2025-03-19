@@ -1,4 +1,6 @@
 import '../Styles/FindTutor.css'
+import { useState } from 'react';
+
 export default function FindTutor() {
     const tutorList = [
         {
@@ -59,55 +61,62 @@ export default function FindTutor() {
         },
         {
             image: "https://www.meowbox.com/cdn/shop/articles/Screen_Shot_2024-03-15_at_10.53.41_AM.png?v=1710525250",
-            category: "Economics",
+            category: "Philosophy",
             name: "Cat Tutor",
             experience: "6 Years",
             address: "Denver, CO"
         }
     ];
 
-    return (
-        <>
-            {/*Add your code below this line*/}
-            <div className="findTutor-section">
-                <div className="container mt-4 text-center">
-                    <div className="mb-4">
-                        <h2 className="fw-bold display-5">
-                            Search <span className="text-primary">Tutors</span>
-                        </h2>
-                        <h2 className="text-secondary fs-4">Find your tutor and book a session in one click</h2>
-                    </div>
-                    <div className="d-flex justify-content-center mt-3">
-                        <input type="text" className="form-control w-50 me-2" placeholder="Enter subject or tutor name" />
-                        <button type="submit" className="btn btn-primary d-flex align-items-center">
-                            <i className="bi bi-search me-2"></i>
-                            Search
-                        </button>
-                    </div>
-                </div>
+    const subjects = ["Mathematics", "Science", "English", "History", "Programming", "Physics"];
 
-                <div className="container mt-5">
-                    <h2 className="fw-bold fs-4">Popular Tutors</h2>
-                    <div className="row mt-4">
-                        {tutorList.map((tutor, index) => (
-                            <div className="col-md-4 mb-4" key={index}>
-                                <div className="card tutor-card h-100 shadow-sm">
-                                    <div className="position-relative">
-                                        <img src={tutor.image} alt="Tutor" className="card-img-top rounded-top" />
-                                        <span className="badge bg-primary position-absolute top-0 start-0 m-2">{tutor.category}</span>
-                                    </div>
-                                    <div className="card-body text-center">
-                                        <h5 className="fw-bold">{tutor.name}</h5>
-                                        <p className="text-primary fw-semibold">{tutor.experience}</p>
-                                        <p className="text-muted">{tutor.address}</p>
-                                        <button className="btn btn-outline-primary rounded-pill w-100 mt-2">Book Now</button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+    return (
+        <div className="findTutor-section">
+            <div className="container mt-4 text-center">
+                <h2 className="fw-bold display-5">
+                    Search <span className="text-primary">Tutors</span>
+                </h2>
+                <h2 className="text-secondary fs-4">Find your tutor and book a session in one click</h2>
+
+                <div className="d-flex justify-content-center mt-3">
+                    <input type="text" className="form-control w-50 me-2" placeholder="Enter subject or tutor name" />
+                    <button type="submit" className="btn btn-primary d-flex align-items-center">
+                        <i className="bi bi-search me-2"></i>
+                        Search
+                    </button>
                 </div>
             </div>
-        </>
+
+            <div className="container mt-5">
+                <h2 className="fw-bold fs-4">Popular Tutors</h2>
+                <div className="row mt-4">
+                    {tutorList.map((tutor, index) => (
+                        <div className="col-md-4 mb-4" key={index}>
+                            <div className="tutor-card">
+                                <div className="card-img-wrapper">
+                                    <img src={tutor.image} alt="Tutor" className="card-img-top" />
+                                    <div className="badge-category">
+                                        {tutor.category}
+                                        <div className="dropdown-content">
+                                            {subjects.map((subject, i) => (
+                                                <div key={i} className="dropdown-item">
+                                                    {subject}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="card-body">
+                                    <h5 className="fw-bold">{tutor.name}</h5>
+                                    <p className="fw-semibold">{tutor.experience}</p>
+                                    <p className="text-muted">{tutor.address}</p>
+                                    <button className="book-btn">Book Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
     );
 }

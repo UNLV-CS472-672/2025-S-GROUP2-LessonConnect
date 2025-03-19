@@ -1,1 +1,114 @@
-/*Add your CSS style here*/
+.findTutor-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: #f8f9fa;
+}
+
+.findTutor-section .tutor-card {
+    border-radius: 15px;
+    overflow: hidden;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.findTutor-section .tutor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.findTutor-section .card-img-top {
+    width: 100%;
+    height: auto;
+    border-radius: 15px 15px 0 0;
+}
+
+.findTutor-section .badge-category {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #e0ebff;
+    color: #0d6efd;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.findTutor-section .badge-category:hover {
+    background: #c2d6ff;
+}
+
+.findTutor-section .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 10;
+    min-width: 150px;
+}
+
+.findTutor-section .badge-category:hover .dropdown-content {
+    display: block;
+}
+
+.findTutor-section .dropdown-item {
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+}
+
+.findTutor-section .dropdown-item:hover {
+    background: #f0f0f0;
+}
+
+.findTutor-section .card-body {
+    padding: 20px;
+}
+
+.findTutor-section .card-body h5 {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    color: #000;
+}
+
+.findTutor-section .card-body p {
+    margin-bottom: 5px;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.findTutor-section .book-btn {
+    display: block;
+    width: 80%;
+    margin: 15px auto 0;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 50px;
+    border: 2px solid #0d6efd;
+    background: transparent;
+    color: #0d6efd;
+    transition: all 0.3s ease-in-out;
+}
+
+.findTutor-section .book-btn:hover {
+    background-color: #0d6efd;
+    color: white;
+}
