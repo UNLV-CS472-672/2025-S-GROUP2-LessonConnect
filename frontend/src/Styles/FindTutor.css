@@ -1,3 +1,40 @@
+.findTutor-section .container.py-8 {
+    padding-top: 80px;
+    padding-bottom: 40px;
+}
+
+.findTutor-section .row.align-items-center {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.findTutor-section .col-md-6 {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.findTutor-section .h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #343a40;
+}
+
+.findTutor-section .text-muted {
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.findTutor-section .max-w-lg {
+    max-width: 600px;
+}
+
+.findTutor-section .img-fluid {
+    border-radius: 20px;
+    width: 100%;
+    height: auto;
+    object-fit: cover; 
+}
+
 .findTutor-section {
     padding: 40px 20px;
     background-color: #f8f9fa;

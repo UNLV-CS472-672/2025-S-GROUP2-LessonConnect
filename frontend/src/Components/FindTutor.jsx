@@ -72,6 +72,29 @@ export default function FindTutor() {
 
     return (
         <div className="findTutor-section">
+            <div className="container py-8">
+                <div className="row align-items-center">
+                    <div className="col-12 col-md-6">
+                        <div className="max-w-lg">
+                            <h2 className="h2 fw-semibold text-dark">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            </h2>
+                            <p className="mt-4 text-muted">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur doloremque saepe
+                                architecto maiores repudiandae amet perferendis repellendus, reprehenderit voluptas
+                                sequi.
+                            </p>
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                        <img
+                            src="assets/images/Pic4.jpg"
+                            className="img-fluid rounded"
+                            alt="Image"
+                        />
+                    </div>
+                </div>
+            </div>
             <div className="container mt-4 text-center">
                 <h2 className="fw-bold display-5">
                     Search <span className="text-primary">Tutors</span>
