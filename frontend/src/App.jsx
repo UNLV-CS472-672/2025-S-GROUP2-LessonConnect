@@ -13,6 +13,7 @@ import Services from "./Components/Services.jsx";
 import Support from "./Components/Support.jsx";
 import FindTutor from "./Components/FindTutor.jsx";
 import Pomodoro from "./Components/Podomoro.jsx";
+import Chat from "./Components/Chat.jsx";
 import Footer from "./Components/Footer.jsx";
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/faqs" element={<FAQS />} />
                 <Route path="/findTutor" element={<FindTutor />} />
                 <Route path="/pomodoro" element={<Pomodoro />} />
+                <Route path="/chat" element={<Chat />} />
             </Routes>
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>

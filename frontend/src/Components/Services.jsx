@@ -1,4 +1,5 @@
 import "../Styles/Services.css";
+import {Link} from "react-router-dom";
 
 export default function Services() {
     return (
@@ -39,7 +40,7 @@ export default function Services() {
                                     <div className="card-body">
                                         <h5 className="card-title">Resources</h5>
                                         <ul className="list-unstyled">
-                                            <li><a href="#link">Games</a></li>
+                                            <li><a href="/chat">Chat</a></li>
                                             <li><a href="#">Scheduling</a></li>
                                             <li><a href="#">Whiteboard</a></li>
                                             <li><a href="#">Find A Tutor</a></li>
