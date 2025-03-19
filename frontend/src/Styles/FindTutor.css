@@ -1,9 +1,16 @@
 .findTutor-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     padding: 40px 20px;
     background-color: #f8f9fa;
+}
+
+.findTutor-section .row {
+    display: flex;
+    justify-content: center;
+}
+
+.findTutor-section .col-md-4 {
+    display: flex;
+    justify-content: center;
 }
 
 .findTutor-section .tutor-card {
@@ -111,4 +118,17 @@
 .findTutor-section .book-btn:hover {
     background-color: #0d6efd;
     color: white;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+    .findTutor-section .row {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .findTutor-section .row {
+        justify-content: center;
+    }
 }

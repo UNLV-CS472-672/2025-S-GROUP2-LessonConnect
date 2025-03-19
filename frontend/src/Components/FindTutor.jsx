@@ -91,7 +91,7 @@ export default function FindTutor() {
                 <h2 className="fw-bold fs-4">Popular Tutors</h2>
                 <div className="row mt-4">
                     {tutorList.map((tutor, index) => (
-                        <div className="col-md-4 mb-4" key={index}>
+                        <div className="col-lg-4 col-md-6 col-12 mb-4" key={index}>
                             <div className="tutor-card">
                                 <div className="card-img-wrapper">
                                     <img src={tutor.image} alt="Tutor" className="card-img-top" />
