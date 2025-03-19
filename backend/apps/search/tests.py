@@ -41,7 +41,6 @@ class SearchViewTestCase(APITestCase):
         response = self.client.get(self.url, {"where": "New York, NY"})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    #@patch("apps.users.models.TutorProfile.objects.parse_where_query", side_effect=Exception("Parse error"))
     def test_location_parsing_failure(self):
         # Make the API call with a problematic 'where' parameter
         response = self.client.get(self.url, {"what": "Math", "where": "Bad Location"})
