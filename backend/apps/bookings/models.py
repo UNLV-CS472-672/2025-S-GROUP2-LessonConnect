@@ -3,21 +3,29 @@ from django.contrib.auth.models import User
 import uuid
 from datetime import timedelta
 from django.utils.timezone import now
+from rest_framework.exceptions import ValidationError
 
 
 class Booking(models.Model):
     PENDING = 'Pending'
     APPROVED = 'Approved'
     REJECTED = 'Rejected'
+    EXPIRED = 'Expired'
+    CANCELLED = 'Cancelled'
+    FULFILLED = 'Fulfilled'
 
     BOOKING_STATUS_TYPES = [
         (PENDING, 'Pending'),
         (APPROVED, 'Approved'),
         (REJECTED, 'Rejected'),
+        (EXPIRED, 'Expired'),
+        (CANCELLED, 'Cancelled'),
+        (FULFILLED, 'Fulfilled'),
     ]
 
     session_date = models.DateTimeField()
     session_updated_at = models.DateTimeField(auto_now=True)
+    session_end_time = models.DateTimeField(null=True)
     booking_status = models.CharField(max_length=20, choices=BOOKING_STATUS_TYPES, default=PENDING)
     session_price = models.DecimalField(max_digits=10, decimal_places=2)
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="student")
@@ -49,9 +57,21 @@ class Booking(models.Model):
         self.save()
         return True
 
-    def booking_end_time(self, duration_in_minutes=60):
-        return self.session_date + timedelta(minutes=duration_in_minutes)
+    def booking_duration(self):
+        return self.session_end_time - self.session_date
 
     @classmethod
     def get_bookings_by_status(cls, status):
         return cls.objects.filter(booking_status=status)
+
+    def is_expired(self):
+        return self.session_end_time < now()
+
+    def clean(self):
+        if self.session_end_time <= self.session_date:
+            raise ValidationError("Session end time must be after the session start time.")
+
+    def save(self, *args, **kwargs):
+        """Run full validation before saving."""
+        self.full_clean()  # Ensures validation runs before saving
+        super().save(*args, **kwargs)
