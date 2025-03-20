@@ -32,6 +32,22 @@ const TUTOR_DATA = {
     },
 };
 
+// Example "Suggested Tutors"
+const SUGGESTED_TUTORS = [
+    {
+        id: 2,
+        name: "Ms. Jane Smith",
+        specialty: "Software Engineer",
+        profileImage: "assets/images/coding.jpg",
+    },
+    {
+        id: 3,
+        name: "Mr. Alex Johnson",
+        specialty: "Full-Stack Developer",
+        profileImage: "assets/images/coding.jpg",
+    },
+];
+
 export default function Booking() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [timeOptions, setTimeOptions] = useState([]);
