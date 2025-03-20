@@ -77,3 +77,28 @@ class SubmissionTestCase(TestCase):
         """Test string representation of a submission."""
         expected_str = f"Submission for {self.user.username}, Status: submitted, Score: 85.5"
         self.assertEqual(str(self.submission), expected_str)
+
+    def test_default_submission_status(self):
+        """Test that the default submission status is 'not_submitted'."""
+        new_submission = Submissions.objects.create(student_profile=self.profile)
+        self.assertEqual(new_submission.submission_status, Submissions.NOT_SUBMITTED)
+
+    def test_null_score(self):
+        """Test that a submission can have a null score."""
+        new_submission = Submissions.objects.create(student_profile=self.profile, submission_status=Submissions.SUBMITTED)
+        self.assertIsNone(new_submission.score)
+
+    def test_student_quiz_answer_str(self):
+        """Test string representation of StudentQuizAnswers."""
+        expected_str = f"Answer for {self.quiz_submission.id}, Response: B, Correct: True"
+        self.assertEqual(str(self.student_quiz_answer), expected_str)
+
+    def test_file_submission_str(self):
+        """Test string representation of a FileSubmission."""
+        expected_str = f"File Submission for {self.submission.id}"
+        self.assertEqual(str(self.file_submission), expected_str)
+
+    def test_quiz_submission_str(self):
+        """Test string representation of a QuizSubmission."""
+        expected_str = f"Quiz Submission for {self.submission.id}"
+        self.assertEqual(str(self.quiz_submission), expected_str)
