@@ -1,3 +1,23 @@
+.findTutor-section .search-container {
+    width: 70%;
+    background: white;
+    align-items: center;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.findTutor-section .search-container input {
+    flex: 1;
+    padding: 8px 12px;
+}
+
+.findTutor-section .search-container i {
+    margin-right: 5px;
+}
+
+.findTutor-section .search-container .btn {
+    padding: 10px 25px;
+}
+
 .findTutor-section .container.py-8 {
     padding-top: 80px;
     padding-bottom: 40px;

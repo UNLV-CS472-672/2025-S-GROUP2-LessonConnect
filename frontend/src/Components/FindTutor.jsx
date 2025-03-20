@@ -80,7 +80,7 @@ export default function FindTutor() {
                             <p className="mt-4 text-muted">
                                 Our platform connects you with experienced educators who specialize in various subjects. Whether you're looking for academic support, music lessons, or skill-building sessions, we make it easy to find and book a tutor that fits your schedule. Start your learning journey today.
                             </p>
-                            <button type="submit" className="btn btn-primary mt-4 d-flex align-items-center">Explore Now</button>
+                            {/*<button type="submit" className="btn btn-primary mt-4 d-flex align-items-center">Explore Now</button>*/}
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
@@ -99,11 +99,24 @@ export default function FindTutor() {
                 <h2 className="text-secondary fs-4">Find your tutor and book a session in one click!</h2>
 
                 <div className="d-flex justify-content-center mt-3">
-                    <input type="text" className="form-control w-50 me-2" placeholder="Enter subject or tutor name" />
-                    <button type="submit" className="btn btn-primary d-flex align-items-center">
-                        <i className="bi bi-search me-2"></i>
-                        Search
-                    </button>
+                    <div className="search-container d-flex rounded-pill border p-2">
+                        <i className="bi bi-search text-muted fs-5 ms-2"></i>
+                        <input
+                            type="text"
+                            className="form-control border-0 shadow-none"
+                            placeholder="Enter subject or tutor name"
+
+                        />
+                        <i className="bi bi-geo-alt text-muted fs-5 ms-3"></i>
+                        <input
+                            type="text"
+                            className="form-control border-0 shadow-none"
+                            placeholder="Enter location"
+                        />
+                        <button type="submit" className="btn btn-primary rounded-pill ms-2">
+                            Search
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -130,7 +143,6 @@ export default function FindTutor() {
                                     <h5 className="fw-bold">{tutor.name}</h5>
                                     <p className="fw-semibold">{tutor.experience}</p>
                                     <p className="text-muted">{tutor.address}</p>
-                                    <button className="book-btn">Book Now</button>
                                 </div>
                             </div>
                         </div>
