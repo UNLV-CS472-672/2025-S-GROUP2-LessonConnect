@@ -47,12 +47,30 @@ export default function Header() {
                                         className="nav-link dropdown-toggle"
                                         onClick={toggleDropdown}
                                     >
-                                        More
+                                        Support
                                     </button>
                                     <div className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}>
                                         <NavLink to="/about" className="dropdown-item">About Us</NavLink>
                                         <NavLink to="/contact" className="dropdown-item">Contact Us</NavLink>
+                                        <NavLink to="/faqs" className="dropdown-item">FAQS</NavLink>
+                                    </div>
+                                </div>
+
+                                {/* Dropdown Menu */}
+                                <div
+                                    className="nav-item dropdown"
+                                    onMouseLeave={closeDropdown}  // Close dropdown when mouse leaves
+                                >
+                                    <button
+                                        className="nav-link dropdown-toggle"
+                                        onClick={toggleDropdown}
+                                    >
+                                        More
+                                    </button>
+                                    <div className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}>
+                                        <NavLink to="/learn_more" className="dropdown-item">Learn More</NavLink>
                                         <NavLink to="/resources" className="dropdown-item">Resources</NavLink>
+                                        <NavLink to="/pomodoro" className="dropdown-item">Pomodoro</NavLink>
                                     </div>
                                 </div>
 
