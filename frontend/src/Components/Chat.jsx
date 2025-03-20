@@ -12,9 +12,21 @@ const Chat = () => {
         }
     };
 
-
     return (
-        <>
+      <>
+        <div className="chat-layout">
+            {/* Left-side Panel */}
+            <div className="side-panel">
+                <h2>Menu</h2>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/settings">Settings</a></li>
+                    <li><a href="/Whiteboard">Whiteboard</a></li>
+                </ul>
+            </div>
+
+            {/* Chat Section */}
             <div className="chat-container">
                 <div className="chat-box">
                     <div className="chat-messages">
@@ -36,8 +48,8 @@ const Chat = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
+      </>
     );
 }
-
 export default Chat;
