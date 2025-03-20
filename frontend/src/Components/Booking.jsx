@@ -53,11 +53,12 @@ export default function Booking() {
     const [timeOptions, setTimeOptions] = useState([]);
     const [selectedTime, setSelectedTime] = useState("");
     const [bookingConfirmed, setBookingConfirmed] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
-    // Convert Date object to YYYY-MM-DD
+    // Convert Date to YYYY-MM-DD
     const formatDateKey = (date) => date.toISOString().split("T")[0];
 
-    // Nicely formatted date for display
+    // Nicely formatted date
     const formatDisplayDate = (date) =>
         date.toLocaleDateString("en-US", {
             year: "numeric",
@@ -86,122 +87,174 @@ export default function Booking() {
 
     return (
         <div className="booking-page-container">
-            {/* ====== Details Section (image + info) ====== */}
-            <section className="details-section">
-                <div className="details-header">
-                    <div className="details-image-wrapper">
-                        <img
-                            src={TUTOR_DATA.profileImage}
-                            alt={TUTOR_DATA.name}
-                            className="details-image"
-                        />
-                    </div>
-                    <div className="details-info">
-                        <h1>{TUTOR_DATA.name}</h1>
-                        <p className="experience">
-                            {TUTOR_DATA.yearsOfExperience} Years of Experience
-                        </p>
-                        <p className="location">{TUTOR_DATA.location}</p>
-                        <span className="specialty-tag">{TUTOR_DATA.specialty}</span>
-                        <div className="social-icons">
-                            <a href={TUTOR_DATA.socialLinks.youtube} target="_blank" rel="noreferrer">
-                                <i className="fab fa-youtube" />
-                            </a>
-                            <a href={TUTOR_DATA.socialLinks.linkedin} target="_blank" rel="noreferrer">
-                                <i className="fab fa-linkedin" />
-                            </a>
-                            <a href={TUTOR_DATA.socialLinks.twitter} target="_blank" rel="noreferrer">
-                                <i className="fab fa-twitter" />
-                            </a>
-                            <a href={TUTOR_DATA.socialLinks.facebook} target="_blank" rel="noreferrer">
-                                <i className="fab fa-facebook" />
-                            </a>
+            {/* ====== Details Title ====== */}
+            <h2 className="section-title">Tutor Details</h2>
+
+            {/* ====== Main Content: Left (Tutor) + Right (Suggestions) ====== */}
+            <div className="main-content">
+                {/* ====== Tutor Details Section ====== */}
+                <section className="details-section">
+                    <div className="details-header">
+                        <div className="details-image-wrapper">
+                            <img
+                                src={TUTOR_DATA.profileImage}
+                                alt={TUTOR_DATA.name}
+                                className="details-image"
+                            />
                         </div>
-                        <button
-                            className="appointment-btn"
-                            onClick={() => {
-                                // Scroll down to the booking calendar
-                                document
-                                    .getElementById("booking-calendar-section")
-                                    .scrollIntoView({ behavior: "smooth" });
-                            }}
-                        >
-                            Book Appointment
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            {/* ====== About Me Section ====== */}
-            <section className="about-me-section">
-                <h2>About Me</h2>
-                <p>{TUTOR_DATA.aboutMe}</p>
-            </section>
-
-            {/* ====== Booking Calendar Section ====== */}
-            <section id="booking-calendar-section" className="calendar-section">
-                <h2>Select a Date</h2>
-                <Calendar onChange={handleDateChange} value={selectedDate} />
-
-                {/* Time Slots */}
-                <div className="time-slot-section">
-                    <h3>Available Time Slots</h3>
-                    {selectedDate ? (
-                        timeOptions.length > 0 ? (
-                            <div className="time-slot-buttons">
-                                {timeOptions.map((time) => (
-                                    <button
-                                        key={time}
-                                        onClick={() => {
-                                            setSelectedTime(time);
-                                            setBookingConfirmed(false);
-                                        }}
-                                        className={`time-slot-btn ${
-                                            selectedTime === time ? "selected" : ""
-                                        }`}
-                                    >
-                                        {time}
-                                    </button>
-                                ))}
-                            </div>
-                        ) : (
-                            <p className="no-slots">
-                                No available slots on {formatDisplayDate(selectedDate)}.
+                        <div className="details-info">
+                            <h1>{TUTOR_DATA.name}</h1>
+                            <p className="experience">
+                                {TUTOR_DATA.yearsOfExperience} Years of Experience
                             </p>
-                        )
-                    ) : (
-                        <p className="no-slots">Please pick a date to see available times.</p>
-                    )}
-                </div>
-
-                <div className="confirm-btn-wrapper">
-                    <button
-                        className="confirm-btn"
-                        disabled={!selectedDate || !selectedTime}
-                        onClick={handleBook}
-                    >
-                        Confirm Booking
-                    </button>
-                </div>
-
-                {bookingConfirmed && (
-                    <div className="booking-confirmation">
-                        <h3>Booking Confirmation</h3>
-                        <p>
-                            <strong>Tutor:</strong> {TUTOR_DATA.name}
-                        </p>
-                        <p>
-                            <strong>Date:</strong> {formatDisplayDate(selectedDate)}
-                        </p>
-                        <p>
-                            <strong>Time:</strong> {selectedTime}
-                        </p>
-                        <p>
-                            <em>(This is just a placeholder; no backend integration yet.)</em>
-                        </p>
+                            <p className="location">{TUTOR_DATA.location}</p>
+                            <span className="specialty-tag">{TUTOR_DATA.specialty}</span>
+                            <div className="social-icons">
+                                <a
+                                    href={TUTOR_DATA.socialLinks.youtube}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    <i className="fab fa-youtube" />
+                                </a>
+                                <a
+                                    href={TUTOR_DATA.socialLinks.linkedin}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    <i className="fab fa-linkedin" />
+                                </a>
+                                <a
+                                    href={TUTOR_DATA.socialLinks.twitter}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    <i className="fab fa-twitter" />
+                                </a>
+                                <a
+                                    href={TUTOR_DATA.socialLinks.facebook}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    <i className="fab fa-facebook" />
+                                </a>
+                            </div>
+                            <button
+                                className="appointment-btn"
+                                onClick={() => setShowModal(true)}
+                            >
+                                Book Appointment
+                            </button>
+                        </div>
                     </div>
-                )}
-            </section>
+
+                    {/* ====== About Me Section ====== */}
+                    <section className="about-me-section">
+                        <h2>About Me</h2>
+                        <p>{TUTOR_DATA.aboutMe}</p>
+                    </section>
+                </section>
+
+                {/* ====== Suggestions Section ====== */}
+                <aside className="suggestions-section">
+                    <h3>Suggested Tutors</h3>
+                    {SUGGESTED_TUTORS.map((tutor) => (
+                        <div key={tutor.id} className="suggested-tutor-card">
+                            <img
+                                src={tutor.profileImage}
+                                alt={tutor.name}
+                                className="suggested-tutor-image"
+                            />
+                            <div className="suggested-tutor-info">
+                                <p className="suggested-tutor-name">{tutor.name}</p>
+                                <p className="suggested-tutor-specialty">{tutor.specialty}</p>
+                            </div>
+                        </div>
+                    ))}
+                </aside>
+            </div>
+
+            {/* ====== Modal for Calendar & Time Slots ====== */}
+            {showModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        {/* Close Modal Button */}
+                        <button className="close-modal-btn" onClick={() => setShowModal(false)}>
+                            ×
+                        </button>
+
+                        {/* If booking is confirmed, show confirmation instead of calendar/time slots */}
+                        {!bookingConfirmed ? (
+                            <>
+                                <h2>Select a Date</h2>
+                                <Calendar onChange={handleDateChange} value={selectedDate} />
+
+                                {/* Time Slots */}
+                                <div className="time-slot-section">
+                                    <h3>Available Time Slots</h3>
+                                    {selectedDate ? (
+                                        timeOptions.length > 0 ? (
+                                            <div className="time-slot-buttons">
+                                                {timeOptions.map((time) => (
+                                                    <button
+                                                        key={time}
+                                                        onClick={() => {
+                                                            setSelectedTime(time);
+                                                        }}
+                                                        className={`time-slot-btn ${
+                                                            selectedTime === time ? "selected" : ""
+                                                        }`}
+                                                    >
+                                                        {time}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <p className="no-slots">
+                                                No available slots on {formatDisplayDate(selectedDate)}.
+                                            </p>
+                                        )
+                                    ) : (
+                                        <p className="no-slots">
+                                            Please pick a date to see available times.
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div className="confirm-btn-wrapper">
+                                    <button
+                                        className="confirm-btn"
+                                        disabled={!selectedDate || !selectedTime}
+                                        onClick={handleBook}
+                                    >
+                                        Confirm Booking
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="booking-confirmation">
+                                <h3>Booking Confirmation</h3>
+                                <p>
+                                    <strong>Tutor:</strong> {TUTOR_DATA.name}
+                                </p>
+                                <p>
+                                    <strong>Date:</strong>{" "}
+                                    {selectedDate ? formatDisplayDate(selectedDate) : ""}
+                                </p>
+                                <p>
+                                    <strong>Time:</strong> {selectedTime}
+                                </p>
+                                <p>
+                                    <em>(This is just a placeholder; no backend integration yet.)</em>
+                                </p>
+                                <button className="close-modal-btn" onClick={() => setShowModal(false)}>
+                                    Close
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
