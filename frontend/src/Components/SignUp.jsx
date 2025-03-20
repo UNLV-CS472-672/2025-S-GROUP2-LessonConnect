@@ -15,6 +15,7 @@ export default function SignUp() {
         lastName: "",
         displayName: "",
         password: "",
+        dateOfBirth: dob,
         termsAccepted: false,
     });
 
@@ -38,12 +39,14 @@ export default function SignUp() {
         try {
             const response = await axios.post("http://127.0.0.1:8000/users/register/", formData);
 
+
+            // Do this for login
             // Store only the access and refresh tokens
-            localStorage.setItem("accessToken", response.data.accessToken);
-            localStorage.setItem("refreshToken", response.data.refreshToken);
+            // localStorage.setItem("accessToken", response.data.accessToken);
+            // localStorage.setItem("refreshToken", response.data.refreshToken);
 
 
-            alert("Registration successful!");
+            alert("Registration successful!\n" + response.data.message);
         } catch (error) {
             alert("Registration failed! " + (error.response?.data?.message || error.message));
         }

@@ -1,10 +1,52 @@
 import "../Styles/Login.css";
+// import {useLocation} from "react-router-dom";
+import {useState} from "react";
+import axios from "axios";
 
-export default function Login() {
-    const handleSubmit = (e) => {
+// export default function Login() {
+//     const handleSubmit = (e) => {
+//         e.preventDefault();
+//         // Add your login logic here
+//         console.log("Login form submitted");
+//     };
+
+export default function SignUp() {
+    // const location = useLocation();
+    // this will help later for the back end
+
+    const [formData, setFormData] = useState({
+        username: "",
+        password: "",
+    });
+
+    const handleChanges = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === "checkbox" ? checked : value,
+        });
+    };
+
+    const handleLogin = async (e) => {
         e.preventDefault();
-        // Add your login logic here
-        console.log("Login form submitted");
+
+        console.log("Login form submitted", formData);
+
+        try {
+            const response = await axios.post("http://127.0.0.1:8000/users/login/", formData);
+
+
+            // Do this for login
+            // Store only the access and refresh tokens
+            localStorage.setItem("accessToken", response.data.accessToken);
+            localStorage.setItem("refreshToken", response.data.refreshToken);
+            localStorage.setItem("username", response.data.username);
+
+
+
+        } catch (error) {
+            alert("Login failed! " + (error.response?.data?.message || error.message));
+        }
     };
 
     return (
@@ -33,13 +75,14 @@ export default function Login() {
                     <h1>LessonConnect</h1>
                     <h2>Welcome to LessonConnect</h2>
 
-                    <form className="login-form" onSubmit={handleSubmit}>
-                        <label htmlFor="email">Username or Email</label>
+                    <form className="login-form" onSubmit={handleLogin}>
+                        <label htmlFor="username">Username</label>
                         <input
                             type="text"
-                            id="email"
-                            name="email"
-                            placeholder="e.g., David Brooks"
+                            id="username"
+                            name="username"
+                            onChange={handleChanges}
+                            placeholder="Username"
                             required
                         />
 
@@ -48,6 +91,7 @@ export default function Login() {
                             type="password"
                             id="password"
                             name="password"
+                            onChange={handleChanges}
                             placeholder="********"
                             required
                         />
