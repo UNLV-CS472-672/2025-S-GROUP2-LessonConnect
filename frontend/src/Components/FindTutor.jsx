@@ -1,3 +1,4 @@
+import {NavLink} from "react-router-dom";
 import '../Styles/FindTutor.css'
 export default function FindTutor() {
     const tutorList = [
@@ -144,6 +145,9 @@ export default function FindTutor() {
                                     <p className="fw-semibold">{tutor.experience}</p>
                                     <p className="text-muted">{tutor.address}</p>
                                 </div>
+                                <NavLink to="/booking" className="btn btn-outline-light book-btn">
+                                    Book Now
+                                </NavLink>
                             </div>
                         </div>
                     ))}

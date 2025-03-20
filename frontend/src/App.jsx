@@ -14,6 +14,7 @@ import Support from "./Components/Support.jsx";
 import FindTutor from "./Components/FindTutor.jsx";
 import Pomodoro from "./Components/Podomoro.jsx";
 import Footer from "./Components/Footer.jsx";
+import Booking from "./Components/Booking.jsx";
 
 function App() {
     const location = useLocation();
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/faqs" element={<FAQS />} />
                 <Route path="/findTutor" element={<FindTutor />} />
                 <Route path="/pomodoro" element={<Pomodoro />} />
+                <Route path="/booking" element={<Booking />} />
             </Routes>
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>
