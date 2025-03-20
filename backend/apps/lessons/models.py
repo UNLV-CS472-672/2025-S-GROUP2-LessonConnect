@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+# from backend.apps.uploads.models import UploadRecord - This will be revised and corrected
 
 
 class Assignment(models.Model):  # Assignments: Represents assignments given to individual students.
@@ -14,11 +16,13 @@ class Assignment(models.Model):  # Assignments: Represents assignments given to 
     description = models.TextField()
     assignment_type = models.CharField(max_length=2, choices=ASSIGNMENT_TYPES)
 
-    # MediaUpload (ForeignKey to MediaUploads once MediaUploads model is set up) TODO: would that be UploadRecord
-    # media_upload = models.ForeignKey('MediaUploads', on_delete=models.SET_NULL, null=True, blank=True)
+    # Upload_record (ForeignKey to UploadRecord) - Currently not referenced correctly but will be when branch is updated
+    # upload_record = models.ForeignKey(UploadRecord, on_delete=models.SET_NULL, null=True, blank=True)
 
-    # Student (ForeignKey to Student once Student model is set up)
-    # student = models.ForeignKey('Student', on_delete=models.CASCADE)
+    # Student (ForeignKey to User as there's no model exclusively for student)
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="student", null=True, blank=True)
+    # ^ Currently student is temporarily allowed to be nullable. Can be manually updated in a later time.
+
     deadline = models.DateTimeField()
 
     def __str__(self):
