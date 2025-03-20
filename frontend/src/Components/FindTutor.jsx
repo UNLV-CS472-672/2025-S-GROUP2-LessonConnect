@@ -1,6 +1,4 @@
 import '../Styles/FindTutor.css'
-import { useState } from 'react';
-
 export default function FindTutor() {
     const tutorList = [
         {
@@ -77,29 +75,28 @@ export default function FindTutor() {
                     <div className="col-12 col-md-6">
                         <div className="max-w-lg">
                             <h2 className="h2 fw-semibold text-dark">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                Find & Book <span className="text-primary">Appointment</span> with your Favorite <span className="text-primary">Tutors</span>
                             </h2>
                             <p className="mt-4 text-muted">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur doloremque saepe
-                                architecto maiores repudiandae amet perferendis repellendus, reprehenderit voluptas
-                                sequi.
+                                Our platform connects you with experienced educators who specialize in various subjects. Whether you're looking for academic support, music lessons, or skill-building sessions, we make it easy to find and book a tutor that fits your schedule. Start your learning journey today.
                             </p>
+                            <button type="submit" className="btn btn-primary mt-4 d-flex align-items-center">Explore Now</button>
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <img
                             src="assets/images/Pic4.jpg"
-                            className="img-fluid rounded"
+                            className="img-fluid"
                             alt="Image"
                         />
                     </div>
                 </div>
             </div>
-            <div className="container mt-4 text-center">
-                <h2 className="fw-bold display-5">
+            <div className="container mt-4 text-center mb-4">
+                <h2 className="fw-bold display-6">
                     Search <span className="text-primary">Tutors</span>
                 </h2>
-                <h2 className="text-secondary fs-4">Find your tutor and book a session in one click</h2>
+                <h2 className="text-secondary fs-4">Find your tutor and book a session in one click!</h2>
 
                 <div className="d-flex justify-content-center mt-3">
                     <input type="text" className="form-control w-50 me-2" placeholder="Enter subject or tutor name" />
@@ -111,10 +108,10 @@ export default function FindTutor() {
             </div>
 
             <div className="container mt-5">
-                <h2 className="fw-bold fs-4">Popular Tutors</h2>
+                <h2 className="fw-bold fs-3 mt-5 mb-5">Popular Tutors</h2>
                 <div className="row mt-4">
                     {tutorList.map((tutor, index) => (
-                        <div className="col-lg-4 col-md-6 col-12 mb-4" key={index}>
+                        <div className="col-lg-4 col-md-6 col-12 mb-5" key={index}>
                             <div className="tutor-card">
                                 <div className="card-img-wrapper">
                                     <img src={tutor.image} alt="Tutor" className="card-img-top" />

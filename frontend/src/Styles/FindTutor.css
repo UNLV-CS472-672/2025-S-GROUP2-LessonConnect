@@ -29,10 +29,10 @@
 }
 
 .findTutor-section .img-fluid {
-    border-radius: 20px;
+    border-radius: 80px;
     width: 100%;
     height: auto;
-    object-fit: cover; 
+    object-fit: cover;
 }
 
 .findTutor-section {
