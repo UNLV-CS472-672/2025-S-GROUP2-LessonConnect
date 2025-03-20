@@ -1,40 +1,31 @@
 from django.db import models
 
-# Create your models here.
 
-"""
-Assignments: Represents assignments given to individual students.
-Example Fields: Title, Description, assignmentType (CharField), 
-                MediaUpload (ForeignKey to MediaUploads once 
-                MediaUploads model is set up), Student (ForeignKey
-                to Student once Student model is set up), deadline.
-"""
-class Assignment(models.Model):
+class Assignment(models.Model):  # Assignments: Represents assignments given to individual students.
     ASSIGNMENT_TYPES = [
         ('EX', 'Exercises'),
         ('HW', 'Homework'),
         ('QZ', 'Quiz'),
         ('TT', 'Tests')
-        # todo: maybe needs more ???
+        # Can add more if needed...
     ]
     # Fields
     title = models.CharField(max_length=200)
     description = models.TextField()
     assignment_type = models.CharField(max_length=2, choices=ASSIGNMENT_TYPES)
-    media_upload = models.ForeignKey('MediaUploads', on_delete=models.SET_NULL, null=True, blank=True)
-    student = models.ForeignKey('Student', on_delete=models.CASCADE)
+
+    # MediaUpload (ForeignKey to MediaUploads once MediaUploads model is set up) TODO: would that be UploadRecord
+    # media_upload = models.ForeignKey('MediaUploads', on_delete=models.SET_NULL, null=True, blank=True)
+
+    # Student (ForeignKey to Student once Student model is set up)
+    # student = models.ForeignKey('Student', on_delete=models.CASCADE)
     deadline = models.DateTimeField()
 
     def __str__(self):
         return self.title
 
 
-"""
-Quizzes: Represents quizzes linked to assignments.
-Example Fields: Assignment (ForeignKey to Assigments), timeLimit,
-                numOfQuestions, Attempts, isActive.
-"""
-class Quiz(models.Model):
+class Quiz(models.Model):  # Quizzes: Represents quizzes linked to assignments.
     # Fields
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
     time_limit = models.PositiveIntegerField(help_text="Time limit for the quiz (in minutes)")
@@ -43,15 +34,10 @@ class Quiz(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"Quiz for {self.assignment.title}"  # todo: CHECK IF THIS WORKS WITHIN SHELL/ADMIN!!!
+        return f"Quiz for {self.assignment.title}"
 
 
-"""
-Questions: Represents individual questions within a quiz.
-Example Fields: Quiz (ForeignKey to Quizzes), questionType (charfield),
-                orderOfQuestions, questionText.
-"""
-class Question(models.Model):
+class Question(models.Model):  # Questions: Represents individual questions within a quiz.
     QUESTION_TYPES = [
         ('MC', 'Multiple Choice'),
         ('SA', 'Short Answer'),
@@ -67,11 +53,7 @@ class Question(models.Model):
         return f"Question {self.order_of_question} - {quiz_title}"
 
 
-"""
-Choices: Store the possible answer choices for multiple choice questions.
-Example Fields: Question (ForeignKey to Questions), choiceText, isCorrect.
-"""
-class Choice(models.Model):
+class Choice(models.Model):  # Choices: Store the possible answer choices for multiple choice questions.
     # Fields
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="choices")
     choice_text = models.CharField(max_length=255)
@@ -81,17 +63,11 @@ class Choice(models.Model):
         return f"Choice: {self.choice_text} ({'Correct' if self.is_correct else 'Incorrect'})"
 
 
-"""
-Solutions: Represents correct answers to questions.
-Example Fields: Question (ForeignKey to Questions), choices (ManyToManyField
-                to Choices) for multiple choice questions, shortAnswerText
-                for short answer questions.
-"""
-class Solution(models.Model):
+class Solution(models.Model):  # Solutions: Represents correct answers to questions.
     # Fields
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choices = models.ManyToManyField(Choice, blank=True)
-    short_answer_text = models.TextField(blank=True, null=True)
+    choices = models.ManyToManyField(Choice, blank=True)  # for multiple choice questions
+    short_answer_text = models.TextField(blank=True, null=True)  # for short answer questions
 
     def __str__(self):
         if self.question.question_type == 'MC':
