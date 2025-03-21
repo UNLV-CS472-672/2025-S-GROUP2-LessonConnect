@@ -1,1 +1,263 @@
 /*Add your CSS style here*/
+/* Pomodoro.css */
+
+/* Basic reset and typography */
+.pomodoro-page * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* We'll apply the background to the .pomodoro-page itself */
+.pomodoro-page {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #FF9A9E 0%, #FFDDE1 100%);
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header styling */
+.pomodoro-page header {
+    text-align: center;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin-top: 90px;
+}
+
+.pomodoro-page header h1 {
+    font-weight: 700;
+    font-size: 2rem;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer styling */
+.pomodoro-page footer {
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto; /* So the footer sits at the bottom */
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.pomodoro-page footer p {
+    color: #fff;
+    font-weight: 500;
+}
+
+/* Main container */
+.pomodoro-page main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+}
+
+/* Timer container */
+.pomodoro-page .timer-container {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #bb686b 0%, #FFDDE1 100%);
+    border-radius: 10px;
+    /* Slightly bigger shadow */
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* A small hover effect to make it pop */
+/* TIMER CONTAINER */
+.pomodoro-page .timer-container {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin-bottom: 2rem;
+    background: linear-gradient(145deg, #e58888, #f6c3c3); /* Softer, even gradient */
+    border-radius: 20px; /* Slightly rounded for a smoother look */
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.2),
+    -8px -8px 15px rgba(255, 255, 255, 0.2); /* Neumorphic effect */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect - Slight lift */
+.pomodoro-page .timer-container:hover {
+    transform: scale(1.03);
+    box-shadow: 12px 12px 20px rgba(0, 0, 0, 0.25),
+    -12px -12px 20px rgba(255, 255, 255, 0.2);
+}
+
+/* PROGRESS RING - Make it smoother */
+.pomodoro-page .progress-ring__circle {
+    transition: stroke-dashoffset 0.35s;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    stroke-linecap: round; /* Softer stroke edges */
+    filter: drop-shadow(0px 0px 6px rgba(255, 107, 107, 0.6)); /* Soft glow */
+}
+
+/* TIME DISPLAY - Slightly bolder */
+.pomodoro-page .time-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3.8rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Control buttons */
+.pomodoro-page .controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.pomodoro-page .btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    color: #fff;
+    background-color: #ff6b6b;
+}
+
+.pomodoro-page .btn:hover {
+    background-color: #ff4a4a;
+}
+
+.pomodoro-page .primary {
+    background-color: #4ecdc4 !important;
+}
+
+.pomodoro-page .primary:hover {
+    background-color: #3bc2b9 !important;
+}
+
+/* Session controls */
+.pomodoro-page .session-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+.pomodoro-page .session-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.pomodoro-page .session-btn:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+    transform: translateY(-2px);
+}
+
+.pomodoro-page .session-btn.active {
+    background-color: #fed766;
+    color: #333;
+}
+
+/* INFO SECTION STYLING - Glassmorphic, Clean & Readable */
+.pomodoro-page .info-section {
+    text-align: center;
+    margin-top: 30px;
+    padding: 25px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.15); /* Glassmorphic effect */
+    backdrop-filter: blur(12px);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    border-left: 6px solid #FF6B6B; /* Subtle left border accent */
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+/* Slight "pop" effect on hover */
+.pomodoro-page .info-section:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* TEXT STYLING - Unified Bright White */
+.pomodoro-page .info-section h2,
+.pomodoro-page .info-section p,
+.pomodoro-page .info-section ul li {
+    color: #ffffff; /* Crisp white for readability */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Light shadow for depth */
+}
+
+/* HEADINGS */
+.pomodoro-page .info-section h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+/* PARAGRAPH TEXT */
+.pomodoro-page .info-section p {
+    font-size: 17px;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+/* LIST ITEMS - Better Spacing & Interactivity */
+.pomodoro-page .info-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px auto;
+    text-align: center;
+    width: 85%;
+    max-width: 600px;
+}
+
+/* LIST ITEM STYLE */
+.pomodoro-page .info-section ul li {
+    font-size: 16px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.25);
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* INTERACTIVE HOVER EFFECT */
+.pomodoro-page .info-section ul li:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Add space above "How to Use This Timer" */
+.pomodoro-page .info-section h3 {
+    margin-top: 24px; /* Adjust the space as needed */
+    font-size: 22px; /* Slightly larger for hierarchy */
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* 🎬 FADE-IN ANIMATION */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
