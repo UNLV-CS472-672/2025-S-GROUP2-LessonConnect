@@ -15,7 +15,7 @@ from django.apps import apps
 # Create your views here.
 
 class UploadDetailView(APIView):
-    permission_classes = []  # Debug only: No authentication required
+    permission_classes = [IsAuthenticated]  # Debug only: No authentication required
     # Specifies that the view should only accept JSON-formatted request bodies.
     parser_classes = (
             JSONParser,
