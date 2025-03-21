@@ -1,10 +1,21 @@
+/*
+   1) Apply the background color to the entire page (html/body).
+   2) Add top padding or margin to .booking-page-container so it's not tight near the navbar.
+*/
+
+/* ===== Global page background ===== */
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    font-family: "Montserrat", sans-serif; /* You can define global font if you want */
+}
+
 /* Container: center the entire content using max-width & auto margins */
 .booking-page-container {
-    font-family: "Montserrat", sans-serif;
-    background-color: #f9f9f9;
     min-height: 100vh;
-    padding: 2rem 1rem;
-    margin-top: 50px;
+    /* Extra top padding to avoid overlap with navbar (adjust as needed) */
+    padding: 6rem 1rem 2rem;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
@@ -187,7 +198,7 @@
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-/* Close Modal Button */
+/* Close Modal (×) Button - absolutely placed top-right */
 .close-modal-btn {
     background: none;
     border: none;
@@ -286,4 +297,20 @@
     margin: 0.2rem 0;
     color: #444;
     line-height: 1.5;
+}
+
+/* Separate class for the final "Close" button in confirmation area */
+.close-confirmation-btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 0.7rem 1.4rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    border: none;
+}
+.close-confirmation-btn:hover {
+    background-color: #0056b3;
 }

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css"; // npm install react-calendar; npm install react-calendar
+import "react-calendar/dist/Calendar.css"; // npm install react-calendar
 import "../Styles/Booking.css";
 
 const TUTOR_DATA = {
     id: 1,
     name: "Mr. Tom Cook",
     yearsOfExperience: 20,
-    specialty: "Computer Scientist",
+    specialty: "Class Subjects Place Holder",
     location: "547 Carrington Trace Drive, Cornelius",
     aboutMe:
         "Hi! I'm a passionate coding tutor with a strong background in computer science and programming. I specialize in helping students and professionals grasp complex coding concepts, improve their problem-solving skills, and build real-world projects.\n" +
@@ -178,7 +178,7 @@ export default function Booking() {
             {showModal && (
                 <div className="modal-overlay">
                     <div className="modal-content">
-                        {/* Close Modal Button */}
+                        {/* Close Modal (×) Button - absolute top right */}
                         <button className="close-modal-btn" onClick={() => setShowModal(false)}>
                             ×
                         </button>
@@ -211,7 +211,8 @@ export default function Booking() {
                                             </div>
                                         ) : (
                                             <p className="no-slots">
-                                                No available slots on {formatDisplayDate(selectedDate)}.
+                                                No available slots on{" "}
+                                                {formatDisplayDate(selectedDate)}.
                                             </p>
                                         )
                                     ) : (
@@ -247,7 +248,7 @@ export default function Booking() {
                                 <p>
                                     <em>(This is just a placeholder; no backend integration yet.)</em>
                                 </p>
-                                <button className="close-modal-btn" onClick={() => setShowModal(false)}>
+                                <button className="close-confirmation-btn" onClick={() => setShowModal(false)}>
                                     Close
                                 </button>
                             </div>
