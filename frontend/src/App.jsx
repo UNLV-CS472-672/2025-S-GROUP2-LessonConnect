@@ -39,7 +39,7 @@ function App() {
                 <Route path="/faqs" element={<FAQS />} />
                 <Route path="/findTutor" element={<FindTutor />} />
                 <Route path="/pomodoro" element={<Pomodoro />} />
-                <Route path="/Booking" element={<Booking />} />
+                <Route path="/booking" element={<Booking />} />
 
             </Routes>
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
