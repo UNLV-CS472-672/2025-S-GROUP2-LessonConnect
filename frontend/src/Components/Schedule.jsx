@@ -32,11 +32,12 @@ export default function Schedule() {
             )
         );
     };
+
     return (
-        <>
+        <div className="user-view-section-page">
             <section className="greeting">
                 <div className="inner-container">
-                    <h1 className="fade-in">👋 Welcome back, Jose!</h1>
+                    <h1 className="fade-in">👋 Welcome back, student!</h1>
                     <p className="subheading">Ready to level up your skills today?</p>
                 </div>
             </section>
@@ -44,62 +45,34 @@ export default function Schedule() {
             <section className="dashboard-section">
                 <div className="inner-container dashboard-layout">
                     <div className="button-grid">
-                        <div className="button-card">
-                            <img src="/assets/images/UNLV_pic.png" alt="Schedule Appt Tutor" />
-                            <span>Schedule Appt Tutor</span>
-                        </div>
-                        <div className="button-card">
-                            <img src="/assets/images/UNLV_pic.png" alt="Profile" />
-                            <span>Profile</span>
-                        </div>
-                        <div className="button-card">
-                            <img src="/assets/images/UNLV_pic.png" alt="Gaming Stats" />
-                            <span>Gaming Stats</span>
-                        </div>
-                        <div className="button-card">
-                            <img src="/assets/images/UNLV_pic.png" alt="Talk to Your Tutor" />
-                            <span>Talk to Your Tutor</span>
-                        </div>
-                        <div className="button-card">
-                            <img src="/assets/images/UNLV_pic.png" alt="Messages" />
-                            <span>Messages</span>
-                        </div>
-                        <div className="button-card">
-                            <img src="/assets/images/UNLV_pic.png" alt="Pomodoro Timer" />
-                            <span>Pomodoro Timer</span>
-                        </div>
+                        {["Schedule Appt Tutor", "Profile", "Gaming Stats", "Talk to Your Tutor", "Messages", "Pomodoro Timer"].map((text, i) => (
+                            <div className="button-card" key={i}>
+                                <img src="/assets/images/UNLV_pic.png" alt={text} />
+                                <span>{text}</span>
+                            </div>
+                        ))}
                     </div>
 
                     <div className="popular-tutors-side">
                         <h2>Popular Tutors</h2>
-                        <div className="tutor-card">
-                            <img src="/assets/images/UNLV_pic.png" alt="Tutor 1" />
-                            <div className="tutor-info">
-                                <span className="subject-tag">Math</span>
-                                <h3>Prof. Jane Doe</h3>
-                                <p>5 Years</p>
+                        {[
+                            { subject: "Math", name: "Prof. Jane Doe", experience: "5 Years" },
+                            { subject: "Physics", name: "Dr. Bruce Banner", experience: "88 Years" },
+                            { subject: "Chemistry", name: "Ms. Sara Kim", experience: "4 Years" }
+                        ].map((tutor, i) => (
+                            <div className="tutor-card" key={i}>
+                                <img src="/assets/images/UNLV_pic.png" alt={tutor.name} />
+                                <div className="tutor-info">
+                                    <span className="subject-tag">{tutor.subject}</span>
+                                    <h3>{tutor.name}</h3>
+                                    <p>{tutor.experience}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="tutor-card">
-                            <img src="/assets/images/UNLV_pic.png" alt="Tutor 2" />
-                            <div className="tutor-info">
-                                <span className="subject-tag">Physics</span>
-                                <h3>Dr. Bruce Banner</h3>
-                                <p>88 Years</p>
-                            </div>
-                        </div>
-
-                        <div className="tutor-card">
-                            <img src="/assets/images/UNLV_pic.png" alt="Tutor 4" />
-                            <div className="tutor-info">
-                                <span className="subject-tag">Chemistry</span>
-                                <h3>Ms. Sara Kim</h3>
-                                <p>4 Years</p>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
+
             <section className="extra-section">
                 <div className="inner-container tip-todo-container">
                     <div className="todo-list">
@@ -122,10 +95,8 @@ export default function Schedule() {
                         <h3>Tip of the Day</h3>
                         <blockquote>{dailyTip}</blockquote>
                     </div>
-
                 </div>
             </section>
-        </>
+        </div>
     );
 }
-
