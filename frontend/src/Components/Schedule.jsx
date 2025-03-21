@@ -120,7 +120,11 @@ export default function Schedule() {
                         </ul>
                     </div>
 
-                    {/*Tip of the dail section*/}
+                    {/*Tip of the dai section*/}
+                    <div className="tip-section">
+                        <h3>Tip of the Day</h3>
+                        <blockquote>{dailyTip}</blockquote>
+                    </div>
 
                 </div>
             </section>
