@@ -49,4 +49,120 @@
     }
 }
 
+.dashboard-section {
+    background-color: #f2f2f2;
+    padding: 50px 0;
+}
+
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    max-width: 1600px;
+    margin: auto;
+    align-items: start;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+.button-grid {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    width: 1200px;
+    height: 600px;
+}
+
+.button-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 220px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.button-card img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6);
+    z-index: 1;
+}
+
+.button-card span {
+    position: relative;
+    z-index: 2;
+    font-size: 1.4rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding: 10px;
+}
+
+.button-card:hover {
+    transform: scale(1.03);
+}
+
+.popular-tutors-side {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    height: 600px;
+}
+
+.popular-tutors-side h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.tutor-card {
+    display: flex;
+    align-items: center;
+    background-color: #fafafa;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.tutor-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid #ddd;
+}
+
+.tutor-info h3 {
+    font-size: 1.1rem;
+    margin: 5px 0;
+}
+
+.tutor-info p {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.subject-tag {
+    display: inline-block;
+    background-color: #e0ebff;
+    color: #4a62d0;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    margin-bottom: 4px;
+}
 
