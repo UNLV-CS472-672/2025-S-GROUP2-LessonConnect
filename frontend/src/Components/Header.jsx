@@ -16,7 +16,7 @@ export default function Header() {
                         </button>
                         <div id="nav-collapse" className="collapse navbar-collapse">
                             <div className="navbar-nav ms-auto">
-                                <NavLink to="/findTutor" className="nav-link">Find a tutor</NavLink>
+                                <NavLink to="/Booking" className="nav-link">Find a tutor</NavLink>
                                 <NavLink to="/services" className="nav-link">Services</NavLink>
                                 <NavLink to="/schedule" className="nav-link">Schedule</NavLink>
                                 <NavLink to="/about" className="nav-link">About Us</NavLink>
