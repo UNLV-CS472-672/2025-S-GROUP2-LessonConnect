@@ -1,7 +1,6 @@
 import "../Styles/Schedule.css";
 import { useEffect, useState } from "react";
 
-// Add this array outside the component or at the top inside it
 const tips = [
     "Consistency beats intensity — a little progress each day adds up.",
     "Study smarter, not longer. Take breaks and stay sharp.",
@@ -103,7 +102,6 @@ export default function Schedule() {
             </section>
             <section className="extra-section">
                 <div className="inner-container tip-todo-container">
-                    {/* Daily To-Do List on the left */}
                     <div className="todo-list">
                         <h3>Daily To-Do List</h3>
                         <ul>
@@ -120,7 +118,6 @@ export default function Schedule() {
                         </ul>
                     </div>
 
-                    {/*Tip of the dai section*/}
                     <div className="tip-section">
                         <h3>Tip of the Day</h3>
                         <blockquote>{dailyTip}</blockquote>
