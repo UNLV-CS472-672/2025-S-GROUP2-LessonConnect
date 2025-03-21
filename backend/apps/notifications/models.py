@@ -75,7 +75,7 @@ class Notification(models.Model):
         self.save(update_fields=['is_read'])
 
     def mark_as_sent(self):
-        self.sent_at = True
+        self.sent_at = timezone.now()
         self.save(update_fields=['sent_at'])
 
     @property

@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from apps import notifications
+
 urlpatterns = [
   path('admin/', admin.site.urls),
   path('users/', include('apps.users.urls')),
   path('chat/', include('apps.chat.urls')),
   path('uploads/', include('apps.uploads.urls')),
+  path('notifications/', include('apps.notifications.urls')),
 ]
