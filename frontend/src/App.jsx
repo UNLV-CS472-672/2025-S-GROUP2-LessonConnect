@@ -25,7 +25,7 @@ function App() {
 
     return (
         <div className="App">
-            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Header />}
+            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp" && location.pathname !== "/pomodoro") && <Header />}
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
@@ -39,7 +39,8 @@ function App() {
                 <Route path="/faqs" element={<FAQS />} />
                 <Route path="/findTutor" element={<FindTutor />} />
                 <Route path="/pomodoro" element={<Pomodoro />} />
-                <Route path="/Booking" element={<Booking />} />
+                <Route path="/booking" element={<Booking />} />
+
             </Routes>
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>
