@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     "apps.pomodoro",      # our pomodoro app
     "apps.lessons",       # our lessons app
     "apps.submissions",   # our submissions app
-    "apps.scheduling",    # our scheduling app
+    "apps.bookings",    # our bookings app
     "apps.notifications", # our notifications app
     "apps.chat",          # our chat app
     "apps.uploads",       # our uploads app

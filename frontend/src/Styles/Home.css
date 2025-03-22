@@ -4,6 +4,10 @@ body {
 
 }
 /* Navbar Styles */
+.scroll-top .navbar {
+  background-color: transparent !important;
+}
+
 .navbar {
   height: 70px;
   transition: background-color 0.3s ease-in-out;
@@ -19,12 +23,74 @@ body {
   color: rgba(255, 255, 255, 1);
 }
 
-.navbar-brand i {
-  font-size: 1.5rem;
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 600;
   color: white;
 }
-.scroll-top .navbar {
-  background-color: transparent !important;
+
+.navbar-brand i {
+  font-size: 1.5rem;
+  margin-right: 5px;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.dropdown-toggle {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: color 0.3s ease-in-out;
+}
+
+.dropdown-toggle:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #333;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  display: none;
+  min-width: 160px;
+  z-index: 1000;
+  padding: 10px 0;
+  transition: display 0.3s ease-in-out;  /* Optional: adds smooth transition */
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.nav-item:hover .dropdown-menu {
+  display: block;  /* This ensures the dropdown shows on hover */
+}
+
+.dropdown-item {
+  padding: 10px 20px;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  display: block;
+  transition: background 0.3s ease-in-out;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+/* Spacing for Login Button */
+.nav-login {
+  margin-left: 25px; /* Adjust as needed */
 }
 
 .btn-outline-light {
@@ -170,13 +236,6 @@ section#lower-section {
 
 .gallery-container a:hover .gallery-item {
   transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-
-#footer .text-center p {
-  color: white;
-  text-align: center;
-  font-size: 15px;
 }
 
 /* Pomodoro Timer Button */

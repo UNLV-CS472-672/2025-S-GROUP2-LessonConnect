@@ -1,5 +1,5 @@
 from django.urls import path
-from apps.uploads.views import UploadListView,UploadDetailView
+from apps.uploads.views import UploadListView, UploadDetailView
 
 urlpatterns = [
     # Path to all uploads
