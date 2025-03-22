@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 # from backend.apps.uploads.models import UploadRecord - This will be revised and corrected
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 
 
 class Assignment(models.Model):  # Assignments: Represents assignments given to individual students.
@@ -9,33 +10,37 @@ class Assignment(models.Model):  # Assignments: Represents assignments given to 
         ('EX', 'Exercises'),
         ('HW', 'Homework'),
         ('QZ', 'Quiz'),
-        ('TT', 'Tests')
+        ('TT', 'Tests'),
         # Can add more if needed...
+        ('EC', 'Extra Credit')
     ]
     # Fields
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     assignment_type = models.CharField(max_length=2, choices=ASSIGNMENT_TYPES)
 
     # Upload_record (ForeignKey to UploadRecord) - Currently not referenced correctly but will be when branch is updated
     # upload_record = models.ForeignKey(UploadRecord, on_delete=models.SET_NULL, null=True, blank=True)
 
     # Student (ForeignKey to User as there's no model exclusively for student)
-    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="student", null=True, blank=True)
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="assignments", null=True, blank=True)
     # ^ Currently student is temporarily allowed to be nullable. Can be manually updated in a later time.
 
-    deadline = models.DateTimeField()
+    deadline = models.DateTimeField(null=True, blank=True)  # deadline is optional for extra credit/optional assignments
 
     def __str__(self):
         return self.title
 
 
 class Quiz(models.Model):  # Quizzes: Represents quizzes linked to assignments.
+    class Meta:
+        verbose_name = 'Quiz'
+        verbose_name_plural = 'Quizzes'
     # Fields
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
-    time_limit = models.PositiveIntegerField(help_text="Time limit for the quiz (in minutes)")
+    time_limit = models.PositiveIntegerField(null=True, blank=True, help_text="Time limit for the quiz (in minutes)")
     num_of_questions = models.PositiveIntegerField()
-    attempts = models.PositiveIntegerField(default=1)
+    attempts = models.IntegerField(validators=[MinValueValidator(1)])  # Ensures that at least 1 attempt is required
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
