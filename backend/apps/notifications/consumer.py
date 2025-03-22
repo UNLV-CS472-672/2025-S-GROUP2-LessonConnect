@@ -25,11 +25,11 @@ class NotificationConsumer(AsyncWebsocketConsumer):
             print("WARNING: Anonymous user connecting, allowing for testing only")
             self.room_group_name = 'notifications_anonymous'
         else:
-            print(f"Authenticated user connecting: {self.user.username}, ID: {self.user.id}")
-            self.room_group_name = f'notifications_{self.user.id}'
+            user_id = str(self.user.id)
+            print(f"Authenticated user connecting: {self.user.username}, ID: {user_id}")
+            self.room_group_name = f'notifications_{user_id}'
 
         # create a unique group name for this user
-        self.room_group_name = f'notifications_{self.user.id}'
         print(f"Setting group name: {self.room_group_name}")
 
         # join the group

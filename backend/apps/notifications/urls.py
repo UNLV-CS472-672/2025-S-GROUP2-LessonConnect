@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 
 # https://www.django-rest-framework.org/api-guide/routers/
 router = DefaultRouter()
-router.register(r'notifications', views.NotificationViewSet, basename='notification')
+router.register(r'', views.NotificationViewSet, basename='notification')
 
 # the router will generate these URLs:
 # GET /notifications/ - List all notifications

@@ -66,7 +66,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
     # DELETE /notifications/clear-all/ - Delete all notifications.
     # this is an alternative to using DELETE /notifications/?all=true (see: def list())
-    @action(detail=False, methods=['delete'])
+    @action(detail=False, methods=['delete'], url_path='clear-all')
     def clear_all(self, request):
         count = self.get_queryset().count()
         self.get_queryset().delete()
