@@ -52,5 +52,5 @@ class UploadRecordManager(models.Manager):
 
     def get_all_uploads(self):
         # Retrieve all upload records from the database
-        all_uploads = self.get_queryset().all()
-        return all_uploads
+        #all_uploads = self.get_queryset().all()
+        return self.get_queryset().all()
