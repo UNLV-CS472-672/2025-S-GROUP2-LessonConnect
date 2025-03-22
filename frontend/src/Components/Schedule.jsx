@@ -11,6 +11,21 @@ const tips = [
     "Your future self will thank you for studying today."
 ];
 
+const dashboardOptions = [
+    { text: "Schedule Appt Tutor", img: "/assets/images/UNLV_pic.png" },
+    { text: "Profile", img: "/assets/images/UNLV_pic.png" },
+    { text: "Gaming Stats", img: "/assets/images/UNLV_pic.png" },
+    { text: "Talk to Your Tutor", img: "/assets/images/UNLV_pic.png" },
+    { text: "Messages", img: "/assets/images/UNLV_pic.png" },
+    { text: "Pomodoro Timer", img: "/assets/images/UNLV_pic.png" },
+];
+
+const popularTutors = [
+    { subject: "Math", name: "Prof. Jane Doe", experience: "5 Years" },
+    { subject: "Physics", name: "Dr. Bruce Banner", experience: "88 Years" },
+    { subject: "Chemistry", name: "Ms. Sara Kim", experience: "4 Years" },
+];
+
 export default function Schedule() {
     const [dailyTip, setDailyTip] = useState("");
     const [tasks, setTasks] = useState([
@@ -33,11 +48,14 @@ export default function Schedule() {
         );
     };
 
+    const generateTutorLink = (name) =>
+        `/tutors/${name.replace(/\s+/g, '-').toLowerCase()}`;
+
     return (
         <div className="user-view-section-page">
             <section className="greeting">
                 <div className="inner-container">
-                    <h1 className="fade-in">👋 Welcome back, student!</h1>
+                    <h1 className="fade-in">👋 Welcome back, Jose!</h1>
                     <p className="subheading">Ready to level up your skills today?</p>
                 </div>
             </section>
@@ -45,29 +63,29 @@ export default function Schedule() {
             <section className="dashboard-section">
                 <div className="inner-container dashboard-layout">
                     <div className="button-grid">
-                        {["Schedule Appt Tutor", "Profile", "Gaming Stats", "Talk to Your Tutor", "Messages", "Pomodoro Timer"].map((text, i) => (
-                            <div className="button-card" key={i}>
-                                <img src="/assets/images/UNLV_pic.png" alt={text} />
-                                <span>{text}</span>
+                        {dashboardOptions.map((option, index) => (
+                            <div className="button-card" key={index}>
+                                <img src={option.img} alt={option.text} />
+                                <span>{option.text}</span>
                             </div>
                         ))}
                     </div>
 
                     <div className="popular-tutors-side">
                         <h2>Popular Tutors</h2>
-                        {[
-                            { subject: "Math", name: "Prof. Jane Doe", experience: "5 Years" },
-                            { subject: "Physics", name: "Dr. Bruce Banner", experience: "88 Years" },
-                            { subject: "Chemistry", name: "Ms. Sara Kim", experience: "4 Years" }
-                        ].map((tutor, i) => (
-                            <div className="tutor-card" key={i}>
+                        {popularTutors.map((tutor, index) => (
+                            <a
+                                href={generateTutorLink(tutor.name)}
+                                className="tutor-card"
+                                key={index}
+                            >
                                 <img src="/assets/images/UNLV_pic.png" alt={tutor.name} />
                                 <div className="tutor-info">
                                     <span className="subject-tag">{tutor.subject}</span>
                                     <h3>{tutor.name}</h3>
                                     <p>{tutor.experience}</p>
                                 </div>
-                            </div>
+                            </a>
                         ))}
                     </div>
                 </div>
