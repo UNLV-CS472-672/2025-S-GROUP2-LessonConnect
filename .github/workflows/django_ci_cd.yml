@@ -2,7 +2,7 @@ name: Django CI/CD
 
 on:
   push:
-    branches:
+    branches: #adding comment to just test
       - adding-to-ci-pipeline # changing this temp from main to my current branch
 
 jobs:
