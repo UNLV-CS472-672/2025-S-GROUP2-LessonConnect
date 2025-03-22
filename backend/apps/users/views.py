@@ -1,3 +1,5 @@
+# https://chatgpt.com/share/67df13f7-a784-8005-8349-637a36bf1765
+
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.http import JsonResponse, HttpResponse
