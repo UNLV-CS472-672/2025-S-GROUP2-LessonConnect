@@ -13,10 +13,10 @@ class SubmissionManager(models.Manager):
         )
         return submission
 
-    # PATCH /submissions/{submission_id}/: Update submission status
     def update_submission_status(self, submission_id, status):
         """Update the status of a submission"""
-        submission = self.get(id=submission_id)
+        Submissions = apps.get_model('submissions', 'Submissions')
+        submission = Submissions.objects.get(pk=submission_id)  # Directly use Submissions.objects.get
         submission.submission_status = status
         submission.save()
         return submission
@@ -79,4 +79,5 @@ class QuizSubmissionManager(models.Manager):
         Submissions = apps.get_model('submissions', 'Submissions')
         quiz_submission.submission.submission_status = Submissions.SUBMITTED
         quiz_submission.submission.save()
-        return quiz_submission.submission
+        return quiz_submission.submission.submission_status
+

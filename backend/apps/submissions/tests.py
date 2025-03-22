@@ -1,5 +1,3 @@
-# https://chatgpt.com/share/67d8b158-0d8c-8003-a586-13dc69796303
-
 from django.test import TestCase
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -8,7 +6,11 @@ from apps.uploads.models import UploadRecord
 from apps.submissions.models import Submissions, FileSubmissions, QuizSubmissions, StudentQuizAnswers
 from django.core.exceptions import ValidationError
 from decimal import InvalidOperation
+from rest_framework import status
+from rest_framework.test import APIClient
+from apps.submissions.managers import SubmissionManager, FileSubmissionManager, QuizSubmissionManager
 
+# https://chatgpt.com/share/67d8b158-0d8c-8003-a586-13dc69796303
 class SubmissionTestCase(TestCase):
     def setUp(self):
         # Create user and student profile
@@ -52,7 +54,11 @@ class SubmissionTestCase(TestCase):
             student_response="B",
             is_correct=True
         )
+        # self.manager = SubmissionManager() 
+        # self.manager = FileSubmissionManager()
+        # self.manager = QuizSubmissionManager()
 
+    ### Testing Models ###
     # Testing class creation
     def test_submission_creation(self):
         """Test that a submission is created correctly."""
@@ -191,3 +197,86 @@ class SubmissionTestCase(TestCase):
                 score=85.5
             )
             submission.full_clean() 
+
+
+    ### Manager Test Cases ###
+    # Submission manager
+    def test_create_submission(self):
+        """Test the `create_submission` method."""
+        manager = SubmissionManager()
+        new_submission = manager.create_submission(self.profile, Submissions.SUBMITTED, 92.0)
+        self.assertEqual(new_submission.student_profile, self.profile)
+        self.assertEqual(new_submission.submission_status, Submissions.SUBMITTED)
+        self.assertEqual(float(new_submission.score), 92.0)
+
+    def test_update_submission_status(self):
+        """Test the `update_submission_status` method."""
+        self.assertIsNotNone(self.submission)  # Ensure submission is created
+        manager = SubmissionManager() 
+        new_submission = manager.create_submission(self.profile, Submissions.SUBMITTED, 92.0)
+        self.assertEqual(new_submission.submission_status, Submissions.SUBMITTED)
+        updated_submission = manager.update_submission_status(new_submission.id, Submissions.LATE)
+        self.assertEqual(updated_submission.submission_status, Submissions.LATE)
+
+    def test_get_submission(self):
+        """Test the `get_submission` method."""
+        manager = SubmissionManager() 
+        fetched_submission = manager.get_submission(self.submission.id)
+        self.assertEqual(fetched_submission, self.submission)
+
+    def test_get_all_submissions(self):
+        """Test the `get_all_submissions` method."""
+        manager = SubmissionManager() 
+        all_submissions = manager.get_all_submissions()
+        self.assertIn(self.submission, all_submissions)
+        self.assertEqual(all_submissions.count(), 1)
+
+    # File submission manager
+    def test_create_file_submission(self):
+        """Test the `create_file_submission` method."""
+        manager = FileSubmissionManager()
+        existing_file_submission = FileSubmissions.objects.filter(submission=self.submission).first()
+        if existing_file_submission: # avoid unique constraint
+            existing_file_submission.delete()
+        file_submission = manager.create_file_submission(self.submission, self.upload_record)
+        self.assertEqual(file_submission.submission, self.submission)
+        self.assertEqual(file_submission.file, self.upload_record)
+    
+    # Quiz submission manager
+    def test_create_quiz_submission(self):
+        """Test the `create_quiz_submission` method."""
+        manager = QuizSubmissionManager()
+        QuizSubmissions.objects.filter(submission=self.submission).delete()
+        quiz_submission = manager.create_quiz_submission(self.submission)
+        self.assertEqual(quiz_submission.submission, self.submission)
+
+    def test_save_quiz_answer(self):
+        """Test the `save_quiz_answer` method."""
+        manager = QuizSubmissionManager()
+        StudentQuizAnswers.objects.filter(quiz_submission=self.quiz_submission).delete()
+        answer = manager.save_quiz_answer(
+            self.quiz_submission,
+            student_response="B",
+            is_correct=True
+        )
+        self.assertEqual(answer.quiz_submission, self.quiz_submission)
+        self.assertEqual(answer.student_response, "B")
+        self.assertTrue(answer.is_correct)
+
+    def test_get_quiz_answers(self):
+        """Test the `get_quiz_answers` method."""
+        manager = QuizSubmissionManager()
+        StudentQuizAnswers.objects.filter(quiz_submission=self.quiz_submission).delete()
+        answer_1 = manager.save_quiz_answer(self.quiz_submission, "A", False)
+        answer_2 = manager.save_quiz_answer(self.quiz_submission, "C", True)
+        answers = manager.get_quiz_answers(self.quiz_submission.id)
+        self.assertIn(answer_1, answers)
+        self.assertIn(answer_2, answers)
+
+    def test_mark_quiz_as_submitted(self):
+        """Test the `mark_quiz_as_submitted` method."""
+        manager = QuizSubmissionManager()
+        self.quiz_submission.submission.submission_status = Submissions.NOT_SUBMITTED
+        self.quiz_submission.submission.save()
+        self.quiz_submission.submission.submission_status = manager.mark_quiz_as_submitted(self.quiz_submission)
+        self.assertEqual(self.quiz_submission.submission.submission_status, Submissions.SUBMITTED)
