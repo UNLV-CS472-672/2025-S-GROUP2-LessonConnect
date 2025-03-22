@@ -13,6 +13,7 @@ import Services from "./Components/Services.jsx";
 import Support from "./Components/Support.jsx";
 import FindTutor from "./Components/FindTutor.jsx";
 import Pomodoro from "./Components/Podomoro.jsx";
+import Schedule from "./Components/Schedule.jsx";
 import Footer from "./Components/Footer.jsx";
 import Booking from "./Components/Booking.jsx";
 
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/support" element={<Support />} />
                 <Route path="/faqs" element={<FAQS />} />
                 <Route path="/findTutor" element={<FindTutor />} />
+                <Route path="/schedule" element={<Schedule />} />
                 <Route path="/pomodoro" element={<Pomodoro />} />
                 <Route path="/booking" element={<Booking />} />
 
