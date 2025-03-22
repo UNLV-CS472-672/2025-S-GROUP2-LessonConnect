@@ -15,6 +15,11 @@ class PomodoroSession(models.Model):
 
     def __str__(self):
         return f"Pomodoro Session ({self.start_time}) - {self.end_time}"
+    
+    def save(self, *args, **kwargs):
+        if self.is_completed and not self.end_time:
+            self.end_time = timezone.now()
+        super().save(*args, **kwargs)
    
     class Meta:
         verbose_name = "Pomodoro Session"
