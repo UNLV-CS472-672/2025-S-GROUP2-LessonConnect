@@ -3,14 +3,14 @@ name: Django CI/CD
 on:
   push:
     branches:
-      - main
+      - adding-to-ci-pipeline # changing this temp from main to my current branch
 
 jobs:
   build:
     runs-on: ubuntu-latest
     defaults:
-      run: #Temp comment just to commit and test (to be removed)
-        working-directory: adding-to-ci-pipeline  # Set the default working directory
+      run:
+        working-directory: backend  # Set the default working directory
 
     steps:
       - name: Checkout Repository
