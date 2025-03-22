@@ -1,0 +1,26 @@
+{% block content %}
+<h2>
+  Chat with {% if chat.user1 == request.user %} {{ chat.user2 }} {% else %} {{
+  chat.user1 }} {% endif %}
+</h2>
+
+<div>
+  {% for message in messages %}
+  <p>
+    <strong>{{ message.sender }}</strong>: {{ message.content }} <br />
+    <small>{{ message.timestamp }}</small>
+  </p>
+  {% empty %}
+  <p>No messages yet.</p>
+  {% endfor %}
+</div>
+
+{% comment %}
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Send</button>
+</form>
+{% endcomment %}
+
+<a href="{% url 'chat_list' %}">Back to chats</a>
+{% endblock %}
