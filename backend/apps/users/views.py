@@ -64,3 +64,4 @@ def delete_user(request):
     except User.DoesNotExist:
       return HttpResponse("User not found!")
   return render(request, delete_user_template)
+
