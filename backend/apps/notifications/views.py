@@ -10,11 +10,11 @@ from .serializers import NotificationSerializer
 """ 
 ViewSet for handling Notification CRUD operations.
   
-- GET /api/notifications/: Fetch all notifications (like a notification history).
-- GET /api/notifications/{id}/: Get a single notification’s details.
-- POST /api/notifications/mark-all-read/: Mark all notifications as read.
-- PATCH /api/notifications/{id}/mark-read/: Mark a specific notification as read.
-- DELETE /api/notifications/: Clear all notifications
+- GET /notifications/: Fetch all notifications (like a notification history).
+- GET /notifications/{id}/: Get a single notification’s details.
+- POST /notifications/mark-all-read/: Mark all notifications as read.
+- PATCH /notifications/{id}/mark-read/: Mark a specific notification as read.
+- DELETE /notifications/: Clear all notifications
 """
 
 

@@ -18,16 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 
-from apps import notifications
-
 urlpatterns = [
   path('admin/', admin.site.urls),
   path('users/', include('apps.users.urls')),
   path('chat/', include('apps.chat.urls')),
   path('uploads/', include('apps.uploads.urls')),
-  path('notifications/', include('apps.notifications.urls')),
-  path('search/', include('apps.search.urls')),
-  path('bookings/', include('apps.bookings.urls')),
+  # path('search/', include('apps.search.urls')),
+  # path('bookings/', include('apps.bookings.urls')),
   path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
   path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+  path('notifications/', include('apps.notifications.urls')),
 ]
