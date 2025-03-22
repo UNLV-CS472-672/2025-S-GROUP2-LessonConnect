@@ -66,14 +66,16 @@ INSTALLED_APPS = [
     "apps.pomodoro",      # our pomodoro app
     "apps.lessons",       # our lessons app
     "apps.submissions",   # our submissions app
-    "apps.scheduling",    # our scheduling app
+    "apps.bookings",    # our bookings app
     "apps.notifications", # our notifications app
     "apps.chat",          # our chat app
     "apps.uploads",       # our uploads app
+    "apps.search",        # out search app
     "rest_framework",     # rest framework
     "channels",           # Django channels
     "django_celery_results", # get celery results in Django admin
     "django_celery_beat", # celery beat
+    "watson",
     "corsheaders",         # cors -> handle different origins (?)
 ]
 
@@ -85,6 +87,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'watson.middleware.SearchContextMiddleware', # for django-watson indexing
     "corsheaders.middleware.CorsMiddleware",  # for cors (added)
 ]
 
