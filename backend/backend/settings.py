@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     "apps.chat",          # our chat app
     "apps.uploads",       # our uploads app
     "rest_framework",     # rest framework
+    'rest_framework_simplejwt.token_blacklist', # for logout functionality
     "channels",           # Django channels
     "django_celery_results", # get celery results in Django admin
     "django_celery_beat", # celery beat
