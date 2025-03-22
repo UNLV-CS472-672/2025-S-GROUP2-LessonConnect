@@ -42,6 +42,8 @@ function App() {
                 <Route path="/findTutor" element={<FindTutor />} />
                 <Route path="/schedule" element={<Schedule />} />
                 <Route path="/pomodoro" element={<Pomodoro />} />
+                <Route path="/booking" element={<Booking />} />
+                <Route path="/chat" element={<Chat />} />
             </Routes>
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>
