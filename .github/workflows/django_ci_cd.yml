@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend  # Set the default working directory
+        working-directory: adding-to-ci-pipeline  # Set the default working directory
 
     steps:
       - name: Checkout Repository
