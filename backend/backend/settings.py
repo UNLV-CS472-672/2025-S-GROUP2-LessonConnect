@@ -14,6 +14,7 @@ from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
 import os
+import cloudinary
 
 load_dotenv() # load environment variable file (tokens, keys, etc)
 
@@ -65,7 +66,7 @@ INSTALLED_APPS = [
     "apps.pomodoro",      # our pomodoro app
     "apps.lessons",       # our lessons app
     "apps.submissions",   # our submissions app
-    "apps.scheduling",    # our scheduling app
+    "apps.bookings",    # our bookings app
     "apps.notifications", # our notifications app
     "apps.chat",          # our chat app
     "apps.uploads",       # our uploads app
@@ -73,7 +74,7 @@ INSTALLED_APPS = [
     "channels",           # Django channels
     "django_celery_results", # get celery results in Django admin
     "django_celery_beat", # celery beat
-    "corsheaders"         # cors -> handle different origins (?)
+    "corsheaders",         # cors -> handle different origins (?)
 ]
 
 MIDDLEWARE = [
@@ -196,3 +197,10 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+# cloudinary
+cloudinary.config(
+  CLOUD_NAME = str(os.getenv('CLOUDINARY_CLOUD_NAME')),
+  API_KEY= str(os.getenv('CLOUDINARY_API_KEY')),
+  API_SECRET= str(os.getenv('CLOUDINARY_API_SECRET')),
+)

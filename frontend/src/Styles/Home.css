@@ -1,0 +1,258 @@
+body {
+  position: relative;
+  font-family: "Montserrat", sans-serif;
+
+}
+/* Navbar Styles */
+.scroll-top .navbar {
+  background-color: transparent !important;
+}
+
+.navbar {
+  height: 70px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+  transition: color 0.3s ease-in-out;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+}
+
+.navbar-brand i {
+  font-size: 1.5rem;
+  margin-right: 5px;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.dropdown-toggle {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: color 0.3s ease-in-out;
+}
+
+.dropdown-toggle:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #333;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  display: none;
+  min-width: 160px;
+  z-index: 1000;
+  padding: 10px 0;
+  transition: display 0.3s ease-in-out;  /* Optional: adds smooth transition */
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.nav-item:hover .dropdown-menu {
+  display: block;  /* This ensures the dropdown shows on hover */
+}
+
+.dropdown-item {
+  padding: 10px 20px;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  display: block;
+  transition: background 0.3s ease-in-out;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+/* Spacing for Login Button */
+.nav-login {
+  margin-left: 25px; /* Adjust as needed */
+}
+
+.btn-outline-light {
+  border-radius: 20px;
+  padding: 8px 16px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btn-outline-light:hover {
+  background-color: white;
+  color: black;
+}
+
+
+#header-section {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
+  url(../assets/header_background.jpg);
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  padding: 20%;
+  color: white;
+  text-align: center;
+  text-shadow: 2px 2px 5px rgb(101, 98, 98);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.header-title {
+  text-align: center;
+  position: relative;
+  display: inline-block;
+}
+
+#header-section .staggered-subtitle {
+  color: #d4d4d4 !important;
+}
+
+.staggered-subtitle {
+  display: block;
+  position: relative;
+  left: 200px;
+  top: 5px;
+}
+
+.container .middleUpper-pic {
+  height: 300px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 20px;
+}
+
+#middleUpper-section {
+  background-color: #ecdfcc;
+  padding: 80px 0;
+}
+
+section#middle-section {
+  background-color: #d4d4d4;
+  padding: 80px 0;
+}
+
+.col-md-6 {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.row.d-flex.align-items-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .col-md-6 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .container .middleUpper-pic {
+    height: 250px;
+  }
+}
+
+section#lower-section {
+  background-color: white;
+  padding: 80px 0;
+}
+
+.lower-section-img {
+  max-width: 100%;
+  height: auto;
+}
+
+.gallery-item {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 20px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.gallery-container a:hover .gallery-item {
+  transform: scale(1.2);
+  filter: brightness(1.2);
+}
+
+.gallery-container {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.scrolling-gallery,
+.scrolling-gallery-copy {
+  display: flex;
+  animation: scroll-left 30s linear infinite;
+}
+
+.scrolling-gallery:hover,
+.scrolling-gallery-copy:hover {
+  animation-duration: 30s;
+}
+
+.gallery-container a:hover .gallery-item {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Pomodoro Timer Button */
+.btn-pomodoro {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+  background-color: #ff6347;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-pomodoro:hover {
+  background-color: #e5533d;
+  transform: scale(1.05);
+}
