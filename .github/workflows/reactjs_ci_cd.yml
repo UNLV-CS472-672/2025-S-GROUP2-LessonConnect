@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - adding-to-ci-pipeline # changing this temp from main to my current branch
-  pull_request:
-    branches:
-      - frontend # Set the default working directory
 
 jobs:
   lint:
@@ -24,9 +21,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        
-      - name: List project files
-        run: ls -R
 
       - name: Run ESLint
-        run: npx eslint . --ext .js,.jsx,.ts,.tsx
+        run: npx --prefix ./ eslint ./frontend --ext .js,.jsx,.ts,.tsx
+
