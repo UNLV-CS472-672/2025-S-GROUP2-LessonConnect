@@ -22,6 +22,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run ESLint
-        run: npx --prefix ./ eslint ./frontend --ext .js,.jsx,.ts,.tsx
+      - name: Run ESLint and auto-fix syntax/style errors
+        run: npx eslint --config ./frontend/eslint.config.js --fix frontend
 
+      # Applies syntax/style fixes from ESLint as a commit
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Auto-fix ESLint issues"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
