@@ -2,7 +2,7 @@ import '../Styles/Contact.css'
 export default function Contact() {
     return (
         <>
-            <section class="contact-header">
+            <section className="contact-header">
                 <div className="container">
                     <h1 className="text-center fw-bold">Contact Us</h1>
                     <p className="text-center text-muted">

@@ -14,6 +14,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Ensure we are in the root directory of the repo (DEBUG)
+      - name: Ensure we're in the root directory
+        run: |
+          echo "Current working directory:"
+          pwd  # This prints the current directory to the logs, confirming we're in the root
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
