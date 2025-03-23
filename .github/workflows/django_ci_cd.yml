@@ -2,8 +2,8 @@ name: Django CI/CD
 
 on:
   push:
-    branches: #adding comment to just test
-      - adding-to-ci-pipeline # changing this temp from main to my current branch
+    branches:
+      - main
 
 jobs:
   build:
@@ -66,9 +66,3 @@ jobs:
           name: coverage-report-html
           path: backend/htmlcov/  # Upload the entire 'htmlcov' directory
 
-      # Deploy HTML coverage report to GitHub Pages
-      - name: Deploy Coverage Report to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages  # Deploy to the gh-pages branch
-          folder: backend/htmlcov  # Path to the HTML coverage report

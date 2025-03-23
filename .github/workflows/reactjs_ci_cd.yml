@@ -3,7 +3,7 @@ name: ReactJS CI/CD
 on:
   push:
     branches:
-      - adding-to-ci-pipeline # changing this temp from main to my current branch
+      - main
 
 jobs:
   lint:
