@@ -19,8 +19,13 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install root dependencies
+        run: npm install  # This will install the dependencies from the root `package.json`
+
+      - name: Install frontend dependencies
+        run: |
+          cd frontend  # Navigate to the frontend directory
+          npm install  # Install the frontend dependencies from `frontend/package.json`
 
       - name: Run ESLint and auto-fix syntax/style errors
         run: npx eslint --config ./frontend/eslint.config.js --fix frontend
