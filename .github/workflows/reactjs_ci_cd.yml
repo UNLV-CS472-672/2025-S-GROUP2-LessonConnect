@@ -14,27 +14,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Ensure we are in the root directory of the repo (DEBUG)
-      - name: Ensure we're in the root directory
-        run: |
-          echo "Current working directory:"
-          pwd  # This prints the current directory to the logs, confirming we're in the root
-          echo "Listing directories and files:"
-          ls -la  # List all files and directories, including hidden ones
-
-      - name: List files in frontend directory
-        run: ls -al frontend
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Run ESLint and auto-fix syntax/style errors
-        run: npx eslint --config ./frontend/eslint.config.js --fix frontend
-
       - name: Install dependencies
         run: npm install
+
+      - name: Run ESLint and auto-fix syntax/style errors
+        run: npx eslint --config ./frontend/eslint.config.js --fix frontend
 
       # Applies syntax/style fixes from ESLint as a commit
       - name: Commit and push changes
