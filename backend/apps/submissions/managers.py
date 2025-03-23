@@ -33,7 +33,6 @@ class SubmissionManager(models.Manager):
         Submissions = apps.get_model('submissions', 'Submissions') 
         return Submissions.objects.all()
 
-
 class FileSubmissionManager(models.Manager):
     # POST /submissions/: Create a new submission (file)
     def create_file_submission(self, submission, file):
@@ -44,7 +43,6 @@ class FileSubmissionManager(models.Manager):
             file=file
         )
         return file_submission
-
 
 class QuizSubmissionManager(models.Manager):
     # POST /submissions/: Create a new submission (quiz)

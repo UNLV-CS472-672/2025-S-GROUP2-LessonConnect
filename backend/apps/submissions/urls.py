@@ -9,11 +9,6 @@ router.register(r'file-submissions', FileSubmissionsViewSet)
 router.register(r'quiz-submissions', QuizSubmissionsViewSet)
 router.register(r'student-quiz-answers', StudentQuizAnswersViewSet)
 
-# urlpatterns = [
-#     # Include the router URLs in your app's URLs
-#     path('', include(router.urls)),
-# ]
-
 urlpatterns = [
     path('api/', include(router.urls)),
 ]
