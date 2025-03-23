@@ -19,6 +19,8 @@ jobs:
         run: |
           echo "Current working directory:"
           pwd  # This prints the current directory to the logs, confirming we're in the root
+          echo "Listing directories and files:"
+          ls -la  # List all files and directories, including hidden ones
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
