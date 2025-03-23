@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 from django.conf import settings
 from django.utils import timezone
+from .managers import PomodoroSessionManager
 
 class PomodoroSession(models.Model):
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -12,6 +13,31 @@ class PomodoroSession(models.Model):
     pet_earned = models.BooleanField(default=False)
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(null=True, blank=True)
+    is_paused = models.BooleanField(default=False)
+
+    objects = PomodoroSessionManager()  # Use custom manager
+
+    def start(self):
+        self.start_time = timezone.now()
+        self.save()
+
+    def pause(self):
+        if not self.is_completed:
+            self.is_paused = True
+            self.save()
+
+    def resume(self):
+        if self.is_paused:
+            self.is_paused = False
+            self.save()
+
+    def cancel(self):
+        self.delete()
+
+    def complete(self):
+        self.is_completed = True
+        self.end_time = timezone.now()
+        self.save()
 
     def __str__(self):
         return f"Pomodoro Session ({self.start_time}) - {self.end_time}"
