@@ -12,7 +12,7 @@ from apps.submissions.managers import SubmissionManager, FileSubmissionManager, 
 from django.urls import reverse
 
 # https://chatgpt.com/share/67d8b158-0d8c-8003-a586-13dc69796303
-class SubmissionTestCase(TestCase):
+class SubmissionsTestCase(TestCase):
     def setUp(self):
         # Create user and student profile
         self.user = User.objects.create_user(username="student1", password="password")
@@ -286,63 +286,205 @@ class SubmissionTestCase(TestCase):
         self.quiz_submission.submission.submission_status = manager.mark_quiz_as_submitted(self.quiz_submission)
         self.assertEqual(self.quiz_submission.submission.submission_status, Submissions.SUBMITTED)
 
-    ### API test cases ###
-
-
-# class SubmissionsAPITestCase(TestCase):
-#     def setUp(self):
-#         """Set up test data and API client for Submissions."""
-#         self.client = APIClient()
-#         self.user = User.objects.create_user(
-#             username="testuser",
-#             password="testpassword",
-#             first_name="Test",
-#             last_name="User",
-#             email="test@example.com"
-#         )
-#         self.profile = Profile.objects.create(user=self.user, role=Profile.STUDENT)
-#         self.login_url = "/users/login/"
+    
+## API test cases ###
+# https://chatgpt.com/share/67e078ce-424c-8003-a32f-6a5a074e2780
+class SubmissionsAPITestCase(TestCase):
+    def setUp(self):
+        """Set up test data and API client for Submissions."""
+        self.client = APIClient()
+        self.user = User.objects.create_user(
+            username="testuser",
+            password="testpassword",
+            first_name="Test",
+            last_name="User",
+            email="test@example.com"
+        )
+        self.profile = Profile.objects.create(user=self.user, role=Profile.STUDENT)
+        self.login_url = "/users/login/"
         
-#         self.submission_url = reverse("submissions-list") 
-#         self.submission_detail_url = lambda submission_id: reverse("submissions-detail", args=[submission_id])  # Detail URL for a submission
+        self.submission_url = reverse("submissions-list") 
+        self.submission_detail_url = lambda submission_id: reverse("submissions-detail", args=[submission_id])  # Detail URL for a submission
 
-#         # Log in and obtain JWT tokens
-#         login_response = self.client.post(self.login_url, {"username": "testuser", "password": "testpassword"})
-#         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
-#         self.refresh_token = login_response.json().get("refreshToken")
-#         self.access_token = login_response.json().get("accessToken")
-#         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.access_token}")
+        # Log in and obtain JWT tokens
+        login_response = self.client.post(self.login_url, {"username": "testuser", "password": "testpassword"})
+        self.assertEqual(login_response.status_code, status.HTTP_200_OK)
+        self.refresh_token = login_response.json().get("refreshToken")
+        self.access_token = login_response.json().get("accessToken")
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.access_token}")
 
-    # def test_create_submission(self):
-    #     """Ensure an authenticated user can create a submission."""
-    #     # Data for creating a submission
-    #     submission_data = {
-    #         "student_profile": self.profile.id,
-    #         "submission_status": "submitted",
-    #         "score": 85
-    #     }
+    # Testing submissions class
+    def test_create_submission(self):
+        """Test that an authenticated user can create a submission."""
+        data = {
+            "student_profile": self.profile.id,
+            "submission_status": "submitted",
+            "score": 85.5,
+        }
+        response = self.client.post(self.submission_url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["student_profile"], self.profile.id)
+        self.assertEqual(response.data["submission_status"], "submitted")
+        self.assertEqual(float(response.data["score"]), 85.5)
 
-    #     # Create submission via POST request
-    #     response = self.client.post(self.submission_url, submission_data, format="json")
+    def test_get_submission(self):
+        """Test that an authenticated user can retrieve a submission."""
+        submission = Submissions.objects.create(
+            student_profile=self.profile,
+            submission_status="submitted",
+            score=80.00
+        )
+        response = self.client.get(self.submission_detail_url(submission.id))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["score"], "80.00") 
 
-    #     # Assert that the submission is created successfully
-    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-    #     self.assertEqual(response.data["submission_status"], "submitted")
-    #     self.assertEqual(response.data["score"], 85)
+    def test_update_submission(self):
+        """Test that an authenticated user can update a submission."""
+        submission = Submissions.objects.create(
+            student_profile=self.profile,
+            submission_status="not_submitted",
+            score=85.5
+        )
+        update_data = {
+            "score": 90.0,
+            "submission_status": "submitted"
+        }
+        response = self.client.patch(self.submission_detail_url(submission.id), update_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(float(response.data["score"]), 90.0)
+        self.assertEqual(response.data["submission_status"], "submitted")
 
-    # def test_get_submission(self):
-    #     """Ensure an authenticated user can retrieve a submission."""
-    #     # Create a submission for the test user
-    #     submission = Submissions.objects.create(
-    #         student_profile=self.profile,
-    #         submission_status="submitted",
-    #         score=80
-    #     )
+    def test_delete_submission(self):
+        """Test that an authenticated user can delete their own submission."""
+        submission = Submissions.objects.create(
+            student_profile=self.profile,
+            submission_status="submitted",
+            score=85.5
+        )
+        response = self.client.delete(self.submission_detail_url(submission.id))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Submissions.objects.filter(id=submission.id).exists())
 
-    #     # Make a GET request to retrieve the submission
-    #     response = self.client.get(self.submission_detail_url(submission.id))
+    def test_unauthenticated_user_cannot_create_submission(self):
+        """Test that an unauthenticated user cannot create a submission."""
+        self.client.credentials()  # Remove authentication token
+        data = {
+            "student_profile": self.profile.id,
+            "submission_status": "submitted",
+            "score": 85.5,
+        }
+        response = self.client.post(self.submission_url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    #     # Assert that the submission is returned correctly
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     self.assertEqual(response.data["score"], 80)
+    def test_get_all_submissions(self):
+        """Test retrieving all submissions."""
+        Submissions.objects.create(student_profile=self.profile, submission_status="submitted", score=90.0)
+        Submissions.objects.create(student_profile=self.profile, submission_status="not_submitted", score=None)
+        
+        response = self.client.get(self.submission_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
 
+    def test_get_non_existent_submission(self):
+        """Test retrieving a non-existent submission returns 404."""
+        response = self.client.get(self.submission_detail_url(9999))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_update_submission_invalid_data(self):
+        """Test updating a submission with invalid data."""
+        submission = Submissions.objects.create(student_profile=self.profile, submission_status="submitted", score=85.5)
+        update_data = {"score": -10}  # Invalid score
+        
+        response = self.client.patch(self.submission_detail_url(submission.id), update_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    
+    def test_delete_non_existent_submission(self):
+        """Test deleting a non-existent submission."""
+        response = self.client.delete(self.submission_detail_url(9999))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+class FileQuizSubmissionsAPITestCase(TestCase):
+    def setUp(self):
+        """Set up test data and API client for Submissions."""
+        self.client = APIClient()
+        self.user = User.objects.create_user(
+            username="testuser",
+            password="testpassword",
+            first_name="Test",
+            last_name="User",
+            email="test@example.com"
+        )
+        self.profile = Profile.objects.create(user=self.user, role=Profile.STUDENT)
+        self.submission = Submissions.objects.create(student_profile=self.profile, submission_status="submitted", score=80.0)
+        self.upload_data = {
+            "type": "image",
+            "resource_type": "image",
+            "original_filename": "sample_file.jpg",
+            "format": "jpg",
+            "created_at": timezone.now().isoformat(),
+            "public_id": "sample_public_id",
+            "version": 1,
+            "asset_id": "sample_asset_id"
+        }
+        self.file_record = UploadRecord.objects.create(upload_data=self.upload_data, user=self.user)
+        self.quiz_submission = QuizSubmissions.objects.create(submission=self.submission)
+
+        self.login_url = "/users/login/"
+        self.submission_url = reverse("submissions-list") 
+        self.submission_detail_url = lambda submission_id: reverse("submissions-detail", args=[submission_id])  # Detail URL for a submission
+        self.file_submission_url = reverse("filesubmissions-list")
+        self.file_submission_detail_url = lambda file_id: reverse("filesubmissions-detail", args=[file_id])
+        self.quiz_submission_url = reverse("quizsubmissions-list")
+        self.quiz_submission_detail_url = lambda quiz_id: reverse("quizsubmissions-detail", args=[quiz_id])
+        self.answer_url = reverse("studentquizanswers-list")
+        self.answer_detail_url = lambda answer_id: reverse("studentquizanswers-detail", args=[answer_id])
+
+        # Log in and obtain JWT tokens
+        login_response = self.client.post(self.login_url, {"username": "testuser", "password": "testpassword"})
+        self.assertEqual(login_response.status_code, status.HTTP_200_OK)
+        self.refresh_token = login_response.json().get("refreshToken")
+        self.access_token = login_response.json().get("accessToken")
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.access_token}")
+
+    def test_create_file_submission(self):
+        """Test creating a file submission."""
+        data = {"submission": self.submission.id, "file": self.file_record.id}
+        response = self.client.post(self.file_submission_url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["submission"], self.submission.id)
+
+    def test_delete_file_submission(self):
+        """Test deleting a file submission."""
+        file_submission = FileSubmissions.objects.create(submission=self.submission, file=self.file_record)
+        response = self.client.delete(self.file_submission_detail_url(file_submission.id))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(FileSubmissions.objects.filter(id=file_submission.id).exists())
+
+    def test_submit_quiz(self):
+        """Test marking a quiz submission as submitted."""
+        response = self.client.patch(self.quiz_submission_detail_url(self.quiz_submission.id), {"submission_status": "submitted"}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.quiz_submission.refresh_from_db()
+        self.assertEqual(self.quiz_submission.submission.submission_status, "submitted")
+
+    def test_create_quiz_answer(self):
+        """Test submitting a quiz answer."""
+        data = {"quiz_submission": self.quiz_submission.id, "student_response": "My answer", "is_correct": True}
+        response = self.client.post(self.answer_url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["student_response"], "My answer")
+        self.assertTrue(response.data["is_correct"])
+
+    def test_get_quiz_answers(self):
+        """Test retrieving all answers for a quiz submission."""
+        StudentQuizAnswers.objects.create(quiz_submission=self.quiz_submission, student_response="A", is_correct=True)
+        StudentQuizAnswers.objects.create(quiz_submission=self.quiz_submission, student_response="B", is_correct=False)
+
+        response = self.client.get(self.answer_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
+
+    def test_get_answers_for_non_existent_quiz(self):
+        """Test retrieving quiz answers for a non-existent quiz."""
+        response = self.client.get(self.answer_detail_url(9999))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
