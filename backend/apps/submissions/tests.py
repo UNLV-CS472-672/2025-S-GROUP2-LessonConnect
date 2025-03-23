@@ -289,38 +289,60 @@ class SubmissionTestCase(TestCase):
     ### API test cases ###
 
 
-# from rest_framework.test import APITestCase
-# from rest_framework import status
-# from django.urls import reverse
-
-# class SubmissionAPITests(APITestCase):
+# class SubmissionsAPITestCase(TestCase):
 #     def setUp(self):
-#         """Set up user, profile, and authentication"""
-#         self.user = User.objects.create_user(username="student1", password="password")
+#         """Set up test data and API client for Submissions."""
+#         self.client = APIClient()
+#         self.user = User.objects.create_user(
+#             username="testuser",
+#             password="testpassword",
+#             first_name="Test",
+#             last_name="User",
+#             email="test@example.com"
+#         )
 #         self.profile = Profile.objects.create(user=self.user, role=Profile.STUDENT)
+#         self.login_url = "/users/login/"
+        
+#         self.submission_url = reverse("submissions-list") 
+#         self.submission_detail_url = lambda submission_id: reverse("submissions-detail", args=[submission_id])  # Detail URL for a submission
 
-#         # Obtain JWT tokens for authentication
-#         self.login_url = reverse('token_obtain_pair')  # Ensure this matches your URL pattern for obtaining JWT
-#         response = self.client.post(self.login_url, {"username": "student1", "password": "password"})
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)  # Check if login is successful
-#         self.access_token = response.data["access"]  # Retrieve access token
-
+#         # Log in and obtain JWT tokens
+#         login_response = self.client.post(self.login_url, {"username": "testuser", "password": "testpassword"})
+#         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
+#         self.refresh_token = login_response.json().get("refreshToken")
+#         self.access_token = login_response.json().get("accessToken")
 #         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.access_token}")
 
-#         self.submission_url = reverse("submissions-list")  # Ensure this matches the correct route name
+    # def test_create_submission(self):
+    #     """Ensure an authenticated user can create a submission."""
+    #     # Data for creating a submission
+    #     submission_data = {
+    #         "student_profile": self.profile.id,
+    #         "submission_status": "submitted",
+    #         "score": 85
+    #     }
 
-#     def test_create_submission(self):
-#         """Ensure an authenticated student can create a submission."""
-#         data = {
-#             "submission_status": "submitted",
-#             "score": 90.5
-#         }
-#         response = self.client.post(self.submission_url, data, format="json")
-        
-#         # Print the response for debugging
-#         print(response.status_code, response.data)  
-        
-#         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-#         self.assertEqual(response.data["submission_status"], "submitted")
-#         self.assertEqual(float(response.data["score"]), 90.5)
+    #     # Create submission via POST request
+    #     response = self.client.post(self.submission_url, submission_data, format="json")
+
+    #     # Assert that the submission is created successfully
+    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    #     self.assertEqual(response.data["submission_status"], "submitted")
+    #     self.assertEqual(response.data["score"], 85)
+
+    # def test_get_submission(self):
+    #     """Ensure an authenticated user can retrieve a submission."""
+    #     # Create a submission for the test user
+    #     submission = Submissions.objects.create(
+    #         student_profile=self.profile,
+    #         submission_status="submitted",
+    #         score=80
+    #     )
+
+    #     # Make a GET request to retrieve the submission
+    #     response = self.client.get(self.submission_detail_url(submission.id))
+
+    #     # Assert that the submission is returned correctly
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     self.assertEqual(response.data["score"], 80)
 
