@@ -9,6 +9,7 @@ from decimal import InvalidOperation
 from rest_framework import status
 from rest_framework.test import APIClient
 from apps.submissions.managers import SubmissionManager, FileSubmissionManager, QuizSubmissionManager
+from django.urls import reverse
 
 # https://chatgpt.com/share/67d8b158-0d8c-8003-a586-13dc69796303
 class SubmissionTestCase(TestCase):
@@ -54,9 +55,13 @@ class SubmissionTestCase(TestCase):
             student_response="B",
             is_correct=True
         )
-        # self.manager = SubmissionManager() 
-        # self.manager = FileSubmissionManager()
-        # self.manager = QuizSubmissionManager()
+
+        self.client = APIClient()
+
+        url = reverse('token_obtain_pair')  # Update to the correct token URL if necessary
+        response = self.client.post(url, {'username': 'student1', 'password': 'password'}, format='json')
+        self.token = response.data['access'] 
+
 
     ### Testing Models ###
     # Testing class creation
@@ -280,3 +285,42 @@ class SubmissionTestCase(TestCase):
         self.quiz_submission.submission.save()
         self.quiz_submission.submission.submission_status = manager.mark_quiz_as_submitted(self.quiz_submission)
         self.assertEqual(self.quiz_submission.submission.submission_status, Submissions.SUBMITTED)
+
+    ### API test cases ###
+
+
+# from rest_framework.test import APITestCase
+# from rest_framework import status
+# from django.urls import reverse
+
+# class SubmissionAPITests(APITestCase):
+#     def setUp(self):
+#         """Set up user, profile, and authentication"""
+#         self.user = User.objects.create_user(username="student1", password="password")
+#         self.profile = Profile.objects.create(user=self.user, role=Profile.STUDENT)
+
+#         # Obtain JWT tokens for authentication
+#         self.login_url = reverse('token_obtain_pair')  # Ensure this matches your URL pattern for obtaining JWT
+#         response = self.client.post(self.login_url, {"username": "student1", "password": "password"})
+#         self.assertEqual(response.status_code, status.HTTP_200_OK)  # Check if login is successful
+#         self.access_token = response.data["access"]  # Retrieve access token
+
+#         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.access_token}")
+
+#         self.submission_url = reverse("submissions-list")  # Ensure this matches the correct route name
+
+#     def test_create_submission(self):
+#         """Ensure an authenticated student can create a submission."""
+#         data = {
+#             "submission_status": "submitted",
+#             "score": 90.5
+#         }
+#         response = self.client.post(self.submission_url, data, format="json")
+        
+#         # Print the response for debugging
+#         print(response.status_code, response.data)  
+        
+#         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+#         self.assertEqual(response.data["submission_status"], "submitted")
+#         self.assertEqual(float(response.data["score"]), 90.5)
+
