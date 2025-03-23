@@ -80,7 +80,7 @@ def delete_user(request):
       user = User.objects.get(username=username)
       user.delete()
       return Response(f"User {username} deleted successfully!", status=status.HTTP_200_OK)
-    except User.DoesNotExist
+    except User.DoesNotExist:
       # https://stackoverflow.com/questions/17884469/what-is-the-http-response-code-for-failed-http-delete-operation
       return Response("User not found!", status=status.HTTP_404_NOT_FOUND)
   # should never reach here, but still just in case

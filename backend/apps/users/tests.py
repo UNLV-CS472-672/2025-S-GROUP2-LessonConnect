@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 from .models import Profile
@@ -20,7 +21,7 @@ class UserAPITestCase(TestCase):
         self.login_url = "/users/login/"
         self.register_url = "/users/register/"
         self.csrf_token_url = "/users/csrf/"
-        self.delete_user_url = "/users/delete/"
+        self.delete_user_url = "/users/delete_user/"
         self.logout_url = "/users/logout/"
         
         # Obtain JWT tokens
@@ -68,6 +69,7 @@ class UserAPITestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(User.objects.filter(username="newuser").exists())
         self.assertTrue(Profile.objects.filter(user__username="newuser").exists())
+        self.assertEqual(str(Profile.objects.filter(user__username="newuser")[0]), "newuser")
     
     def test_delete_user_success(self):
         """Test deleting an existing user."""
@@ -88,3 +90,7 @@ class UserAPITestCase(TestCase):
             print(response.data["error"])
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("message", response.json())
+    
+    # as per Allison's recommendation
+    def tearDown(self):
+      self.user.delete()
