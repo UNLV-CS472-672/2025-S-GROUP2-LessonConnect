@@ -4,7 +4,7 @@ export default function FAQS() {
     return (
         <div className="faq-page">
             {/* FAQ Section */}
-            // FAQ Background Section
+            {/* FAQ Background Section */}
             <div className="faq-background">
                 <img src="assets/images/FAQs.webp" alt="FAQs Background" className="faq-bg-image" />
                 <h1 className="faq-title">FAQs:</h1>
@@ -122,15 +122,14 @@ export default function FAQS() {
                             data-bs-parent="#faqAccordion"
                         >
                             <div className="accordion-body">
-                                If you're interested in tutoring, sign up as a tutor and
-                                complete the verification process.
+                                If you&apos;re interested in tutoring, sign up as a tutor and complete the verification process.
                             </div>
                         </div>
                     </div>
                 </div>
                 {/* Didn't find your answer button */}
                 <div className="faq-footer">
-                    <p>Didn't find your answer?</p>
+                    <p>Didn&apos;t find your answer?</p>
                     <a href="/contact" className="faq-button">Click here</a>
                 </div>
             </div>
