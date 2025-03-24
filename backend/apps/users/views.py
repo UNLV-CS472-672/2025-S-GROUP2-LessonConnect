@@ -5,8 +5,7 @@ from django.contrib.auth import authenticate
 from django.http import JsonResponse, HttpResponse
 from django.middleware.csrf import get_token
 from .models import Profile, TutorProfile
-from .managers import TutorProfileManager, ProfileManager
-from apps.managers.uploads import UploadRecordManager
+from apps.uploads.models import UploadRecord
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -81,14 +80,14 @@ def register_profile(request):
     # Going to try to call with just the manager, if not, will add model reference :o
 
     # Use the manager method to handle file upload
-    upload_data = UploadRecordManager.upload(image)
+    upload_data = UploadRecord.objects.upload(image)
 
     # Use the manager method to save relevant metadata into database
-    upload_record = UploadRecordManager.create(upload_data, user)
+    upload_record = UploadRecord.objects.create(upload_data, user)
 
     # Get generated id and store it into TutorProfile for URL generation
     image_id = upload_record.public_id
-    ProfileManager.add_image(profile, image_id)
+    Profile.objects.add_image(profile, image_id)
 
   #!!!!!!!! Need to test, also add profile pic lol to profile
   # Create Tutor Profile if role is Tutor

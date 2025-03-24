@@ -17,7 +17,16 @@ class Profile(models.Model):
   )
   user = models.OneToOneField(User, null=False, blank=False, on_delete=models.CASCADE)
   role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=False, blank=False, default=STUDENT)
-  image_id = models.UUIDField(blank=True, null=True) # maybe? or like have a default image id***
+
+  # TODO:
+  #image_id = models.UUIDField(blank=True, null=True) # maybe? or like have a default image id***
+  # better approach would to just do a one to many relation with upload records
+  # soo in search, i can just reference it by profile__uploadrecord which i can pass to the serializer
+  # so will do a one to one relatiosnhip then, and reverse follow it
+  #will need to add a case where if the user updates their original, i need to either
+  #delete the obj and replace it with a new, or i could always just replace the info, not sure which is better**
+  # need to also make that PUT method then***
+
 
   def __str__(self):
     return self.user.username

@@ -50,6 +50,11 @@ class UploadRecordManager(models.Manager):
         upload_record = self.get_queryset().filter(public_id=public_id).first()
         return upload_record
 
+    def get_uploads_by_id(self, public_ids):
+         # Fetch UploadRecords in bulk
+        upload_records = self.filter(public_id__in=public_ids)
+        return upload_records
+
     def get_all_uploads(self):
         # Retrieve all upload records from the database
         all_uploads = self.get_queryset().all()
