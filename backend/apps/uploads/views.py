@@ -80,7 +80,7 @@ class UploadDetailView(APIView):
             # Return updated specific upload details to front-end
             return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_200_OK)
         else:
-            return Response(status=HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
     # Note: Tested this PATCH request by entering this into the command line
     # curl -X PATCH http://127.0.0.1:8000/uploads/{public_id}/ -H "Content-Type: application/json" -d '{"description": "Updated upload description"}'
 
