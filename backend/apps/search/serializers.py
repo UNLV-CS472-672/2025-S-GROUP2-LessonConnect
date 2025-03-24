@@ -8,4 +8,4 @@ class TutorSearchResultSerializer(serializers.ModelSerializer):
     # Specify the model and fields to be included in the serialized output
     class Meta:
         model = TutorProfile
-        fields = ["first_name", "last_name", "bio", "hourly_rate", "state", "city"]
+        fields = ["first_name", "last_name", "bio", "hourly_rate", "state", "city", "rating"]

@@ -15,16 +15,44 @@ class TutorProfileManager(models.Manager):
         tutor_profile.save() # Save the instance to the database
         return tutor_profile
 
-    def filter_tutors_by_location(self, what, city, state):
+    def filter_tutors_by_location(self, city, state):
         # Filter tutor profiles based on city and state
         filtered_tutors = self.filter(city=city, state=state)
         return filtered_tutors
 
-    def filter_tutors_by_subject(self, filtered_tutors, subject_query):
-        # Prefetch related subjects to optimize database queries
-        filtered_tutors = filtered_tutors.prefetch_related('subjects')
-        # Filter tutors who have any of the subjects in the subject_query
-        filtered_tutors = filtered_tutors.filter(subjects__in=subject_query)
+    # Method to parse the 'where' query and extract city and state
+    def parse_where_query(self, where):
+        city, state = where.split(",")
+        city = city.strip()  # Removes any leading/trailing whitespace
+        state = state.strip()
+        return city, state
+
+    def filter_tutors_by_rating(self, filtered_tutors, rating):
+        # Filter tutor profiles based on rating
+        filtered_tutors = filtered_tutors.filter(rating__gte=rating)
+        return filtered_tutors
+
+    def filter_by_price_range(self, filtered_tutors, min_price=None, max_price=None):
+        if min_price is not None:
+            filtered_tutors = filtered_tutors.filter(hourly_rate__gte=min_price)
+        if max_price is not None:
+            filtered_tutors= filtered_tutors.filter(hourly_rate__lte=max_price)
+        return filtered_tutors
+
+    def filter_tutors_by_subject(self, filtered_tutors, subject_query, is_subjects_filtered):
+        # If matching subjects are found, filter tutors by these subjects
+        if not subject_query.exists():
+            return self.none()
+
+        if is_subjects_filtered:
+            # Filter tutors who have any of the subjects in the subject_query
+            filtered_tutors = filtered_tutors.filter(subjects__in=subject_query)
+        else:
+            # Prefetch related subjects to optimize database queries (prefetch only needs to occur once)
+            filtered_tutors = filtered_tutors.prefetch_related('subjects')
+            # Filter tutors who have any of the subjects in the subject_query
+            filtered_tutors = filtered_tutors.filter(subjects__in=subject_query)
+
         return filtered_tutors
 
     def search(self, filtered_tutors, what):
@@ -43,10 +71,3 @@ class TutorProfileManager(models.Manager):
             'city'
         )
         return search_results
-
-    # Method to parse the 'where' query and extract city and state
-    def parse_where_query(self, where):
-        city, state = where.split(",")
-        city = city.strip()  # Removes any leading/trailing whitespace
-        state = state.strip()
-        return city, state

@@ -31,7 +31,7 @@ class TutorProfile(models.Model):
     hourly_rate = models.DecimalField(max_digits=6, decimal_places=2)
 
     subjects = models.ManyToManyField(to="search.Subject")
-
+    rating = models.DecimalField(max_digits=3, decimal_places=2, default=1.00)
     # Link the custom manager to the model
     objects = TutorProfileManager()
 

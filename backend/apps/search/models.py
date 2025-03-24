@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 class Category(models.Model):
@@ -18,5 +19,10 @@ class Subject(models.Model):
     def __str__(self):
         return self.title
 
-
+class SearchFilters(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="search_filters")
+    subjects = models.ManyToManyField(Subject, blank=True)
+    min_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    max_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    rating = models.IntegerField(null=True, blank=True)
 
