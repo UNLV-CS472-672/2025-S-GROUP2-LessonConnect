@@ -4,12 +4,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.http import JsonResponse, HttpResponse
 from django.middleware.csrf import get_token
-from .models import Profile
+from .models import Profile, TutorProfile
+from .managers import TutorProfileManager, ProfileManager
+from apps.managers.uploads import UploadRecordManager
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
+
 
 login_template = "login.html"
 register_profile_template = "register.html"
@@ -69,7 +72,33 @@ def register_profile(request):
     email=email,
   )
   # Create associated Profile
-  Profile.objects.create(user=user, role=role)
+  profile = Profile.objects.create(user=user, role=role)
+
+  image=request.data["image"]
+  # Store optional profile picture
+  if image:
+    # Call the functions in POST request (not ideal to actually call the request)
+    # Going to try to call with just the manager, if not, will add model reference :o
+
+    # Use the manager method to handle file upload
+    upload_data = UploadRecordManager.upload(image)
+
+    # Use the manager method to save relevant metadata into database
+    upload_record = UploadRecordManager.create(upload_data, user)
+
+    # Get generated id and store it into TutorProfile for URL generation
+    image_id = upload_record.public_id
+    ProfileManager.add_image(profile, image_id)
+
+  #!!!!!!!! Need to test, also add profile pic lol to profile
+  # Create Tutor Profile if role is Tutor
+  if profile.role == profile.TUTOR:
+      city=request.data["city"]
+      state=request.data["state"],
+      bio=request.data["bio"],
+      hourly_rate=request.data["hourly_rate"]
+      tutor = TutorProfile.objects.create(profile, city, state, bio, hourly_rate)
+
   return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])

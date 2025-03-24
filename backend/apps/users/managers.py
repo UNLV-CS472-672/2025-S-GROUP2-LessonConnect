@@ -1,9 +1,14 @@
 from django.db import models
 from watson import search
 
+class ProfileManager(models.Manager):
+    def add_image(self, profile, image_id):
+        profile.image_id = image_id
+        profile.save()
+
 class TutorProfileManager(models.Manager):
 
-    def create_tutor_profile(self, profile, city, state, bio="", hourly_rate=0.0):
+    def create(self, profile, city, state, bio="", hourly_rate=0.0):
         # Create a new TutorProfile instance with the provided data
         tutor_profile = self.model(
             profile=profile,

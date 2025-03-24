@@ -17,6 +17,8 @@ class Profile(models.Model):
   )
   user = models.OneToOneField(User, null=False, blank=False, on_delete=models.CASCADE)
   role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=False, blank=False, default=STUDENT)
+  image_id = models.UUIDField(blank=True, null=True) # maybe? or like have a default image id***
+
   def __str__(self):
     return self.user.username
 
