@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Q, Value
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -8,7 +8,6 @@ from .models import Subject, Category
 from apps.users.models import TutorProfile
 from apps.users.managers import TutorProfileManager
 from .serializers import TutorSearchResultSerializer
-from django.db.models import Value, IntegerField
 
 # Create your views here.
 class SearchView(APIView):
@@ -79,41 +78,32 @@ class SearchView(APIView):
             filtered_tutors = TutorProfile.objects.filter_tutors_by_subject(filtered_tutors, query, is_subjects_filtered)
             is_subjects_filtered = True
 
-
-        # Perform search with 'what' term
-        search_results = TutorProfile.objects.search(filtered_tutors, what)
-
         # Split the 'what' search term into individual words, handling non-word characters and spaces
         # This helps match partial words regarding subject and is used to pull up other
         # tutor results whose subjects fits this search term
         search_terms = re.split(r'[\W\s]+', what)
         lookup_subjects_query = Q()
+        # This helps match partial names regarding tutors
+        lookup_tutors_query = Q()
 
         # Loop through each search term and create a query that checks if the term is
         # in the category title or the subject title
         for term in search_terms:
             lookup_subjects_query |= Q(category__title__icontains=term) | Q(title__icontains=term)
+            lookup_tutors_query |= Q(profile__user__first_name__icontains=term) | Q(profile__user__last_name__icontains=term)
+
+        # Perform search with 'what' term
+        search_results = TutorProfile.objects.search(filtered_tutors, what)
+        # Combine with partial_tutor_matches
+        partial_tutor_matches = TutorProfile.objects.filter(lookup_tutors_query)
+        search_results = (search_results | partial_tutor_matches)
 
         try:
             # Execute the query for subjects
             subject_query = Subject.objects.filter(lookup_subjects_query)
             filtered_tutors = TutorProfile.objects.filter_tutors_by_subject(filtered_tutors, subject_query, is_subjects_filtered)
-
             # Combine the filtered tutors with the existing search results
-
-                #search_results = (filtered_tutors | search_results).distinct()
-            # Annotate and combine the querysets
-            print(search_results)
-            search_results_tagged = search_results.annotate(
-                source_order=Value(1, output_field=IntegerField())
-            )
-            print(filtered_tutors)
-            filtered_tutors_tagged = filtered_tutors.annotate(
-                source_order=Value(0, output_field=IntegerField())
-            )
-            # Combine the querysets and apply distinct
-            combined_results = (search_results_tagged | filtered_tutors_tagged).distinct().order_by('source_order')
-                #search_results = list(dict.fromkeys(chain(search_results, filtered_tutors)))
+            combined_results = (search_results_tagged | filtered_tutors_tagged).distinct()
 
         except Exception as e:
             return Response({"message": f"Error searching subjects: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

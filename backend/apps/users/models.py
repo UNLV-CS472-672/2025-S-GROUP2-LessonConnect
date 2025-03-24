@@ -48,6 +48,5 @@ class TutorProfile(models.Model):
 
     # Note: Django-watson includes what ever is returned in __str__
     def __str__(self):
-        return self.profile.user.username
-        #return f"{self.profile.user.first_name} {self.profile.user.last_name}"
+        return f"{self.profile.user.first_name} {self.profile.user.last_name}"
 
