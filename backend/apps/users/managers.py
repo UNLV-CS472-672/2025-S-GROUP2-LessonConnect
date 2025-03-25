@@ -6,6 +6,14 @@ class ProfileManager(models.Manager):
         profile.image_id = image_id
         profile.save()
 
+    def create(self, user, role):
+        profile = self.model(
+            user=user,
+            role=role
+        )
+        profile.save()
+        return profile
+
 class TutorProfileManager(models.Manager):
 
     def create(self, profile, city, state, bio="", hourly_rate=0.0):

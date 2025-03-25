@@ -11,6 +11,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, JSONParser
 
 
 login_template = "login.html"
@@ -71,7 +73,7 @@ def register_profile(request):
     email=email,
   )
   # Create associated Profile
-  profile = Profile.objects.create(user=user, role=role)
+  profile = Profile.objects.create(user, role)
 
   image=request.data["image"]
 
@@ -127,5 +129,5 @@ class Profile(APIView):
     # Handles POST HTTP request from frontend
     # Changing Profile picture
     def put(self, request):
-        # code  
+        # code
         return Response({'status': 'success'}, status=status.HTTP_200_OK)

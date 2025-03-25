@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
-from .managers import TutorProfileManager
+from .managers import TutorProfileManager, ProfileManager
 
 # https://simpleisbetterthancomplex.com/tutorial/2016/11/23/how-to-add-user-profile-to-django-admin.html
 class Profile(models.Model):
@@ -17,6 +17,8 @@ class Profile(models.Model):
   )
   user = models.OneToOneField(User, null=False, blank=False, on_delete=models.CASCADE)
   role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=False, blank=False, default=STUDENT)
+  # Link the custom manager to the model
+  objects = ProfileManager()
 
   def __str__(self):
     return self.user.username

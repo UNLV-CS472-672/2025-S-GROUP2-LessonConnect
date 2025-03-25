@@ -1,5 +1,4 @@
 # uploads/models.py
-import uuid
 from django.db import models
 from apps.uploads.managers import UploadRecordManager, ProfilePictureManager
 from cloudinary.models import CloudinaryField
@@ -31,7 +30,7 @@ class UploadRecord(models.Model):
 
 class ProfilePicture(models.Model):
     upload = models.OneToOneField(UploadRecord, on_delete=models.CASCADE)
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='profile_picture')
+    profile = models.OneToOneField("users.Profile", on_delete=models.CASCADE, related_name='profile_picture')
 
     # Link the custom manager to the model
     objects = ProfilePictureManager()
@@ -41,7 +40,7 @@ class ProfilePicture(models.Model):
 
     def save(self, *args, **kwargs):
         # Ensure only one profile picture per user
-        existing = ProfilePicture.objects.filter(upload__user=self.upload.user).exclude(pk=self.pk)
+        existing = ProfilePicture.objects.filter(upload__user=self.upload.user).exclude(pk=self.pk) #may need to change to id
         if existing.exists():
             raise ValueError("User already has a profile picture.")
         super().save(*args, **kwargs)

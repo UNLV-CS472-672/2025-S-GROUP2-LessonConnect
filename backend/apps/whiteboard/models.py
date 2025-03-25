@@ -8,7 +8,7 @@ class Room(models.Model):
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
 
     # Link the custom manager to the model
-    objects = TutorProfileManager()
+    objects = BoardManager()
 
     def __str__(self):
-        return f'{self.name}
+        return f"{self.name}"
