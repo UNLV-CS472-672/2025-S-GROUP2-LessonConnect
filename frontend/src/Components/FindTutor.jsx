@@ -1,4 +1,5 @@
 import {NavLink} from "react-router-dom";
+import FilterDropdown from "./FilterDropdown";
 import '../Styles/FindTutor.css'
 export default function FindTutor() {
     const tutorList = [
@@ -120,6 +121,8 @@ export default function FindTutor() {
                     </div>
                 </div>
             </div>
+
+            <FilterDropdown />
 
             <div className="container mt-5">
                 <h2 className="fw-bold fs-3 mt-5 mb-5">Popular Tutors</h2>
