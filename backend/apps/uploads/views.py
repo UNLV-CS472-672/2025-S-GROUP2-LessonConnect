@@ -23,9 +23,9 @@ class UploadDetailView(APIView):
 
     # Handles GET HTTP request from frontend
     # Get a specific upload by id
-    def get(self, request, public_id):
-        # Use the manager method to find specific upload using public_id (UUID)
-        upload = UploadRecord.objects.get_upload(public_id)
+    def get(self, request, id):
+        # Use the manager method to find specific upload using id
+        upload = UploadRecord.objects.get_upload(id)
 
         if not upload:  # Check if the object exists
             return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -36,15 +36,15 @@ class UploadDetailView(APIView):
         # Return specific upload details to front-end
         return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_200_OK)
     # Note: Tested this GET request by entering this into the command line
-    # curl -X GET http://127.0.0.1:8000/uploads/{public_id}/
+    # curl -X GET http://127.0.0.1:8000/uploads/{id}/
 
 
     # Handles DELETE HTTP request from frontend
     # Deletes an existing uploaded file from the database
 
-    def delete(self, request, public_id):
-        # Use the manager method to find specific upload using public_id (UUID)
-        upload = UploadRecord.objects.get_upload(public_id)
+    def delete(self, request, id):
+        # Use the manager method to find specific upload using id
+        upload = UploadRecord.objects.get_upload(id)
 
         if not upload:  # Check if the object exists
             return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -58,16 +58,16 @@ class UploadDetailView(APIView):
         upload.delete()
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
     # Note: Tested this DELETE request by entering this into the command line
-    # curl -X DELETE http://127.0.0.1:8000/uploads/{public_id}/
+    # curl -X DELETE http://127.0.0.1:8000/uploads/{id}/
 
 
     # Handles PATCH request from the frontend
     # Updates the description of a file
-    def patch(self, request, public_id):
+    def patch(self, request, id):
         new_description = request.data.get('description')  # Get 'description' from request body
 
-        # Use the manager method to find specific upload using public_id (UUID)
-        upload = UploadRecord.objects.get_upload(public_id)
+        # Use the manager method to find specific upload using id
+        upload = UploadRecord.objects.get_upload(id)
 
         if not upload:  # Check if the object exists
             return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -82,7 +82,7 @@ class UploadDetailView(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
     # Note: Tested this PATCH request by entering this into the command line
-    # curl -X PATCH http://127.0.0.1:8000/uploads/{public_id}/ -H "Content-Type: application/json" -d '{"description": "Updated upload description"}'
+    # curl -X PATCH http://127.0.0.1:8000/uploads/{id}/ -H "Content-Type: application/json" -d '{"description": "Updated upload description"}'
 
 
 

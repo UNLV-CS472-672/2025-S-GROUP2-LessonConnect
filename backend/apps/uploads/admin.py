@@ -5,6 +5,6 @@ from apps.uploads.models import UploadRecord
 
 
 class UploadRecordAdmin(admin.ModelAdmin):
-    list_display=['public_id', 'id']
+    list_display=['cloudinary_public_id', 'id']
 # Register your models here.
 admin.site.register(UploadRecord, UploadRecordAdmin)

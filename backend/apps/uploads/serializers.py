@@ -17,4 +17,4 @@ class UploadDetailSerializer(serializers.ModelSerializer):
 class UploadListSerializer(serializers.ModelSerializer):
     class Meta:
         model = UploadRecord
-        fields = ['file_name', 'file_format', 'public_id']
+        fields = ['file_name', 'file_format', 'cloudinary_public_id']

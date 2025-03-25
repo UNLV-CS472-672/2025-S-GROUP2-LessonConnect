@@ -5,6 +5,6 @@ urlpatterns = [
     # Path to all uploads
     path('', UploadListView.as_view(), name="upload-list"),
     # Path to upload by ID
-    path('<uuid:public_id>/', UploadDetailView.as_view(), name="upload-detail"),
+    path('<str:cloudinary_public_id>/', UploadDetailView.as_view(), name="upload-detail"),
 ]
 

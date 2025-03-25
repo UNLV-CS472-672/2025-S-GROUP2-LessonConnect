@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate
 from django.http import JsonResponse, HttpResponse
 from django.middleware.csrf import get_token
 from .models import Profile, TutorProfile
-from apps.uploads.models import UploadRecord
+from apps.uploads.models import UploadRecord, ProfilePicture
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -74,6 +74,7 @@ def register_profile(request):
   profile = Profile.objects.create(user=user, role=role)
 
   image=request.data["image"]
+
   # Store optional profile picture
   if image:
     # Call the functions in POST request (not ideal to actually call the request)
@@ -84,10 +85,8 @@ def register_profile(request):
 
     # Use the manager method to save relevant metadata into database
     upload_record = UploadRecord.objects.create(upload_data, user)
+    ProfilePicture.objects.create(upload_record, profile)
 
-    # Get generated id and store it into TutorProfile for URL generation
-    image_id = upload_record.public_id
-    Profile.objects.add_image(profile, image_id)
 
   #!!!!!!!! Need to test, also add profile pic lol to profile
   # Create Tutor Profile if role is Tutor
@@ -114,3 +113,19 @@ def delete_user(request):
   # should never reach here, but still just in case
   return Response("FATAL: Undefined functionality, please contact system administrator", 
                   status=status.HTTP_404_NOT_FOUND)
+
+
+class Profile(APIView):
+    permission_classes = []  # Debug only: No authentication required
+    # Specifies that the view can accept both multipart form data
+    # and JSON-formatted request bodies.
+    parser_classes = (
+            MultiPartParser,
+            JSONParser,
+    )
+
+    # Handles POST HTTP request from frontend
+    # Changing Profile picture
+    def put(self, request):
+        # code  
+        return Response({'status': 'success'}, status=status.HTTP_200_OK)

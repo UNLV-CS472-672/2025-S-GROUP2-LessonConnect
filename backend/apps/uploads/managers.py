@@ -4,6 +4,17 @@ from datetime import datetime
 import cloudinary.uploader
 from cloudinary import CloudinaryImage
 
+class ProfilePictureManager(models.Manager):
+    def create(self, upload, profile):
+        # Create a new UploadRecord instance with the provided data
+        profile_picture = self.model(
+                profile=profile,
+                upload=upload
+            )
+        # Save the instance to the database
+        profile_picture.save()
+        return profile_picture
+
 class UploadRecordManager(models.Manager):
 
     def upload(self, file):
@@ -45,15 +56,10 @@ class UploadRecordManager(models.Manager):
         dynamic_asset_url, _ = cloudinary.utils.cloudinary_url(cloudinary_public_id, resource_type = resource_type)
         return dynamic_asset_url
 
-    def get_upload(self,public_id):
+    def get_upload(self, id):
         # Retrieve the upload record by its public ID
-        upload_record = self.get_queryset().filter(public_id=public_id).first()
+        upload_record = self.get_queryset().filter(id=id).first()
         return upload_record
-
-    def get_uploads_by_id(self, public_ids):
-         # Fetch UploadRecords in bulk
-        upload_records = self.filter(public_id__in=public_ids)
-        return upload_records
 
     def get_all_uploads(self):
         # Retrieve all upload records from the database

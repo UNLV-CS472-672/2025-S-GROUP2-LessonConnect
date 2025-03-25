@@ -109,11 +109,7 @@ class SearchView(APIView):
             return Response({"message": f"Error searching subjects: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         # Process the results and serialize
-        result_data = TutorProfile.objects.get_result_data(combined_results) #og was search_results
-        image_ids = []
-        for tutor in result_data:
-            image_ids.append(tutor.image_id)
-        found_uploads = UploadRecord.objects.get_uploads_by_id(image_ids)
+        result_data = TutorProfile.objects.get_result_data(combined_results)
         serializer = TutorSearchResultSerializer(result_data, many=True)
 
         return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_200_OK)

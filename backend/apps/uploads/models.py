@@ -1,16 +1,13 @@
 # uploads/models.py
 import uuid
 from django.db import models
-from apps.uploads.managers import UploadRecordManager
+from apps.uploads.managers import UploadRecordManager, ProfilePictureManager
 from cloudinary.models import CloudinaryField
-from django.conf import settings
 
 # https://blog.nonstopio.com/well-handling-of-cloudinary-with-python-drf-api-28271575e21f
 class UploadRecord(models.Model):
     # Fields
-    id = models.AutoField(primary_key=True)  # Internal sequential ID (hidden from URL)
-    # Auto generates a unique identifier
-    public_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)  # Exposed in URL
+    id = models.AutoField(primary_key=True)
 
     # Cloudinary data from upload
     cloudinary_public_id = models.CharField(max_length=255) # Used to build Cloudinary URL
@@ -23,7 +20,6 @@ class UploadRecord(models.Model):
     asset_id = models.CharField(max_length=255)
 
     # default = 1 for first user (for now)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='uploads', default = 1)
     description = models.TextField(default="", blank=True, null=False)
 
     # Link the custom manager to the model
@@ -31,3 +27,21 @@ class UploadRecord(models.Model):
 
     def __str__(self):
         return self.file_name
+
+
+class ProfilePicture(models.Model):
+    upload = models.OneToOneField(UploadRecord, on_delete=models.CASCADE)
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='profile_picture')
+
+    # Link the custom manager to the model
+    objects = ProfilePictureManager()
+
+    def __str__(self):
+        return self.upload.file_name
+
+    def save(self, *args, **kwargs):
+        # Ensure only one profile picture per user
+        existing = ProfilePicture.objects.filter(upload__user=self.upload.user).exclude(pk=self.pk)
+        if existing.exists():
+            raise ValueError("User already has a profile picture.")
+        super().save(*args, **kwargs)
