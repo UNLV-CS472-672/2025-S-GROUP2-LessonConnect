@@ -12,7 +12,8 @@ class SubmissionManager(models.Manager):
             score=score
         )
         return submission
-
+    
+    # PATCH /submissions/{submission_id}/
     def update_submission_status(self, submission_id, status):
         """Update the status of a submission"""
         Submissions = apps.get_model('submissions', 'Submissions')
@@ -45,7 +46,7 @@ class FileSubmissionManager(models.Manager):
         return file_submission
 
 class QuizSubmissionManager(models.Manager):
-    # POST /submissions/: Create a new submission (quiz)
+    # POST /submissions/quiz-submissions: Create a new submission (quiz)
     def create_quiz_submission(self, submission):
         """Create a new quiz submission entry"""
         QuizSubmissions = apps.get_model('submissions', 'QuizSubmissions') 
