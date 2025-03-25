@@ -2,7 +2,8 @@ import "../Styles/filterDropdown.css";
 import { useState } from "react";
 const FilterDropdown = () => {
     const [selectedTypes, setSelectedTypes] = useState([]);
-
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(150);
     const toggleType = (type) => {
         setSelectedTypes((prev) =>
             prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
@@ -31,14 +32,32 @@ const FilterDropdown = () => {
                         </div>
 
                         {/* Min Price Button */}
-                        <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            Min Price
-                        </button>
+                        <div className="dropdown">
+                            <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                Min
+                            </button>
+                            <ul className="dropdown-menu p-3">
+                                <label className="form-label">Minimum Price</label>
+                                <output className="d-block text-end">${minPrice}</output>
+                                <input type="range" className="form-range" min="0" max="150" value={minPrice}
+                                       onChange={(e) => setMinPrice(e.target.value)} />
+                            </ul>
+                        </div>
+
 
                         {/* Max Price Button */}
-                        <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            Max Price
-                        </button>
+                        <div className="dropdown">
+                            <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                Max 
+                            </button>
+                            <ul className="dropdown-menu p-3">
+                                <label className="form-label">Maximum Price</label>
+                                <output className="d-block text-end">${maxPrice}</output>
+                                <input type="range" className="form-range" min="0" max="150" value={maxPrice}
+                                       onChange={(e) => setMaxPrice(e.target.value)} />
+                            </ul>
+                        </div>
+
 
                         {/* Rate Button */}
                         <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
