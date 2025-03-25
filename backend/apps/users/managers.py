@@ -6,7 +6,7 @@ class ProfileManager(models.Manager):
         profile.image_id = image_id
         profile.save()
 
-    def create(self, user, role):
+    def create_profile(self, user, role):
         profile = self.model(
             user=user,
             role=role

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.http import JsonResponse, HttpResponse
 from django.middleware.csrf import get_token
-from .models import Profile, TutorProfile
+from apps.users.models import Profile, TutorProfile
 from apps.uploads.models import UploadRecord, ProfilePicture
 from rest_framework import status
 from rest_framework.response import Response
@@ -73,7 +73,7 @@ def register_profile(request):
     email=email,
   )
   # Create associated Profile
-  profile = Profile.objects.create(user, role)
+  profile = Profile.objects.create_profile(user, role)
 
   image=request.data["image"]
 
