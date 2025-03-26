@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from backend.apps.uploads.models import UploadRecord
+from apps.uploads.models import UploadRecord
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 
@@ -31,6 +31,22 @@ class Assignment(models.Model):  # Assignments: Represents assignments given to 
     def __str__(self):
         return self.title
 
+    # Helper methods
+    @classmethod
+    def get_assignment(cls, assignment_id):
+        try:
+            return cls.objects.get(pk=assignment_id)
+        except cls.DoesNotExist:
+            return None
+
+    def update_assignment(self, data):
+        for field, value in data.items():
+            setattr(self, field, value)
+        self.save()
+        return self
+
+    def delete_assignment(self):
+        self.delete()
 
 class Quiz(models.Model):  # Quizzes: Represents quizzes linked to assignments.
     class Meta:
