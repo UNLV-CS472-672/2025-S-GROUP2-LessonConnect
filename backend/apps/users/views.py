@@ -109,19 +109,3 @@ def delete_user(request):
   # should never reach here, but still just in case
   return Response("FATAL: Undefined functionality, please contact system administrator", 
                   status=status.HTTP_404_NOT_FOUND)
-
-
-class ProfileView(APIView):
-    permission_classes = []  # Debug only: No authentication required
-    # Specifies that the view can accept both multipart form data
-    # and JSON-formatted request bodies.
-    parser_classes = (
-            MultiPartParser,
-            JSONParser,
-    )
-
-    # Handles POST HTTP request from frontend
-    # Changing Profile picture
-    def put(self, request):
-        # code
-        return Response({'status': 'success'}, status=status.HTTP_200_OK)

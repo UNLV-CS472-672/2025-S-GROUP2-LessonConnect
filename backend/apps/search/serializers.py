@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from apps.users.models import TutorProfile
+from apps.uploads.models import UploadRecord
 
 class TutorSearchResultSerializer(serializers.ModelSerializer):
     # Define custom fields to fetch first and last names from the related user profile
