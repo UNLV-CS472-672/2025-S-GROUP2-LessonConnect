@@ -55,9 +55,9 @@ class UploadRecordManager(models.Manager):
         dynamic_asset_url, _ = cloudinary.utils.cloudinary_url(cloudinary_public_id, resource_type = resource_type)
         return dynamic_asset_url
 
-    def get_upload(self, id):
+    def get_upload(self, cloudinary_public_id):
         # Retrieve the upload record by its public ID
-        upload_record = self.get_queryset().filter(id=id).first()
+        upload_record = self.get_queryset().filter(cloudinary_public_id=cloudinary_public_id).first()
         return upload_record
 
     def get_all_uploads(self):
