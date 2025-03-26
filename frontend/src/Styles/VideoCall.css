@@ -1,3 +1,60 @@
-.Videocall-page-container{
+/* Video Call Full Container */
+.video-call-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #222;
+}
+/* Video Container */
+.video-container {
+    position: relative;
+    width: 80%;
+    max-width: 1000px;
+    height: 80vh;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    overflow: hidden;
+}
+/* Remote Video */
+.remote-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
+/* Local Video (small, floating) */
+.local-video {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 25%;
+    max-width: 600px;
+    border-radius: 8px;
+    border: 2px solid #fff;
+}
+
+/* Call Controls (inside video container) */
+.call-controls {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 12px 25px;
+    border-radius: 8px;
+}
+
+/* Buttons */
+.call-controls .btn {
+    font-size: 16px;
+    padding: 12px 20px;
+    border-radius: 5px; /* Less rounded */
+    min-width: 120px;
+    text-align: center;
 }

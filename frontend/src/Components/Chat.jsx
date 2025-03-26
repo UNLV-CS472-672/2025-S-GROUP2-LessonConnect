@@ -28,7 +28,6 @@ const Chat = () => {
         }
     };
     const handleButtonClick = (buttonType) => {
-        setButtonClicked(buttonType);
         console.log(`Button clicked: ${buttonType}`);
         // You can add more functionality here if needed
     };
