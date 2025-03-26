@@ -29,7 +29,7 @@ class Booking(models.Model):
     session_end_time = models.DateTimeField(null=True)
     booking_status = models.CharField(max_length=20, choices=BOOKING_STATUS_TYPES, default=PENDING)
     session_price = models.DecimalField(max_digits=10, decimal_places=2)
-    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="student")
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="student_bookings")
     tutor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tutor")
     description = models.TextField(null=True, blank=True)
     payment_gateway_ref = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -48,6 +48,8 @@ class Booking(models.Model):
         return self.payment_gateway_ref is not None
 
     def reschedule_booking(self, new_date):
+        if self.session_date < now():
+            return False
         self.session_date = new_date
         self.save()
 
@@ -55,10 +57,12 @@ class Booking(models.Model):
         if self.session_date < now():
             return False
         self.booking_status = self.REJECTED
-        self.save()
+        self.save(update_fields=['booking_status'])
         return True
 
     def booking_duration(self):
+        if not self.session_end_time:
+            return timedelta(0)
         return self.session_end_time - self.session_date
 
     @classmethod
@@ -94,6 +98,7 @@ class Review(models.Model):
 
     class Meta:
         ordering = ['-created_at']  # Sort reviews by most recent first
+        unique_together = ('tutor', 'reviewer')
 
     def is_valid_review(self):
         """Checks if the review has a valid rating and comments."""
