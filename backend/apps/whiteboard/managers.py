@@ -1,6 +1,7 @@
 from django.db import models
 
 # https://testdriven.io/blog/django-channels/ (reference)
+# WIP
 class BoardManager(models.Manager):
 
     def connect_user(self, user):

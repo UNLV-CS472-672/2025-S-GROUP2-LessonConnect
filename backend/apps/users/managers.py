@@ -4,11 +4,12 @@ from watson import search
 class ProfileManager(models.Manager):
 
     def create(self, user, role):
+        # Create a new Profile instance with the provided data
         profile = self.model(
             user=user,
             role=int(role)
         )
-        profile.save()
+        profile.save() # Save the instance to the database
         return profile
 
 class TutorProfileManager(models.Manager):
@@ -43,6 +44,7 @@ class TutorProfileManager(models.Manager):
         return filtered_tutors
 
     def filter_by_price_range(self, filtered_tutors, min_price=None, max_price=None):
+        # Filter the tutor profiles based on price range
         if min_price is not None:
             filtered_tutors = filtered_tutors.filter(hourly_rate__gte=min_price)
         if max_price is not None:
@@ -54,6 +56,8 @@ class TutorProfileManager(models.Manager):
         if not subject_query.exists():
             return self.none()
 
+        # Checks if the subjects have already been filtered to
+        # avoid doing an extra prefetch
         if is_subjects_filtered:
             # Filter tutors who have any of the subjects in the subject_query
             filtered_tutors = filtered_tutors.filter(subjects__in=subject_query)
@@ -66,7 +70,7 @@ class TutorProfileManager(models.Manager):
         return filtered_tutors
 
     def search(self, filtered_tutors, what):
-        # Use Watson to filter the tutors based on the 'what' search term
+        # Use Watson to filter the tutors (using stemming) based on the 'what' search term
         search_results = search.filter(filtered_tutors, what)
         return search_results
 
@@ -79,6 +83,6 @@ class TutorProfileManager(models.Manager):
             'hourly_rate',
             'state',
             'city',
-            'profile__upload_record' #new
+            'profile__upload_record'
         )
         return search_results

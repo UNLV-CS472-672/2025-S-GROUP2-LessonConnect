@@ -3,6 +3,7 @@ from django.conf import settings
 from .managers import BoardManager
 
 # Create your models here.
+# WIP
 class Room(models.Model):
     name = models.CharField(max_length=128)
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)

@@ -68,6 +68,7 @@ class SearchView(APIView):
 
         is_subjects_filtered = False
         query = Q()
+
         # Get subjects from request
         subjects = request.query_params.get('subjects', "").strip()
         # Filter tutors by subject (Optional)

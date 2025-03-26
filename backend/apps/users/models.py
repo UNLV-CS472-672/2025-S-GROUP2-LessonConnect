@@ -23,11 +23,12 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+# A model that represents information about a user who is a tutor
 class TutorProfile(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
 
     city = models.CharField(max_length=100, default="Unknown")
-    #where does the state convert to 2 letters
+
     state = models.CharField(max_length=2, default="NA")
 
     bio = models.TextField(blank=True)

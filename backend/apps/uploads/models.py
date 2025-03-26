@@ -6,6 +6,7 @@ from cloudinary.models import CloudinaryField
 from django.core.exceptions import ValidationError
 
 # https://blog.nonstopio.com/well-handling-of-cloudinary-with-python-drf-api-28271575e21f
+# Model that acts a container for all upload related information
 class UploadRecord(models.Model):
     # Fields
     id = models.AutoField(primary_key=True)
@@ -31,7 +32,7 @@ class UploadRecord(models.Model):
     def __str__(self):
         return self.file_name
 
-
+# A model that acts as a container for the profile picture of user
 class ProfilePicture(models.Model):
     upload = models.OneToOneField(UploadRecord, on_delete=models.CASCADE)
 

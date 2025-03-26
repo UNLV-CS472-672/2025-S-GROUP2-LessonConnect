@@ -74,7 +74,7 @@ def register_profile(request):
   # Create associated Profile
   profile = Profile.objects.create(user, role)
 
-  image=request.data.get("image") #Optional for now
+  image=request.data.get("image") #For now, get an optional image
 
   # Store optional profile picture
   if image:

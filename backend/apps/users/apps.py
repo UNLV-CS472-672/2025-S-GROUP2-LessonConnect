@@ -6,6 +6,7 @@ class UsersConfig(AppConfig):
     name = 'apps.users'
 
     # https://idiomaticprogrammers.com/post/django-watson-full-text-search-guide/
+    # Register the search with django-watson
     def ready(self):
         tutor_profile_model = self.get_model("TutorProfile")
         search.register(tutor_profile_model,
