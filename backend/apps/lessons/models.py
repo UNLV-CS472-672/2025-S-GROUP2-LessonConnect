@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-# from backend.apps.uploads.models import UploadRecord - This will be revised and corrected
+from backend.apps.uploads.models import UploadRecord
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 
@@ -19,8 +19,8 @@ class Assignment(models.Model):  # Assignments: Represents assignments given to 
     description = models.TextField(blank=True)
     assignment_type = models.CharField(max_length=2, choices=ASSIGNMENT_TYPES)
 
-    # Upload_record (ForeignKey to UploadRecord) - Currently not referenced correctly but will be when branch is updated
-    # upload_record = models.ForeignKey(UploadRecord, on_delete=models.SET_NULL, null=True, blank=True)
+    # Upload_record (ForeignKey to UploadRecord)
+    upload_record = models.ForeignKey(UploadRecord, on_delete=models.SET_NULL, null=True, blank=True)
 
     # Student (ForeignKey to User as there's no model exclusively for student)
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="assignments", null=True, blank=True)
@@ -57,7 +57,6 @@ class Question(models.Model):  # Questions: Represents individual questions with
     question_type = models.CharField(max_length=2, choices=QUESTION_TYPES)
     order_of_question = models.PositiveIntegerField()
     question_text = models.TextField()
-    # New field to store points/score for the question
     points = models.PositiveIntegerField(default=1, help_text="Points assigned to this question")
 
     def __str__(self):
@@ -80,9 +79,9 @@ class Solution(models.Model):  # Solutions: Represents correct answers to questi
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choices = models.ManyToManyField(Choice, blank=True)  # for multiple choice questions
     short_answer_text = models.TextField(blank=True, null=True)  # for short answer questions
-    
-    # New validation that ensures MC questions have at least one correct answer
+
     def clean(self):
+        # validation that ensures MC questions have at least one correct answer
         if self.question.question_type == 'MC' and not self.choices.filter(is_correct=True).exists():
             raise ValidationError("A multiple-choice question must have at least one correct answer.")
 
