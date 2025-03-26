@@ -1,5 +1,5 @@
-import {NavLink} from "react-router-dom";
-import React, { useState, useEffect, useRef } from "react";
+// import {NavLink} from "react-router-dom"; // Uncomment if you are going use it (Ashley helped by Frank)
+import { useState, useEffect, useRef } from "react";
 import "../Styles/Pomodoro.css"; // 1) Import your dedicated CSS file
 
 export default function Pomodoro() {

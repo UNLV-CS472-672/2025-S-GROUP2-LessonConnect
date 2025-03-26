@@ -79,7 +79,7 @@ export default function FindTutor() {
                                 Find & Book <span className="text-primary">Appointment</span> with your Favorite <span className="text-primary">Tutors</span>
                             </h2>
                             <p className="mt-4 text-muted">
-                                Our platform connects you with experienced educators who specialize in various subjects. Whether you're looking for academic support, music lessons, or skill-building sessions, we make it easy to find and book a tutor that fits your schedule. Start your learning journey today.
+                                Our platform connects you with experienced educators who specialize in various subjects. Whether you&apos;re looking for academic support, music lessons, or skill-building sessions, we make it easy to find and book a tutor that fits your schedule. Start your learning journey today.
                             </p>
                             {/*<button type="submit" className="btn btn-primary mt-4 d-flex align-items-center">Explore Now</button>*/}
                         </div>

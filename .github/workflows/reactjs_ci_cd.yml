@@ -1,0 +1,31 @@
+name: ReactJS CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Run ESLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install root dependencies
+        run: npm install  # This will install the dependencies from the root `package.json`
+
+      - name: Install frontend dependencies
+        run: |
+          cd frontend  # Navigate to the frontend directory
+          npm install  # Install the frontend dependencies from `frontend/package.json`
+
+      - name: Run ESLint # Finds syntax/style errors
+        run: npx eslint --config ./frontend/eslint.config.js frontend
