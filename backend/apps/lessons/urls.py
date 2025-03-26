@@ -5,7 +5,11 @@ from .views import (
     QuizQuestionListView,
     QuestionCreateView,
     QuestionUpdateView,
-    QuestionDeleteView
+    QuestionDeleteView,
+    ChoiceListView,
+    ChoiceCreateView,
+    ChoiceUpdateView,
+    ChoiceDeleteView
 )
 
 urlpatterns = [
@@ -23,4 +27,14 @@ urlpatterns = [
          QuestionUpdateView.as_view(), name="question-update"),
     path("assignments/<int:assignment_id>/quiz/<int:quiz_id>/questions/<int:question_id>/delete/",
          QuestionDeleteView.as_view(), name="question-delete"),
+
+    # CRUD endpoints for Choices
+    path("assignments/<int:assignment_id>/quiz/<int:quiz_id>/questions/<int:question_id>/choices/",
+         ChoiceListView.as_view(), name="choice-list"),
+    path("assignments/<int:assignment_id>/quiz/<int:quiz_id>/questions/<int:question_id>/choices/create/",
+         ChoiceCreateView.as_view(), name="choice-create"),
+    path("assignments/<int:assignment_id>/quiz/<int:quiz_id>/questions/<int:question_id>/choices/update/",
+         ChoiceUpdateView.as_view(), name="choice-update"),
+    path("assignments/<int:assignment_id>/quiz/<int:quiz_id>/questions/<int:question_id>/choices/delete/",
+         ChoiceDeleteView.as_view(), name="choice-delete")
 ]

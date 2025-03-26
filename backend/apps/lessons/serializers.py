@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Assignment, Quiz, Question
+from .models import Assignment, Quiz, Question, Choice
 
 
 class AssignmentSerializer(serializers.ModelSerializer):
@@ -30,3 +30,9 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ["id", "quiz", "question_type", "order_of_question", "question_text", "points"]
+
+
+class ChoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Choice
+        fields = ["id", "question", "choice_text", "is_correct"]

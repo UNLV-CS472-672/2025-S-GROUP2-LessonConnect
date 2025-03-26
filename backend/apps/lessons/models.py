@@ -62,7 +62,7 @@ class Quiz(models.Model):  # Quizzes: Represents quizzes linked to assignments.
     def __str__(self):
         return f"Quiz for {self.assignment.title}"
 
-    # Helper Methods
+    # Helper Method(s)
     @classmethod
     def get_quiz(cls, quiz_id):
         try:
@@ -113,6 +113,39 @@ class Choice(models.Model):  # Choices: Store the possible answer choices for mu
 
     def __str__(self):
         return f"Choice: {self.choice_text} ({'Correct' if self.is_correct else 'Incorrect'})"
+
+    # Helper Methods
+    @classmethod
+    def get_choices(cls, question):
+        return cls.objects.filter(question=question)
+
+    @classmethod
+    def delete_choices(cls, question):
+        cls.objects.filter(question=question).delete()
+        # self.delete()
+
+    @classmethod
+    def bulk_create_choices(cls, choices_data, question):
+        # double check **choice_data - saw this online ;)
+        choices = [cls(question=question, **choice_data) for choice_data in choices_data]
+        return cls.objects.bulk_create(choices)
+
+    @classmethod
+    def bulk_update_choices(cls, choices_data, question):
+        existing_choices = cls.objects.filter(question=question)
+
+        choices_to_update = []
+        for choice_data in choices_data:
+            choice_id = choice_data.get("id")
+            choice_obj = existing_choices.filter(id=choice_id).first()
+
+            if choice_obj:
+                for field, value in choice_data.items():
+                    setattr(choice_obj, field, value)
+                choices_to_update.append(choice_obj)
+
+        if choices_to_update:
+            cls.objects.bulk_update(choices_to_update, ["choice_text", "is_correct"])
 
 
 class Solution(models.Model):  # Solutions: Represents correct answers to questions.
