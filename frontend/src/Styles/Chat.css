@@ -16,7 +16,7 @@
     padding: 20px;
     position: absolute;
     right: 0;
-    top: 60px;
+    top: 50px;
     bottom: 0;
     overflow-y: auto;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
@@ -172,4 +172,25 @@
     height: 40px;
     border-radius: 50%;
     margin-left: 10px;
+}
+/* User messages */
+.user-message {
+    justify-content: flex-end;
+}
+
+.user-bubble {
+    background-color: #d9534f;
+    color: white;
+    align-self: flex-end;
+}
+
+/* Bot messages */
+.bot-message {
+    justify-content: flex-start;
+}
+
+.bot-bubble {
+    background-color: #212529;
+    color: white;
+    align-self: flex-start;
 }

@@ -11,14 +11,14 @@ const Chat = () => {
     const sendMessage = () => {
         if (input.trim() === "") return; // Prevent sending empty messages
 
-        const newMessages = [...messages, { text: input }];
+        const newMessages = [...messages, { text: input, sender: "user" }];
         setMessages(newMessages);
         setInput(""); // Clear input after sending
 
         // Simulate a bot response after a short delay
         // Should be coming from other side, future fix
         setTimeout(() => {
-            setMessages([...newMessages, { text: "This is an automated response." }]);
+            setMessages([...newMessages, { text: "This is an automated response." , sender: "bot" }]);
         }, 250);
     };
     // Allows to press Enter key to send message
@@ -62,9 +62,12 @@ const Chat = () => {
                     </div>
                     <div className="chat-messages">
                         {messages.map((msg, index) => (
-                            <div key={index} className="message-container">
-                                <div className="chat-bubble">{msg.text}</div>
-                                <img src={userIcon} alt="User Icon" className="message-icon" />
+                            <div key={index} className={`message-container ${msg.sender === "bot" ? "bot-message" : "user-message"}`}>
+                                {msg.sender === "bot" && <img src={botIcon} alt="Bot Icon" className="message-icon" />}
+                                <div className={`chat-bubble ${msg.sender === "bot" ? "bot-bubble" : "user-bubble"}`}>
+                                    {msg.text}
+                                </div>
+                                {msg.sender === "user" && <img src={userIcon} alt="User Icon" className="message-icon" />}
                             </div>
                         ))}
                     </div>
