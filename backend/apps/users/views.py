@@ -74,7 +74,7 @@ def register_profile(request):
   # Create associated Profile
   profile = Profile.objects.create(user, role)
 
-  image=request.data["image"]
+  image=request.data.get("image") #Optional for now
 
   # Store optional profile picture
   if image:
@@ -93,8 +93,8 @@ def register_profile(request):
   # Create Tutor Profile if role is Tutor
   if int(profile.role) == Profile.TUTOR:
       city=request.data["city"]
-      state=request.data["state"],
-      bio=request.data["bio"],
+      state=request.data["state"]
+      bio=request.data["bio"]
       hourly_rate=request.data["hourly_rate"]
       tutor = TutorProfile.objects.create(profile, city, state, bio, hourly_rate)
 
