@@ -9,6 +9,7 @@ const VideoCall = () => {
     return (
         <>
             <div className="Videocall-page-container">
+                
                 <div className="container-fluid video-call-container">
                     <div className="video-container">
                         {/* Remote Video */}
@@ -18,9 +19,11 @@ const VideoCall = () => {
 
                         {/* Call Controls (inside video container) */}
                         <div className="call-controls">
+                            <button className="btn btn-outline-danger">Switch Cameras</button>
+                            <button className="btn btn-outline-danger">Mute</button>
+                            <button className="btn btn-outline-danger">Share Screen</button>
+                            <button className="btn btn-outline-danger">Share Screen</button>
                             <button className="btn btn-danger">End Call</button>
-                            <button className="btn btn-secondary">Mute</button>
-                            <button className="btn btn-info">Share Screen</button>
                         </div>
                     </div>
                 </div>
