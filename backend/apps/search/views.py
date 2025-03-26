@@ -103,7 +103,7 @@ class SearchView(APIView):
             subject_query = Subject.objects.filter(lookup_subjects_query)
             filtered_tutors = TutorProfile.objects.filter_tutors_by_subject(filtered_tutors, subject_query, is_subjects_filtered)
             # Combine the filtered tutors with the existing search results
-            combined_results = (search_results_tagged | filtered_tutors_tagged).distinct()
+            combined_results = (search_results | filtered_tutors).distinct()
 
         except Exception as e:
             return Response({"message": f"Error searching subjects: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

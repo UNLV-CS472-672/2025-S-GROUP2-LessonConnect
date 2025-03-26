@@ -20,7 +20,7 @@ class UploadRecord(models.Model):
     version = models.PositiveBigIntegerField()
     asset_id = models.CharField(max_length=255)
 
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='profile')
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='upload_record')
 
     # default = 1 for first user (for now)
     description = models.TextField(default="", blank=True, null=False)

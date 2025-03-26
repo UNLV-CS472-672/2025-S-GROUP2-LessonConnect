@@ -85,8 +85,6 @@ def register_profile(request):
     upload_record = UploadRecord.objects.create(upload_data, profile)
     ProfilePicture.objects.create(upload_record)
 
-
-  #!!!!!!!! Need to test, also add profile pic lol to profile
   # Create Tutor Profile if role is Tutor
   if int(profile.role) == Profile.TUTOR:
       city=request.data["city"]

@@ -72,13 +72,13 @@ class TutorProfileManager(models.Manager):
 
     def get_result_data(self, search_results):
         # Use select_related to reduce queries and retrieve only the required fields
-        search_results = search_results.select_related('profile__user', 'profile__profile_picture').only(
+        search_results = search_results.select_related('profile__user', 'profile').only(
             'profile__user__first_name',
             'profile__user__last_name',
             'bio',
             'hourly_rate',
             'state',
             'city',
-            'profile__profile_picture__upload' #new
+            'profile__upload_record' #new
         )
         return search_results
