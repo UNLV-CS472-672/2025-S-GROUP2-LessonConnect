@@ -4,6 +4,8 @@ const FilterDropdown = () => {
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(150);
+    const [selectedRating, setSelectedRating] = useState(null);
+
     const toggleType = (type) => {
         setSelectedTypes((prev) =>
             prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
@@ -48,7 +50,7 @@ const FilterDropdown = () => {
                         {/* Max Price Button */}
                         <div className="dropdown">
                             <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                Max 
+                                Max
                             </button>
                             <ul className="dropdown-menu p-3">
                                 <label className="form-label">Maximum Price</label>
@@ -60,9 +62,21 @@ const FilterDropdown = () => {
 
 
                         {/* Rate Button */}
-                        <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            Rate
-                        </button>
+                        <div className="dropdown">
+                            <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                Rate
+                            </button>
+                            <ul className="dropdown-menu">
+                                {[1, 2, 3, 4, 5].map((rating) => (
+                                    <li key={rating}>
+                                        <a className="dropdown-item" onClick={() => setSelectedRating(rating)}>
+                                            <i className={selectedRating === rating ? "bi bi-star-fill" : "bi bi-star"}></i>
+                                            <span className="ms-2">{rating} Star{rating > 1 ? "s" : ""}</span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
