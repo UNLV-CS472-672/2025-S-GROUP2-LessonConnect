@@ -1,11 +1,11 @@
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import "../Styles/SignUp.css"; // Import the CSS file
 
 export default function SignUp() {
-    const location = useLocation();
+    // const location = useLocation(); // Uncomment if you are going use it (Ashley helped by Frank)
     // this will help later for the back end
-    const dob = location.state || {};
+    // const dob = location.state || {};
 
     const [formData, setFormData] = useState({
         country: "",

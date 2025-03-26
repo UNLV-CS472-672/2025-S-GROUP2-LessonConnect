@@ -2,18 +2,18 @@ import '../Styles/Contact.css'
 export default function Contact() {
     return (
         <>
-            <section class="contact-header">
-                <div class="container">
-                    <h1 class="text-center fw-bold">Contact Us</h1>
-                    <p class="text-center text-muted">
+            <section className="contact-header">
+                <div className="container">
+                    <h1 className="text-center fw-bold">Contact Us</h1>
+                    <p className="text-center text-muted">
                         Have questions? We’re here to help.
                     </p>
                 </div>
             </section>
 
-            <section class="contact-info container my-5">
-                <div class="row">
-                    <div class="col-md-6">
+            <section className="contact-info container my-5">
+                <div className="row">
+                    <div className="col-md-6">
                         <h3>Contact Information</h3>
                         <p><strong>Email:</strong> support@lessonconnect.com</p>
                         <p><strong>Phone:</strong> (702) 555-1234</p>
@@ -23,37 +23,37 @@ export default function Contact() {
                         </p>
                         <p><strong>Location:</strong> University of Nevada, Las Vegas</p>
                     </div>
-                    <div class="col-md-6">
+                    <div className="col-md-6">
                         <h3>Get in Touch</h3>
                         <form>
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Full Name</label>
+                            <div className="mb-3">
+                                <label htmlFor="name" className="form-label">Full Name</label>
                                 <input
                                     type="text"
-                                    class="form-control"
+                                    className="form-control"
                                     id="name"
                                     placeholder="Enter your name"
                                 />
                             </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email Address</label>
+                            <div className="mb-3">
+                                <label htmlFor="email" className="form-label">Email Address</label>
                                 <input
                                     type="email"
-                                    class="form-control"
+                                    className="form-control"
                                     id="email"
                                     placeholder="Enter your email"
                                 />
                             </div>
-                            <div class="mb-3">
-                                <label for="message" class="form-label">Message</label>
+                            <div className="mb-3">
+                                <label htmlFor="message" className="form-label">Message</label>
                                 <textarea
-                                    class="form-control"
+                                    className="form-control"
                                     id="message"
                                     rows="4"
                                     placeholder="Type your message"
                                 ></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">Send Message</button>
+                            <button type="submit" className="btn btn-primary">Send Message</button>
                         </form>
                     </div>
                 </div>
