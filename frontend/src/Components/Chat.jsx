@@ -51,9 +51,10 @@ const Chat = () => {
             {/* Chat Section */}
             <div className="chat-container">
                 <div className="button-bar">
-                    <button onClick={() => handleButtonClick("Help")}>Help</button>
-                    <button onClick={() => handleButtonClick("Info")}>Info</button>
-                    <button onClick={() => handleButtonClick("Settings")}>Settings</button>
+                    <button onClick={() => handleButtonClick("Help")}>Button 1</button>
+                    <button onClick={() => handleButtonClick("Help")}>Button 2</button>
+                    <button onClick={() => handleButtonClick("Help")}>Button 3</button>
+                    <button onClick={() => handleButtonClick("Help")}>Button 4</button>
                 </div>
                 <div className="chat-box">
                     <div className="chat-header">
