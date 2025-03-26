@@ -152,9 +152,6 @@ class NotificationTestCase(TestCase):
 
         response = self.client.post(url, data)
 
-        print(f"Response status: {response.status_code}")
-        print(f"Response content: {response.content.decode()}")
-
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         mock_deliver.assert_called_once()
 
