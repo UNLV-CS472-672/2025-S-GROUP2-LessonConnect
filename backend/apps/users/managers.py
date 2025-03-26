@@ -6,10 +6,10 @@ class ProfileManager(models.Manager):
         profile.image_id = image_id
         profile.save()
 
-    def create_profile(self, user, role):
+    def create(self, user, role):
         profile = self.model(
             user=user,
-            role=role
+            role=int(role)
         )
         profile.save()
         return profile

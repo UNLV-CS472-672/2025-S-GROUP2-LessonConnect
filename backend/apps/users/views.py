@@ -8,12 +8,11 @@ from apps.users.models import Profile, TutorProfile
 from apps.uploads.models import UploadRecord, ProfilePicture
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, JSONParser
-
+from rest_framework.decorators import api_view, permission_classes
 
 login_template = "login.html"
 register_profile_template = "register.html"
@@ -73,7 +72,7 @@ def register_profile(request):
     email=email,
   )
   # Create associated Profile
-  profile = Profile.objects.create_profile(user, role)
+  profile = Profile.objects.create(user, role)
 
   image=request.data["image"]
 
@@ -86,13 +85,13 @@ def register_profile(request):
     upload_data = UploadRecord.objects.upload(image)
 
     # Use the manager method to save relevant metadata into database
-    upload_record = UploadRecord.objects.create(upload_data, user)
+    upload_record = UploadRecord.objects.create(upload_data)
     ProfilePicture.objects.create(upload_record, profile)
 
 
   #!!!!!!!! Need to test, also add profile pic lol to profile
   # Create Tutor Profile if role is Tutor
-  if profile.role == profile.TUTOR:
+  if int(profile.role) == Profile.TUTOR:
       city=request.data["city"]
       state=request.data["state"],
       bio=request.data["bio"],
@@ -117,7 +116,7 @@ def delete_user(request):
                   status=status.HTTP_404_NOT_FOUND)
 
 
-class Profile(APIView):
+class ProfileView(APIView):
     permission_classes = []  # Debug only: No authentication required
     # Specifies that the view can accept both multipart form data
     # and JSON-formatted request bodies.

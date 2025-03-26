@@ -1,7 +1,9 @@
 # uploads/models.py
 from django.db import models
 from apps.uploads.managers import UploadRecordManager, ProfilePictureManager
+from apps.users.models import Profile
 from cloudinary.models import CloudinaryField
+from django.core.exceptions import ValidationError
 
 # https://blog.nonstopio.com/well-handling-of-cloudinary-with-python-drf-api-28271575e21f
 class UploadRecord(models.Model):
@@ -30,17 +32,20 @@ class UploadRecord(models.Model):
 
 class ProfilePicture(models.Model):
     upload = models.OneToOneField(UploadRecord, on_delete=models.CASCADE)
-    profile = models.OneToOneField("users.Profile", on_delete=models.CASCADE, related_name='profile_picture')
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='profile_picture')
 
     # Link the custom manager to the model
     objects = ProfilePictureManager()
 
-    def __str__(self):
-        return self.upload.file_name
+    def clean(self):
+        # Check if there is already a ProfilePicture for this profile
+        if ProfilePicture.objects.filter(profile=self.profile).exists():
+            raise ValidationError("This profile already has a profile picture.")
 
     def save(self, *args, **kwargs):
-        # Ensure only one profile picture per user
-        existing = ProfilePicture.objects.filter(upload__user=self.upload.user).exclude(pk=self.pk) #may need to change to id
-        if existing.exists():
-            raise ValueError("User already has a profile picture.")
+        # Always validate before saving
+        self.full_clean()
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.upload.file_name
