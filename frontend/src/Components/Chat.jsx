@@ -6,6 +6,7 @@ import botIcon from "/assets/images/UNLV_pic.png"; // Placeholder bot icon
 const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
+    const [buttonClicked, setButtonClicked] = useState("");
 
     const sendMessage = () => {
         if (input.trim() === "") return; // Prevent sending empty messages
@@ -27,6 +28,11 @@ const Chat = () => {
             sendMessage();
         }
     };
+    const handleButtonClick = (buttonType) => {
+        setButtonClicked(buttonType);
+        console.log(`Button clicked: ${buttonType}`);
+        // You can add more functionality here if needed
+    };
 
     return (
       <>
@@ -44,6 +50,11 @@ const Chat = () => {
 
             {/* Chat Section */}
             <div className="chat-container">
+                <div className="button-bar">
+                    <button onClick={() => handleButtonClick("Help")}>Help</button>
+                    <button onClick={() => handleButtonClick("Info")}>Info</button>
+                    <button onClick={() => handleButtonClick("Settings")}>Settings</button>
+                </div>
                 <div className="chat-box">
                     <div className="chat-header">
                         <img src={botIcon} alt="Bot Icon" className="user-icon" />
