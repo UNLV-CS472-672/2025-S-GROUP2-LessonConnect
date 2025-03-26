@@ -2,9 +2,6 @@ from django.db import models
 from watson import search
 
 class ProfileManager(models.Manager):
-    def add_image(self, profile, image_id):
-        profile.image_id = image_id
-        profile.save()
 
     def create(self, user, role):
         profile = self.model(

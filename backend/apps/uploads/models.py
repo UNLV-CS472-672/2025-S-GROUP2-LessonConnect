@@ -20,6 +20,8 @@ class UploadRecord(models.Model):
     version = models.PositiveBigIntegerField()
     asset_id = models.CharField(max_length=255)
 
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='profile')
+
     # default = 1 for first user (for now)
     description = models.TextField(default="", blank=True, null=False)
 
@@ -32,15 +34,9 @@ class UploadRecord(models.Model):
 
 class ProfilePicture(models.Model):
     upload = models.OneToOneField(UploadRecord, on_delete=models.CASCADE)
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='profile_picture')
 
     # Link the custom manager to the model
     objects = ProfilePictureManager()
-
-    def clean(self):
-        # Check if there is already a ProfilePicture for this profile
-        if ProfilePicture.objects.filter(profile=self.profile).exists():
-            raise ValidationError("This profile already has a profile picture.")
 
     def save(self, *args, **kwargs):
         # Always validate before saving

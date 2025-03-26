@@ -78,15 +78,12 @@ def register_profile(request):
 
   # Store optional profile picture
   if image:
-    # Call the functions in POST request (not ideal to actually call the request)
-    # Going to try to call with just the manager, if not, will add model reference :o
-
     # Use the manager method to handle file upload
     upload_data = UploadRecord.objects.upload(image)
 
     # Use the manager method to save relevant metadata into database
-    upload_record = UploadRecord.objects.create(upload_data)
-    ProfilePicture.objects.create(upload_record, profile)
+    upload_record = UploadRecord.objects.create(upload_data, profile)
+    ProfilePicture.objects.create(upload_record)
 
 
   #!!!!!!!! Need to test, also add profile pic lol to profile
