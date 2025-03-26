@@ -56,6 +56,8 @@ export default function Services() {
                                         <h5 className="card-title">Pomodoro</h5>
                                         <ul className="list-unstyled">
                                             <li><a href="#link">Pomodoro Timer</a></li>
+                                            <p>Temporary links Below</p>
+                                            <li><a href="/chat">Chat UI</a></li>
                                         </ul>
                                     </div>
                                 </div>

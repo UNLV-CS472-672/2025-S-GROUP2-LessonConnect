@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "apps.uploads",       # our uploads app
     "apps.search",        # out search app
     "rest_framework",     # rest framework
+    'rest_framework_simplejwt.token_blacklist', # for logout functionality
     "channels",           # Django channels
     "django_celery_results", # get celery results in Django admin
     "django_celery_beat", # celery beat
@@ -193,11 +194,15 @@ CACHES = {
 ASGI_APPLICATION = "backend.asgi.application"
 
 CHANNEL_LAYERS = {
+    # "default": {
+    #     "BACKEND": "channels_redis.core.RedisChannelLayer",
+    #     "CONFIG": {
+    #         "hosts": [('127.0.0.1', 6379)],
+    #     },
+    # },
+
     "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [('127.0.0.1', 6379)],
-        },
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
     },
 }
 
@@ -207,3 +212,11 @@ cloudinary.config(
   API_KEY= str(os.getenv('CLOUDINARY_API_KEY')),
   API_SECRET= str(os.getenv('CLOUDINARY_API_SECRET')),
 )
+
+# Standard session configuration
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds
+SESSION_COOKIE_NAME = 'sessionid'  # Default session cookie name
+SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'  # Set to 'None' for cross-site usage (requires Secure=True)
