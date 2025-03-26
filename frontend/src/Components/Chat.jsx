@@ -36,6 +36,7 @@ const Chat = () => {
 
     return (
       <>
+          <div className="chat-page-layout">
         <div className="chat-layout">
             {/* Side Panel */}
             <div className="side-panel">
@@ -86,7 +87,8 @@ const Chat = () => {
                 </div>
             </div>
         </div>
-      </>
+     </div>
+    </>
     );
 }
 export default Chat;
