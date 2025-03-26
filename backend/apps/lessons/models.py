@@ -62,6 +62,14 @@ class Quiz(models.Model):  # Quizzes: Represents quizzes linked to assignments.
     def __str__(self):
         return f"Quiz for {self.assignment.title}"
 
+    # Helper Methods
+    @classmethod
+    def get_quiz(cls, quiz_id):
+        try:
+            return cls.objects.get(pk=quiz_id)
+        except cls.DoesNotExist:
+            return None
+
 
 class Question(models.Model):  # Questions: Represents individual questions within a quiz.
     QUESTION_TYPES = [
@@ -78,6 +86,23 @@ class Question(models.Model):  # Questions: Represents individual questions with
     def __str__(self):
         quiz_title = self.quiz.assignment.title if self.quiz and self.quiz.assignment else "Unknown Quiz"
         return f"Question {self.order_of_question} - {quiz_title}"
+
+    # Helper Methods
+    @classmethod
+    def get_question(cls, question_id):
+        try:
+            return cls.objects.get(pk=question_id)
+        except cls.DoesNotExist:
+            return None
+
+    def update_question(self, data):
+        for field, value in data.items():
+            setattr(self, field, value)
+        self.save()
+        return self
+
+    def delete_question(self):
+        self.delete()
 
 
 class Choice(models.Model):  # Choices: Store the possible answer choices for multiple choice questions.
