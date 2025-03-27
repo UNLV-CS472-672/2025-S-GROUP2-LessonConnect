@@ -24,7 +24,7 @@ class SearchViewTestCase(APITestCase):
         self.subject_geometry= Subject.objects.create(title="Geometry", category = self.category_math)
 
         # Create test tutor profiles
-        self.tutor = TutorProfile.objects.create_tutor_profile(profile=self.test_profile, city="New York", state="NY", hourly_rate=25.0)
+        self.tutor = TutorProfile.objects.create(profile=self.test_profile, city="New York", state="NY", hourly_rate=25.0)
 
         # Link tutors to subjects
         self.tutor.subjects.add(self.subject_geometry)
