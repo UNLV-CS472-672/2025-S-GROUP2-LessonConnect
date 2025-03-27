@@ -426,7 +426,7 @@ class FileQuizSubmissionsAPITestCase(TestCase):
             "version": 1,
             "asset_id": "sample_asset_id"
         }
-        self.file_record = UploadRecord.objects.create(upload_data=self.upload_data, user=self.user)
+        self.file_record = UploadRecord.objects.create(self.upload_data, self.profile)
         self.quiz_submission = QuizSubmissions.objects.create(submission=self.submission)
 
         self.login_url = "/users/login/"

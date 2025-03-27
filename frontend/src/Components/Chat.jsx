@@ -6,7 +6,7 @@ import botIcon from "/assets/images/UNLV_pic.png"; // Placeholder bot icon
 const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
-    const [buttonClicked, setButtonClicked] = useState("");
+    const [setButtonClicked] = useState("");
 
     const sendMessage = () => {
         if (input.trim() === "") return; // Prevent sending empty messages
