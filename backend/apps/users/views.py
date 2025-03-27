@@ -4,12 +4,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.http import JsonResponse, HttpResponse
 from django.middleware.csrf import get_token
-from .models import Profile
+from apps.users.models import Profile, TutorProfile
+from apps.uploads.models import UploadRecord, ProfilePicture
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, JSONParser
+from rest_framework.decorators import api_view, permission_classes
 
 login_template = "login.html"
 register_profile_template = "register.html"
@@ -69,7 +72,27 @@ def register_profile(request):
     email=email,
   )
   # Create associated Profile
-  Profile.objects.create(user=user, role=role)
+  profile = Profile.objects.create(user, role)
+
+  image=request.data.get("image") #For now, get an optional image
+
+  # Store optional profile picture
+  if image:
+    # Use the manager method to handle file upload
+    upload_data = UploadRecord.objects.upload(image)
+
+    # Use the manager method to save relevant metadata into database
+    upload_record = UploadRecord.objects.create(upload_data, profile)
+    ProfilePicture.objects.create(upload_record)
+
+  # Create Tutor Profile if role is Tutor
+  if int(profile.role) == Profile.TUTOR:
+      city=request.data["city"]
+      state=request.data["state"]
+      bio=request.data["bio"]
+      hourly_rate=request.data["hourly_rate"]
+      tutor = TutorProfile.objects.create(profile, city, state, bio, hourly_rate)
+
   return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])

@@ -29,7 +29,7 @@ class SubmissionsTestCase(TestCase):
             "version": 1,
             "asset_id": "sample_asset_id"
         }
-        self.upload_record = UploadRecord.objects.create(upload_data=self.upload_data, user=self.user)
+        self.upload_record = UploadRecord.objects.create(upload_data=self.upload_data, profile=self.profile)
 
         # Create submission
         self.submission = Submissions.objects.create(
