@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from apps.submissions.managers import SubmissionManager, FileSubmissionManager, QuizSubmissionManager
 
 ### Missing fields will be added in as other apps are updated
 
@@ -39,6 +40,9 @@ class Submissions(models.Model):
     submitted_at = models.DateTimeField(default=timezone.now)  # Changed to DateTimeField for better accuracy
     graded_at = models.DateTimeField(null=True, blank=True, auto_now_add=True)  # Ensures it's only set once
 
+    # Submission manager 
+    objects = SubmissionManager()
+
     def clean(self):
         """Custom validation for submission"""
         # Ensure student_profile is set
@@ -74,6 +78,9 @@ class FileSubmissions(models.Model):
         blank=True
     )
 
+    # File submission manager 
+    objects = FileSubmissionManager()
+
     def __str__(self):
         return f"File Submission for {self.submission.id}"
     
@@ -85,6 +92,9 @@ class QuizSubmissions(models.Model):
     # Quiz submission fields
     submission = models.OneToOneField(Submissions, on_delete=models.CASCADE)
     ### quiz = models.ForeignKey('app.Quiz', on_delete=models.CASCADE)
+
+    # Quiz submission manager
+    objects = QuizSubmissionManager()
 
     def __str__(self):
         return f"Quiz Submission for {self.submission.id}"
