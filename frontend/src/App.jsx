@@ -17,6 +17,7 @@ import Schedule from "./Components/Schedule.jsx";
 import Chat from "./Components/Chat.jsx";
 import Footer from "./Components/Footer.jsx";
 import Booking from "./Components/Booking.jsx";
+import ProfilePage from "./Components/ProfilePage.jsx";
 
 function App() {
     const location = useLocation();
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/pomodoro" element={<Pomodoro />} />
                 <Route path="/booking" element={<Booking />} />
                 <Route path="/chat" element={<Chat />} />
+                <Route path="/profile" element={<ProfilePage />} />
             </Routes>
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>
