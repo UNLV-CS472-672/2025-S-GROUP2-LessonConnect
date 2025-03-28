@@ -42,7 +42,7 @@ export default function SignUp() {
             localStorage.setItem("refreshToken", response.data.refreshToken);
             localStorage.setItem("username", response.data.username);
 
-
+            alert("Login successful!");
 
         } catch (error) {
             alert("Login failed! " + (error.response?.data?.message || error.message));
