@@ -6,7 +6,7 @@ from rest_framework.exceptions import ValidationError
 import re
 from .models import Subject, Category
 from apps.users.models import TutorProfile
-from apps.users.managers import TutorProfileManager
+from apps.uploads.models import UploadRecord
 from .serializers import TutorSearchResultSerializer
 
 # Create your views here.
@@ -29,29 +29,83 @@ class SearchView(APIView):
         except Exception as e:
             return Response({"message": f"Error parsing location: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Filter tutors by location
-        filtered_tutors = TutorProfile.objects.filter_tutors_by_location(what, city, state)
-        # Perform search with 'what' term
-        search_results = TutorProfile.objects.search(filtered_tutors, what)
+        # Apply all filters before searching with django-watson
+
+        # Filter tutors by location (Required)
+        filtered_tutors = TutorProfile.objects.filter_tutors_by_location(city, state)
+
+        # Filter tutors by pay (Optional)
+        min_price = request.query_params.get('min-price', "").strip()
+        max_price = request.query_params.get('max-price', "").strip()
+
+        try:
+            # Convert from string to float
+            min_price = float(min_price) if min_price else None
+            max_price = float(max_price) if max_price else None
+
+            # Check if max price is not less than min price
+            if min_price is not None and max_price is not None and max_price < min_price:
+                return Response({"message": "Max price cannot be less than min price."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Filter based of price range
+            filtered_tutors = TutorProfile.objects.filter_by_price_range(filtered_tutors, min_price, max_price)
+
+        except ValueError:
+            return Response({"message": "Price filters must be valid numbers."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        # Filter tutors by rating (Optional)
+        rating = request.query_params.get('rating', "").strip()
+        if rating:
+            try:
+                # Convert from string to int
+                rating = int(rating)
+                # Filter based of rating (i.e. 4 stars and up, 3 stars and up, etc)
+                filtered_tutors = TutorProfile.objects.filter_tutors_by_rating(filtered_tutors, rating)
+
+            except ValueError:
+                return Response({"message": "Invalid value for rating. It must be a number."}, status=status.HTTP_400_BAD_REQUEST)
+
+        is_subjects_filtered = False
+        query = Q()
+
+        # Get subjects from request
+        subjects = request.query_params.get('subjects', "").strip()
+        # Filter tutors by subject (Optional)
+        if subjects:
+            subject_list = subjects.split(",")  # Assuming subjects are comma-separated
+            # Execute the query for subjects
+            query = Subject.objects.filter(Q(title__in=subject_list))
+            filtered_tutors = TutorProfile.objects.filter_tutors_by_subject(filtered_tutors, query, is_subjects_filtered)
+            is_subjects_filtered = True
 
         # Split the 'what' search term into individual words, handling non-word characters and spaces
-        # This helps match partial words that django-watson might overlook
+        # This helps match partial words regarding subject and is used to pull up other
+        # tutor results whose subjects fits this search term
         search_terms = re.split(r'[\W\s]+', what)
-        query = Q()
+        lookup_subjects_query = Q()
+        # This helps match partial names regarding tutors
+        lookup_tutors_query = Q()
 
         # Loop through each search term and create a query that checks if the term is
         # in the category title or the subject title
         for term in search_terms:
-            query |= Q(category__title__icontains=term) | Q(title__icontains=term)
+            lookup_subjects_query |= Q(category__title__icontains=term) | Q(title__icontains=term)
+            lookup_tutors_query |= Q(profile__user__first_name__icontains=term) | Q(profile__user__last_name__icontains=term)
+
+        # Perform search with 'what' term
+        search_results = TutorProfile.objects.search(filtered_tutors, what)
+        # Combine with partial_tutor_matches
+        partial_tutor_matches = TutorProfile.objects.filter(lookup_tutors_query)
+        search_results = (search_results | partial_tutor_matches)
 
         try:
-            # Attempt to filter subjects based on the search query
-            subject_query = Subject.objects.filter(query)
-            # If matching subjects are found, filter tutors by these subjects
-            if subject_query.exists():
-                filtered_tutors = TutorProfile.objects.filter_tutors_by_subject(filtered_tutors, subject_query)
-                # Combine the filtered tutors with the existing search results
-                search_results = (filtered_tutors | search_results).distinct()
+            # Execute the query for subjects
+            subject_query = Subject.objects.filter(lookup_subjects_query)
+            filtered_tutors = TutorProfile.objects.filter_tutors_by_subject(filtered_tutors, subject_query, is_subjects_filtered)
+            # Combine the filtered tutors with the existing search results
+            search_results = (search_results | filtered_tutors).distinct()
+
         except Exception as e:
             return Response({"message": f"Error searching subjects: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

@@ -70,7 +70,8 @@ INSTALLED_APPS = [
     "apps.notifications", # our notifications app
     "apps.chat",          # our chat app
     "apps.uploads",       # our uploads app
-    "apps.search",        # out search app
+    "apps.search",        # our search app
+    "apps.whiteboard",      # our whiteboard app
     "rest_framework",     # rest framework
     'rest_framework_simplejwt.token_blacklist', # for logout functionality
     "channels",           # Django channels
