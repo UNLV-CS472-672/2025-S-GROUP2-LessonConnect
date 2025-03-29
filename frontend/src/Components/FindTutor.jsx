@@ -1,75 +1,38 @@
-import {NavLink} from "react-router-dom";
+import {useState } from "react";
+import axios from "axios";
+import { NavLink } from "react-router-dom";
 import FilterDropdown from "./FilterDropdown";
-import '../Styles/FindTutor.css'
+import "../Styles/FindTutor.css";
 export default function FindTutor() {
-    const tutorList = [
-        {
-            image: "https://www.meowbox.com/cdn/shop/articles/Screen_Shot_2024-03-15_at_10.53.41_AM.png?v=1710525250",
-            category: "Mathematics",
-            name: "Cat Tutor",
-            experience: "5 Years",
-            address: "New York, NY"
-        },
-        {
-            image: "https://www.meowbox.com/cdn/shop/articles/Screen_Shot_2024-03-15_at_10.53.41_AM.png?v=1710525250",
-            category: "Science",
-            name: "Cat Tutor",
-            experience: "3 Years",
-            address: "Los Angeles, CA"
-        },
-        {
-            image: "https://www.meowbox.com/cdn/shop/articles/Screen_Shot_2024-03-15_at_10.53.41_AM.png?v=1710525250",
-            category: "English",
-            name: "Cat Tutor",
-            experience: "7 Years",
-            address: "Chicago, IL"
-        },
-        {
-            image: "https://www.meowbox.com/cdn/shop/articles/Screen_Shot_2024-03-15_at_10.53.41_AM.png?v=1710525250",
-            category: "History",
-            name: "Cat Tutor",
-            experience: "6 Years",
-            address: "Houston, TX"
-        },
-        {
-            image: "https://www.meowbox.com/cdn/shop/articles/Screen_Shot_2024-03-15_at_10.53.41_AM.png?v=1710525250",
-            category: "Physics",
-            name: "Cat Tutor",
-            experience: "4 Years",
-            address: "San Francisco, CA"
-        },
-        {
-            image: "https://www.meowbox.com/cdn/shop/articles/Screen_Shot_2024-03-15_at_10.53.41_AM.png?v=1710525250",
-            category: "Chemistry",
-            name: "Cat Tutor",
-            experience: "8 Years",
-            address: "Seattle, WA"
-        },
-        {
-            image: "https://www.meowbox.com/cdn/shop/articles/Screen_Shot_2024-03-15_at_10.53.41_AM.png?v=1710525250",
-            category: "Biology",
-            name: "Cat Tutor",
-            experience: "5 Years",
-            address: "Miami, FL"
-        },
-        {
-            image: "https://www.meowbox.com/cdn/shop/articles/Screen_Shot_2024-03-15_at_10.53.41_AM.png?v=1710525250",
-            category: "Computer Science",
-            name: "Cat Tutor",
-            experience: "10 Years",
-            address: "Boston, MA"
-        },
-        {
-            image: "https://www.meowbox.com/cdn/shop/articles/Screen_Shot_2024-03-15_at_10.53.41_AM.png?v=1710525250",
-            category: "Philosophy",
-            name: "Cat Tutor",
-            experience: "6 Years",
-            address: "Denver, CO"
+    const [what, setWhat] = useState(""); // To store the subject or tutor name
+    const [where, setWhere] = useState(""); // To store the location
+    const [tutorList, setTutorList] = useState([]); // To store fetched tutors
+    const [loading, setLoading] = useState(false); // To track loading state
+    const [error, setError] = useState(""); // To store any error message
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        if (!what || !where) {
+            alert("Please fill in both search fields.");
+            return;
         }
-    ];
 
-    const subjects = ["Mathematics", "Science", "English", "History", "Programming", "Physics"];
-
+        setLoading(true);
+        setError(""); // Reset error message
+        try {
+            const response = await axios.get("http://127.0.0.1:8000/search/", {
+                params: {
+                    what,
+                    where
+                }
+            });
+            setTutorList(response.data.data); // Set tutor results from API
+        } catch (err) {
+            setError("Error fetching tutors: " + err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
     return (
         <div className="findTutor-section">
             <div className="container py-8">
@@ -107,6 +70,8 @@ export default function FindTutor() {
                             type="text"
                             className="form-control border-0 shadow-none"
                             placeholder="Enter subject or tutor name"
+                            value={what}
+                            onChange={(e) => setWhat(e.target.value)}
 
                         />
                         <i className="bi bi-geo-alt text-muted fs-5 ms-3"></i>
@@ -114,8 +79,10 @@ export default function FindTutor() {
                             type="text"
                             className="form-control border-0 shadow-none"
                             placeholder="Enter location"
+                            value={where}
+                            onChange={(e) => setWhere(e.target.value)}
                         />
-                        <button type="submit" className="btn btn-primary rounded-pill ms-2">
+                        <button type="submit" className="btn btn-primary rounded-pill ms-2" onClick={handleSearch}>
                             Search
                         </button>
                     </div>
@@ -131,22 +98,27 @@ export default function FindTutor() {
                         <div className="col-lg-4 col-md-6 col-12 mb-5" key={index}>
                             <div className="tutor-card">
                                 <div className="card-img-wrapper">
-                                    <img src={tutor.image} alt="Tutor" className="card-img-top" />
+                                    <img src={tutor.image_url} alt="Tutor Image" className="card-img-top" />
                                     <div className="badge-category">
                                         {tutor.category}
-                                        <div className="dropdown-content">
-                                            {subjects.map((subject, i) => (
-                                                <div key={i} className="dropdown-item">
-                                                    {subject}
-                                                </div>
-                                            ))}
-                                        </div>
+                                        {/*<div className="dropdown-content">*/}
+                                        {/*    {subjects.map((subject, i) => (*/}
+                                        {/*        <div key={i} className="dropdown-item">*/}
+                                        {/*            {subject}*/}
+                                        {/*        </div>*/}
+                                        {/*    ))}*/}
+                                        {/*</div>*/}
                                     </div>
                                 </div>
                                 <div className="card-body">
-                                    <h5 className="fw-bold">{tutor.name}</h5>
+                                    {/* Display tutor's full name */}
+                                    <h5 className="fw-bold">{tutor.first_name} {tutor.last_name}</h5>
+                                    {/* Display tutor's experience */}
                                     <p className="fw-semibold">{tutor.experience}</p>
-                                    <p className="text-muted">{tutor.address}</p>
+                                    {/* Display tutor's location */}
+                                    <p className="text-muted">{tutor.city}, {tutor.state}</p>
+                                    {/* Display tutor's hourly rate */}
+                                    <p className="text-muted">Hourly Rate: ${tutor.hourly_rate}</p>
                                 </div>
                                 <NavLink to="/booking" className="btn btn-outline-light book-btn">
                                     Book Now
