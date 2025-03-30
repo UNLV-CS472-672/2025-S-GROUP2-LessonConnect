@@ -110,8 +110,190 @@ function LessonCalendar() {
             </div>
         );
     };
-    <>
-        {/*will add code here later */}
-    </>
+    // ---------------------------
+    // COMPONENT RENDER
+    // ---------------------------
+    return (
+        <div className="calendar-page-container">
+            <div className="calendar-body">
+                {/* LEFT PANEL: Calendar display & Weekly Progress Tracker */}
+                <div className="left-panel">
+                    {/* Section: Month/Week toggle, "Today" and event creation buttons */}
+                    <div className="month-header">
+                        <div className="view-toggle">
+                            <button
+                                className={view === "week" ? "active" : ""}
+                                onClick={() => setView("week")}
+                            >
+                                Week
+                            </button>
+                            <button
+                                className={view === "month" ? "active" : ""}
+                                onClick={() => setView("month")}
+                            >
+                                Month
+                            </button>
+                        </div>
+                        <div className="month-title">
+                            {value.toLocaleString("default", { month: "long" })}{" "}
+                            {value.getFullYear()}
+                        </div>
+                        <div className="header-actions">
+                            <button className="today-btn" onClick={handleToday}>
+                                Today
+                            </button>
+                            <button className="create-event-btn" onClick={handleCreateEvent}>
+                                <FaPlus />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Calendar or Custom Week View (UC11) */}
+                    <div className="calendar-wrapper">
+                        <button className="nav-arrow" onClick={handlePrev}>
+                            <FaArrowLeft />
+                        </button>
+                        {view === "month" ? (
+                            <Calendar
+                                onChange={onDateChange}
+                                value={value}
+                                view="month" // react-calendar's native month view
+                                tileContent={tileContent}
+                            />
+                        ) : (
+                            <div className="week-view">
+                                {weekDates.map((date, i) => (
+                                    <div className="week-day" key={i}>
+                                        <div className="week-day-header">
+                                            {date.toLocaleDateString("default", {
+                                                weekday: "short",
+                                                day: "numeric",
+                                            })}
+                                        </div>
+                                        <div className="week-day-events">
+                                            {(searchQuery ? filteredEvents : events)
+                                                .filter(
+                                                    (ev) =>
+                                                        ev.date.toDateString() === date.toDateString()
+                                                )
+                                                .map((ev, index) => (
+                                                    <div key={index} className="calendar-event-marker">
+                                                        {ev.title}
+                                                    </div>
+                                                ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        <button className="nav-arrow" onClick={handleNext}>
+                            <FaArrowRight />
+                        </button>
+                    </div>
+
+                    {/* Weekly Progress Tracker (UC10) */}
+                    <div className="progress-section">
+                        <label className="toggle-progress">
+                            <span>Progress</span>
+                            <input
+                                type="checkbox"
+                                checked={showProgress}
+                                onChange={() => setShowProgress(!showProgress)}
+                            />
+                        </label>
+                        {showProgress && (
+                            <div className="progress-bars">
+                                <div className="progress-item">
+                                    <span>Math:</span>
+                                    <div className="progress-bar">
+                                        <div
+                                            className="progress-fill"
+                                            style={{
+                                                width: "25%" /* TODO: Replace with dynamic value from backend */,
+                                            }}
+                                        ></div>
+                                    </div>
+                                    <span className="progress-percent">25%</span>
+                                </div>
+                                <div className="progress-item">
+                                    <span>Biology:</span>
+                                    <div className="progress-bar">
+                                        <div
+                                            className="progress-fill"
+                                            style={{
+                                                width: "74%" /* TODO: Replace with dynamic value from backend */,
+                                            }}
+                                        ></div>
+                                    </div>
+                                    <span className="progress-percent">74%</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* RIGHT PANEL: Auto-Schedule, Search/Filter, Unscheduled Tasks, File Attachment */}
+                <div className="right-panel">
+                    <button className="auto-sched-btn" onClick={handleAutoSchedule}>
+                        AUTO Schedule
+                    </button>
+                    <div className="search-section">
+                        <div className="search-input-wrapper">
+                            <input
+                                className="search-bar"
+                                placeholder="Search events..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                            {searchQuery && (
+                                <button
+                                    className="clear-search"
+                                    onClick={() => setSearchQuery("")}
+                                >
+                                    Clear
+                                </button>
+                            )}
+                        </div>
+                        <div className="filter-section">
+                            <h4>Filter</h4>
+                            <ul>
+                                <li onClick={() => alert("Filter by teacher! (Integrate backend)")}>
+                                    by Teacher
+                                </li>
+                                <li onClick={() => alert("Filter by subject! (Integrate backend)")}>
+                                    by Subject
+                                </li>
+                                <li onClick={() => alert("Filter by skill level! (Integrate backend)")}>
+                                    by Skill Level
+                                </li>
+                                <li onClick={() => alert("Filter by event! (Integrate backend)")}>
+                                    by Event
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="unscheduled-tasks">
+                        <h4>Unscheduled Tasks</h4>
+                        <ul>
+                            {unscheduledTasks.map((task) => (
+                                <li key={task.id}>
+                                    <span className="task-type">[{task.type}]</span> {task.title}
+                                    {/* TODO: Add drag-and-drop functionality and integrate backend update */}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <button
+                        className="file-attach-btn"
+                        onClick={() =>
+                            alert("Open file upload dialog! (Integrate backend file upload)")
+                        }
+                    >
+                        File attach
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
 }
 export default LessonCalendar;
