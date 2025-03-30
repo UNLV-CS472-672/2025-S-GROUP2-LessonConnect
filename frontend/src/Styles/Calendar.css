@@ -1,1 +1,237 @@
-/*will add code here later*/
+/*!*will add code here later*!*/
+/*!* Calendar.css *!*/
+
+/* Define custom properties for theming */
+:root {
+    --primary-color: #3e64ff;
+    --primary-darker: #324ec9; /* 10% darker than primary */
+    --secondary-color: #ff5252;
+    --secondary-darker: #e04343; /* 10% darker than secondary */
+    --accent-color: #ffd600;
+    --bg-gradient: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    --card-bg: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+/*!* Global Styles *!*/
+/*body {*/
+
+/*}*/
+
+/*!* Overall Calendar Page Container (Scoped with .calendar-page) *!*/
+/*.calendar-page {*/
+
+/*}*/
+
+/*!* Main Calendar Body *!*/
+/*.calendar-page .calendar-body {*/
+
+/*}*/
+
+/*!* Panel Common Styles *!*/
+/*.calendar-page .left-panel,*/
+/*.calendar-page .right-panel {*/
+
+/*}*/
+
+/*!* Left Panel (Calendar Display & Progress) *!*/
+/*.calendar-page .left-panel {*/
+
+/*}*/
+
+/*!* Month Header & View Toggle *!*/
+/*.calendar-page .month-header {*/
+
+/*}*/
+
+/*.calendar-page .view-toggle button {*/
+
+/*}*/
+
+/*.calendar-page .view-toggle button:hover {*/
+
+/*}*/
+
+/*.calendar-page .view-toggle .active {*/
+
+/*}*/
+
+/*.calendar-page .month-title {*/
+
+/*}*/
+
+/*!* Header Actions (Today & Create Event) *!*/
+/*.calendar-page .header-actions {*/
+
+/*}*/
+
+/*.calendar-page .today-btn {*/
+
+/*}*/
+
+/*.calendar-page .today-btn:hover {*/
+/*}*/
+
+/*.calendar-page .create-event-btn {*/
+/*}*/
+
+/*.calendar-page .create-event-btn:hover {*/
+/*}*/
+
+/*!* Calendar Wrapper & Navigation Arrows *!*/
+/*.calendar-page .calendar-wrapper {*/
+/*}*/
+
+/*.calendar-page .nav-arrow {*/
+/*}*/
+
+/*.calendar-page .nav-arrow:hover {*/
+/*}*/
+
+/*!* React-Calendar Overrides *!*/
+/*.calendar-page .react-calendar {*/
+/*}*/
+
+/*.calendar-page .react-calendar__navigation button {*/
+/*}*/
+
+/*!* Tiles *!*/
+/*.calendar-page .react-calendar__tile {*/
+/*}*/
+
+/*.calendar-page .react-calendar__tile:hover {*/
+/*}*/
+
+/*.calendar-page .react-calendar__tile--active {*/
+/*}*/
+
+/*!* Event Markers on Tiles *!*/
+/*.calendar-page .tile-events {*/
+/*}*/
+
+/*.calendar-page .calendar-event-marker {*/
+/*}*/
+
+/*!* Progress Section *!*/
+/*.calendar-page .progress-section {*/
+/*}*/
+
+/*.calendar-page .toggle-progress {*/
+/*}*/
+
+/*.calendar-page .toggle-progress input[type="checkbox"] {*/
+/*}*/
+
+/*.calendar-page .progress-bars {*/
+/*}*/
+
+/*.calendar-page .progress-item {*/
+/*}*/
+
+/*.calendar-page .progress-bar {*/
+/*}*/
+
+/*.calendar-page .progress-fill {*/
+/*}*/
+
+/*.calendar-page .progress-percent {*/
+/*}*/
+
+/*!* Right Panel (Auto-Schedule, Search/Filter, Tasks, File Attach) *!*/
+/*.calendar-page .right-panel {*/
+/*}*/
+
+/*!* Auto-Schedule Button *!*/
+/*.calendar-page .auto-sched-btn {*/
+/*}*/
+
+/*.calendar-page .auto-sched-btn:hover {*/
+/*}*/
+
+/*!* Search Section *!*/
+/*.calendar-page .search-section {*/
+/*}*/
+
+/*.calendar-page .search-bar {*/
+/*}*/
+
+/*.calendar-page .search-bar:focus {*/
+/*}*/
+
+/*!* Filter Section *!*/
+/*.calendar-page .filter-section {*/
+/*}*/
+
+/*.calendar-page .filter-section h4 {*/
+/*}*/
+
+/*.calendar-page .filter-section ul {;*/
+/*}*/
+
+/*.calendar-page .filter-section li {*/
+/*}*/
+
+/*.calendar-page .filter-section li:last-child {*/
+/*}*/
+
+/*.calendar-page .filter-section li:hover {*/
+/*}*/
+
+/*!* Unscheduled Tasks *!*/
+/*.calendar-page .unscheduled-tasks {*/
+/*}*/
+
+/*.calendar-page .unscheduled-tasks h4 {*/
+/*}*/
+
+/*.calendar-page .unscheduled-tasks ul {*/
+/*}*/
+
+/*.calendar-page .unscheduled-tasks li {*/
+/*}*/
+
+/*.calendar-page .unscheduled-tasks li:last-child {*/
+/*}*/
+
+/*.calendar-page .task-type {*/
+/*}*/
+
+/*!* File Attachment Button *!*/
+/*.calendar-page .file-attach-btn {*/
+/*}*/
+
+/*.calendar-page .file-attach-btn:hover {*/
+/*}*/
+
+/*!* Responsive Adjustments *!*/
+/*@media (max-width: 768px) {*/
+/*}*/
+
+/*!* Week View Container *!*/
+/*.calendar-page .week-view {*/
+/*}*/
+
+/*!* Individual Week Day Card *!*/
+/*.calendar-page .week-day {*/
+/*}*/
+
+/*!* Week Day Header *!*/
+/*.calendar-page .week-day-header {*/
+/*}*/
+
+/*!* Container for events in week view *!*/
+/*.calendar-page .week-day-events {*/
+/*}*/
+
+/*!* Search Input Wrapper for Clear Button *!*/
+/*.calendar-page .search-input-wrapper {*/
+/*}*/
+
+/*.calendar-page .clear-search {*/
+/*}*/
+
+/*.calendar-page .clear-search:hover {*/
+/*}*/
+
