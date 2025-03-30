@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
-import '../Styles/Calendar.css'
+import "../Styles/Calendar.css";
 import { FaPlus, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-// okay we need a helper functioon that is for sure
 // Helper function: get the start (Sunday) of the week for a given date
 const getStartOfWeek = (date) => {
     const d = new Date(date);
@@ -11,6 +10,7 @@ const getStartOfWeek = (date) => {
     d.setDate(d.getDate() - day);
     return d;
 };
+
 function LessonCalendar() {
     // ---------------------------
     // STATES & SAMPLE DATA
@@ -19,7 +19,8 @@ function LessonCalendar() {
     const [view, setView] = useState("month"); // "month" or "week"
     const [searchQuery, setSearchQuery] = useState(""); // For event search (UC6)
     const [showProgress, setShowProgress] = useState(true); // Toggle progress tracker display
-// Sample unscheduled tasks (UC8)
+
+    // Sample unscheduled tasks (UC8)
     const [unscheduledTasks, setUnscheduledTasks] = useState([
         { id: 1, title: "Math Tutoring (Draft)", type: "Lesson" },
         { id: 2, title: "Reading Club Prep", type: "Meeting" },
@@ -110,15 +111,16 @@ function LessonCalendar() {
             </div>
         );
     };
+
     // ---------------------------
     // COMPONENT RENDER
     // ---------------------------
     return (
-        <div className="calendar-page-container">
+        <div className="calendar-page">
             <div className="calendar-body">
                 {/* LEFT PANEL: Calendar display & Weekly Progress Tracker */}
                 <div className="left-panel">
-                    {/* Section: Month/Week toggle, "Today" and event creation buttons */}
+                    {/* Section: Month/Week toggle, "Today", and event creation buttons */}
                     <div className="month-header">
                         <div className="view-toggle">
                             <button
@@ -157,7 +159,7 @@ function LessonCalendar() {
                             <Calendar
                                 onChange={onDateChange}
                                 value={value}
-                                view="month" // react-calendar's native month view
+                                view="month"
                                 tileContent={tileContent}
                             />
                         ) : (
@@ -296,4 +298,5 @@ function LessonCalendar() {
         </div>
     );
 }
+
 export default LessonCalendar;
