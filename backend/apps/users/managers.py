@@ -1,5 +1,7 @@
 from django.db import models
 from watson import search
+from django.db.models import Prefetch
+from apps.search.models import Subject
 
 class ProfileManager(models.Manager):
 
@@ -76,7 +78,9 @@ class TutorProfileManager(models.Manager):
 
     def get_result_data(self, search_results):
         # Use select_related to reduce queries and retrieve only the required fields
-        search_results = search_results.select_related('profile__user', 'profile').only(
+        search_results = search_results.select_related('profile__user', 'profile').prefetch_related(
+            Prefetch('subjects', queryset=Subject.objects.only('title'))
+        ).only(
             'profile__user__first_name',
             'profile__user__last_name',
             'bio',
