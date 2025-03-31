@@ -17,7 +17,10 @@ class StartPomodoroSession(APIView):
 
 class PausePomodoroSession(APIView):
     def post(self, request, id):
-        session = PomodoroSession.objects.get(id=id)
+        session = PomodoroSession.objects.filter(id=id).first()
+        if not session:
+            return Response({"error": "Pomodoro session not found"}, status=status.HTTP_404_NOT_FOUND)
+        
         session.pause()
         return Response({"message": "Pomodoro session paused"}, status=status.HTTP_200_OK)
 
