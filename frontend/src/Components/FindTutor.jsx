@@ -86,7 +86,7 @@ export default function FindTutor() {
                         <input
                             type="text"
                             className="form-control border-0 shadow-none"
-                            placeholder="Enter subject or tutor name"
+                            placeholder="Enter category or tutor name"
                             value={what}
                             onChange={(e) => setWhat(e.target.value)}
                             onKeyDown={(e) => e.key === "Enter" && handleSearch(e)}
