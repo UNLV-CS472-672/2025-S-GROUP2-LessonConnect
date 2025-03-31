@@ -1,0 +1,219 @@
+.user-view-section-page .greeting {
+    background-color: #ffffff;
+    padding: 150px 0;
+    box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.03);
+    text-align: center;
+    color: #333;
+}
+.user-view-section-page .greeting .inner-container {
+    max-width: 1600px;
+    margin: 150px auto;
+}
+
+.user-view-section-page .greeting h1 {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+}
+
+.user-view-section-page .greeting .subheading {
+    font-size: 1.5rem;
+    color: #4a62d0;
+}
+
+.user-view-section-page .dashboard-section {
+    background-color: #f2f2f2;
+    padding: 50px 0;
+}
+
+.user-view-section-page .dashboard-layout {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr;
+    gap: 40px;
+    max-width: 1395px;
+    margin: auto;
+}
+
+.user-view-section-page .button-grid {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    width: 1100px;
+    height: 600px;
+}
+
+.user-view-section-page .button-card {
+    border-radius: 12px;
+    overflow: hidden;
+    height: 210px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    position: relative;
+}
+
+.user-view-section-page .button-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.user-view-section-page .button-card span {
+    z-index: 2;
+    font-size: 1.4rem;
+    color: #fff;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding: 10px;
+}
+
+.user-view-section-page .button-card:hover {
+    transform: scale(1.03);
+}
+
+.user-view-section-page .popular-tutors-side {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    height: 600px;
+}
+
+.user-view-section-page .popular-tutors-side h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.user-view-section-page .tutor-card {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    background-color: #fafafa;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.user-view-section-page .tutor-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.user-view-section-page .tutor-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid #ddd;
+}
+
+.user-view-section-page .tutor-info h3 {
+    font-size: 1.1rem;
+    margin: 5px 0;
+}
+
+.user-view-section-page .tutor-info p {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.user-view-section-page .subject-tag {
+    display: inline-block;
+    background-color: #e0ebff;
+    color: #4a62d0;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    margin-bottom: 4px;
+}
+
+.user-view-section-page .extra-section {
+    background-color: #e6e6e6;
+    padding: 50px 0;
+}
+
+.user-view-section-page .extra-section .inner-container {
+    text-align: center;
+    max-width: 1600px;
+    margin: auto;
+    font-size: 1.3rem;
+    color: #444;
+}
+
+.user-view-section-page .tip-todo-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 1100px;
+    margin: auto;
+    gap: 60px;
+}
+
+.user-view-section-page .todo-list {
+    flex: 1;
+    max-width: 480px;
+    text-align: left;
+}
+
+.user-view-section-page .tip-section {
+    flex: 1;
+    max-width: 350px;
+    text-align: left;
+}
+
+.user-view-section-page .tip-section h3,
+.user-view-section-page .todo-list h3 {
+    font-size: 1.7rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.user-view-section-page .tip-section blockquote {
+    font-style: italic;
+    font-size: 1.3rem;
+    color: #555;
+    border-left: 5px solid #4a62d0;
+    padding-left: 15px;
+    margin: 0;
+}
+
+.user-view-section-page .todo-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.user-view-section-page .todo-list li {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 12px 18px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.user-view-section-page .todo-list li.completed span {
+    text-decoration: line-through;
+    color: #aaa;
+}
+
+.user-view-section-page .todo-list input[type="checkbox"] {
+    margin-right: 12px;
+    transform: scale(1.3);
+}
+
+
