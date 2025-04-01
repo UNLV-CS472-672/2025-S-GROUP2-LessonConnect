@@ -71,7 +71,13 @@ export default function Booking() {
                         </div>
                         <div className="details-info">
                             <h1>{tutor?.first_name} {tutor?.last_name}</h1>
-                            <p className="experience">{tutor?.yearsOfExperience} Years of Experience</p>
+                            {/* Add the rating badge here */}
+                            {tutor?.rating && (
+                                <div className="rating-badge">
+                                    <i className="bi bi-star-fill"></i>
+                                    <span>{tutor.rating}</span>
+                                </div>
+                            )}
                             <p className="text-muted">{tutor.city}, {tutor.state}</p>
                             <div className="subjects-container">
                                 {Array.isArray(tutor.subjects)

@@ -72,7 +72,27 @@ html, body {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
 }
-.experience,
+
+/* Style for the rating badge */
+.rating-badge {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem; /* Increase the size of the text */
+    font-weight: bold;
+    color: black;
+}
+
+/* Style for the star icon */
+.rating-badge i {
+    font-size: 2rem; /* Increase the size of the star */
+    margin-right: 5px; /* Space between the star and the rating number */
+}
+
+/* Style for the rating number */
+.rating-badge span {
+    font-size: 1.5rem; /* Size of the rating number */
+}
+
 .location {
     margin: 0.25rem 0;
     color: #555;
