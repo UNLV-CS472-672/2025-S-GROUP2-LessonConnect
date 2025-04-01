@@ -42,7 +42,7 @@ const FilterDropdown = ({
                             </button>
                             {openDropdown === "subjects" && (
                                 <ul className="dropdown-menu show">
-                                    {["Calculus I", "Calculus II", "Geometry", "Algebra", "Trigonometry", "Coding I", "Coding II", "Spanish I", "Spanish II", "ESL", "French", "World History", "Philosophy", "Physics"].map((type) => (
+                                    {["Calculus I", "Calculus II", "Physics I", "Physics II", "Spanish", "Algebra I", "Algebra II", "Chemistry I", "Chemistry II", "ESL", "English 101", "Computer Science I", "Linear Algebra", "History of the U.S.", "World History", "Guitar", "Piano", "Violin", "Philosophy"].map((type) => (
                                         <li key={type}>
                                             <a className="dropdown-item" onClick={() => toggleType(type)}>
                                                 <i className={selectedTypes.includes(type) ? "bi bi-check-square-fill" : "bi bi-square"}></i>

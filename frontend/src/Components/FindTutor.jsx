@@ -1,4 +1,4 @@
-import {useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import FilterDropdown from "./FilterDropdown";
@@ -11,7 +11,7 @@ export default function FindTutor() {
     const [loading, setLoading] = useState(false); // To track loading state
     const [error, setError] = useState(""); // To store any error message
 
-    // Filter states
+    // Filter states for subject types, price range, and rating
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(150);
@@ -24,26 +24,29 @@ export default function FindTutor() {
             alert("Please fill in both search fields.");
             return;
         }
-        setLoading(true);
-        setError("");
+        setLoading(true); // Set loading to true when starting the API call
+        setError(""); // Clear any previous error messages
 
         try {
+            // Making the API call with search parameters
             const response = await axios.get("http://127.0.0.1:8000/search/", {
                 params: {
-                    what,
-                    where,
-                    rating: selectedRating || "",
-                    "min-price": minPrice || "",
-                    "max-price": maxPrice || "",
-                    subjects: selectedTypes.join(",") || "",
+                    what, // Subject or tutor name
+                    where, // Location
+                    rating: selectedRating || "", // Rating filter
+                    "min-price": minPrice || "", // Minimum price filter
+                    "max-price": maxPrice || "", // Maximum price filter
+                    subjects: selectedTypes.join(",") || "", // Subject filter (multiple subjects can be selected)
                 },
             });
 
+            // Set the fetched tutors to state
             setTutorList(response.data.data);
         } catch (err) {
+            // Catch and display errors
             setError("Error fetching tutors: " + err.message);
         } finally {
-            setLoading(false);
+            setLoading(false); // Reset loading state after request
         }
     };
 
@@ -134,7 +137,13 @@ export default function FindTutor() {
                             <div className="tutor-card">
                                 <div className="card-img-wrapper">
                                     <img src={tutor.image_url} alt="Tutor Image" className="card-img-top" />
-                                    <div className="badge-category">{tutor.category}</div>
+                                    <div className="subject-badges">
+                                        {Array.isArray(tutor.subjects)
+                                            ? tutor.subjects.map((subject, idx) => (
+                                                <span key={idx} className="badge-subject">{subject}</span>
+                                            )) : tutor.subjects?.split(",").map((subject, idx) => (
+                                                <span key={idx} className="badge-subject">{subject.trim()}</span>))}
+                                    </div>
                                 </div>
                                 <div className="card-body">
                                     <h5 className="fw-bold">{tutor.first_name} {tutor.last_name}</h5>
@@ -142,7 +151,14 @@ export default function FindTutor() {
                                     <p className="text-muted">{tutor.city}, {tutor.state}</p>
                                     <p className="text-muted">Hourly Rate: ${tutor.hourly_rate}</p>
                                 </div>
-                                <NavLink to="/booking" className="btn btn-outline-light book-btn">
+                                {/* Add the rating badge here */}
+                                {tutor.rating && (
+                                    <div className="rating-badge">
+                                        <i className="bi bi-star-fill"></i>
+                                        <span>{tutor.rating}</span>
+                                    </div>
+                                )}
+                                <NavLink to="/booking" state={{ tutor }} className="btn btn-outline-light book-btn">
                                     Book Now
                                 </NavLink>
                             </div>
