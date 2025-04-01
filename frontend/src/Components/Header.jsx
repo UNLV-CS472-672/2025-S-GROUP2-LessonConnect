@@ -2,16 +2,16 @@ import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 
 export default function Header() {
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [openDropdown, setOpenDropdown] = useState(null);
 
-    // Toggle dropdown open/close on click
-    const toggleDropdown = () => {
-        setDropdownOpen(!dropdownOpen);
+    // Toggle dropdown open/close
+    const toggleDropdown = (menu) => {
+        setOpenDropdown(openDropdown === menu ? null : menu);
     };
 
     // Close dropdown when mouse leaves the dropdown area
     const closeDropdown = () => {
-        setDropdownOpen(false);
+        setOpenDropdown(null);
     };
 
     return (
@@ -38,36 +38,36 @@ export default function Header() {
                                 <NavLink to="/findTutor" className="nav-link">Find a tutor</NavLink>
                                 <NavLink to="/services" className="nav-link">Services</NavLink>
 
-                                {/* Dropdown Menu */}
+                                {/* Support Dropdown */}
                                 <div
                                     className="nav-item dropdown"
-                                    onMouseLeave={closeDropdown}  // Close dropdown when mouse leaves
+                                    onMouseLeave={closeDropdown}
                                 >
                                     <button
                                         className="nav-link dropdown-toggle"
-                                        onClick={toggleDropdown}
+                                        onClick={() => toggleDropdown("support")}
                                     >
                                         Support
                                     </button>
-                                    <div className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}>
+                                    <div className={`dropdown-menu ${openDropdown === "support" ? "show" : ""}`}>
                                         <NavLink to="/about" className="dropdown-item">About Us</NavLink>
                                         <NavLink to="/contact" className="dropdown-item">Contact Us</NavLink>
                                         <NavLink to="/faqs" className="dropdown-item">FAQS</NavLink>
                                     </div>
                                 </div>
 
-                                {/* Dropdown Menu */}
+                                {/* More Dropdown */}
                                 <div
                                     className="nav-item dropdown"
-                                    onMouseLeave={closeDropdown}  // Close dropdown when mouse leaves
+                                    onMouseLeave={closeDropdown}
                                 >
                                     <button
                                         className="nav-link dropdown-toggle"
-                                        onClick={toggleDropdown}
+                                        onClick={() => toggleDropdown("more")}
                                     >
                                         More
                                     </button>
-                                    <div className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}>
+                                    <div className={`dropdown-menu ${openDropdown === "more" ? "show" : ""}`}>
                                         <NavLink to="/learn_more" className="dropdown-item">Learn More</NavLink>
                                         <NavLink to="/resources" className="dropdown-item">Resources</NavLink>
                                         <NavLink to="/pomodoro" className="dropdown-item">Pomodoro</NavLink>
