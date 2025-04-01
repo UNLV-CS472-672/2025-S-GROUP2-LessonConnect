@@ -73,7 +73,7 @@ export default function Booking() {
                             <h1>{tutor?.first_name} {tutor?.last_name}</h1>
                             {/* Add the rating badge here */}
                             {tutor?.rating && (
-                                <div className="rating-badge">
+                                <div className="rating-badge-booking">
                                     <i className="bi bi-star-fill"></i>
                                     <span>{tutor.rating}</span>
                                 </div>

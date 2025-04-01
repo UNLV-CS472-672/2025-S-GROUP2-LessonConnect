@@ -74,7 +74,7 @@ html, body {
 }
 
 /* Style for the rating badge */
-.rating-badge {
+.rating-badge-booking {
     display: flex;
     align-items: center;
     font-size: 1.5rem; /* Increase the size of the text */
@@ -83,13 +83,13 @@ html, body {
 }
 
 /* Style for the star icon */
-.rating-badge i {
+.rating-badge-booking i {
     font-size: 2rem; /* Increase the size of the star */
     margin-right: 5px; /* Space between the star and the rating number */
 }
 
 /* Style for the rating number */
-.rating-badge span {
+.rating-badge-booking span {
     font-size: 1.5rem; /* Size of the rating number */
 }
 
