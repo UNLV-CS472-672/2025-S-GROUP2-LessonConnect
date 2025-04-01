@@ -63,7 +63,9 @@ def register_profile(request):
   first_name = request.data["firstName"]
   last_name = request.data["lastName"]
   password = request.data["password"]
-  role = request.data["role"]  # Get the selected role
+  # TODO: replace "1" with "role" once that is handled by the frontend
+  # role = request.data["role"]  # Get the selected role
+  role = 3
   # Create user
   user = User.objects.create_user(
     username=username,
@@ -74,6 +76,7 @@ def register_profile(request):
   )
   # Create associated Profile
   profile = Profile.objects.create(user, role)
+  
 
   image=request.data.get("image") #For now, get an optional image
 
