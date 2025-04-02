@@ -9,19 +9,12 @@ from .models import Message, Chat
 # https://medium.com/@farad.dev/how-to-build-a-real-time-chat-app-using-django-channels-2ba2621ea972
 class ChatConsumer(AsyncWebsocketConsumer):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(args, kwargs)
-        self.room_name = None
-        self.room_group_name = None
-        self.room = None
-        self.user = None
-
     async def connect(self):
         user = self.scope["user"]  # Get the user from the scope
 
-        if not user.is_authenticated:
-            await self.close()  # Close the connection if the user is not authenticated
-            return
+        #if not user.is_authenticated:
+         #   print("not authenticated")
+          #  return
 
         self.user = user
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]  # Extracts the room_name from the URL
@@ -63,7 +56,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         }))
 
     @sync_to_async
-    def save_message(self, room_name, user, content):
+    def save_message(self, user, room_name, content):
         try:
             chat = Chat.objects.get(name = room_name)
             Message.objects.create(content=content, chat = chat, sender = user) # Creates and saves message
