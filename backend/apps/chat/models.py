@@ -8,6 +8,7 @@ class Chat(models.Model):
   user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name="chats_received")
   createdAt = models.DateTimeField(auto_now_add=True)
   updatedAt = models.DateTimeField(auto_now=True)
+  name = models.CharField(max_length=100, default="Unknown")
 
   class Meta:
     unique_together = ('user1', 'user2')
@@ -24,6 +25,7 @@ class Chat(models.Model):
     chat, created = cls.objects.get_or_create(user1=user1, user2=user2)
     return chat
 
+# https://www.youtube.com/watch?v=Rv6gkYcN88Q
 class Message(models.Model):
   chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name="messages")
   sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_messages")
