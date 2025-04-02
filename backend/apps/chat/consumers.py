@@ -5,6 +5,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 from .models import Message, Chat
+from django.contrib.auth.models import User
 
 # https://medium.com/@farad.dev/how-to-build-a-real-time-chat-app-using-django-channels-2ba2621ea972
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -12,9 +13,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         user = self.scope["user"]  # Get the user from the scope
 
-        #if not user.is_authenticated:
-         #   print("not authenticated")
-          #  return
+        if not user.is_authenticated:
+            print("not authenticated")
+            return
 
         self.user = user
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]  # Extracts the room_name from the URL
@@ -38,7 +39,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = text_data_json['message']
 
         # Create a new message object
-        await self.save_message(self.user, self.room_name, message)
+        await self.save_message(self.user.id, self.room_name, message)
 
         await self.channel_layer.group_send( # sends message to all users in a channel group
             self.room_group_name,
@@ -56,8 +57,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         }))
 
     @sync_to_async
-    def save_message(self, user, room_name, content):
+    def save_message(self, id, room_name, content):
         try:
+            user = User.objects.get(id=id)
             chat = Chat.objects.get(name = room_name)
             Message.objects.create(content=content, chat = chat, sender = user) # Creates and saves message
         except (Chat.DoesNotExist):

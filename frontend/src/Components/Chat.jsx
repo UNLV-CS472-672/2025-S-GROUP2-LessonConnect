@@ -8,9 +8,16 @@ const Chat = () => {
     const [input, setInput] = useState("");
     const [socket, setSocket] = useState(null);
 
+    const token = localStorage.getItem("accessToken");
+
     // Establish WebSocket connection on mount
     useEffect(() => {
-        const ws = new WebSocket("ws://localhost:8000/ws/apps/chat/testroom/"); // Change URL to match your WebSocket route
+        const ws = new WebSocket(
+            `ws://localhost:8000/ws/apps/chat/testroom/`,
+            [],
+            { headers: { Authorization: `Bearer ${token}` } }  // Pass token here
+        );
+
         setSocket(ws);
 
         ws.onopen = () => {
