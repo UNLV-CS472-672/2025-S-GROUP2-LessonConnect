@@ -1,5 +1,6 @@
 import "../Styles/filterDropdown.css";
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const FilterDropdown = ({
                             selectedTypes, setSelectedTypes,
@@ -106,5 +107,15 @@ const FilterDropdown = ({
         </div>
     );
 };
-
+// **Fix: Add PropTypes validation**
+FilterDropdown.propTypes = {
+    selectedTypes: PropTypes.array.isRequired,
+    setSelectedTypes: PropTypes.func.isRequired,
+    minPrice: PropTypes.number.isRequired,
+    setMinPrice: PropTypes.func.isRequired,
+    maxPrice: PropTypes.number.isRequired,
+    setMaxPrice: PropTypes.func.isRequired,
+    selectedRating: PropTypes.number.isRequired,
+    setSelectedRating: PropTypes.func.isRequired,
+};
 export default FilterDropdown;

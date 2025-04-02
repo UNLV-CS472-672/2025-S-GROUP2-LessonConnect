@@ -9,7 +9,7 @@ export default function FindTutor() {
     const [where, setWhere] = useState(""); // To store the location
     const [tutorList, setTutorList] = useState([]); // To store fetched tutors
     const [loading, setLoading] = useState(false); // To track loading state
-    const [error, setError] = useState(""); // To store any error message
+    const [setError] = useState(""); // To store any error message
 
     // Filter states for subject types, price range, and rating
     const [selectedTypes, setSelectedTypes] = useState([]);
