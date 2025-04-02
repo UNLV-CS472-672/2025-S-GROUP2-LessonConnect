@@ -2,6 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from .models import UploadRecord
+from apps.users.models import Profile
 from django.contrib.auth import get_user_model
 from .serializers import UploadListSerializer
 
@@ -25,6 +26,8 @@ class UploadRecordViewTest(APITestCase):
                     last_name='User',
                     email='testuser@example.com'
                 )
+        self.profile = Profile.objects.create(self.fake_user, 2)
+
     # Ensure that if there are no uploads,
     # the API returns a 404 error with the proper message.
     def test_get_uploads_empty(self):
@@ -47,7 +50,7 @@ class UploadRecordViewTest(APITestCase):
                 "version": self.version,
                 "asset_id": self.asset_id,
             },
-            user=self.fake_user
+            profile=self.profile
         )
 
         # Perform the GET request
