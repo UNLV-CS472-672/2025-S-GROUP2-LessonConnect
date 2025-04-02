@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.http import JsonResponse, HttpResponse
 from django.middleware.csrf import get_token
+from .models import Profile
 from apps.users.models import Profile, TutorProfile
 from apps.uploads.models import UploadRecord, ProfilePicture
 from rest_framework import status
@@ -62,7 +63,9 @@ def register_profile(request):
   first_name = request.data["firstName"]
   last_name = request.data["lastName"]
   password = request.data["password"]
-  role = request.data["role"]  # Get the selected role
+  # TODO: replace "1" with "role" once that is handled by the frontend
+  # role = request.data["role"]  # Get the selected role
+  role = 3
   # Create user
   user = User.objects.create_user(
     username=username,
@@ -73,6 +76,7 @@ def register_profile(request):
   )
   # Create associated Profile
   profile = Profile.objects.create(user, role)
+  
 
   image=request.data.get("image") #For now, get an optional image
 
@@ -92,7 +96,6 @@ def register_profile(request):
       bio=request.data["bio"]
       hourly_rate=request.data["hourly_rate"]
       tutor = TutorProfile.objects.create(profile, city, state, bio, hourly_rate)
-
   return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
