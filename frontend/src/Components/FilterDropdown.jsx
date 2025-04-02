@@ -23,7 +23,7 @@ const FilterDropdown = ({
     };
 
     // Handles blur event with delay to allow dropdown to remain open in Chrome
-    const handleDropdownBlur = (e, dropdown) => {
+    const handleDropdownBlur = (e) => {
         setTimeout(() => {
             // Close the dropdown only if the next focused element is outside the dropdown
             if (!e.currentTarget.contains(e.relatedTarget)) {
