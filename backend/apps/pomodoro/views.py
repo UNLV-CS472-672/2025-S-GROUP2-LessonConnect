@@ -53,7 +53,10 @@ class CompletePomodoroSession(APIView):
 
 class GetPomodoroSessionStatus(APIView):
     def get(self, request, id):
-        session = PomodoroSession.objects.get(id=id)
+        session = PomodoroSession.objects.filter(id=id).first()
+        if not session:
+            return Response({"error": "Pomodoro session not found"}, status=status.HTTP_404_NOT_FOUND)
+            
         serializer = PomodoroSessionSerializer(session)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
