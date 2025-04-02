@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react"; // no need for import react
 import Calendar from "react-calendar";
 import "../Styles/Calendar.css";
 import { FaPlus, FaArrowLeft, FaArrowRight } from "react-icons/fa";
