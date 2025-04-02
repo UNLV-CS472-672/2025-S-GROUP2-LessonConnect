@@ -17,6 +17,7 @@ import Schedule from "./Components/Schedule.jsx";
 import Chat from "./Components/Chat.jsx";
 import Footer from "./Components/Footer.jsx";
 import Booking from "./Components/Booking.jsx";
+import VideoCall from "./Components/VideoCall.jsx";
 import Calendar from "./Components/Calendar.jsx";
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
                 <Route path="/pomodoro" element={<Pomodoro />} />
                 <Route path="/booking" element={<Booking />} />
                 <Route path="/chat" element={<Chat />} />
+                <Route path="/videocall" element={<VideoCall />} />
                 <Route path="/Calendar" element={<Calendar />} />
             </Routes>
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
