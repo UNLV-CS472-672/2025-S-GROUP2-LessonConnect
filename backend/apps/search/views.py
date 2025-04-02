@@ -96,7 +96,7 @@ class SearchView(APIView):
         # Perform search with 'what' term
         search_results = TutorProfile.objects.search(filtered_tutors, what)
         # Combine with partial_tutor_matches
-        partial_tutor_matches = TutorProfile.objects.filter(lookup_tutors_query)
+        partial_tutor_matches = filtered_tutors.filter(lookup_tutors_query) #changed now
         search_results = (search_results | partial_tutor_matches)
 
         try:
