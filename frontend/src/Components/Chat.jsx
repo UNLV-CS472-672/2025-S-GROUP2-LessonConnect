@@ -239,6 +239,58 @@ export default function Chat() {
                     ))}
                 </ul>
             </aside>
+            {/* CHAT WINDOW */}
+            <section className="chat-window">
+                {/* Chat Header */}
+                <div className="chat-header">
+                    <div className="chat-with">
+                        <button className="sidebar-toggle" onClick={toggleSidebar}>
+                            <i className="fas fa-bars"></i>
+                        </button>
+                        <img src={selectedChat.avatar} alt="User Avatar" className="avatar" />
+                        <div>
+                            <h2>{selectedChat.name}</h2>
+                            <p className="status">{selectedChat.status}</p>
+                        </div>
+                    </div>
+                    <div className="chat-actions">
+                        <button className="action-btn" onClick={() => alert("Video call!")}>
+                            <i className="fas fa-video"></i>
+                        </button>
+                        <button className="action-btn" onClick={toggleDetails}>
+                            <i className="fas fa-info-circle"></i>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Chat Body */}
+                <div className="chat-body" ref={chatBodyRef}>
+                    {messages.map((msg, index) => (
+                        <div
+                            key={index}
+                            className={`message ${msg.type} ${msg.isTyping ? "typing" : ""}`}
+                        >
+                            {/* For "received" messages, show an avatar if not typing */}
+                            {msg.type === "received" && !msg.isTyping && (
+                                <img src={selectedChat.avatar} alt="Avatar" className="avatar" />
+                            )}
+                            <div className="message-content">
+                                <p>{msg.text}</p>
+                                {/* Show time if not typing */}
+                                {!msg.isTyping && (
+                                    <span className="time">
+                      {msg.time}
+                                        {/* If it's a sent message, show a small read receipt check (UC6) */}
+                                        {msg.type === "sent" && msg.read && (
+                                            <i className="fas fa-check read-receipt" title="Message read"></i>
+                                        )}
+                    </span>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </section>
             </main>
     </div>
     );
