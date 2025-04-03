@@ -291,7 +291,35 @@ export default function Chat() {
                     ))}
                 </div>
             </section>
-            </main>
+            {/* RIGHT SIDEBAR (UC7: View Contact Info, UC8: Role-based Labeling, UC10: Status Indicator) */}
+            <aside className={`details-sidebar ${isDetailsOpen ? "open" : "closed"}`}>
+                <div className="details-card">
+                    <img src={selectedChat.avatar} alt="User Avatar" className="profile-avatar" />
+                    <h3>{selectedChat.name}</h3>
+                    <p className="role-label">{selectedChat.role}</p>
+                </div>
+                <div className="details-info">
+                    <p>
+                        <strong>Status:</strong> {selectedChat.status}
+                    </p>
+                    <p>
+                        <strong>Email:</strong> {selectedChat.email}
+                    </p>
+                    <p>
+                        <strong>Joined:</strong> {selectedChat.joined}
+                    </p>
+                    <p>
+                        <strong>Location:</strong> {selectedChat.location}
+                    </p>
+                </div>
+                <div className="details-actions">
+                    {/* UC: Mute, Block, Report */}
+                    <button onClick={() => alert("Muted user!")}>Mute</button>
+                    <button onClick={() => alert("Blocked user!")}>Block</button>
+                    <button onClick={() => alert("Reported user!")}>Report</button>
+                </div>
+            </aside>
+        </main>
     </div>
     );
 }
