@@ -387,3 +387,84 @@
     background: var(--secondary);
     transform: translateY(-2px);
 }
+.chat-page .details-sidebar {
+    width: 300px;
+    background: var(--bg-white);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transition: transform var(--transition-speed) ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-page .details-sidebar.open {
+    transform: translateX(0);
+}
+
+.chat-page .details-sidebar.closed {
+    transform: translateX(105%);
+}
+
+.chat-page .details-card {
+    text-align: center;
+    padding: 1rem;
+    background-color: #f8f9ff;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.chat-page .profile-avatar {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+}
+
+.chat-page .details-card h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #333;
+}
+
+.chat-page .role-label {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    font-weight: 500;
+}
+
+.chat-page .details-info {
+    padding: 1rem;
+    flex: 1;
+}
+
+.chat-page .details-info p {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+.chat-page .details-actions {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-top: 1px solid var(--border-color);
+    background-color: #f8f9ff;
+}
+
+.chat-page .details-actions button {
+    border: none;
+    padding: 0.6rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 5px;
+    background: var(--primary);
+    color: var(--bg-white);
+    transition: background var(--transition-speed), transform var(--transition-speed);
+}
+
+.chat-page .details-actions button:hover {
+    background: var(--secondary);
+    transform: scale(1.03);
+}
