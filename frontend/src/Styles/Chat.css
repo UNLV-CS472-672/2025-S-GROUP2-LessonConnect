@@ -35,3 +35,44 @@
 .chat-page ul {
     list-style: none;
 }
+.chat-page .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(110deg, var(--primary), var(--secondary));
+    padding: 1rem 1.5rem;
+    color: var(--bg-white);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.chat-page .header-logo h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.chat-page .header-search {
+    position: relative;
+}
+
+.chat-page .header-search input {
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    width: 260px;
+    font-size: 0.9rem;
+    transition: box-shadow var(--transition-speed);
+}
+
+.chat-page .header-search input:focus {
+    box-shadow: 0 0 8px rgba(158, 29, 231, 0.2);
+}
+
+.chat-page .header-search i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+}
