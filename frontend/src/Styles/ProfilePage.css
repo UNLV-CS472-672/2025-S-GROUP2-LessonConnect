@@ -3,20 +3,17 @@
     background-color: #f8f9fa;
     min-height: 100vh;
 }
-
 /* Cover Section */
 .profile-page-container .cover-section {
     background-color: #d9534f;
     height: 250px;
     width: 100%;
 }
-
 /* Profile Content */
 .profile-page-container .profile-content {
     margin-top: -80px;
     padding-bottom: 50px;
 }
-
 /* Header */
 .profile-page-container .profile-header {
     display: flex;
@@ -26,7 +23,6 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 /* Avatar */
 .profile-page-container .profile-avatar {
     width: 150px;
@@ -36,41 +32,61 @@
     margin-right: 30px;
     background: white;
 }
-
 /* Info */
 .profile-page-container .profile-info {
     flex: 1;
 }
-
 .profile-page-container .profile-name {
     margin: 0;
     font-size: 28px;
     font-weight: bold;
 }
-
 .profile-page-container .profile-title {
     color: #666;
     margin-top: 5px;
 }
-
 .profile-page-container .profile-bio {
     margin-top: 10px;
     color: #333;
 }
-
 .profile-page-container .profile-buttons {
     margin-top: 15px;
 }
-
 .profile-page-container .profile-buttons .btn {
     margin-right: 10px;
     width: 120px;
 }
-
 /* Panel */
 .profile-page-container .profile-panel {
     background: white;
     margin-top: 20px;
     padding: 20px;
     border-radius: 8px;
+}
+/* Status Section */
+.profile-page-container .status-section {
+    position: relative;
+}
+.profile-page-container .status-display {
+    background: #f8f9fa;
+    padding: 12px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    transition: background 0.3s;
+    text-align: center;
+}
+.profile-page-container .status-display:hover {
+    background: #e2e6ea;
+}
+/* Status Input */
+.profile-page-container .status-input {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
 }

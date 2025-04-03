@@ -1,7 +1,21 @@
 import "../Styles/ProfilePage.css"
 import userIcon from "/assets/images/UNLV_pic.png";
+import {useState} from "react";
 
 export default function ProfilePage() {
+    const [status, setStatus] = useState("Excited to build awesome web apps!");
+    const [newStatus, setNewStatus] = useState("");
+    const [isEditing, setIsEditing] = useState(false);
+
+    const updateStatus = () => {
+        if (newStatus.trim() !== "") {
+            setStatus(newStatus);
+        }
+
+            setNewStatus("");
+            setIsEditing(false);
+    };
+
     return (
         <>
             <div className="profile-page-container">
@@ -35,6 +49,33 @@ export default function ProfilePage() {
                                 Developer with a love for React, Node.js, and clean UI design.
                                 Always eager to learn and collaborate.
                             </p>
+                        </div>
+                        {/* Custom Status Section */}
+                        <div className="profile-panel status-section">
+                            <h4>Custom Status</h4>
+                            {isEditing ? (
+                                <>
+              <textarea
+                  className="status-input"
+                  value={newStatus}
+                  onChange={(e) => setNewStatus(e.target.value)}
+                  placeholder="What's on your mind?"
+              ></textarea>
+                                    <button className="btn btn-success" onClick={updateStatus}>
+                                        Save
+                                    </button>
+                                    <button
+                                        className="btn btn-outline-danger"
+                                        onClick={() => setIsEditing(false)}
+                                    >
+                                        Cancel
+                                    </button>
+                                </>
+                            ) : (
+                                <div className="status-display" onClick={() => setIsEditing(true)}>
+                                    {status || "Click here to update your status..."}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
