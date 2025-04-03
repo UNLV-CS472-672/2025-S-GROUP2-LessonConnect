@@ -205,6 +205,41 @@ export default function Chat() {
                 <i className="fas fa-search"></i>
             </div>
         </header>
+
+        {/* MAIN CONTAINER */}
+        <main className="container">
+            {/* LEFT SIDEBAR (UC1: View Chat List) */}
+            <aside className={`sidebar ${isSidebarOpen ? "open" : "closed"}`}>
+                <div className="sidebar-top">
+                    <h2>Chats</h2>
+                    <button
+                        className="new-chat"
+                        onClick={() => alert("Starting a new chat... (UC1, future scope)")}
+                    >
+                        <i className="fas fa-plus"></i> <span>New Chat</span>
+                    </button>
+                </div>
+                <ul className="chat-list">
+                    {filteredChatList.map((chat) => (
+                        <li
+                            key={chat.id}
+                            className={`chat-item ${selectedChat.id === chat.id ? "active" : ""}`}
+                            onClick={() => handleSelectChat(chat)}
+                        >
+                            <img src={chat.avatar} alt="User Avatar" className="avatar" />
+                            <div className="chat-info">
+                                <h3>{chat.name}</h3>
+                                <p>{chat.lastMessage}</p>
+                            </div>
+                            <div className="chat-meta">
+                                <span className="time">{chat.time}</span>
+                                {chat.unreadCount > 0 && <span className="badge">{chat.unreadCount}</span>}
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </aside>
+            </main>
     </div>
     );
 }
