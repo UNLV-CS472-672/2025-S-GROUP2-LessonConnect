@@ -189,3 +189,40 @@
         justify-content: center;
     }
 }
+
+.findTutor-section .tutor-card .card-img-wrapper {
+    position: relative;
+}
+
+/* Adjust badge container positioning */
+.findTutor-section .subject-badges {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    max-width: 90%;
+}
+
+/* Smaller and tighter badge styles */
+.findTutor-section .badge-subject {
+    background: #e0ebff;
+    color: #0d6efd;
+    padding: 3px 6px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+@media (min-width: 300px) {
+    .subject-badges {
+        justify-content: flex-start;
+    }
+}
+
+.findTutor-section .badge-subject:hover {
+    background: #c2d6ff;
+}

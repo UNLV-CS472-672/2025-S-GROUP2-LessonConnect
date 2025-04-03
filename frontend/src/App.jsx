@@ -18,6 +18,9 @@ import Chat from "./Components/Chat.jsx";
 import Footer from "./Components/Footer.jsx";
 import Booking from "./Components/Booking.jsx";
 import ProfilePage from "./Components/ProfilePage.jsx";
+import VideoCall from "./Components/VideoCall.jsx";
+import Calendar from "./Components/Calendar.jsx";
+
 
 function App() {
     const location = useLocation();
@@ -46,6 +49,8 @@ function App() {
                 <Route path="/booking" element={<Booking />} />
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/videocall" element={<VideoCall />} />
+                <Route path="/Calendar" element={<Calendar />} />
             </Routes>
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>
