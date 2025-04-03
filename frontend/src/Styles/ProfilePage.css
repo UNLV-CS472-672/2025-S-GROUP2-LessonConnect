@@ -23,6 +23,8 @@
     margin-top: 20px;
     padding: 20px;
     border-radius: 8px;
+    width: 100%;
+    max-width: 1200px;
 }
 /* Status Section */
 .profile-page-container .status-display {
