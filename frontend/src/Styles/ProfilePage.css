@@ -6,55 +6,16 @@
 /* Cover Section */
 .profile-page-container .cover-section {
     background-color: #d9534f;
-    height: 250px;
+    height: 200px;
     width: 100%;
 }
 /* Profile Content */
 .profile-page-container .profile-content {
-    margin-top: -80px;
-    padding-bottom: 50px;
-}
-/* Header */
-.profile-page-container .profile-header {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-/* Avatar */
-.profile-page-container .profile-avatar {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 4px solid white;
-    margin-right: 30px;
-    background: white;
-}
-/* Info */
-.profile-page-container .profile-info {
-    flex: 1;
-}
-.profile-page-container .profile-name {
-    margin: 0;
-    font-size: 28px;
-    font-weight: bold;
-}
-.profile-page-container .profile-title {
-    color: #666;
-    margin-top: 5px;
-}
-.profile-page-container .profile-bio {
-    margin-top: 10px;
-    color: #333;
-}
-.profile-page-container .profile-buttons {
-    margin-top: 15px;
-}
-.profile-page-container .profile-buttons .btn {
-    margin-right: 10px;
-    width: 120px;
+    display: grid;
+    grid-template-columns: 450px 1000px auto 100px;
+    gap: 20px;
+    align-items: start;
+    padding: 50px;
 }
 /* Panel */
 .profile-page-container .profile-panel {
@@ -64,9 +25,6 @@
     border-radius: 8px;
 }
 /* Status Section */
-.profile-page-container .status-section {
-    position: relative;
-}
 .profile-page-container .status-display {
     background: #f8f9fa;
     padding: 12px 15px;
@@ -89,4 +47,99 @@
     border-radius: 5px;
     font-size: 16px;
     resize: none;
+}
+.profile-page-container .badges-section {
+    text-align: center;
+    max-width: 500px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 100%; /* Ensures a square look */
+}
+.profile-page-container .badges-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    justify-content: center;
+}
+.profile-page-container .badge {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+.profile-page-container .badge:hover {
+    transform: scale(1.1);
+}
+.profile-page-container .badge-image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+.profile-page-container .badge-name {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+.profile-page-container body{
+    background:#eee;
+}
+.profile-page-container .card{
+    border:none;
+    width: 500px;
+    position:relative;
+    overflow:hidden;
+    border-radius:8px;
+    cursor:pointer;
+}
+.profile-page-container .card:before{
+
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:4px;
+    height:100%;
+    background-color: #ffb0a6;
+    transform:scaleY(1);
+    transition:all 0.5s;
+    transform-origin: bottom
+}
+.profile-page-container .card:after{
+
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:4px;
+    height:100%;
+    background-color:#d9534f;
+    transform:scaleY(0);
+    transition:all 0.5s;
+    transform-origin: bottom
+}
+.profile-page-container .card:hover::after{
+    transform:scaleY(1);
+}
+.profile-page-container .fonts{
+    font-size:14px;
+}
+.profile-page-container .buttons button:nth-child(1){
+    border:1px solid #000 !important;
+    color:#d9534f;
+    height:40px;
+}
+.profile-page-container .buttons button:nth-child(1):hover{
+    border:1px solid #000 !important;
+    color:#ccc;
+    height:40px;
+    background-color:#d9534f;
+}
+.profile-page-container .buttons button:nth-child(2){
+    border:1px solid #000 !important;
+    background-color:#d9534f;
+    color:#fff;
+    height:40px;
 }
