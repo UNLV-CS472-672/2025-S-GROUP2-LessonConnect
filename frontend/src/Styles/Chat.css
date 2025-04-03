@@ -84,20 +84,36 @@
 
 /* MAIN CONTAINER */
 /* MAIN CONTAINER */
+/*.chat-page .container {*/
+/*    !* Ensure it spans the full width available *!*/
+/*    width: 100%;*/
+/*    flex: 1;*/
+/*    display: flex;*/
+
+/*    !* Adjust padding to taste —*/
+/*       removing or reducing it will stretch the layout more *!*/
+/*    padding: 1rem 2rem;  !* e.g., 2rem on left & right *!*/
+/*    gap: 1rem;*/
+
+/*    height: 100%;*/
+/*    overflow: hidden;*/
+/*}*/
+
+/*ai-gen start (ChatGPT-3.5, 0)*/
 .chat-page .container {
-    /* Ensure it spans the full width available */
     width: 100%;
+    max-width: 1200px;       /* Optional: set to whatever max size you want */
+    margin: 0 auto;          /* Centers it horizontally */
+
     flex: 1;
     display: flex;
-
-    /* Adjust padding to taste —
-       removing or reducing it will stretch the layout more */
-    padding: 1rem 2rem;  /* e.g., 2rem on left & right */
+    padding: 1rem 2rem;
     gap: 1rem;
 
     height: 100%;
     overflow: hidden;
 }
+/*ai-gen end*/
 
 /* SIDEBAR */
 .chat-page .sidebar {
