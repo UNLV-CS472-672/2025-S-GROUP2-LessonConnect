@@ -29,6 +29,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('notifications/', include('apps.notifications.urls')),
     path('lessons/', include('apps.lessons.urls')),
-    path('submissions/', include('apps.submissions.urls'))
+    path('submissions/', include('apps.submissions.urls')),
+    path('pomodoro/', include('apps.pomodoro.urls')),
 ]
 
