@@ -468,3 +468,49 @@
     background: var(--secondary);
     transform: scale(1.03);
 }
+@media (max-width: 1000px) {
+    .chat-page .details-sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .chat-page .sidebar {
+        width: 260px;
+    }
+    .chat-page .header-search input {
+        width: 180px;
+    }
+}
+
+@media (max-width: 600px) {
+    .chat-page .container {
+        flex-direction: column;
+        padding: 0.5rem;
+        gap: 0.5rem;
+        height: auto;
+    }
+    .chat-page .sidebar {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        height: calc(100vh - 80px);
+        z-index: 999;
+        border-radius: 0;
+    }
+    .chat-page .sidebar-toggle {
+        display: inline;
+    }
+    .chat-page .chat-window {
+        height: 60vh;
+        max-height: none;
+    }
+    .chat-page .details-sidebar {
+        position: absolute;
+        right: 0;
+        top: 80px;
+        height: calc(100vh - 80px);
+        z-index: 998;
+        border-radius: 0;
+    }
+}
