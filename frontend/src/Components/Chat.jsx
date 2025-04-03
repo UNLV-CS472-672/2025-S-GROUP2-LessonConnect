@@ -70,6 +70,26 @@ export default function Chat() {
         },
     ]);
 
+    // Track which chat is selected
+    const [selectedChat, setSelectedChat] = useState(chatList[0]);
+
+    // For toggling sidebars (UC2)
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isDetailsOpen, setIsDetailsOpen] = useState(true);
+
+    // For searching chats (UC3)
+    const [searchTerm, setSearchTerm] = useState("");
+
+    // For auto-scrolling to bottom of the chat
+    const chatBodyRef = useRef(null);
+
+    // ------------------- EFFECTS --------------------
+    useEffect(() => {
+        if (chatBodyRef.current) {
+            chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+        }
+    }, [messages]);
+
     // ------------------- RENDER --------------------
     return (
         <div>
