@@ -293,7 +293,15 @@ export default function Chat() {
                     </div>
 
                     {/* Chat Input (UC5: Send Message) */}
+                    {/* Chat Input Area with Fake Attach & Emoji Buttons */}
+                    {/* This is the updated chat input area with Video & Upload on the right */}
                     <div className="chat-input-area">
+                        {/* Left: Emoji Button */}
+                        <button className="emoji-btn" onClick={() => alert("Emoji picker not implemented!")}>
+                            🙂
+                        </button>
+
+                        {/* Center: Text Input */}
                         <input
                             type="text"
                             placeholder="Type your message..."
@@ -301,8 +309,16 @@ export default function Chat() {
                             onChange={(e) => setInputText(e.target.value)}
                             onKeyPress={handleKeyPress}
                         />
+
+                        {/* Right: Video, Upload, Send */}
+                        <button className="video-btn" onClick={() => alert("Video call not implemented!")}>
+                            🎥
+                        </button>
+                        <button className="upload-btn" onClick={() => alert("File upload not implemented!")}>
+                            ⏏
+                        </button>
                         <button className="send-btn" onClick={handleSend}>
-                            <i className="fas fa-paper-plane"></i> <span>Send</span>
+                            Send
                         </button>
                     </div>
                 </section>
