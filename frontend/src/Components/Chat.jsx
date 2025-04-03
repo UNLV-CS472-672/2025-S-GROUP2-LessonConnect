@@ -90,6 +90,103 @@ export default function Chat() {
         }
     }, [messages]);
 
+    // ------------------- HELPERS --------------------
+    // Format current time as "hh:mm AM/PM"
+    function getCurrentTime() {
+        return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+
+    // Send a message (UC5)
+    function handleSend() {
+        const text = inputText.trim();
+        if (text === "") return;
+
+        const newMessage = {
+            text,
+            type: "sent",
+            time: getCurrentTime(),
+            read: false, // We'll mark it as read once we simulate the reply
+        };
+        setMessages((prev) => [...prev, newMessage]);
+        setInputText("");
+
+        simulateReply();
+    }
+
+    // Simulate receiving a reply with a "typing" indicator (UC6 "read receipts" can be updated here)
+    function simulateReply() {
+        // TODO: Replace with axios call to backend when API is available
+        const typingMessage = {
+            text: "...",
+            type: "received",
+            time: "",
+            isTyping: true,
+            read: false,
+        };
+        setMessages((prev) => [...prev, typingMessage]);
+
+        setTimeout(() => {
+            setMessages((prev) => {
+                // Remove the typing message
+                const withoutTyping = prev.filter((msg) => !msg.isTyping);
+
+                // Mark all sent messages as read
+                const updated = withoutTyping.map((m) =>
+                    m.type === "sent" ? { ...m, read: true } : m
+                );
+
+                // Add the actual reply
+                return [
+                    ...updated,
+                    {
+                        text: "This is a simulated reply.",
+                        type: "received",
+                        time: getCurrentTime(),
+                        read: false,
+                    },
+                ];
+            });
+        }, 1000);
+    }
+
+    // Press "Enter" to send
+    function handleKeyPress(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            handleSend();
+        }
+    }
+
+    // Toggle the left sidebar
+    function toggleSidebar() {
+        setIsSidebarOpen(!isSidebarOpen);
+    }
+
+    // Toggle the right details panel
+    function toggleDetails() {
+        setIsDetailsOpen(!isDetailsOpen);
+    }
+
+    // Select a chat from the list (UC4)
+    function handleSelectChat(chat) {
+        setSelectedChat(chat);
+
+        // TODO: Load messages for the selected chat from backend when available
+        setMessages([
+            {
+                text: `Hi, this is ${chat.name}'s conversation. Feel free to start chatting!`,
+                type: "received",
+                time: getCurrentTime(),
+                read: false,
+            },
+        ]);
+    }
+
+    // Filter chat list by search term
+    const filteredChatList = chatList.filter((chat) =>
+        chat.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     // ------------------- RENDER --------------------
     return (
         <div>
