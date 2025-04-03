@@ -189,8 +189,22 @@ export default function Chat() {
 
     // ------------------- RENDER --------------------
     return (
-        <div>
-            {/*start coding sooon just setting up*/}
-        </div>
+    <div className="chat-page">
+        {/* HEADER */}
+        <header className="header">
+            <div className="header-logo">
+                <h1>LessonConnect</h1>
+            </div>
+            <div className="header-search">
+                <input
+                    type="text"
+                    placeholder="Search chats..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <i className="fas fa-search"></i>
+            </div>
+        </header>
+    </div>
     );
 }
