@@ -12,7 +12,7 @@
 /* Profile Content */
 .profile-page-container .profile-content {
     display: grid;
-    grid-template-columns: 450px 1000px auto 100px;
+    grid-template-columns: 0fr 2fr;
     gap: 20px;
     align-items: start;
     padding: 50px;
