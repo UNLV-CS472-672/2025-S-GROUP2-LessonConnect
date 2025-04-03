@@ -1,20 +1,22 @@
-/*!*will set up here later*!*/
-
-/*!* Chat.css *!*/
-/*.chat {}*/
-
 /* Chat.css */
+
+/* All styles are scoped under .chat-page for no global leaks */
 .chat-page {
+    /* If you have a 70px global header, keep this for vertical spacing: */
     margin-top: 70px;
     min-height: calc(100vh - 70px);
+
+    /* Full width; no horizontal margin constraints */
     margin-left: 0;
     margin-right: 0;
+
     background: radial-gradient(circle at top left, #f8f8ff 10%, #fafaff 80%);
     color: #333;
     display: flex;
     flex-direction: column;
     font-family: "Poppins", sans-serif;
 
+    /* Theming Variables */
     --primary: #6e72fc;
     --secondary: #9e1de7;
     --bg-light: #f6f7fb;
@@ -26,6 +28,7 @@
     --transition-speed: 0.3s;
 }
 
+/* Reset & Utility */
 .chat-page * {
     margin: 0;
     padding: 0;
@@ -35,6 +38,8 @@
 .chat-page ul {
     list-style: none;
 }
+
+/* HEADER */
 .chat-page .header {
     display: flex;
     align-items: center;
@@ -77,15 +82,24 @@
     pointer-events: none;
 }
 
+/* MAIN CONTAINER */
+/* MAIN CONTAINER */
 .chat-page .container {
+    /* Ensure it spans the full width available */
     width: 100%;
     flex: 1;
     display: flex;
-    padding: 1rem 2rem;
+
+    /* Adjust padding to taste —
+       removing or reducing it will stretch the layout more */
+    padding: 1rem 2rem;  /* e.g., 2rem on left & right */
     gap: 1rem;
+
     height: 100%;
     overflow: hidden;
 }
+
+/* SIDEBAR */
 .chat-page .sidebar {
     width: 300px;
     background: var(--bg-white);
@@ -142,12 +156,14 @@
     background: var(--secondary);
     transform: scale(1.05);
 }
+
 .chat-page .chat-list {
     flex: 1;
     overflow-y: auto;
     background: var(--bg-light);
 }
 
+/* Chat Items */
 .chat-page .chat-item {
     display: flex;
     align-items: center;
@@ -207,7 +223,10 @@
     font-size: 0.7rem;
     margin-top: 0.25rem;
 }
+
+/* CHAT WINDOW */
 .chat-page .chat-window {
+    /* Let it expand to fill available space */
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -216,6 +235,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     overflow: hidden;
     min-width: 0;
+    /* Remove any fixed max-height so it can fill the screen */
 }
 
 .chat-page .chat-header {
@@ -231,6 +251,15 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
+}
+
+.chat-page .sidebar-toggle {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: var(--secondary);
+    cursor: pointer;
+    display: none; /* hidden on larger screens */
 }
 
 .chat-page .chat-with .avatar {
@@ -252,15 +281,6 @@
     margin-top: 2px;
 }
 
-.chat-page .sidebar-toggle {
-    background: none;
-    border: none;
-    font-size: 1.4rem;
-    color: var(--secondary);
-    cursor: pointer;
-    display: none;
-}
-
 .chat-page .chat-actions .action-btn {
     background: none;
     border: none;
@@ -275,6 +295,7 @@
     color: var(--secondary);
     transform: scale(1.1);
 }
+
 .chat-page .chat-body {
     flex: 1;
     padding: 1rem;
@@ -285,6 +306,7 @@
     gap: 1rem;
 }
 
+/* Message bubbles */
 .chat-page .message {
     display: flex;
     align-items: flex-end;
@@ -346,6 +368,8 @@
     font-style: italic;
     color: var(--text-muted);
 }
+
+/* CHAT INPUT AREA */
 .chat-page .chat-input-area {
     display: flex;
     align-items: center;
@@ -387,6 +411,8 @@
     background: var(--secondary);
     transform: translateY(-2px);
 }
+
+/* RIGHT SIDEBAR */
 .chat-page .details-sidebar {
     width: 300px;
     background: var(--bg-white);
@@ -468,6 +494,8 @@
     background: var(--secondary);
     transform: scale(1.03);
 }
+
+/* Responsive Adjustments */
 @media (max-width: 1000px) {
     .chat-page .details-sidebar {
         display: none;
@@ -488,7 +516,7 @@
         flex-direction: column;
         padding: 0.5rem;
         gap: 0.5rem;
-        height: auto;
+        height: auto; /* Let content flow in vertical layout */
     }
     .chat-page .sidebar {
         position: absolute;
@@ -499,7 +527,7 @@
         border-radius: 0;
     }
     .chat-page .sidebar-toggle {
-        display: inline;
+        display: inline; /* show toggle button on small screens */
     }
     .chat-page .chat-window {
         height: 60vh;
@@ -514,15 +542,18 @@
         border-radius: 0;
     }
 }
+
+/* Example chat input area styling */
 .chat-input-area {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.5rem;              /* spacing between elements */
     padding: 1rem;
     background: #f8f9ff;
     border-top: 1px solid var(--border-color);
 }
 
+/* The text input grows to fill available space */
 .chat-input-area input[type="text"] {
     flex: 1;
     padding: 0.75rem 1rem;
@@ -537,6 +568,7 @@
     box-shadow: 0 0 8px rgba(110, 114, 252, 0.2);
 }
 
+/* Common button style for small round icons (emoji, video, upload) */
 .chat-input-area .emoji-btn,
 .chat-input-area .video-btn,
 .chat-input-area .upload-btn {
@@ -554,6 +586,7 @@
     transition: background var(--transition-speed), transform var(--transition-speed), color var(--transition-speed);
 }
 
+/* Hover effect for these round icon buttons */
 .chat-input-area .emoji-btn:hover,
 .chat-input-area .video-btn:hover,
 .chat-input-area .upload-btn:hover {
@@ -562,6 +595,7 @@
     transform: scale(1.05);
 }
 
+/* Send button is a pill-shaped button with different style */
 .chat-input-area .send-btn {
     background: var(--primary);
     border: none;
@@ -577,3 +611,4 @@
     background: var(--secondary);
     transform: translateY(-2px);
 }
+
