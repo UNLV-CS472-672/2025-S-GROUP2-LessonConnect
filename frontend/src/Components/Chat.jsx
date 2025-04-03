@@ -189,137 +189,153 @@ export default function Chat() {
 
     // ------------------- RENDER --------------------
     return (
-    <div className="chat-page">
-        {/* HEADER */}
-        <header className="header">
-            <div className="header-logo">
-                <h1>LessonConnect</h1>
-            </div>
-            <div className="header-search">
-                <input
-                    type="text"
-                    placeholder="Search chats..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <i className="fas fa-search"></i>
-            </div>
-        </header>
-
-        {/* MAIN CONTAINER */}
-        <main className="container">
-            {/* LEFT SIDEBAR (UC1: View Chat List) */}
-            <aside className={`sidebar ${isSidebarOpen ? "open" : "closed"}`}>
-                <div className="sidebar-top">
-                    <h2>Chats</h2>
-                    <button
-                        className="new-chat"
-                        onClick={() => alert("Starting a new chat... (UC1, future scope)")}
-                    >
-                        <i className="fas fa-plus"></i> <span>New Chat</span>
-                    </button>
+        <div className="chat-page">
+            {/* HEADER */}
+            <header className="header">
+                <div className="header-logo">
+                    <h1>LessonConnect</h1>
                 </div>
-                <ul className="chat-list">
-                    {filteredChatList.map((chat) => (
-                        <li
-                            key={chat.id}
-                            className={`chat-item ${selectedChat.id === chat.id ? "active" : ""}`}
-                            onClick={() => handleSelectChat(chat)}
+                <div className="header-search">
+                    <input
+                        type="text"
+                        placeholder="Search chats..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <i className="fas fa-search"></i>
+                </div>
+            </header>
+
+            {/* MAIN CONTAINER */}
+            <main className="container">
+                {/* LEFT SIDEBAR (UC1: View Chat List) */}
+                <aside className={`sidebar ${isSidebarOpen ? "open" : "closed"}`}>
+                    <div className="sidebar-top">
+                        <h2>Chats</h2>
+                        <button
+                            className="new-chat"
+                            onClick={() => alert("Starting a new chat... (UC1, future scope)")}
                         >
-                            <img src={chat.avatar} alt="User Avatar" className="avatar" />
-                            <div className="chat-info">
-                                <h3>{chat.name}</h3>
-                                <p>{chat.lastMessage}</p>
-                            </div>
-                            <div className="chat-meta">
-                                <span className="time">{chat.time}</span>
-                                {chat.unreadCount > 0 && <span className="badge">{chat.unreadCount}</span>}
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            </aside>
-            {/* CHAT WINDOW */}
-            <section className="chat-window">
-                {/* Chat Header */}
-                <div className="chat-header">
-                    <div className="chat-with">
-                        <button className="sidebar-toggle" onClick={toggleSidebar}>
-                            <i className="fas fa-bars"></i>
+                            <i className="fas fa-plus"></i> <span>New Chat</span>
                         </button>
-                        <img src={selectedChat.avatar} alt="User Avatar" className="avatar" />
-                        <div>
-                            <h2>{selectedChat.name}</h2>
-                            <p className="status">{selectedChat.status}</p>
+                    </div>
+                    <ul className="chat-list">
+                        {filteredChatList.map((chat) => (
+                            <li
+                                key={chat.id}
+                                className={`chat-item ${selectedChat.id === chat.id ? "active" : ""}`}
+                                onClick={() => handleSelectChat(chat)}
+                            >
+                                <img src={chat.avatar} alt="User Avatar" className="avatar" />
+                                <div className="chat-info">
+                                    <h3>{chat.name}</h3>
+                                    <p>{chat.lastMessage}</p>
+                                </div>
+                                <div className="chat-meta">
+                                    <span className="time">{chat.time}</span>
+                                    {chat.unreadCount > 0 && <span className="badge">{chat.unreadCount}</span>}
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </aside>
+
+                {/* CHAT WINDOW */}
+                <section className="chat-window">
+                    {/* Chat Header */}
+                    <div className="chat-header">
+                        <div className="chat-with">
+                            <button className="sidebar-toggle" onClick={toggleSidebar}>
+                                <i className="fas fa-bars"></i>
+                            </button>
+                            <img src={selectedChat.avatar} alt="User Avatar" className="avatar" />
+                            <div>
+                                <h2>{selectedChat.name}</h2>
+                                <p className="status">{selectedChat.status}</p>
+                            </div>
+                        </div>
+                        <div className="chat-actions">
+                            <button className="action-btn" onClick={() => alert("Video call!")}>
+                                <i className="fas fa-video"></i>
+                            </button>
+                            <button className="action-btn" onClick={toggleDetails}>
+                                <i className="fas fa-info-circle"></i>
+                            </button>
                         </div>
                     </div>
-                    <div className="chat-actions">
-                        <button className="action-btn" onClick={() => alert("Video call!")}>
-                            <i className="fas fa-video"></i>
-                        </button>
-                        <button className="action-btn" onClick={toggleDetails}>
-                            <i className="fas fa-info-circle"></i>
-                        </button>
-                    </div>
-                </div>
 
-                {/* Chat Body */}
-                <div className="chat-body" ref={chatBodyRef}>
-                    {messages.map((msg, index) => (
-                        <div
-                            key={index}
-                            className={`message ${msg.type} ${msg.isTyping ? "typing" : ""}`}
-                        >
-                            {/* For "received" messages, show an avatar if not typing */}
-                            {msg.type === "received" && !msg.isTyping && (
-                                <img src={selectedChat.avatar} alt="Avatar" className="avatar" />
-                            )}
-                            <div className="message-content">
-                                <p>{msg.text}</p>
-                                {/* Show time if not typing */}
-                                {!msg.isTyping && (
-                                    <span className="time">
-                      {msg.time}
-                                        {/* If it's a sent message, show a small read receipt check (UC6) */}
-                                        {msg.type === "sent" && msg.read && (
-                                            <i className="fas fa-check read-receipt" title="Message read"></i>
-                                        )}
-                    </span>
+                    {/* Chat Body */}
+                    <div className="chat-body" ref={chatBodyRef}>
+                        {messages.map((msg, index) => (
+                            <div
+                                key={index}
+                                className={`message ${msg.type} ${msg.isTyping ? "typing" : ""}`}
+                            >
+                                {/* For "received" messages, show an avatar if not typing */}
+                                {msg.type === "received" && !msg.isTyping && (
+                                    <img src={selectedChat.avatar} alt="Avatar" className="avatar" />
                                 )}
+                                <div className="message-content">
+                                    <p>{msg.text}</p>
+                                    {/* Show time if not typing */}
+                                    {!msg.isTyping && (
+                                        <span className="time">
+                      {msg.time}
+                                            {/* If it's a sent message, show a small read receipt check (UC6) */}
+                                            {msg.type === "sent" && msg.read && (
+                                                <i className="fas fa-check read-receipt" title="Message read"></i>
+                                            )}
+                    </span>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            </section>
-            {/* RIGHT SIDEBAR (UC7: View Contact Info, UC8: Role-based Labeling, UC10: Status Indicator) */}
-            <aside className={`details-sidebar ${isDetailsOpen ? "open" : "closed"}`}>
-                <div className="details-card">
-                    <img src={selectedChat.avatar} alt="User Avatar" className="profile-avatar" />
-                    <h3>{selectedChat.name}</h3>
-                    <p className="role-label">{selectedChat.role}</p>
-                </div>
-                <div className="details-info">
-                    <p>
-                        <strong>Status:</strong> {selectedChat.status}
-                    </p>
-                    <p>
-                        <strong>Email:</strong> {selectedChat.email}
-                    </p>
-                    <p>
-                        <strong>Joined:</strong> {selectedChat.joined}
-                    </p>
-                    <p>
-                        <strong>Location:</strong> {selectedChat.location}
-                    </p>
-                </div>
-                <div className="details-actions">
-                    {/* UC: Mute, Block, Report */}
-                    <button onClick={() => alert("Muted user!")}>Mute</button>
-                    <button onClick={() => alert("Blocked user!")}>Block</button>
-                    <button onClick={() => alert("Reported user!")}>Report</button>
-                </div>
-            </aside>
-        </main>
-    </div>
+                        ))}
+                    </div>
+
+                    {/* Chat Input (UC5: Send Message) */}
+                    <div className="chat-input-area">
+                        <input
+                            type="text"
+                            placeholder="Type your message..."
+                            value={inputText}
+                            onChange={(e) => setInputText(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                        />
+                        <button className="send-btn" onClick={handleSend}>
+                            <i className="fas fa-paper-plane"></i> <span>Send</span>
+                        </button>
+                    </div>
+                </section>
+
+                {/* RIGHT SIDEBAR (UC7: View Contact Info, UC8: Role-based Labeling, UC10: Status Indicator) */}
+                <aside className={`details-sidebar ${isDetailsOpen ? "open" : "closed"}`}>
+                    <div className="details-card">
+                        <img src={selectedChat.avatar} alt="User Avatar" className="profile-avatar" />
+                        <h3>{selectedChat.name}</h3>
+                        <p className="role-label">{selectedChat.role}</p>
+                    </div>
+                    <div className="details-info">
+                        <p>
+                            <strong>Status:</strong> {selectedChat.status}
+                        </p>
+                        <p>
+                            <strong>Email:</strong> {selectedChat.email}
+                        </p>
+                        <p>
+                            <strong>Joined:</strong> {selectedChat.joined}
+                        </p>
+                        <p>
+                            <strong>Location:</strong> {selectedChat.location}
+                        </p>
+                    </div>
+                    <div className="details-actions">
+                        {/* UC: Mute, Block, Report */}
+                        <button onClick={() => alert("Muted user!")}>Mute</button>
+                        <button onClick={() => alert("Blocked user!")}>Block</button>
+                        <button onClick={() => alert("Reported user!")}>Report</button>
+                    </div>
+                </aside>
+            </main>
+        </div>
     );
 }
