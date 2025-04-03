@@ -1,4 +1,4 @@
-import "../Styles/Schedule.css";
+import "../Styles/StudentView.css";
 import { useEffect, useState } from "react";
 
 const tips = [
@@ -26,7 +26,7 @@ const popularTutors = [
     { subject: "Chemistry", name: "Ms. Sara Kim", experience: "4 Years" },
 ];
 
-export default function Schedule() {
+export default function StudentView() {
     const [dailyTip, setDailyTip] = useState("");
     const [tasks, setTasks] = useState([
         { id: 1, task: "Review Algebra practice problems", completed: false },
