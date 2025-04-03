@@ -346,3 +346,44 @@
     font-style: italic;
     color: var(--text-muted);
 }
+.chat-page .chat-input-area {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9ff;
+    border-top: 1px solid var(--border-color);
+}
+
+.chat-page .chat-input-area input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    outline: none;
+    font-size: 1rem;
+    transition: box-shadow var(--transition-speed);
+}
+
+.chat-page .chat-input-area input:focus {
+    box-shadow: 0 0 8px rgba(110, 114, 252, 0.2);
+}
+
+.chat-page .send-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--primary);
+    border: none;
+    color: var(--bg-white);
+    padding: 0.75rem 1.2rem;
+    border-radius: 25px;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    transition: background var(--transition-speed), transform var(--transition-speed);
+    font-size: 1rem;
+}
+
+.chat-page .send-btn:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+}
