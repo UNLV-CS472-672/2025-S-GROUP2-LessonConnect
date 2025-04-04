@@ -1,10 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import "../Styles/Chat.css";
+// import EmojiPicker from "emoji-picker-react";
+
 
 // TODO: Integrate axios and backend API calls when available
 
 export default function Chat() {
     // ------------------- STATE --------------------
+    // emoji-picker-react
+    // const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    // function handleEmojiClick(emojiData) {
+    //     setInputText(prev => prev + emojiData.emoji);
+    // }
+
     const [messages, setMessages] = useState([
         {
             text: "Hey, can we discuss the project details?",
@@ -297,9 +305,18 @@ export default function Chat() {
                     {/* This is the updated chat input area with Video & Upload on the right */}
                     <div className="chat-input-area">
                         {/* Left: Emoji Button */}
-                        <button className="emoji-btn" onClick={() => alert("Emoji picker not implemented!")}>
+                        <button
+                            className="emoji-btn"
+                            // onClick={() => setShowEmojiPicker(prev => !prev)}
+                        >
                             🙂
                         </button>
+                        {/*/!* Render Emoji Picker when showEmojiPicker is true *!/*/}
+                        {/*{showEmojiPicker && (*/}
+                        {/*    <div className="emoji-picker-container">*/}
+                        {/*        <EmojiPicker onEmojiClick={handleEmojiClick} />*/}
+                        {/*    </div>*/}
+                        {/*)}*/}
 
                         {/* Center: Text Input */}
                         <input

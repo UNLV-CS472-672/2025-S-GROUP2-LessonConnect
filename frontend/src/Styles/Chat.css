@@ -629,3 +629,39 @@
     transform: translateY(-2px);
 }
 
+/* Make the wrapper relative so the picker is anchored there */
+.emoji-wrapper {
+    position: relative;
+    display: inline-block; /* or flex, etc. */
+}
+.emoji-picker-container {
+    position: absolute;
+    bottom: 400px;
+    left: 650px;
+    z-index: 9999;
+    /* Set a width or max-width to keep the layout stable */
+    width: 300px; /* or 350px, etc. */
+    max-height: 400px;
+    /*overflow-y: auto; !* so we can scroll if it exceeds 400px *!*/
+    background: #fff; /* or a color of your choice */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+/* Let the picker do its own layout — just add spacing */
+.emoji-picker-container .EmojiPickerReact .epr-search-input {
+    padding-left: 2.5rem !important;
+    background-color: #fff !important;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+/* Reset the search icon to default appearance and spacing */
+.emoji-picker-container .EmojiPickerReact .epr-search-icon {
+    left: 0.8rem !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+    width: 1.2rem;
+    height: 1.2rem;
+    pointer-events: none;
+    z-index: 1;
+}
