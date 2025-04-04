@@ -102,16 +102,17 @@
 /*ai-gen start (ChatGPT-3.5, 0)*/
 .chat-page .container {
     width: 100%;
-    max-width: 1200px;       /* Optional: set to whatever max size you want */
-    margin: 0 auto;          /* Centers it horizontally */
+    max-width: 1200px; /* optional */
+    margin: 0 auto;
 
-    flex: 1;
+    /* This is key */
+    height: calc(100vh - 70px);
+    min-height: 0;
+
     display: flex;
     padding: 1rem 2rem;
     gap: 1rem;
-
-    height: 100%;
-    overflow: hidden;
+    overflow: hidden; /* keep this if you want to hide overflow horizontally */
 }
 /*ai-gen end*/
 
@@ -547,7 +548,7 @@
     }
     .chat-page .chat-window {
         height: 60vh;
-        max-height: none;
+        max-height: 60vh;
     }
     .chat-page .details-sidebar {
         position: absolute;
