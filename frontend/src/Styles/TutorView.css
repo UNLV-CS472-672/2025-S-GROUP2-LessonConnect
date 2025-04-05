@@ -43,41 +43,42 @@
     gap: 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 1100px;
-    height: auto;
 }
 
 .tutor-dashboard-page .button-card {
+    position: relative;
     border-radius: 12px;
     overflow: hidden;
     height: 170px;
     cursor: pointer;
-    transition: transform 0.3s;
-    position: relative;
     background-color: #000;
+    transition: transform 0.3s;
 }
 
 .tutor-dashboard-page .button-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(0.7);
+    filter: brightness(0.6);
     position: absolute;
     top: 0;
     left: 0;
 }
 
 .tutor-dashboard-page .button-card span {
-    z-index: 2;
-    font-size: 1.2rem;
-    font-weight: bold;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 4px 8px; /* 👈 smaller padding */
+    font-size: 0.9rem; /* 👈 slightly smaller font */
+    font-weight: 600;
     color: #fff;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+    z-index: 2;
+    width: 100%;
     text-align: center;
-    padding: 10px;
+    line-height: 1.2; /* 👈 tighter line height for multiline labels */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .tutor-dashboard-page .button-card:hover {
