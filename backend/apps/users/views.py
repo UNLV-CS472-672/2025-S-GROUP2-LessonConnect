@@ -9,11 +9,16 @@ from apps.users.models import Profile, TutorProfile, ParentProfile, StudentProfi
 from apps.uploads.models import UploadRecord, ProfilePicture
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.decorators import api_view, permission_classes
+from .serializers import (
+    StudentProfileSerializer,
+    TutorProfileSerializer,
+    ParentProfileSerializer,
+)
 
 login_template = "login.html"
 register_profile_template = "register.html"
@@ -127,3 +132,52 @@ def delete_user(request):
   # should never reach here, but still just in case
   return Response("FATAL: Undefined functionality, please contact system administrator", 
                   status=status.HTTP_404_NOT_FOUND)
+
+# https://chatgpt.com/share/67f1b472-b004-8005-8550-62871c22bef9
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            profile = Profile.objects.get(user=request.user)
+
+            if profile.role == Profile.STUDENT:
+                student_profile = StudentProfile.objects.get(profile=profile)
+                serializer = StudentProfileSerializer(student_profile)
+            elif profile.role == Profile.TUTOR:
+                tutor_profile = TutorProfile.objects.get(profile=profile)
+                serializer = TutorProfileSerializer(tutor_profile)
+            elif profile.role == Profile.PARENT:
+                parent_profile = ParentProfile.objects.get(profile=profile)
+                serializer = ParentProfileSerializer(parent_profile)
+            else:
+                return Response({'error': 'Invalid role.'}, status=400)
+
+            return Response(serializer.data)
+
+        except Profile.DoesNotExist:
+            return Response({'error': 'Profile not found.'}, status=404)
+
+    def patch(self, request):
+        try:
+            profile = Profile.objects.get(user=request.user)
+
+            if profile.role == Profile.STUDENT:
+                student_profile = StudentProfile.objects.get(profile=profile)
+                serializer = StudentProfileSerializer(student_profile, data=request.data, partial=True)
+            elif profile.role == Profile.TUTOR:
+                tutor_profile = TutorProfile.objects.get(profile=profile)
+                serializer = TutorProfileSerializer(tutor_profile, data=request.data, partial=True)
+            elif profile.role == Profile.PARENT:
+                parent_profile = ParentProfile.objects.get(profile=profile)
+                serializer = ParentProfileSerializer(parent_profile, data=request.data, partial=True)
+            else:
+                return Response({'error': 'Invalid role.'}, status=400)
+
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Profile.DoesNotExist:
+            return Response({'error': 'Profile not found.'}, status=404)
