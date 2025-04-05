@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate
 from django.http import JsonResponse, HttpResponse
 from django.middleware.csrf import get_token
 from .models import Profile
-from apps.users.models import Profile, TutorProfile
+from apps.users.models import Profile, TutorProfile, ParentProfile, StudentProfile
 from apps.uploads.models import UploadRecord, ProfilePicture
 from rest_framework import status
 from rest_framework.response import Response
@@ -65,7 +65,7 @@ def register_profile(request):
   password = request.data["password"]
   # TODO: replace "1" with "role" once that is handled by the frontend
   # role = request.data["role"]  # Get the selected role
-  role = 3
+  role = Profile.STUDENT
   # Create user
   user = User.objects.create_user(
     username=username,
@@ -96,6 +96,21 @@ def register_profile(request):
       bio=request.data["bio"]
       hourly_rate=request.data["hourly_rate"]
       tutor = TutorProfile.objects.create(profile, city, state, bio, hourly_rate)
+  # otherwise, check if parent
+  elif int(profile.role) == Profile.PARENT:
+      parent = ParentProfile.objects.create(profile)
+  # otherwise, student
+  else:
+      parent_profile = request.data["parent_profile"]
+      grade_level = request.data["grade_level"]
+      preferred_subjects = request.data["preferred_subjects"]
+      emergency_contact_name = request.data["emergency_contact_name"]
+      emergency_contact_phone_number = request.data["emergency_contact_phone_number"]
+      student = StudentProfile.objects.create(
+          profile,parent_profile,grade_level,
+          preferred_subjects,emergency_contact_name,
+          emergency_contact_phone_number
+      )
   return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])

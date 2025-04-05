@@ -16,10 +16,27 @@ class Profile(models.Model):
         (PARENT, 'Parent'),
         (STUDENT, 'Student'),
     )
+    # see link below...
+    CONTACT_METHOD_CHOICES = [
+        ('phone', 'Phone'),
+        ('email', 'Email'),
+        ('sms', 'SMS'),
+        ('none', 'None'),
+    ]
     user = models.OneToOneField(User, null=False, blank=False, on_delete=models.CASCADE)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=False, blank=False, default=STUDENT)
     # Link the custom manager to the model
     objects = ProfileManager()
+    
+    phone_number = models.CharField(max_length=15)
+    date_of_birth = models.DateField()
+    # https://chatgpt.com/share/67f1a264-1284-8005-91a0-2de951f47cf5
+    preferred_contact_method = models.CharField(
+        max_length=10,
+        choices=CONTACT_METHOD_CHOICES,
+        default='email',
+    )
+    # timezone -> more appropriate as a frontend thing rather than database!
 
     def __str__(self):
         return self.user.username
