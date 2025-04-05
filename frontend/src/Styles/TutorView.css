@@ -70,14 +70,14 @@
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.7);
-    padding: 4px 8px; /* 👈 smaller padding */
-    font-size: 0.9rem; /* 👈 slightly smaller font */
+    padding: 4px 8px;
+    font-size: 0.9rem;
     font-weight: 600;
     color: #fff;
     z-index: 2;
     width: 100%;
     text-align: center;
-    line-height: 1.2; /* 👈 tighter line height for multiline labels */
+    line-height: 1.2;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
@@ -106,4 +106,50 @@
 
 .tutor-dashboard-page .sidebar-buttons button:hover {
     background-color: #ffde99;
+}
+
+.tutor-dashboard-page .quick-stats-section {
+    background-color: #151922;
+    padding: 60px 0;
+    color: #fff;
+    height: 500px;
+}
+
+
+.tutor-dashboard-page .stats-container {
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+}
+
+.tutor-dashboard-page .stats-container h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #f7c66f;
+}
+
+.tutor-dashboard-page .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    text-align: center;
+}
+
+.tutor-dashboard-page .stat-card {
+    background-color: #1c1f26;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.tutor-dashboard-page .stat-card h3 {
+    font-size: 1.2rem;
+    color: #aaa;
+    margin-bottom: 10px;
+}
+
+.tutor-dashboard-page .stat-card p {
+    font-size: 2.5rem;
+    color: #4a90ff;
+    margin: 0;
 }

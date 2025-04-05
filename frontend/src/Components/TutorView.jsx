@@ -122,6 +122,26 @@ export default function TutorView() {
                     </div>
                 </div>
             </section>
+
+            <section className="quick-stats-section">
+                <div className="inner-container stats-container">
+                    <h2>📊 Quick Stats</h2>
+                    <div className="stats-grid">
+                        <div className="stat-card">
+                            <h3>Sessions This Week</h3>
+                            <p>12</p>
+                        </div>
+                        <div className="stat-card">
+                            <h3>Missed Follow-Ups</h3>
+                            <p>3</p>
+                        </div>
+                        <div className="stat-card">
+                            <h3>Quizzes Reviewed</h3>
+                            <p>8</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 }
