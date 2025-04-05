@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from .managers import TutorProfileManager, ProfileManager
 from django.core.validators import MaxValueValidator, MinValueValidator
+from datetime import date
 
 # https://simpleisbetterthancomplex.com/tutorial/2016/11/23/how-to-add-user-profile-to-django-admin.html
 class Profile(models.Model):
@@ -28,8 +29,8 @@ class Profile(models.Model):
     # Link the custom manager to the model
     objects = ProfileManager()
     
-    phone_number = models.CharField(max_length=15)
-    date_of_birth = models.DateField()
+    phone_number = models.CharField(max_length=15, default="1234567890")
+    date_of_birth = models.DateField(default=date.today)
     # https://chatgpt.com/share/67f1a264-1284-8005-91a0-2de951f47cf5
     preferred_contact_method = models.CharField(
         max_length=10,

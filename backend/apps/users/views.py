@@ -112,9 +112,12 @@ def register_profile(request):
       emergency_contact_name = request.data["emergency_contact_name"]
       emergency_contact_phone_number = request.data["emergency_contact_phone_number"]
       student = StudentProfile.objects.create(
-          profile,parent_profile,grade_level,
-          preferred_subjects,emergency_contact_name,
-          emergency_contact_phone_number
+          profile = profile,
+          parent_profile = parent_profile,
+          grade_level = grade_level,
+          preferred_subjects = preferred_subjects,
+          emergency_contact_name = emergency_contact_name,
+          emergency_contact_phone_number = emergency_contact_phone_number
       )
   return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
 
