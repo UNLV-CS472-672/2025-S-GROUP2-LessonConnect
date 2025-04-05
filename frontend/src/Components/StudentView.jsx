@@ -13,6 +13,15 @@ const dashboardOptions = [
     { text: "My Whiteboard", img: "/assets/images/whiteboard_icon.png" },
 ];
 
+const externalLinks = [
+    { text: "Go to my lessons", url: "https://example.com/resources" },
+    { text: "Resource Center", url: "https://example.com/handbook" },
+    { text: "Tutoring Support", url: "https://example.com/tutoring" },
+    { text: "settings", url: "https://example.com/forum" },
+    { text: "contact us", url: "https://example.com/settings" },
+];
+
+
 
 export default function StudentView() {
     return (
@@ -34,6 +43,14 @@ export default function StudentView() {
                                 <img src={option.img} alt={option.text} />
                                 <span>{option.text}</span>
                             </div>
+                        ))}
+                    </div>
+
+                    <div className="vertical-button-container">
+                        {externalLinks.map((link, index) => (
+                            <a key={index} href={link.url} target="_blank" rel="noopener noreferrer" className="vertical-button">
+                                {link.text}
+                            </a>
                         ))}
                     </div>
                 </div>
