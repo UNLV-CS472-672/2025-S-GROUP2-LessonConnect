@@ -3,14 +3,14 @@ import "../Styles/StudentView.css";
 
 
 const dashboardOptions = [
-    { text: "Schedule an Appointment", img: "/assets/images/UNLV_pic.png" },
-    { text: "Profile", img: "/assets/images/UNLV_pic.png" },
-    { text: "Pomodoro Timer", img: "/assets/images/UNLV_pic.png" },
-    { text: "Chat & Video with Tutor", img: "/assets/images/UNLV_pic.png" },
-    { text: "My Calendar", img: "/assets/images/UNLV_pic.png" },
-    { text: "My Assignments", img: "/assets/images/UNLV_pic.png" },
-    { text: "My Messages", img: "/assets/images/UNLV_pic.png" },
-    { text: "My Whiteboard", img: "/assets/images/UNLV_pic.png" },
+    { text: "Find a tutor", img: "/assets/images/search_icon.png" },
+    { text: "Profile", img: "/assets/images/profile_icon.png" },
+    { text: "Pomodoro Timer", img: "/assets/images/pomodoro_icon.png" },
+    { text: "Chat & Video with Tutor", img: "/assets/images/videochat_icon.png" },
+    { text: "My Calendar", img: "/assets/images/calendar_icon.png" },
+    { text: "My Assignments", img: "/assets/images/assignment_icon.png" },
+    { text: "My Messages", img: "/assets/images/messages_icon.png" },
+    { text: "My Whiteboard", img: "/assets/images/whiteboard_icon.png" },
 ];
 
 
