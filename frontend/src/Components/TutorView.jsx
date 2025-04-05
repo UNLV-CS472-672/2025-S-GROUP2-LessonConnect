@@ -100,7 +100,7 @@ export default function TutorView() {
             <section className="greeting">
                 <div className="inner-container">
                     <h1 className="fade-in">👋 Welcome back, Jose!</h1>
-                    <p className="subheading">Ready to level up your skills today?</p>
+                    <p className="subheading">Ready to help them level up today?</p>
                 </div>
             </section>
 
