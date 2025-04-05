@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from .managers import TutorProfileManager, ProfileManager
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # https://simpleisbetterthancomplex.com/tutorial/2016/11/23/how-to-add-user-profile-to-django-admin.html
 class Profile(models.Model):
@@ -54,3 +55,44 @@ class TutorProfile(models.Model):
     def __str__(self):
         return f"{self.profile.user.first_name} {self.profile.user.last_name}"
 
+# A model that represents information for a parent user and their profile
+class ParentProfile(models.Model):
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
+
+    def clean(self):
+        if self.profile.role != self.profile.PARENT:
+            raise ValidationError("Only profiles with a parent role can have a ParentProfile.")
+
+    def save(self, *args, **kwargs):
+        # validate
+        self.full_clean()
+        # save
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.profile.user.first_name} {self.profile.user.last_name}"
+
+
+# A model that represents information for a student user and their profile
+class StudentProfile(models.Model):
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    # also including a reference to the parent profile
+    parent_profile = models.OneToOneField(ParentProfile, on_delete=models.CASCADE)
+    # https://stackoverflow.com/questions/849142/how-to-limit-the-maximum-value-of-a-numeric-field-in-a-django-model
+    grade_level = models.IntegerField(default=1, validators=[MaxValueValidator(12),MinValueValidator(1)])
+    preferred_subjects = models.ManyToManyField(to="search.Subject")
+    emergency_contact_name = models.CharField(max_length=100)
+    emergency_contact_phone_number = models.CharField(max_length=15)
+
+    def clean(self):
+        if self.profile.role != self.profile.STUDENT:
+            raise ValidationError("Only profiles with a student role can have a StudentProfile.")
+
+    def save(self, *args, **kwargs):
+        # validate
+        self.full_clean()
+        # save
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.profile.user.first_name} {self.profile.user.last_name}"
