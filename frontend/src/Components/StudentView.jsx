@@ -54,6 +54,15 @@ export default function StudentView() {
         setProfileDropdownOpen(false);
     };
 
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
+
+    // Toggle theme
+    const toggleTheme = () => {
+        setIsDarkMode(!isDarkMode);
+    };
+
+
     return (
         <div className="user-view-section-page">
             <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
@@ -101,6 +110,10 @@ export default function StudentView() {
                                 </div>
                             </div>
                         </div>
+
+                        <button className="theme-toggle-button" onClick={toggleTheme}>
+                            {isDarkMode ? "Light Theme" : "Dark Theme"}
+                        </button>
                         {/* Inbox Icon */}
                         <NavLink to="/inbox" className="nav-link inbox-icon">
                             <img src="/assets/images/mail.png" alt="Inbox" width="30" height="30" />
@@ -134,35 +147,37 @@ export default function StudentView() {
                 {/*<button onClick={incrementNotificationCount}>Simulate Notification</button>*/}
             </nav>
 
-            <section className="greeting">
-                <div className="inner-container">
-                    <h1 className="fade-in">👋 Welcome back, Franklin!</h1>
-                    <p>Ready to level up your skills today?</p>
-                </div>
-            </section>
-
-
-            <section className="dashboard-section">
-                <div className="inner-container dashboard-layout">
-                    {/* Dashboard Grid */}
-                    <div className="button-grid">
-                        {dashboardOptions.map((option, index) => (
-                            <Link to={option.path} className="button-card" key={index}>
-                                <img src={option.img} alt={option.text} />
-                                <span>{option.text}</span>
-                            </Link>
-                        ))}
+            <div className={`user-view-section-page ${isDarkMode ? "dark-mode" : ""}`}>
+                <section className="greeting">
+                    <div className="inner-container">
+                        <h1 className="fade-in">👋 Welcome back, Franklin!</h1>
+                        <p>Ready to level up your skills today?</p>
                     </div>
+                </section>
 
-                    <div className="vertical-button-container">
-                        {externalLinks.map((link, index) => (
-                            <Link key={index} to={link.path} className="vertical-button">
-                                {link.text}
-                            </Link>
-                        ))}
+
+                <section className="dashboard-section">
+                    <div className="inner-container dashboard-layout">
+                        {/* Dashboard Grid */}
+                        <div className="button-grid">
+                            {dashboardOptions.map((option, index) => (
+                                <Link to={option.path} className="button-card" key={index}>
+                                    <img src={option.img} alt={option.text} />
+                                    <span>{option.text}</span>
+                                </Link>
+                            ))}
+                        </div>
+
+                        <div className="vertical-button-container">
+                            {externalLinks.map((link, index) => (
+                                <Link key={index} to={link.path} className="vertical-button">
+                                    {link.text}
+                                </Link>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </div>
     );
 }
