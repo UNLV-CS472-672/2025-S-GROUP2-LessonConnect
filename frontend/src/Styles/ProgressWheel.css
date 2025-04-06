@@ -1,3 +1,5 @@
+/*Light theme styles*/
+
 .progress-wheel-container {
     display: flex;
     flex-direction: column;
@@ -12,7 +14,7 @@
 }
 .progress-wheel-container .progress-wheel {
     position: relative;
-    width: 200px; 
+    width: 200px;
     height: 200px;
     border-radius: 50%;
     margin: 30px;
@@ -62,4 +64,13 @@
 
 .progress-wheel-container .progress-bar {
     background-color:#E50046
+}
+
+/*Dark theme styles*/
+.progress-wheel-container.dark-mode p {
+    color: white;
+}
+
+.progress-wheel-container.dark-mode  .center-text {
+    color: white;
 }

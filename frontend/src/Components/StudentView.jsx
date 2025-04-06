@@ -183,7 +183,7 @@ export default function StudentView() {
                 <section className="gaming-section">
                     <div className="inner-container">
                         <h2>Gaming Stats</h2>
-                        <ProgressWheel progress={75} />
+                        <ProgressWheel progress={75} darkMode={isDarkMode} />
                     </div>
                 </section>
 

@@ -2,14 +2,18 @@ import React from "react";
 import { ProgressBar } from "react-bootstrap";
 import "../Styles/ProgressWheel.css"; // Add custom styles for the wheel
 
-
-const ProgressWheel = ({ progress }) => {
+const ProgressWheel = ({ progress, darkMode }) => {
     return (
-        <div className="progress-wheel-container">
+        <div className={`progress-wheel-container ${darkMode ? "dark-mode" : ""}`}>
             <div className="progress-wheel">
                 <div className="progress-circle">
                     <div className="circle-background"></div>
-                    <div className="circle-progress" style={{ background: `conic-gradient(#FF9149 ${progress}%, #F7374F ${progress}% 100%)` }}></div>
+                    <div
+                        className="circle-progress"
+                        style={{
+                            background: `conic-gradient(#FF9149 ${progress}%, #F7374F ${progress}% 100%)`,
+                        }}
+                    ></div>
                     <div className="center-text">{progress}%</div>
                 </div>
             </div>
@@ -38,6 +42,5 @@ const ProgressWheel = ({ progress }) => {
         </div>
     );
 };
-
 
 export default ProgressWheel;
