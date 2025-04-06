@@ -177,6 +177,14 @@ export default function StudentView() {
                         </div>
                     </div>
                 </section>
+
+                {/* Gaming Section */}
+                <section className="gaming-section">
+                    <div className="inner-container">
+                        <h2>Gaming Stats</h2>
+                    </div>
+                </section>
+
             </div>
         </div>
     );

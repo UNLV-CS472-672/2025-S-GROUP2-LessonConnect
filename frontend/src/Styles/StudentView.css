@@ -152,6 +152,21 @@
     object-fit: cover;
 }
 
+.user-view-section-page .gaming-section {
+    background-color: #f2f2f2;
+    padding: 50px 0;
+    color: #fff;
+}
+
+
+.user-view-section-page .gaming-section h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: black;
+    margin-bottom: 20px;
+}
+
+
 /* Dark Mode Styles */
 .user-view-section-page.dark-mode .greeting {
     background-color: #2c3e50;
@@ -197,7 +212,7 @@
     background-color: #3498db;
 }
 
-.theme-toggle-button {
+.user-view-section-page .theme-toggle-button {
     font-size: 13px;
     padding: 10px 10px;
     margin-right: 20px;
@@ -210,6 +225,19 @@
 }
 
 
-.theme-toggle-button:hover {
+.user-view-section-page .theme-toggle-button:hover {
     background-color: #3498db;
+}
+
+.user-view-section-page.dark-mode .gaming-section {
+    background-color: #34495e;
+    padding: 50px 0;
+    color: #fff;
+}
+
+.user-view-section-page.dark-mode .gaming-section h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 20px;
 }
