@@ -68,9 +68,9 @@
 
 /*Dark theme styles*/
 .progress-wheel-container.dark-mode p {
-    color: white;
+    color: #f0f0f0;
 }
 
 .progress-wheel-container.dark-mode  .center-text {
-    color: white;
+    color: #f0f0f0;
 }

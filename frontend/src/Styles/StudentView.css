@@ -166,6 +166,39 @@
     margin-bottom: 20px;
 }
 
+.user-view-section-page .badge-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 60px;
+    padding: 50px 0;
+    background-color: #f2f2f2;
+}
+
+.user-view-section-page .badge-item {
+    width: 150px;
+    height: 150px;
+    background-color: #f8c471;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+    font-size: 1rem;
+    position: relative;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+.user-view-section-page .badge-item:hover {
+    transform: scale(1.1);
+    background-color: #f7b731;
+    cursor: pointer;
+}
+
 
 /* Dark Mode Styles */
 .user-view-section-page.dark-mode .greeting {
@@ -217,7 +250,7 @@
     padding: 10px 10px;
     margin-right: 20px;
     background-color: #253b4c;
-    color: #fff;
+    color: #f0f0f0;
     border: none;
     border-radius: 20px;
     cursor: pointer;
@@ -232,12 +265,25 @@
 .user-view-section-page.dark-mode .gaming-section {
     background-color: #34495e;
     padding: 50px 0;
-    color: #fff;
+    color: #f0f0f0;
 }
 
 .user-view-section-page.dark-mode .gaming-section h2 {
     text-align: center;
     font-size: 2rem;
-    color: #fff;
+    color: #f0f0f0;
     margin-bottom: 20px;
+}
+
+.user-view-section-page.dark-mode .badge-section {
+    background-color: #34495e;
+}
+
+.user-view-section-page.dark-mode .badge-item {
+    background-color: #BF3131;
+    color: #f0f0f0;
+}
+
+.user-view-section-page.dark-mode .badge-item:hover {
+    background-color: #7D0A0A;
 }

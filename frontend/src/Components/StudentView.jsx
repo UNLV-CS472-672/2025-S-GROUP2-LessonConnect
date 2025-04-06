@@ -187,6 +187,15 @@ export default function StudentView() {
                     </div>
                 </section>
 
+                {/* Badge Section */}
+                <section className="badge-section">
+                    <div className="badge-item">🥇 Pomodoro Master</div>
+                    <div className="badge-item">📚 Lesson Expert</div>
+                    <div className="badge-item">🧠 Quiz Wizard</div>
+                    <div className="badge-item">📜 Submission Champ</div>
+                    <div className="badge-item">⚡ Speedster</div>
+                </section>
+
             </div>
         </div>
     );
