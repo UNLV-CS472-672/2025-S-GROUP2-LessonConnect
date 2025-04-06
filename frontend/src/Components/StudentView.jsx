@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import ProgressWheel from "./ProgressWheel";
 import "../Styles/StudentView.css";
 import {Link, NavLink} from "react-router-dom";
 
@@ -182,6 +183,7 @@ export default function StudentView() {
                 <section className="gaming-section">
                     <div className="inner-container">
                         <h2>Gaming Stats</h2>
+                        <ProgressWheel progress={75} />
                     </div>
                 </section>
 
