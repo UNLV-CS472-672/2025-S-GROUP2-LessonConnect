@@ -4,25 +4,23 @@ import {Link, NavLink} from "react-router-dom";
 
 
 const dashboardOptions = [
-    { text: "Find a tutor", img: "/assets/images/search_icon.png" },
-    { text: "Profile", img: "/assets/images/profile_icon.png" },
-    { text: "Pomodoro Timer", img: "/assets/images/pomodoro_icon.png" },
-    { text: "Chat & Video with Tutor", img: "/assets/images/videochat_icon.png" },
-    { text: "My Calendar", img: "/assets/images/calendar_icon.png" },
-    { text: "My Assignments", img: "/assets/images/assignment_icon.png" },
-    { text: "My Messages", img: "/assets/images/messages_icon.png" },
-    { text: "My Whiteboard", img: "/assets/images/whiteboard_icon.png" },
+    { text: "Find a tutor", img: "/assets/images/search_icon.png", path:"/findTutor"},
+    { text: "Profile", img: "/assets/images/profile_icon.png", path:"/profile" },
+    { text: "Pomodoro Timer", img: "/assets/images/pomodoro_icon.png", path:"/pomodoro" },
+    { text: "Chat & Video with Tutor", img: "/assets/images/videochat_icon.png", path:"/messaging-video" },
+    { text: "My Calendar", img: "/assets/images/calendar_icon.png", path:"/calendar" },
+    { text: "My Assignments", img: "/assets/images/assignment_icon.png", path:"/assignment"},
+    { text: "My Messages", img: "/assets/images/messages_icon.png", path:"/messages" },
+    { text: "My Whiteboard", img: "/assets/images/whiteboard_icon.png", path:"/whiteboard" },
 ];
 
 const externalLinks = [
-    { text: "Go to my lessons", url: "https://example.com/resources" },
-    { text: "Resource Center", url: "https://example.com/handbook" },
-    { text: "Tutoring Support", url: "https://example.com/tutoring" },
-    { text: "settings", url: "https://example.com/forum" },
-    { text: "contact us", url: "https://example.com/settings" },
+    { text: "Go to my lessons", path:"/lessons" },
+    { text: "Resource Center", path:"/resources" },
+    { text: "Tutoring Support", path:"/support" },
+    { text: "settings", path:"/settings" },
+    { text: "contact us", path:"/contact" },
 ];
-
-
 
 export default function StudentView() {
 
@@ -38,14 +36,23 @@ export default function StudentView() {
         setOpenDropdown(null);
     };
 
-    // State for notification counts
-    const [inboxCount, setInboxCount] = useState(0);
-    const [notificationCount, setNotificationCount] = useState(0);
+    // State for notification counts (uncomment when ready to use)
+    // const [inboxCount, setInboxCount] = useState(0);
+    // const [notificationCount, setNotificationCount] = useState(0);
+    //
+    // // Example of how to increment (you could use real-time data or API calls)
+    // const incrementInboxCount = () => setInboxCount(inboxCount + 1);
+    // const incrementNotificationCount = () => setNotificationCount(notificationCount + 1);
 
-    // Example of how to increment (you could use real-time data or API calls)
-    const incrementInboxCount = () => setInboxCount(inboxCount + 1);
-    const incrementNotificationCount = () => setNotificationCount(notificationCount + 1);
+    const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
+    const toggleProfileDropdown = () => {
+        setProfileDropdownOpen(!profileDropdownOpen);
+    };
+
+    const closeProfileDropdown = () => {
+        setProfileDropdownOpen(false);
+    };
 
     return (
         <div className="user-view-section-page">
@@ -97,22 +104,32 @@ export default function StudentView() {
                         {/* Inbox Icon */}
                         <NavLink to="/inbox" className="nav-link inbox-icon">
                             <img src="/assets/images/mail.png" alt="Inbox" width="30" height="30" />
-                            {inboxCount > 0 && <span className="notification-count">{inboxCount}</span>}
+                            {/*{inboxCount > 0 && <span className="notification-count">{inboxCount}</span>} (uncomment when ready to use )*/}
                         </NavLink>
 
                         {/* Notification Icon */}
                         <NavLink to="/notification" className="nav-link bell-icon">
                             <img src="/assets/images/bell.png" alt="Notification"  width="30" height="30" />
-                            {notificationCount > 0 && <span className="notification-count">{notificationCount}</span>}
+                            {/*{notificationCount > 0 && <span className="notification-count">{notificationCount}</span>} (uncomment when ready to use ) */}
                         </NavLink>
 
                         {/* Profile Icon */}
-                        <NavLink to="/profile" className="nav-link profile-icon">
-                            <img src="/assets/images/user.png" alt="Profile" width="50" height="50" />
-                        </NavLink>
+                        <div className="nav-item dropdown " onMouseLeave={closeProfileDropdown}>
+                            <button className="nav-link  profile-icon" onClick={toggleProfileDropdown} style={{ background: "transparent", border: "none", padding: 0 }}>
+                                <img src="/assets/images/user.png" alt="Profile" width="50" height="50" className="rounded-circle"/>
+                            </button>
+                            {profileDropdownOpen && (
+                                <div className="dropdown-menu dropdown-menu-end show">
+                                    <NavLink to="/profile" className="dropdown-item">My Profile</NavLink>
+                                    <NavLink to="/settings" className="dropdown-item">Settings</NavLink>
+                                    <NavLink to="/logout" className="dropdown-item">Logout</NavLink>
+                                </div>
+                            )}
+                        </div>
+
                     </div>
                 </div>
-                {/* This was made to test the notifications and inbox */}
+                {/* This was made to test the notifications and inbox (Uncomment when ready to use )*/}
                 {/*<button onClick={incrementInboxCount}>Simulate Inbox Notification</button>*/}
                 {/*<button onClick={incrementNotificationCount}>Simulate Notification</button>*/}
             </nav>
@@ -130,18 +147,18 @@ export default function StudentView() {
                     {/* Dashboard Grid */}
                     <div className="button-grid">
                         {dashboardOptions.map((option, index) => (
-                            <div className="button-card" key={index}>
+                            <Link to={option.path} className="button-card" key={index}>
                                 <img src={option.img} alt={option.text} />
                                 <span>{option.text}</span>
-                            </div>
+                            </Link>
                         ))}
                     </div>
 
                     <div className="vertical-button-container">
                         {externalLinks.map((link, index) => (
-                            <a key={index} href={link.url} target="_blank" rel="noopener noreferrer" className="vertical-button">
+                            <Link key={index} to={link.path} className="vertical-button">
                                 {link.text}
-                            </a>
+                            </Link>
                         ))}
                     </div>
                 </div>
