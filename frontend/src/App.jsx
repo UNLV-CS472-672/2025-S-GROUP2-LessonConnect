@@ -46,6 +46,7 @@ function App() {
                 <Route path="/schedule" element={<Schedule />} />
                 <Route path="/pomodoro" element={<Pomodoro />} />
                 <Route path="/booking" element={<Booking />} />
+                {/*new and improved page... incoming*/}
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/videocall" element={<VideoCall />} />
                 <Route path="/Calendar" element={<Calendar />} />
