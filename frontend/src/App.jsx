@@ -29,7 +29,7 @@ function App() {
 
     return (
         <div className="App">
-            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp" && location.pathname !== "/pomodoro") && <Header />}
+            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp" && location.pathname !== "/pomodoro" && location.pathname !== "/StudentView") && <Header />}
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
