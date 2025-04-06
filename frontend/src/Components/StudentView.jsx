@@ -25,6 +25,7 @@ const externalLinks = [
 
 
 export default function StudentView() {
+
     const [openDropdown, setOpenDropdown] = useState(null);
 
     // Toggle dropdown open/close
@@ -36,6 +37,15 @@ export default function StudentView() {
     const closeDropdown = () => {
         setOpenDropdown(null);
     };
+
+    // State for notification counts
+    const [inboxCount, setInboxCount] = useState(0);
+    const [notificationCount, setNotificationCount] = useState(0);
+
+    // Example of how to increment (you could use real-time data or API calls)
+    const incrementInboxCount = () => setInboxCount(inboxCount + 1);
+    const incrementNotificationCount = () => setNotificationCount(notificationCount + 1);
+
 
     return (
         <div className="user-view-section-page">
@@ -84,8 +94,27 @@ export default function StudentView() {
                                 </div>
                             </div>
                         </div>
+                        {/* Inbox Icon */}
+                        <NavLink to="/inbox" className="nav-link inbox-icon">
+                            <img src="/assets/images/mail.png" alt="Inbox" width="30" height="30" />
+                            {inboxCount > 0 && <span className="notification-count">{inboxCount}</span>}
+                        </NavLink>
+
+                        {/* Notification Icon */}
+                        <NavLink to="/notification" className="nav-link bell-icon">
+                            <img src="/assets/images/bell.png" alt="Notification"  width="30" height="30" />
+                            {notificationCount > 0 && <span className="notification-count">{notificationCount}</span>}
+                        </NavLink>
+
+                        {/* Profile Icon */}
+                        <NavLink to="/profile" className="nav-link profile-icon">
+                            <img src="/assets/images/user.png" alt="Profile" width="50" height="50" />
+                        </NavLink>
                     </div>
                 </div>
+                {/* This was made to test the notifications and inbox */}
+                {/*<button onClick={incrementInboxCount}>Simulate Inbox Notification</button>*/}
+                {/*<button onClick={incrementNotificationCount}>Simulate Notification</button>*/}
             </nav>
 
             <section className="greeting">
