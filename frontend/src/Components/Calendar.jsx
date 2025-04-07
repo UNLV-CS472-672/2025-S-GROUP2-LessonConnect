@@ -21,14 +21,14 @@ function LessonCalendar() {
     const [showProgress, setShowProgress] = useState(true); // Toggle progress tracker display
 
     // Sample unscheduled tasks (UC8)
-    const [unscheduledTasks, setUnscheduledTasks] = useState([
+    const [unscheduledTasks] = useState([
         { id: 1, title: "Math Tutoring (Draft)", type: "Lesson" },
         { id: 2, title: "Reading Club Prep", type: "Meeting" },
         { id: 3, title: "Coding Practice Session", type: "Practice" },
     ]);
 
     // Sample events to display on the calendar
-    const [events, setEvents] = useState([
+    const [events] = useState([
         { date: new Date(), title: "Math Tutoring w/ Mr. Smith" },
         { date: new Date(Date.now() + 86400000), title: "Biology Lab" },
         { date: new Date(Date.now() + 2 * 86400000), title: "History Discussion" },
