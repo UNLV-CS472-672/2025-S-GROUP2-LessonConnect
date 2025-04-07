@@ -5,11 +5,11 @@ import "../Styles/TutorView.css";
 const dashboardOptions = [
     { text: "Manage Sessions", img: "/assets/images/UNLV_pic.png" },
     { text: "Upload Assignments", img: "/assets/images/UNLV_pic.png" },
-    { text: "Student Progress", img: "/assets/images/UNLV_pic.png" },
+    { text: "Pomodoro", img: "/assets/images/UNLV_pic.png" },
     { text: "Messages", img: "/assets/images/UNLV_pic.png", path: "/inbox" },
     { text: "Availability", img: "/assets/images/UNLV_pic.png", path: "/calendar" },
     { text: "Create Quiz", img: "/assets/images/UNLV_pic.png" },
-    { text: "Session Notes", img: "/assets/images/UNLV_pic.png" },
+    { text: "Gaming Stats", img: "/assets/images/UNLV_pic.png" },
     { text: "Profile", img: "/assets/images/UNLV_pic.png", path: "/profile" },
 ];
 
