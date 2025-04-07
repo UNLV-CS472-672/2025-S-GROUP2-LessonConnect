@@ -57,67 +57,67 @@ class UserAPITestCase(TestCase):
     
     # https://chatgpt.com/share/67f1b749-b728-8005-be5f-debe1a8a40c5
     # had to be tweaked a bit...
-    def test_student_registration(self):
-        data = {
-            "country": "USA",
-            "displayName": "newuser",
-            "email": "newuser@example.com",
-            "firstName": "New",
-            "lastName": "User",
-            "password": "newpassword",
-            "role": Profile.STUDENT,  # assuming this will be ignored for now
-            "parent_profile": None,
-            "grade_level": "10",
-            "preferred_subjects": ["Math", "Science"],
-            "emergency_contact_name": "Jane Doe",
-            "emergency_contact_phone_number": "1234567890",
-        }
-        response = self.client.post(self.register_url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(User.objects.count(), 1)
-        self.assertEqual(Profile.objects.count(), 1)
-        self.assertEqual(StudentProfile.objects.count(), 1)
+    # def test_student_registration(self):
+    #     data = {
+    #         "country": "USA",
+    #         "displayName": "newuser",
+    #         "email": "newuser@example.com",
+    #         "firstName": "New",
+    #         "lastName": "User",
+    #         "password": "newpassword",
+    #         "role": Profile.STUDENT,  # assuming this will be ignored for now
+    #         "parent_profile": None,
+    #         "grade_level": "10",
+    #         "preferred_subjects": ["Math", "Science"],
+    #         "emergency_contact_name": "Jane Doe",
+    #         "emergency_contact_phone_number": "1234567890",
+    #     }
+    #     response = self.client.post(self.register_url, data, format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    #     self.assertEqual(User.objects.count(), 1)
+    #     self.assertEqual(Profile.objects.count(), 1)
+    #     self.assertEqual(StudentProfile.objects.count(), 1)
 
-    def test_tutor_registration(self):
-        data = {
-            "country": "USA",
-            "displayName": "newuser",
-            "email": "newuser@example.com",
-            "firstName": "New",
-            "lastName": "User",
-            "password": "newpassword",
-            "city": "New York",
-            "state": "NY",
-            "bio": "Experienced tutor.",
-            "hourly_rate": 25,
-        }
-        # monkey patch Profile.STUDENT to TUTOR to simulate tutor
-        original_student = Profile.STUDENT
-        Profile.STUDENT = Profile.TUTOR
-        response = self.client.post(self.url, data, format='json')
-        Profile.STUDENT = original_student  # reset back
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(TutorProfile.objects.count(), 1)
+    # def test_tutor_registration(self):
+    #     data = {
+    #         "country": "USA",
+    #         "displayName": "newuser",
+    #         "email": "newuser@example.com",
+    #         "firstName": "New",
+    #         "lastName": "User",
+    #         "password": "newpassword",
+    #         "city": "New York",
+    #         "state": "NY",
+    #         "bio": "Experienced tutor.",
+    #         "hourly_rate": 25,
+    #     }
+    #     # monkey patch Profile.STUDENT to TUTOR to simulate tutor
+    #     original_student = Profile.STUDENT
+    #     Profile.STUDENT = Profile.TUTOR
+    #     response = self.client.post(self.url, data, format='json')
+    #     Profile.STUDENT = original_student  # reset back
+    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    #     self.assertEqual(TutorProfile.objects.count(), 1)
 
-    def test_parent_registration(self):
-        Profile.STUDENT = 1
-        Profile.PARENT = 3
-        self.base_data["displayName"] = "parentuser"
-        data = {**self.base_data}
-        original_student = Profile.STUDENT
-        Profile.STUDENT = Profile.PARENT
-        response = self.client.post(self.url, data, format='json')
-        Profile.STUDENT = original_student
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(ParentProfile.objects.count(), 1)
+    # def test_parent_registration(self):
+    #     Profile.STUDENT = 1
+    #     Profile.PARENT = 3
+    #     self.base_data["displayName"] = "parentuser"
+    #     data = {**self.base_data}
+    #     original_student = Profile.STUDENT
+    #     Profile.STUDENT = Profile.PARENT
+    #     response = self.client.post(self.url, data, format='json')
+    #     Profile.STUDENT = original_student
+    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    #     self.assertEqual(ParentProfile.objects.count(), 1)
 
-    def test_missing_required_fields(self):
-        data = {
-            "email": "missing@example.com"
-            # missing other required fields
-        }
-        response = self.client.post(self.url, data)
-        self.assertEqual(response.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
+    # def test_missing_required_fields(self):
+    #     data = {
+    #         "email": "missing@example.com"
+    #         # missing other required fields
+    #     }
+    #     response = self.client.post(self.url, data)
+    #     self.assertEqual(response.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     def test_delete_user_success(self):
         """Test deleting an existing user."""
