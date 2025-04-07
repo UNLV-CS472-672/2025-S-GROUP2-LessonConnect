@@ -1,0 +1,151 @@
+.inbox-page-container {
+    display: flex;
+    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* Sidebar */
+.inbox-page-container .inbox-side-menu {
+    width: 160px;
+    background-color: #f0f0f0;
+    border-right: 1px solid #ccc;
+    padding-top: 80px;
+}
+
+/* Main Thread List Column */
+.inbox-page-container .inbox-thread-list {
+    width: 450px;
+    background-color: #fff;
+    border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+    padding-top: 80px;
+}
+
+.inbox-page-container .inbox-toolbar {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    background-color: #f9f9f9;
+    box-shadow: inset 0 -1px 0 #ddd;
+}
+
+.inbox-page-container .inbox-toolbar select,
+.inbox-page-container .inbox-toolbar input {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex: 1;
+}
+
+/* Section label above threads */
+.inbox-page-container .thread-label {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 12px;
+    color: #555;
+    border-bottom: 1px solid #e5e5e5;
+    background-color: #fafafa;
+}
+
+/* Thread list */
+.inbox-page-container .message-threads {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+}
+
+.inbox-page-container .thread {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.inbox-page-container .thread:hover {
+    background-color: #f9f9f9;
+}
+
+.inbox-page-container .thread.unread {
+    background-color: #eef3fc;
+    font-weight: bold;
+}
+
+.inbox-page-container .thread-details {
+    flex-grow: 1;
+}
+
+.inbox-page-container .sender {
+    font-size: 13px;
+    color: #333;
+}
+
+.inbox-page-container .subject {
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.inbox-page-container .preview {
+    font-size: 13px;
+    color: #666;
+}
+
+.inbox-page-container .meta {
+    text-align: right;
+}
+
+.inbox-page-container .date {
+    font-size: 12px;
+    color: #999;
+}
+
+.inbox-page-container .badge {
+    background-color: #2d9cdb;
+    color: white;
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: 12px;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+/* Message view column */
+.inbox-page-container .inbox-content-panel {
+    flex-grow: 1;
+    padding: 40px 60px;
+    background-color: #fff;
+    overflow-y: auto;
+    margin-top: 70px;
+}
+
+.inbox-page-container .message-view h3 {
+    font-size: 22px;
+    margin-bottom: 14px;
+    margin-top: 0;
+}
+
+.inbox-page-container .message-view p {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.inbox-page-container .empty-state {
+    text-align: center;
+    color: #777;
+    margin-top: 100px;
+}
+
+.inbox-page-container .envelope-icon {
+    font-size: 64px;
+    margin-bottom: 10px;
+}
