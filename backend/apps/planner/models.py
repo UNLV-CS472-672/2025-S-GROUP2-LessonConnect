@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from apps.planner.managers import CalendarEventManager
 
 class CalendarEvent(models.Model):
     # Constants for event type choices
@@ -36,6 +37,9 @@ class CalendarEvent(models.Model):
         blank=True,
         null=True, 
     )
+
+    objects = CalendarEventManager()
+
     class Meta:
         # For human readability and clarity
         verbose_name = "Calendar Event"
