@@ -23,6 +23,7 @@ import Booking from "./Components/Booking.jsx";
 import VideoCall from "./Components/VideoCall.jsx";
 import Calendar from "./Components/Calendar.jsx";
 import AssignmentPage from "./Components/AssignmentPage.jsx";
+import TutorView from "./Components/TutorView.jsx";
 
 function App() {
     const location = useLocation();
@@ -35,7 +36,7 @@ function App() {
         <div className="App">
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp" &&
                 location.pathname !== "/StudentView" && location.pathname !== "/calendar" &&
-                location.pathname !== "/chat" && location.pathname !== "/videocall") && <Header />}
+                location.pathname !== "/chat" && location.pathname !== "/videocall" && location.pathname !== "/tutorview") && <Header />}
 
             <Routes>
                 {/* Public Routes */}
@@ -52,6 +53,10 @@ function App() {
                 <Route path="/support" element={<Support />} />
                 <Route path="/faqs" element={<FAQS />} />
                 <Route path="/findTutor" element={<FindTutor />} />
+                <Route path="/chat" element={<Chat />} />
+                <Route path="/videocall" element={<VideoCall />} />
+                {/* <Route path="/Calendar" element={<Calendar />} /> */}
+                <Route path="/tutorview" element={<TutorView />} />
 
                 {/* Student Routes with Layout */}
                 <Route path="/StudentView" element={<StudentLayout><StudentView /></StudentLayout>} />
