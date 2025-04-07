@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Booking, Review
+from .models import Booking, Review, Availability
 
 
 class BookingSerializer(serializers.ModelSerializer):
@@ -23,3 +23,8 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = ['tutor', 'reviewer', 'rating', 'feedback', 'created_at', 'is_visible', 'is_moderated']
         read_only_fields = ['created_at', 'is_visible', 'is_moderated']
+
+class AvailabilitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Availability
+        fields = ['id', 'start_time', 'end_time', 'is_booked']

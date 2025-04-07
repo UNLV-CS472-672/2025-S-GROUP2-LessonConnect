@@ -57,7 +57,7 @@ class Booking(models.Model):
     objects = BookingManager()
 
     def __str__(self):
-        return (f'Booking for {self.student.username} with {self.availability.tutor.user.username} '
+        return (f'Booking for {self.student.username} with {self.availability.tutor.profile.user.username} '
                 f'on {self.availability.start_time} - {self.booking_status}')
 
     def is_paid(self):
