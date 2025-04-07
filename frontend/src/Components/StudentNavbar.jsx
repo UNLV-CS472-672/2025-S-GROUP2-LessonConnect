@@ -52,9 +52,9 @@ export default function StudentNavbar({ isDarkMode, toggleTheme }) {
                                     More
                                 </button>
                                 <div className={`dropdown-menu ${openDropdown === "more" ? "show" : ""}`}>
-                                    <NavLink to="/learn_more" className="dropdown-item">Learn More</NavLink>
-                                    <NavLink to="/resources" className="dropdown-item">Resources</NavLink>
-                                    <NavLink to="/pomodoro" className="dropdown-item">Pomodoro</NavLink>
+                                    <NavLink to="/student/learn_more" className="dropdown-item">Learn More</NavLink>
+                                    <NavLink to="/student/resources" className="dropdown-item">Resources</NavLink>
+                                    <NavLink to="/student/pomodoro" className="dropdown-item">Pomodoro</NavLink>
                                 </div>
                             </div>
                         </div>
@@ -77,9 +77,9 @@ export default function StudentNavbar({ isDarkMode, toggleTheme }) {
                             </button>
                             {profileDropdownOpen && (
                                 <div className="dropdown-menu dropdown-menu-end show">
-                                    <NavLink to="/profile" className="dropdown-item">My Profile</NavLink>
-                                    <NavLink to="/settings" className="dropdown-item">Settings</NavLink>
-                                    <NavLink to="/logout" className="dropdown-item">Logout</NavLink>
+                                    <NavLink to="/student/profile" className="dropdown-item">My Profile</NavLink>
+                                    <NavLink to="/student/settings" className="dropdown-item">Settings</NavLink>
+                                    <NavLink to="/student/logout" className="dropdown-item">Logout</NavLink>
                                 </div>
                             )}
                         </div>

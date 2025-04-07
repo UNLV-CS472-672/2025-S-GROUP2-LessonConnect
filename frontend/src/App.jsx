@@ -22,6 +22,7 @@ import Chat from "./Components/Chat.jsx";
 import Booking from "./Components/Booking.jsx";
 import VideoCall from "./Components/VideoCall.jsx";
 import Calendar from "./Components/Calendar.jsx";
+import AssignmentPage from "./Components/AssignmentPage.jsx";
 
 function App() {
     const location = useLocation();
@@ -66,6 +67,7 @@ function App() {
                 <Route path="/student/faqs" element={<StudentLayout><FAQS /></StudentLayout>} />
                 <Route path="/student/learn_more" element={<StudentLayout><Learn_more /></StudentLayout>} />
                 <Route path="/student/about" element={<StudentLayout><About /></StudentLayout>} />
+                <Route path="/student/assignment" element={<StudentLayout><AssignmentPage /></StudentLayout>} />
                 {/*<Route path="/student/settings" element={<StudentLayout><Settings /></StudentLayout>} />*/}
                 {/*<Route path="/student/lessons" element={<StudentLayout><Lessons /></StudentLayout>} />*/}
                 {/*<Route path="/student/resources" element={<StudentLayout><Resources /></StudentLayout>} />*/}
