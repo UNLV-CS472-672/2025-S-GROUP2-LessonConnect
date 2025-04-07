@@ -6,20 +6,20 @@ const dashboardOptions = [
     { text: "Manage Sessions", img: "/assets/images/UNLV_pic.png" },
     { text: "Upload Assignments", img: "/assets/images/UNLV_pic.png" },
     { text: "Student Progress", img: "/assets/images/UNLV_pic.png" },
-    { text: "Messages", img: "/assets/images/UNLV_pic.png" },
-    { text: "Availability", img: "/assets/images/UNLV_pic.png" },
+    { text: "Messages", img: "/assets/images/UNLV_pic.png", path: "/inbox" },
+    { text: "Availability", img: "/assets/images/UNLV_pic.png", path: "/calendar" },
     { text: "Create Quiz", img: "/assets/images/UNLV_pic.png" },
     { text: "Session Notes", img: "/assets/images/UNLV_pic.png" },
-    { text: "Profile", img: "/assets/images/UNLV_pic.png" },
+    { text: "Profile", img: "/assets/images/UNLV_pic.png", path: "/profile" },
 ];
 
 const sidebarOptions = [
-    "Resources",
-    "Settings",
-    "Calendar",
-    "Student Requests",
-    "Post Announcements",
-    "Sticker Book"
+    { text: "Resources", path: "/resources" },
+    { text: "Settings", path: "/settings" },
+    { text: "Calendar", path: "/calendar" },
+    { text: "Student Requests", path: "/requests" },
+    { text: "Post Announcements", path: "/announcements" },
+    { text: "Sticker Book", path: "/stickers" }
 ];
 
 export default function TutorView() {
@@ -127,17 +127,27 @@ export default function TutorView() {
                 <div className="inner-container dashboard-layout">
                     <div className="button-grid">
                         {dashboardOptions.map((option, index) => (
-                            <div className="button-card" key={index}>
-                                <img src={option.img} alt={option.text} />
-                                <span>{option.text}</span>
-                            </div>
+                            option.path ? (
+                                <Link to={option.path} className="button-card" key={index}>
+                                    <img src={option.img} alt={option.text} />
+                                    <span>{option.text}</span>
+                                </Link>
+                            ) : (
+                                <div className="button-card" key={index}>
+                                    <img src={option.img} alt={option.text} />
+                                    <span>{option.text}</span>
+                                </div>
+                            )
                         ))}
                     </div>
 
                     <div className="sidebar-buttons">
-                        {sidebarOptions.map((label, index) => (
-                            <button key={index}>{label}</button>
+                        {sidebarOptions.map((option, index) => (
+                            <Link key={index} to={option.path} className="sidebar-button-link">
+                                <button>{option.text}</button>
+                            </Link>
                         ))}
+
                     </div>
                 </div>
             </section>
