@@ -1,8 +1,11 @@
+
 import { useState } from "react";
 import "../Styles/Inbox.css";
 
 export default function Inbox() {
     const [selectedMessage, setSelectedMessage] = useState(null);
+    const [activeNav, setActiveNav] = useState("Inbox");
+
     const [messages, setMessages] = useState([
         {
             id: 1,
@@ -41,63 +44,92 @@ export default function Inbox() {
     };
 
     return (
-        <div className="inbox-page-container">
-            <div className="inbox-side-menu">
-                <ul>
-                    <li className="active">Inbox</li>
-                    <li>Calendar</li>
-                    <li>Support</li>
-                </ul>
-            </div>
+        <div className="inbox-app">
+            {/* 🔺 HEADER BAR */}
+            <header className="inbox-header">
+                <div className="logo">🏠 <span>LessonConnect</span></div>
+                <nav className="header-nav">
+                    <a href="#">Find a tutor</a>
+                    <a href="#">Services</a>
+                    <a href="#">Support</a>
+                    <a href="#">More</a>
+                    <button className="login-btn">Login</button>
+                </nav>
+            </header>
 
-            <div className="inbox-thread-list">
-                <div className="inbox-toolbar">
-                    <select>
-                        <option>All Subjects</option>
-                    </select>
-                    <select>
-                        <option>Inbox</option>
-                    </select>
-                    <input type="text" placeholder="Search..." />
+            {/* 🔻 MAIN CONTENT */}
+            <div className="inbox-page-container">
+                <div className="inbox-side-menu">
+                    <ul>
+                        {["Inbox", "Calendar", "Support"].map((item) => (
+                            <li
+                                key={item}
+                                className={activeNav === item ? "active" : ""}
+                                onClick={() => {
+                                    setActiveNav(item);
+                                    if (item !== "Inbox") {
+                                        setSelectedMessage(null);
+                                    }
+                                }}
+                            >
+                                {item}
+                            </li>
+                        ))}
+                    </ul>
                 </div>
 
-                <div className="thread-label">Conversations</div>
-
-                <ul className="message-threads">
-                    {messages.map((msg) => (
-                        <li
-                            key={msg.id}
-                            className={`thread ${msg.unread ? "unread" : ""}`}
-                            onClick={() => handleSelectMessage(msg)}
-                        >
-                            <div className="thread-details">
-                                <div className="sender">{msg.from}</div>
-                                <div className="subject">{msg.subject}</div>
-                                <div className="preview">{msg.preview}</div>
-                            </div>
-                            <div className="meta">
-                                <div className="date">{msg.date}</div>
-                                {msg.unreadCount > 0 && (
-                                    <div className="badge">{msg.unreadCount}</div>
-                                )}
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            <div className="inbox-content-panel">
-                {!selectedMessage ? (
-                    <div className="empty-state">
-                        <div className="envelope-icon">📩</div>
-                        <p>No Conversations Selected</p>
+                <div className="inbox-thread-list">
+                    <div className="inbox-toolbar">
+                        <select>
+                            <option>All Subjects</option>
+                        </select>
+                        <select>
+                            <option>Inbox</option>
+                        </select>
+                        <input type="text" placeholder="Search..." />
                     </div>
-                ) : (
-                    <div className="message-view">
-                        <h3>{selectedMessage.subject}</h3>
-                        <p>{selectedMessage.preview}</p>
+
+                    <div className="thread-label">Conversations</div>
+
+                    <ul className="message-threads">
+                        {messages.map((msg) => (
+                            <li
+                                key={msg.id}
+                                className={`thread ${msg.unread ? "unread" : ""}`}
+                                onClick={() => handleSelectMessage(msg)}
+                            >
+                                <div className="thread-details">
+                                    <div className="sender">{msg.from}</div>
+                                    <div className="subject">{msg.subject}</div>
+                                    <div className="preview">{msg.preview}</div>
+                                </div>
+                                <div className="meta">
+                                    <div className="date">{msg.date}</div>
+                                    {msg.unreadCount > 0 && (
+                                        <div className="badge">{msg.unreadCount}</div>
+                                    )}
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="inbox-content-panel">
+                    <div className="inbox-content-header">
+                        {selectedMessage ? selectedMessage.subject : "Message Viewer"}
                     </div>
-                )}
+
+                    {!selectedMessage ? (
+                        <div className="empty-state">
+                            <div className="envelope-icon">📩</div>
+                            <p>No Conversations Selected</p>
+                        </div>
+                    ) : (
+                        <div className="message-view">
+                            <p>{selectedMessage.preview}</p>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
