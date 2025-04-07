@@ -1,26 +1,26 @@
 import React, {useState} from "react";
 import ProgressWheel from "./ProgressWheel";
 import "../Styles/StudentView.css";
-import {Link, NavLink} from "react-router-dom";
-import StudentNavbar from "./StudentNavbar"; // ⬅️ add this
+import {Link} from "react-router-dom";
+import StudentNavbar from "./StudentNavbar";
 
 const dashboardOptions = [
     { text: "Find a tutor", img: "/assets/images/search_icon.png", path:"/student/findTutor"},
-    { text: "Profile", img: "/assets/images/profile_icon.png", path:"/profile" },
-    { text: "Pomodoro Timer", img: "/assets/images/pomodoro_icon.png", path:"/pomodoro" },
-    { text: "Chat & Video with Tutor", img: "/assets/images/videochat_icon.png", path:"/messaging-video" },
-    { text: "My Calendar", img: "/assets/images/calendar_icon.png", path:"/calendar" },
-    { text: "My Assignments", img: "/assets/images/assignment_icon.png", path:"/assignment"},
-    { text: "My Messages", img: "/assets/images/messages_icon.png", path:"/messages" },
-    { text: "My Whiteboard", img: "/assets/images/whiteboard_icon.png", path:"/whiteboard" },
+    { text: "Profile", img: "/assets/images/profile_icon.png", path:"/student/profile" },
+    { text: "Pomodoro Timer", img: "/assets/images/pomodoro_icon.png", path:"/student/pomodoro" },
+    { text: "Chat & Video with Tutor", img: "/assets/images/videochat_icon.png", path:"/student/messaging-video" },
+    { text: "My Calendar", img: "/assets/images/calendar_icon.png", path:"/student/calendar" },
+    { text: "My Assignments", img: "/assets/images/assignment_icon.png", path:"/student/assignment"},
+    { text: "My Messages", img: "/assets/images/messages_icon.png", path:"/student/messages" },
+    { text: "My Whiteboard", img: "/assets/images/whiteboard_icon.png", path:"/student/whiteboard" },
 ];
 
 const externalLinks = [
-    { text: "Go to my lessons", path:"/lessons" },
-    { text: "Resource Center", path:"/resources" },
-    { text: "Tutoring Support", path:"/support" },
-    { text: "settings", path:"/settings" },
-    { text: "contact us", path:"/contact" },
+    { text: "Go to my lessons", path:"/student/lessons" },
+    { text: "Resource Center", path:"/student/resources" },
+    { text: "Tutoring Support", path:"/student/support" },
+    { text: "settings", path:"/student/settings" },
+    { text: "contact us", path:"/student/contact" },
 ];
 
 export default function StudentView() {
@@ -32,7 +32,7 @@ export default function StudentView() {
 
     return (
         <div className="user-view-section-page">
-            <StudentNavbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} /> 
+            <StudentNavbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
             <div className={`user-view-section-page ${isDarkMode ? "dark-mode" : ""}`}>
                 <section className="greeting">
                     <div className="inner-container">

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import "../Styles/StudentNavbar.css"; // You can keep using the same styles
+import "../Styles/StudentNavbar.css";
 
 export default function StudentNavbar({ isDarkMode, toggleTheme }) {
     const [openDropdown, setOpenDropdown] = useState(null);
@@ -22,7 +22,7 @@ export default function StudentNavbar({ isDarkMode, toggleTheme }) {
         <div className="student-navbar">
             <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
                 <div className="container">
-                    <Link to="/" className="navbar-brand d-flex align-items-center">
+                    <Link to="/StudentView" className="navbar-brand d-flex align-items-center">
                         <i className="bi bi-house-door"></i>
                         <span className="ms-2">LessonConnect</span>
                     </Link>

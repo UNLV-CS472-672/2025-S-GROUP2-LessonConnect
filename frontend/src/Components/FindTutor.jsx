@@ -67,7 +67,7 @@ export default function FindTutor() {
                     </div>
                     <div className="col-12 col-md-6">
                         <img
-                            src="assets/images/Pic4.jpg"
+                            src="/assets/images/Pic4.jpg"
                             className="img-fluid"
                             alt="Image"
                         />
