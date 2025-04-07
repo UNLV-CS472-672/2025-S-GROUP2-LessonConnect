@@ -23,17 +23,10 @@ const externalLinks = [
     { text: "contact us", path:"/student/contact" },
 ];
 
-export default function StudentView() {
-
-    const [isDarkMode, setIsDarkMode] = useState(false);
-    const toggleTheme = () => {
-        setIsDarkMode(!isDarkMode);
-    };
-
+export default function StudentView({ darkMode, toggleTheme }) {
     return (
-        <div className="user-view-section-page">
-            <StudentNavbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-            <div className={`user-view-section-page ${isDarkMode ? "dark-mode" : ""}`}>
+        <div className={`user-view-section-page ${darkMode ? "dark-mode" : ""}`}>
+            <StudentNavbar isDarkMode={darkMode} toggleTheme={toggleTheme} />
                 <section className="greeting">
                     <div className="inner-container">
                         <h1 className="fade-in">👋 Welcome back, Franklin!</h1>
@@ -68,7 +61,7 @@ export default function StudentView() {
                 <section className="gaming-section">
                     <div className="inner-container">
                         <h2>Gaming Stats</h2>
-                        <ProgressWheel progress={75} darkMode={isDarkMode} />
+                        <ProgressWheel progress={75} darkMode={darkMode} />
                     </div>
                 </section>
 
@@ -81,7 +74,6 @@ export default function StudentView() {
                     <div className="badge-item">⚡ Speedster</div>
                 </section>
 
-            </div>
         </div>
     );
 }

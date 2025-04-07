@@ -50,9 +50,9 @@ const pastAssignments = [
     },
 ];
 
-export default function AssignmentPage() {
+export default function AssignmentPage({ darkMode }) {
     return (
-        <div className="assignment-container">
+        <div className={`assignment-container ${darkMode ? "dark-mode" : ""}`}>
             {/* Sidebar */}
             <aside className="sidebar">
                 <h3 className="term-header">2025 Spring</h3>

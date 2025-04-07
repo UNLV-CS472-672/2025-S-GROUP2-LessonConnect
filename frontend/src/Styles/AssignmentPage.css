@@ -7,11 +7,11 @@
     min-height: 100%;
 }
 
-.sidebar {
+.assignment-container .sidebar {
     width: 200px;
     background-color: #fff;
     border-right: 1px solid #e0e0e0;
-    padding: 50px 1rem;
+    padding: 50px 2rem;
     position: sticky;
     top: 60px;
     height: calc(100vh - 60px);
@@ -19,58 +19,58 @@
 }
 
 
-.sidebar h3 {
+.assignment-container .sidebar h3 {
     font-size: 1rem;
     margin-bottom: 1rem;
     color: #888;
 }
 
-.sidebar ul {
+.assignment-container .sidebar ul {
     list-style: none;
     padding: 0;
 }
 
-.sidebar li {
+.assignment-container .sidebar li {
     margin: 1rem 0;
 }
 
-.sidebar a {
+.assignment-container .sidebar a {
     color: #d00;
     font-weight: 500;
     text-decoration: none;
 }
 
-.sidebar a.active {
+.assignment-container .sidebar a.active {
     font-weight: 700;
     color: #a00;
     text-decoration: underline;
 }
 
 /* Main Content */
-.assignment-content {
+.assignment-container .assignment-content {
     flex-grow: 1;
     padding: 2rem 3rem;
     overflow-y: auto;
 }
 
-.assignment-content h2 {
+.assignment-container .assignment-content h2 {
     font-size: 1.75rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
 }
 
-.assignment-section {
+.assignment-container .assignment-section {
     margin-bottom: 2rem;
 }
 
-.assignment-section h3 {
+.assignment-container .assignment-section h3 {
     border-bottom: 2px solid #e0e0e0;
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
     font-size: 1.3rem;
 }
 
-.assignment-card {
+.assignment-container .assignment-card {
     background-color: white;
     border: 1px solid #ddd;
     padding: 1rem 1.25rem;
@@ -80,17 +80,54 @@
     transition: 0.3s ease;
 }
 
-.assignment-card:hover {
+.assignment-container .assignment-card:hover {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-.assignment-card strong {
+.assignment-container .assignment-card strong {
     font-size: 1.1rem;
     display: block;
     margin-bottom: 0.3rem;
 }
 
-.assignment-card p {
+.assignment-container .assignment-card p {
     margin: 0.25rem 0;
     color: #333;
+}
+
+
+/* ========== Dark Theme (Match App Theme) ========== */
+.assignment-container.dark-mode {
+    background-color: #2c3e50;
+}
+
+.assignment-container.dark-mode .sidebar {
+    background-color: #34495e;
+    border-right: 1px solid #46627f;
+}
+
+.assignment-container.dark-mode .sidebar h3,
+.assignment-container.dark-mode .sidebar a {
+    color: #ecf0f1;
+}
+
+.assignment-container.dark-mode .sidebar a.active {
+    color: #f7b731;
+    text-decoration: underline;
+}
+
+.assignment-container.dark-mode .assignment-content h2,
+.assignment-container.dark-mode .assignment-section h3 {
+    color: #f0f0f0;
+}
+
+.assignment-container.dark-mode .assignment-card {
+    background-color: #3c5873;
+    border: 1px solid #5a7894;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.assignment-container.dark-mode .assignment-card p,
+.assignment-container.dark-mode .assignment-card strong {
+    color: #ecf0f1;
 }

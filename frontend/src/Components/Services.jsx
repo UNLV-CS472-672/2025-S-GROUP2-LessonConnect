@@ -1,9 +1,9 @@
 import "../Styles/Services.css";
 
-export default function Services() {
+export default function Services({ darkMode }) {
     return (
         <>
-            <div className="services-page-container">
+            <div className={`services-page-container ${darkMode ? "dark-mode" : ""}`}>
                 <section id = "top-header-section">
                     <div className="header-top">
                         <h1>Empowering Students Through Personalized Learning </h1>

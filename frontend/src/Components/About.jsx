@@ -1,8 +1,8 @@
 import '../Styles/about.css'
-export default function About() {
+export default function About({ darkMode }) {
     return (
         <>
-            <div className="about-us-page">
+            <div className={`about-us-page ${darkMode ? "dark-mode" : ""}`}>
                 {/* Section 1: Who We Are */}
                 <section id="about-us" className="py-5 bg-light text-center">
                     <div className="container">

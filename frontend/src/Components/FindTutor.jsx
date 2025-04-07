@@ -5,7 +5,7 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 import FilterDropdown from "./FilterDropdown";
 import "../Styles/FindTutor.css";
-export default function FindTutor() {
+export default function FindTutor({ darkMode }) {
     // State variables for search input, filter options, and results
     const [what, setWhat] = useState(""); // To store the subject or tutor name
     const [where, setWhere] = useState(""); // To store the location
@@ -57,7 +57,7 @@ export default function FindTutor() {
 
     return (
 
-        <div className="findTutor-section">
+        <div className={`findTutor-section ${darkMode ? "dark-mode" : ""}`}>
             {/* Header Section */}
             <div className="container py-8">
                 <div className="row align-items-center">
