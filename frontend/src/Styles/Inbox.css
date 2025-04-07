@@ -58,7 +58,7 @@
 /* === Main Layout After Header === */
 .inbox-app .inbox-page-container {
     display: flex;
-    margin-top: 56px;
+    margin-top: 60px;
     height: calc(100vh - 56px);
     background-color: #f5f5f5;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -98,11 +98,12 @@
 
 /* === Thread List Panel === */
 .inbox-page-container .inbox-thread-list {
-    width: 350px;
+    width: 400px;
     background-color: #fff;
     border-right: 1px solid #ccc;
     display: flex;
     flex-direction: column;
+    margin-top: 14px;
 }
 
 .inbox-page-container .inbox-toolbar {
@@ -206,6 +207,7 @@
     flex-direction: column;
     background-color: #fff;
     overflow-y: auto;
+    margin-top: 16px;
 }
 
 .inbox-page-container .inbox-content-header {
