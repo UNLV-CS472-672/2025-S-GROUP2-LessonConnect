@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import FilterDropdown from "./FilterDropdown";
@@ -50,7 +52,11 @@ export default function FindTutor() {
         }
     };
 
+    const location = useLocation();
+    const isStudentRoute = location.pathname.includes("/student");
+
     return (
+
         <div className="findTutor-section">
             {/* Header Section */}
             <div className="container py-8">
@@ -158,7 +164,11 @@ export default function FindTutor() {
                                         <span>{tutor.rating}</span>
                                     </div>
                                 )}
-                                <NavLink to="/booking" state={{ tutor }} className="btn btn-outline-light book-btn">
+                                <NavLink
+                                    to={isStudentRoute ? "/student/booking" : "/booking"}
+                                    state={{ tutor }}
+                                    className="btn btn-outline-light book-btn"
+                                >
                                     Book Now
                                 </NavLink>
                             </div>

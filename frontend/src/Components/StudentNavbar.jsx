@@ -34,16 +34,16 @@ export default function StudentNavbar({ isDarkMode, toggleTheme }) {
                     <div id="nav-collapse" className="collapse navbar-collapse">
                         <div className="navbar-nav me-auto mb-2 mb-lg-0">
                             <NavLink to="/student/findTutor" className="nav-link">Find a tutor</NavLink>
-                            <NavLink to="/services" className="nav-link">Services</NavLink>
+                            <NavLink to="/student/services" className="nav-link">Services</NavLink>
 
                             <div className="nav-item dropdown" onMouseLeave={closeDropdown}>
                                 <button className="nav-link dropdown-toggle" onClick={() => toggleDropdown("support")}>
                                     Support
                                 </button>
                                 <div className={`dropdown-menu ${openDropdown === "support" ? "show" : ""}`}>
-                                    <NavLink to="/about" className="dropdown-item">About Us</NavLink>
-                                    <NavLink to="/contact" className="dropdown-item">Contact Us</NavLink>
-                                    <NavLink to="/faqs" className="dropdown-item">FAQS</NavLink>
+                                    <NavLink to="/student/about" className="dropdown-item">About Us</NavLink>
+                                    <NavLink to="/student/contact" className="dropdown-item">Contact Us</NavLink>
+                                    <NavLink to="/student/faqs" className="dropdown-item">FAQS</NavLink>
                                 </div>
                             </div>
 

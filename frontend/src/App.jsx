@@ -34,8 +34,7 @@ function App() {
         <div className="App">
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp" &&
                 location.pathname !== "/StudentView" && location.pathname !== "/calendar" &&
-                location.pathname !== "/chat" && location.pathname !== "/videocall" &&
-                location.pathname !== "/booking" && location.pathname !== "/student/findTutor") && <Header />}
+                location.pathname !== "/chat" && location.pathname !== "/videocall") && <Header />}
 
             <Routes>
                 {/* Public Routes */}
@@ -43,6 +42,7 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/learn_more" element={<Learn_more />} />
                 <Route path="/pomodoro" element={<Pomodoro />} />
+                <Route path="/booking" element={<Booking />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/SignUp" element={<SignUp />} />
                 <Route path="/dateofbirth" element={<DateOfBirth />} />
@@ -60,12 +60,15 @@ function App() {
                 <Route path="/student/booking" element={<StudentLayout><Booking /></StudentLayout>} />
                 <Route path="/student/pomodoro" element={<StudentLayout><Pomodoro /></StudentLayout>} />
                 <Route path="/student/findTutor" element={<StudentLayout><FindTutor /></StudentLayout>} />
+                <Route path="/student/support" element={<StudentLayout><Support /></StudentLayout>} />
+                <Route path="/student/contact" element={<StudentLayout><Contact /></StudentLayout>} />
+                <Route path="/student/services" element={<StudentLayout><Services /></StudentLayout>} />
+                <Route path="/student/faqs" element={<StudentLayout><FAQS /></StudentLayout>} />
+                <Route path="/student/learn_more" element={<StudentLayout><Learn_more /></StudentLayout>} />
+                <Route path="/student/about" element={<StudentLayout><About /></StudentLayout>} />
+                {/*<Route path="/student/settings" element={<StudentLayout><Settings /></StudentLayout>} />*/}
                 {/*<Route path="/student/lessons" element={<StudentLayout><Lessons /></StudentLayout>} />*/}
                 {/*<Route path="/student/resources" element={<StudentLayout><Resources /></StudentLayout>} />*/}
-                <Route path="/student/support" element={<StudentLayout><Support /></StudentLayout>} />
-                {/*<Route path="/student/settings" element={<StudentLayout><Settings /></StudentLayout>} />*/}
-                <Route path="/student/contact" element={<StudentLayout><Contact /></StudentLayout>} />
-
             </Routes>
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>
