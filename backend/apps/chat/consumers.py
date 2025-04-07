@@ -11,22 +11,26 @@ from django.contrib.auth.models import User
 class ChatConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
-        user = self.scope["user"]  # Get the user from the scope
+        user_id = self.scope.get('user_id')
+        if user_id is not None:
+            self.user_id = user_id
+            self.room_name = self.scope["url_route"]["kwargs"]["room_name"]  # Extracts the room_name from the URL
+            self.room_group_name = f'chat_{self.room_name}'
 
-        if not user.is_authenticated:
-            print("not authenticated")
-            return
+            await self.accept()
 
-        self.user = user
-        self.room_name = self.scope["url_route"]["kwargs"]["room_name"]  # Extracts the room_name from the URL
-        self.room_group_name = f'chat_{self.room_name}'
+            if self.is_error_exists():
+                error = {
+                    'error': str(self.scope['error'])
+                }
+                await self.send(text_data=json.dumps(error))
+                await self.close()
 
-        await self.channel_layer.group_add(  # Adds the WebSocket connection (client) to a channel group
-            self.room_group_name,
-            self.channel_name
-        )
-        await self.accept()
-
+            else:
+                await self.channel_layer.group_add(  # Adds the WebSocket connection (client) to a channel group
+                    self.room_group_name,
+                    self.channel_name
+                )
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
@@ -39,7 +43,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = text_data_json['message']
 
         # Create a new message object
-        await self.save_message(self.user.id, self.room_name, message)
+        await self.save_message(self.user_id, self.room_name, message)
 
         await self.channel_layer.group_send( # sends message to all users in a channel group
             self.room_group_name,
@@ -64,3 +68,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             Message.objects.create(content=content, chat = chat, sender = user) # Creates and saves message
         except (Chat.DoesNotExist):
             print(f"Chat room '{room_name}' not found. Message not saved.")
+
+    def is_error_exists(self):
+        """This checks if error exists during websockets"""
+
+        return True if 'error' in self.scope else False
