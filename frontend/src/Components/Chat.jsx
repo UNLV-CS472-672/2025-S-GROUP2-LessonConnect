@@ -4,18 +4,10 @@ import "../Styles/Chat.css";
 
 
 // TODO: Integrate axios and backend API calls when available
-const socket = useRef(null)
-const room_name = useRef(null); //should change when user clicks on different chat
-// Connection opened
-useEffect(() => {
-    if (!socket.current) {
-        socket.current = new WebSocket(`ws://127.0.0.1:8000/apps/chat/${room_name}/`)
-    }
-}, [room_name]);
+// https://medium.com/@rojin.dumre98/implementing-websockets-in-django-react-d114deac0abe
 
-useEffect(() => {
 
-}, [socket])
+
 
 export default function Chat() {
     // ------------------- STATE --------------------
@@ -103,13 +95,69 @@ export default function Chat() {
     // For auto-scrolling to bottom of the chat
     const chatBodyRef = useRef(null);
 
+    // ------------ WEBSOCKET RELATED VARIABLES START------------------
+
+    // Create a websocket
+    const socket = useRef(null);
+    // Dynamically set the chat room when user clicks a chat
+    const [roomName, setRoomName] = useState(null);
+    // Used to refetch or re-render messages
+    const [updateMessages, setUpdateMessages] = useState(false);
+    const username = localStorage.getItem("username");
+
+    // ------------ WEBSOCKET RELATED VARIABLES END------------------
+
+
+    // ------------ WEBSOCKET EFFECTS START------------------
+    // Handle opening the WebSocket connection when roomName changes
+    useEffect(() => {
+        if (roomName && !socket.current)
+            socket.current = new WebSocket(`ws://127.0.0.1:8000/apps/chat/${roomName}/`);
+        else
+            return
+
+        socket.current.onopen = () => {
+            console.log("WebSocket connected to room:", roomName);
+        };
+
+        socket.current.onclose = () => {
+            console.log("WebSocket closed");
+        };
+
+        // return () => {
+        //     if (socket.current) {
+        //         socket.current.close();
+        //     }
+        // };
+    }, [roomName]);
+
+    // Handle incoming messages
+    useEffect(() => {
+        if (socket.current)
+
+            socket.current.onmessage = (event) => {
+                console.log("Socket message received: ", event.data);
+                const eventData = JSON.parse(event.data);
+                if (eventData.message === "successful") {
+                    setUpdateMessages(prev => !prev); // toggle to trigger updates
+                }
+            };
+
+            return () => {
+                if (socket.current) {
+                    socket.current.onmessage = null;
+                }
+            };
+    }, []);
+
+    // ------------ WEBSOCKET EFFECTS END------------------
+
     // ------------------- EFFECTS --------------------
     useEffect(() => {
         if (chatBodyRef.current) {
             chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
         }
     }, [messages]);
-
     // ------------------- HELPERS --------------------
     // Format current time as "hh:mm AM/PM"
     function getCurrentTime() {
@@ -121,53 +169,71 @@ export default function Chat() {
         const text = inputText.trim();
         if (text === "") return;
 
+        // Prepare message data for sending
+        const messageData = {
+            username: username,  // Assuming 'user' is the current user
+            body: text,           // The message body
+            read: false
+        };
+
+        // Add the new message to the local state (chat UI)
         const newMessage = {
             text,
-            type: "sent",
-            time: getCurrentTime(),
-            read: false, // We'll mark it as read once we simulate the reply
+            type: "sent",         // You can adjust message type (sent or received)
+            time: getCurrentTime(), // Assuming you have a helper to get current time
+            read: false,          // Will be marked as read later
         };
+
+        // Update the UI with the new message
         setMessages((prev) => [...prev, newMessage]);
+
+        // Clear the input after sending the message
         setInputText("");
 
-        simulateReply();
+        // Send the message via WebSocket if the connection is open
+        if (socket.current && socket.current.readyState === WebSocket.OPEN) {
+            socket.current.send(JSON.stringify(messageData));
+        } else {
+            console.warn("WebSocket not open.");
+        }
+        // simulateReply();
     }
 
     // Simulate receiving a reply with a "typing" indicator (UC6 "read receipts" can be updated here)
-    function simulateReply() {
-        // TODO: Replace with axios call to backend when API is available
-        const typingMessage = {
-            text: "...",
-            type: "received",
-            time: "",
-            isTyping: true,
-            read: false,
-        };
-        setMessages((prev) => [...prev, typingMessage]);
-
-        setTimeout(() => {
-            setMessages((prev) => {
-                // Remove the typing message
-                const withoutTyping = prev.filter((msg) => !msg.isTyping);
-
-                // Mark all sent messages as read
-                const updated = withoutTyping.map((m) =>
-                    m.type === "sent" ? { ...m, read: true } : m
-                );
-
-                // Add the actual reply
-                return [
-                    ...updated,
-                    {
-                        text: "This is a simulated reply.",
-                        type: "received",
-                        time: getCurrentTime(),
-                        read: false,
-                    },
-                ];
-            });
-        }, 1000);
-    }
+    // function simulateReply() {
+    //     // TODO: Replace with axios call to backend when API is available
+    //     const typingMessage = {
+    //         text: "...",
+    //         type: "received",
+    //         time: "",
+    //         isTyping: true,
+    //         read: false,
+    //     };
+    //     setMessages((prev) => [...prev, typingMessage]);
+    //
+    //     setTimeout(() => {
+    //         setMessages((prev) => {
+    //             // Remove the typing message
+    //             const withoutTyping = prev.filter((msg) => !msg.isTyping);
+    //
+    //             // Mark all sent messages as read
+    //             const updated = withoutTyping.map((m) =>
+    //                 m.type === "sent" ? { ...m, read: true } : m
+    //             );
+    //
+    //             // Add the actual reply
+    //             return [
+    //                 ...updated,
+    //                 {
+    //                     text: "This is a simulated reply.",
+    //                     type: "received",
+    //                     time: getCurrentTime(),
+    //                     read: false,
+    //                 },
+    //             ];
+    //         });
+    //     }, 1000);
+    // }
 
     // Press "Enter" to send
     function handleKeyPress(e) {
