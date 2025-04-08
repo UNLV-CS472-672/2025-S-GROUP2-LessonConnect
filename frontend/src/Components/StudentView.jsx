@@ -8,7 +8,7 @@ const dashboardOptions = [
     { text: "Find a tutor", img: "/assets/images/search_icon.png", path:"/student/findTutor"},
     { text: "Profile", img: "/assets/images/profile_icon.png", path:"/student/profile" },
     { text: "Pomodoro Timer", img: "/assets/images/pomodoro_icon.png", path:"/student/pomodoro" },
-    { text: "Chat & Video with Tutor", img: "/assets/images/videochat_icon.png", path:"/student/messaging-video" },
+    { text: "Chat & Video with Tutor", img: "/assets/images/videochat_icon.png", path:"/student/chat" },
     { text: "My Calendar", img: "/assets/images/calendar_icon.png", path:"/student/calendar" },
     { text: "My Assignments", img: "/assets/images/assignment_icon.png", path:"/student/assignment"},
     { text: "My Messages", img: "/assets/images/messages_icon.png", path:"/student/messages" },

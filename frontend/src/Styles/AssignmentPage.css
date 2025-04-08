@@ -1,3 +1,4 @@
+/* === GENERAL LAYOUT === */
 .assignment-container {
     display: flex;
     background-color: #f9fafb;
@@ -7,6 +8,7 @@
     min-height: 100%;
 }
 
+/* === SIDEBAR === */
 .assignment-container .sidebar {
     width: 200px;
     background-color: #fff;
@@ -33,19 +35,46 @@
     margin: 1rem 0;
 }
 
-.assignment-container .sidebar a {
+.assignment-container .sidebar .nav-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
     color: #d00;
     font-weight: 500;
+    text-align: left;
+    cursor: pointer;
     text-decoration: none;
 }
 
-.assignment-container .sidebar a.active {
-    font-weight: 700;
+.assignment-container .sidebar .nav-link:hover {
+    color: #b00;
+}
+
+.assignment-container .sidebar .nav-link.active {
     color: #a00;
+    font-weight: 700;
     text-decoration: underline;
 }
 
-/* Main Content */
+/* Home icon */
+.assignment-container .home-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.assignment-container .home-icon-link {
+    font-size: 2.5rem;
+    color: #a00;
+    transition: color 0.2s ease;
+}
+
+.assignment-container .home-icon-link:hover {
+    color: #d00;
+}
+
+/* === MAIN CONTENT === */
 .assignment-container .assignment-content {
     flex-grow: 1;
     padding: 2rem 3rem;
@@ -69,21 +98,22 @@
     font-size: 1.3rem;
 }
 
+/* === ASSIGNMENT CARDS === */
 .assignment-container .assignment-card {
     background-color: white;
     border: 1px solid #ddd;
     padding: 1rem 1.25rem;
     border-radius: 10px;
     margin-bottom: 1rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     transition: 0.3s ease;
-    display: block;
     text-decoration: none;
     color: inherit;
+    cursor: pointer;
 }
 
 .assignment-container .assignment-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .assignment-container .assignment-card strong {
@@ -97,7 +127,33 @@
     color: #333;
 }
 
-/* Buttons */
+/* === FILES TABLE === */
+.assignment-container .files-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+
+.assignment-container .files-table th,
+.assignment-container .files-table td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 0.95rem;
+}
+
+.assignment-container .files-table td .file-link {
+    color: #a00;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.assignment-container .files-table td .file-link:hover {
+    color: #d00;
+}
+
+/* === BUTTONS === */
 .assignment-container .start-btn {
     background-color: #a00;
     color: white;
@@ -149,7 +205,7 @@
     background-color: #ddd;
 }
 
-/* Upload Section */
+/* === UPLOAD SECTION === */
 .assignment-container .upload-section {
     margin-top: 2rem;
 }
@@ -175,7 +231,7 @@
     gap: 1rem;
 }
 
-/* Custom File Input Styling */
+/* === FILE INPUT === */
 .assignment-container .file-input {
     font-size: 0.9rem;
     font-family: inherit;
@@ -199,23 +255,7 @@
     background-color: #d00;
 }
 
-.assignment-container .home-icon-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
-}
-
-.assignment-container .home-icon-link {
-    font-size: 2.5rem;
-    color: #a00;
-    transition: color 0.2s ease;
-}
-
-.assignment-container .home-icon-link:hover {
-    color: #d00;
-}
-
-/* ========== Dark Theme ========== */
+/* === DARK MODE === */
 .assignment-container.dark-mode {
     background-color: #2c3e50;
 }
@@ -225,13 +265,16 @@
     border-right: 1px solid #46627f;
 }
 
-.assignment-container.dark-mode .sidebar h3,
-.assignment-container.dark-mode .sidebar a {
+.assignment-container.dark-mode .sidebar h3 {
     color: #ecf0f1;
 }
 
-.assignment-container.dark-mode .sidebar a.active {
+.assignment-container.dark-mode .sidebar .nav-link {
     color: #f7b731;
+}
+
+.assignment-container.dark-mode .sidebar .nav-link.active {
+    color: #ffe599;
     text-decoration: underline;
 }
 
@@ -270,17 +313,6 @@
     background-color: rgba(255, 255, 255, 0.08);
 }
 
-.assignment-container.dark-mode .assignment-detail-card p,
-.assignment-container.dark-mode .assignment-detail-card strong {
-    color: #f0f0f0;
-}
-
-.assignment-container.dark-mode .upload-label,
-.assignment-container.dark-mode .file-input {
-    color: #f0f0f0;
-    border-color: #5a7894;
-}
-
 .assignment-container.dark-mode .cancel-btn {
     background-color: #455a64;
     color: #f0f0f0;
@@ -289,6 +321,12 @@
 
 .assignment-container.dark-mode .cancel-btn:hover {
     background-color: #546e7a;
+}
+
+.assignment-container.dark-mode .upload-label,
+.assignment-container.dark-mode .file-input {
+    color: #f0f0f0;
+    border-color: #5a7894;
 }
 
 .assignment-container.dark-mode .file-input::-webkit-file-upload-button {
@@ -305,5 +343,19 @@
 }
 
 .assignment-container.dark-mode .home-icon-link:hover {
+    color: #ffe599;
+}
+
+.assignment-container.dark-mode .files-table th,
+.assignment-container.dark-mode .files-table td {
+    color: #ecf0f1;
+    border-color: #5a7894;
+}
+
+.assignment-container.dark-mode .file-link {
+    color: #f7b731;
+}
+
+.assignment-container.dark-mode .file-link:hover {
     color: #ffe599;
 }

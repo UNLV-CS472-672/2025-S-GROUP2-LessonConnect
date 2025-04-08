@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "../Styles/AssignmentPage.css";
-import { Link } from "react-router-dom"; // Make sure this is at the top
-
+import { Link } from "react-router-dom";
 
 const upcomingAssignments = [
     {
@@ -86,9 +85,20 @@ const pastAssignments = [
     },
 ];
 
+const fileFolders = [
+    { name: "Exam Solutions.pdf", created: "Mar 13, 2025", url: "/downloads/exam-solutions.pdf" },
+    { name: "Exam Study Materials.pdf", created: "Jan 26, 2023", url: "/downloads/exam-study-materials.pdf" },
+    { name: "Group Activity Solutions.pdf", created: "Jan 31, 2025", url: "/downloads/group-activity.pdf" },
+    { name: "Homework.pdf", created: "Jan 16, 2023", url: "/downloads/homework.pdf" },
+    { name: "Notes From Class.pdf", created: "Jan 28, 2025", url: "/downloads/notes.pdf" },
+    { name: "Syllabus.pdf", created: "Feb 17, 2023", url: "/downloads/syllabus.pdf" },
+    { name: "Take Home Exams.pdf", created: "Jan 26, 2023", url: "/downloads/take-home.pdf" },
+];
+
 export default function AssignmentPage({ darkMode }) {
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [startAssignment, setStartAssignment] = useState(false);
+    const [activeTab, setActiveTab] = useState("assignments");
 
     const isPastAssignment = selectedAssignment && selectedAssignment.id >= 5;
 
@@ -96,9 +106,7 @@ export default function AssignmentPage({ darkMode }) {
         <div className={`assignment-container ${darkMode ? "dark-mode" : ""}`}>
             {/* Sidebar */}
             <aside className="sidebar">
-                {/* Home Icon Link */}
                 <h3 className="term-header text-center">2025 Spring</h3>
-
                 <div className="home-icon-wrapper">
                     <Link to="/StudentView" className="home-icon-link" title="Home">
                         <i className="bi bi-house-door-fill"></i>
@@ -107,21 +115,38 @@ export default function AssignmentPage({ darkMode }) {
                 <nav>
                     <ul>
                         <li>
-                            <Link to="/student/assignment" className="nav-link active">Assignments</Link>
+                            <button
+                                className={`nav-link ${activeTab === "assignments" ? "active" : ""}`}
+                                onClick={() => {
+                                    setActiveTab("assignments");
+                                    setSelectedAssignment(null);
+                                }}
+                            >
+                                Assignments
+                            </button>
                         </li>
                         <li>
-                            <Link to="/student/files" className="nav-link">Files</Link>
+                            <button
+                                className={`nav-link ${activeTab === "files" ? "active" : ""}`}
+                                onClick={() => {
+                                    setActiveTab("files");
+                                    setSelectedAssignment(null);
+                                }}
+                            >
+                                Files
+                            </button>
                         </li>
-                        <li>
-                            <Link to="/student/grades" className="nav-link">Grades</Link>
-                        </li>
+                        {/*We will add it if there is time*/}
+                        {/*<li>*/}
+                        {/*    <Link to="/student/grades" className="nav-link">Grades</Link>*/}
+                        {/*</li>*/}
                     </ul>
                 </nav>
             </aside>
 
             {/* Main Content */}
             <main className="assignment-content">
-                {!selectedAssignment ? (
+                {activeTab === "assignments" && !selectedAssignment && (
                     <>
                         <h2>📚 Assignments</h2>
 
@@ -135,7 +160,6 @@ export default function AssignmentPage({ darkMode }) {
                                         setSelectedAssignment(item);
                                         setStartAssignment(false);
                                     }}
-                                    style={{ cursor: "pointer" }}
                                 >
                                     <strong>{item.title}</strong>
                                     <p>Due: {item.due} | Points: {item.points}</p>
@@ -154,7 +178,6 @@ export default function AssignmentPage({ darkMode }) {
                                         setSelectedAssignment(item);
                                         setStartAssignment(false);
                                     }}
-                                    style={{ cursor: "pointer" }}
                                 >
                                     <strong>{item.title}</strong>
                                     <p>Due: {item.due} | Points: {item.points}</p>
@@ -163,7 +186,9 @@ export default function AssignmentPage({ darkMode }) {
                             ))}
                         </div>
                     </>
-                ) : (
+                )}
+
+                {activeTab === "assignments" && selectedAssignment && (
                     <div className="assignment-detail-card">
                         <button onClick={() => setSelectedAssignment(null)} className="back-button">
                             ← Back to Assignments
@@ -171,10 +196,7 @@ export default function AssignmentPage({ darkMode }) {
                         <h2>{selectedAssignment.title}</h2>
 
                         {!startAssignment && !isPastAssignment && (
-                            <button
-                                className="start-btn"
-                                onClick={() => setStartAssignment(true)}
-                            >
+                            <button className="start-btn" onClick={() => setStartAssignment(true)}>
                                 Start Assignment
                             </button>
                         )}
@@ -194,18 +216,13 @@ export default function AssignmentPage({ darkMode }) {
                                     🚀 Drag a file here, or <strong>Choose a file to upload</strong>
                                 </label>
                                 <input type="file" className="file-input" />
-
                                 <textarea
                                     placeholder="Comments..."
                                     className="comment-box"
                                     rows="4"
                                 ></textarea>
-
                                 <div className="button-group">
-                                    <button
-                                        onClick={() => setStartAssignment(false)}
-                                        className="cancel-btn"
-                                    >
+                                    <button onClick={() => setStartAssignment(false)} className="cancel-btn">
                                         Cancel
                                     </button>
                                     <button className="start-btn">Submit Assignment</button>
@@ -213,6 +230,39 @@ export default function AssignmentPage({ darkMode }) {
                             </div>
                         )}
                     </div>
+                )}
+
+                {activeTab === "files" && (
+                    <>
+                        <h2>📁 Files</h2>
+                        <table className="files-table">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Date Created</th>
+                                <th>Date Modified</th>
+                                <th>Modified By</th>
+                                <th>Size</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {fileFolders.map((file, index) => (
+                                <tr key={index}>
+                                    <td style={{ padding: "0.8rem 0" }}>
+                                        <a href={file.url} download className="file-link">
+                                            <i className="bi bi-file-earmark-text" style={{ marginRight: "8px" }}></i>
+                                            {file.name}
+                                        </a>
+                                    </td>
+                                    <td>{file.created}</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </>
                 )}
             </main>
         </div>
