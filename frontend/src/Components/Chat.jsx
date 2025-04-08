@@ -44,6 +44,7 @@ export default function Chat() {
         {
             id: 1,
             name: "John Smith",
+            roomName: "John-Smith",
             lastMessage: "Hey, can we discuss the project?",
             time: "11:01 AM",
             unreadCount: 2,
@@ -57,6 +58,7 @@ export default function Chat() {
         {
             id: 2,
             name: "Jane Doe",
+            roomName: "Jane-Doe",
             lastMessage: "Great job on the report!",
             time: "10:45 AM",
             unreadCount: 0,
@@ -70,6 +72,7 @@ export default function Chat() {
         {
             id: 3,
             name: "Bob Williams",
+            roomName: "Bob-Williams",
             lastMessage: "Let's catch up later.",
             time: "9:30 AM",
             unreadCount: 1,
@@ -109,9 +112,11 @@ export default function Chat() {
     // ------------ WEBSOCKET EFFECTS START------------------
     // Handle opening the WebSocket connection when roomName changes
     useEffect(() => {
-        if (roomName && !socket.current)
-            socket.current = new WebSocket(`ws://127.0.0.1:8000/apps/chat/${roomName}/`, ["chat", accessToken]);
+        if (roomName && !socket.current) {
+            console.log(roomName);  // Check this value
+            socket.current = socket.current = new WebSocket(`ws://127.0.0.1:8000/ws/apps/chat/${roomName}/`, ["chat", accessToken]);
 
+            // Ensure socket is initialized before setting event handlers
             socket.current.onopen = () => {
                 console.log("WebSocket connected to room:", roomName);
             };
@@ -119,6 +124,7 @@ export default function Chat() {
             socket.current.onclose = () => {
                 console.log("WebSocket closed");
             };
+        }
 
         // Cleanup function to close the socket when the component unmounts or roomName changes
         return () => {
@@ -127,7 +133,6 @@ export default function Chat() {
                 socket.current = null; // Reset the socket reference
             }
         };
-
     }, [roomName, accessToken]);
 
     // Handle incoming messages
@@ -260,7 +265,7 @@ export default function Chat() {
 
     // Select a chat from the list (UC4)
     function handleSelectChat(chat) {
-        setRoomName(chat.name)
+        setRoomName(chat.roomName)
         setSelectedChat(chat);
 
         // TODO: Load messages for the selected chat from backend when available

@@ -20,7 +20,7 @@ class JWTAuthMiddleware(BaseMiddleware):
 
         return await super().__call__(scope, receive, send)
 
-   def get_token_from_subprotocol(self, scope):
+    def get_token_from_subprotocol(self, scope):
         """
         Extract token from subprotocols sent during the WebSocket handshake.
         WebSocket subprotocols are sent as a list of protocols during the handshake.
