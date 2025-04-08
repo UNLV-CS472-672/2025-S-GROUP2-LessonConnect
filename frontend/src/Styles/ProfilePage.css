@@ -26,6 +26,9 @@
     width: 100%;
     max-width: 1200px;
 }
+.profile-page-container .left-row {
+    width: 100%;
+}
 /* Status Section */
 .profile-page-container .status-display {
     background: #f8f9fa;
@@ -90,7 +93,6 @@
 }
 .profile-page-container .card{
     border:none;
-    width: 500px;
     position:relative;
     overflow:hidden;
     border-radius:8px;

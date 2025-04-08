@@ -34,8 +34,8 @@ export default function ProfilePage() {
                     <div className="cover-section"></div>
                     {/* Profile Content */}
                     <div className="profile-content">
-                            <div className="row w-75">
-                                    <div className="card py-4">
+                            <div className="left-row">
+                                    <div className="card">
                                         <div className="text-center">
                                             <img src={userIcon} width="100" className="rounded-circle"></img>
                                         </div>
