@@ -4,6 +4,18 @@ import "../Styles/Chat.css";
 
 
 // TODO: Integrate axios and backend API calls when available
+const socket = useRef(null)
+const room_name = useRef(null); //should change when user clicks on different chat
+// Connection opened
+useEffect(() => {
+    if (!socket.current) {
+        socket.current = new WebSocket(`ws://127.0.0.1:8000/apps/chat/${room_name}/`)
+    }
+}, [room_name]);
+
+useEffect(() => {
+
+}, [socket])
 
 export default function Chat() {
     // ------------------- STATE --------------------
