@@ -22,8 +22,8 @@ import Chat from "./Components/Chat.jsx";
 import Booking from "./Components/Booking.jsx";
 import VideoCall from "./Components/VideoCall.jsx";
 import Calendar from "./Components/Calendar.jsx";
-import AssignmentPage from "./Components/AssignmentPage.jsx";
 import TutorView from "./Components/TutorView.jsx";
+import AssignmentPage from "./Components/AssignmentPage.jsx";
 
 function App() {
     const location = useLocation();
