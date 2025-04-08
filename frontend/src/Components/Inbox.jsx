@@ -89,7 +89,7 @@ export default function Inbox() {
                         <input type="text" placeholder="Search..." />
                     </div>
 
-                    <div className="thread-label">Conversations</div>
+                    <div className="thread-label">Notifications</div>
 
                     <ul className="message-threads">
                         {messages.map((msg) => (
@@ -116,13 +116,13 @@ export default function Inbox() {
 
                 <div className="inbox-content-panel">
                     <div className="inbox-content-header">
-                        {selectedMessage ? selectedMessage.subject : "Message Viewer"}
+                        {selectedMessage ? selectedMessage.subject : "Notification Viewer"}
                     </div>
 
                     {!selectedMessage ? (
                         <div className="empty-state">
-                            <div className="envelope-icon">📩</div>
-                            <p>No Conversations Selected</p>
+                            <div className="envelope-icon">🔔</div>
+                            <p>No Notifications Selected</p>
                         </div>
                     ) : (
                         <div className="message-view">
