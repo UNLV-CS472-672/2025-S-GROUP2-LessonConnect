@@ -48,28 +48,29 @@ def submit_review(request):
 
 @api_view(['GET'])
 def get_availability_by_tutor_and_date(request):
-    # tutor_id = request.GET.get('tutor_id')
-    # selected_date = request.GET.get('date')  # format: YYYY-MM-DD
-    #
-    # if not tutor_id or not selected_date:
-    #     return Response({"error": "Missing tutor_id or date parameter."}, status=status.HTTP_400_BAD_REQUEST)
-    #
-    # try:
-    #     date_obj = datetime.strptime(selected_date, "%Y-%m-%d").date()
-    # except ValueError:
-    #     return Response({"error": "Invalid date format. Use YYYY-MM-DD."}, status=status.HTTP_400_BAD_REQUEST)
-    #
-    # start_of_day = datetime.combine(date_obj, datetime.min.time())
-    # end_of_day = datetime.combine(date_obj, datetime.max.time())
-    #
-    # availabilities = Availability.objects.filter(
-    #     tutor__id=tutor_id,
-    #     start_time__gte=start_of_day,
-    #     end_time__lte=end_of_day,
-    #     is_booked=False
-    # )
+    tutor_id = request.GET.get('tutor_id')
+    selected_date = request.GET.get('date')  # format: YYYY-MM-DD
 
-    availabilities = Availability.objects.all()
+    if not tutor_id or not selected_date:
+        return Response({"error": "Missing tutor_id or date parameter."}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        date_obj = datetime.strptime(selected_date, "%Y-%m-%d").date()
+    except ValueError:
+        return Response({"error": "Invalid date format. Use YYYY-MM-DD."}, status=status.HTTP_400_BAD_REQUEST)
+
+    start_of_day = datetime.combine(date_obj, datetime.min.time())
+    end_of_day = datetime.combine(date_obj, datetime.max.time())
+
+    availabilities = Availability.objects.filter(
+        tutor__id=tutor_id,
+        start_time__gte=start_of_day,
+        end_time__lte=end_of_day,
+        is_booked=False
+    )
+
+    # For debug purposes
+    # availabilities = Availability.objects.all()
 
     serializer = AvailabilitySerializer(availabilities, many=True)
     return Response(serializer.data)
