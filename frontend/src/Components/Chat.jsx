@@ -18,24 +18,24 @@ export default function Chat() {
     // }
 
     const [messages, setMessages] = useState([
-        {
-            text: "Hey, can we discuss the project details?",
-            type: "received",
-            time: "11:01 AM",
-            read: true,
-        },
-        {
-            text: "Hi John, sure thing! Let me know what you need.",
-            type: "sent",
-            time: "11:02 AM",
-            read: true,
-        },
-        {
-            text: "I was wondering if we could add interactive elements to the presentation?",
-            type: "received",
-            time: "11:05 AM",
-            read: false,
-        },
+        // {
+        //     text: "Hey, can we discuss the project details?",
+        //     type: "received",
+        //     time: "11:01 AM",
+        //     read: true,
+        // },
+        // {
+        //     text: "Hi John, sure thing! Let me know what you need.",
+        //     type: "sent",
+        //     time: "11:02 AM",
+        //     read: true,
+        // },
+        // {
+        //     text: "I was wondering if we could add interactive elements to the presentation?",
+        //     type: "received",
+        //     time: "11:05 AM",
+        //     read: false,
+        // },
     ]);
 
     const [inputText, setInputText] = useState("");
@@ -102,9 +102,7 @@ export default function Chat() {
     // Dynamically set the chat room when user clicks a chat
     const [roomName, setRoomName] = useState(null);
     // Used to refetch or re-render messages
-    const [updateMessages, setUpdateMessages] = useState(false);
-    const username = localStorage.getItem("username");
-
+    const accessToken = localStorage.getItem("accessToken");
     // ------------ WEBSOCKET RELATED VARIABLES END------------------
 
 
@@ -112,42 +110,51 @@ export default function Chat() {
     // Handle opening the WebSocket connection when roomName changes
     useEffect(() => {
         if (roomName && !socket.current)
-            socket.current = new WebSocket(`ws://127.0.0.1:8000/apps/chat/${roomName}/`);
-        else
-            return
+            socket.current = new WebSocket(`ws://127.0.0.1:8000/apps/chat/${roomName}/`, ["chat", accessToken]);
 
-        socket.current.onopen = () => {
-            console.log("WebSocket connected to room:", roomName);
+            socket.current.onopen = () => {
+                console.log("WebSocket connected to room:", roomName);
+            };
+
+            socket.current.onclose = () => {
+                console.log("WebSocket closed");
+            };
+
+        // Cleanup function to close the socket when the component unmounts or roomName changes
+        return () => {
+            if (socket.current) {
+                socket.current.close(); // Close the WebSocket connection on cleanup
+                socket.current = null; // Reset the socket reference
+            }
         };
 
-        socket.current.onclose = () => {
-            console.log("WebSocket closed");
-        };
-
-        // return () => {
-        //     if (socket.current) {
-        //         socket.current.close();
-        //     }
-        // };
-    }, [roomName]);
+    }, [roomName, accessToken]);
 
     // Handle incoming messages
     useEffect(() => {
-        if (socket.current)
+        if (!socket.current) return;
 
-            socket.current.onmessage = (event) => {
-                console.log("Socket message received: ", event.data);
-                const eventData = JSON.parse(event.data);
-                if (eventData.message === "successful") {
-                    setUpdateMessages(prev => !prev); // toggle to trigger updates
-                }
-            };
+        socket.current.onmessage = (event) => {
+            console.log("Socket message received: ", event.data);
+            const eventData = JSON.parse(event.data);
 
-            return () => {
-                if (socket.current) {
-                    socket.current.onmessage = null;
+            if (eventData.message === "successful") {
+                const newMessage = {
+                    text: eventData.body,
+                    type: "received",
+                    time: getCurrentTime(),
+                    read: false
                 }
-            };
+                setMessages((prev) => [...prev, newMessage]);
+            }
+        };
+
+        return () => {
+            if (socket.current) {
+                socket.current.onmessage = null;
+            }
+        };
+
     }, []);
 
     // ------------ WEBSOCKET EFFECTS END------------------
@@ -171,9 +178,7 @@ export default function Chat() {
 
         // Prepare message data for sending
         const messageData = {
-            username: username,  // Assuming 'user' is the current user
-            body: text,           // The message body
-            read: false
+            message: text
         };
 
         // Add the new message to the local state (chat UI)
@@ -255,17 +260,18 @@ export default function Chat() {
 
     // Select a chat from the list (UC4)
     function handleSelectChat(chat) {
+        setRoomName(chat.name)
         setSelectedChat(chat);
 
         // TODO: Load messages for the selected chat from backend when available
-        setMessages([
-            {
-                text: `Hi, this is ${chat.name}'s conversation. Feel free to start chatting!`,
-                type: "received",
-                time: getCurrentTime(),
-                read: false,
-            },
-        ]);
+        // setMessages([
+        //     {
+        //         text: `Hi, this is ${chat.name}'s conversation. Feel free to start chatting!`,
+        //         type: "received",
+        //         time: getCurrentTime(),
+        //         read: false,
+        //     },
+        // ]);
     }
 
     // Filter chat list by search term
