@@ -118,11 +118,13 @@ export default function Chat() {
 
             // Ensure socket is initialized before setting event handlers
             socket.current.onopen = () => {
-                console.log("WebSocket connected to room:", roomName);
+                console.log("WebSocket connected to room:", socket.current);
             };
-
-            socket.current.onclose = () => {
-                console.log("WebSocket closed");
+            socket.current.onerror = (event) => {
+                console.log("WebSocket error", event);
+            };
+            socket.current.onclose = (event) => {
+                console.log("WebSocket closed", event);
             };
         }
 
