@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import "../Styles/Inbox.css";
 
@@ -44,91 +43,89 @@ export default function Inbox() {
     };
 
     return (
-        <div className="inbox-app">
-            {/* 🔺 HEADER BAR */}
-            <header className="inbox-header">
-                <div className="logo">🏠 <span>LessonConnect</span></div>
-                <nav className="header-nav">
-                    <a href="#">Find a tutor</a>
-                    <a href="#">Services</a>
-                    <a href="#">Support</a>
-                    <a href="#">More</a>
-                    <button className="login-btn">Login</button>
-                </nav>
-            </header>
+        <div className="inbox-page">
+            <div className="inbox-app">
 
-            {/* 🔻 MAIN CONTENT */}
-            <div className="inbox-page-container">
-                <div className="inbox-side-menu">
-                    <ul>
-                        {["Inbox", "Calendar", "Support"].map((item) => (
-                            <li
-                                key={item}
-                                className={activeNav === item ? "active" : ""}
-                                onClick={() => {
-                                    setActiveNav(item);
-                                    if (item !== "Inbox") {
-                                        setSelectedMessage(null);
-                                    }
-                                }}
-                            >
-                                {item}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-
-                <div className="inbox-thread-list">
-                    <div className="inbox-toolbar">
-                        <select>
-                            <option>All Subjects</option>
-                        </select>
-                        <select>
-                            <option>Inbox</option>
-                        </select>
-                        <input type="text" placeholder="Search..." />
+                <div className="inbox-page-container">
+                    <div className="inbox-side-menu">
+                        <ul>
+                            {["Chat", "Calendar", "Support", "Profile"].map((item) => (
+                                <li
+                                    key={item}
+                                    className={activeNav === item ? "active" : ""}
+                                    onClick={() => {
+                                        setActiveNav(item);
+                                        if (item !== "Inbox") {
+                                            setSelectedMessage(null);
+                                        }
+                                    }}
+                                >
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
                     </div>
 
-                    <div className="thread-label">Notifications</div>
+                    <div className="inbox-thread-list">
+                        <div className="inbox-toolbar">
+                            <select>
+                                <optgroup label="Notifications">
+                                    <option value="success">Success</option>
+                                    <option value="warning">Warning</option>
+                                    <option value="error">Error</option>
+                                </optgroup>
+                                <optgroup label="Information">
+                                    <option value="general">General</option>
+                                    <option value="update">Update</option>
+                                </optgroup>
+                            </select>
+                            <select>
+                                <option>Schedule</option>
+                            </select>
+                            <input type="text" placeholder="Search..." />
+                        </div>
 
-                    <ul className="message-threads">
-                        {messages.map((msg) => (
-                            <li
-                                key={msg.id}
-                                className={`thread ${msg.unread ? "unread" : ""}`}
-                                onClick={() => handleSelectMessage(msg)}
-                            >
-                                <div className="thread-details">
-                                    <div className="sender">{msg.from}</div>
-                                    <div className="subject">{msg.subject}</div>
-                                    <div className="preview">{msg.preview}</div>
-                                </div>
-                                <div className="meta">
-                                    <div className="date">{msg.date}</div>
-                                    {msg.unreadCount > 0 && (
-                                        <div className="badge">{msg.unreadCount}</div>
-                                    )}
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                        <div className="thread-label">Notifications</div>
 
-                <div className="inbox-content-panel">
-                    <div className="inbox-content-header">
-                        {selectedMessage ? selectedMessage.subject : "Notification Viewer"}
+                        <ul className="message-threads">
+                            {messages.map((msg) => (
+                                <li
+                                    key={msg.id}
+                                    className={`thread ${msg.unread ? "unread" : ""}`}
+                                    onClick={() => handleSelectMessage(msg)}
+                                >
+                                    <div className="thread-details">
+                                        <div className="sender">{msg.from}</div>
+                                        <div className="subject">{msg.subject}</div>
+                                        <div className="preview">{msg.preview}</div>
+                                    </div>
+                                    <div className="meta">
+                                        <div className="date">{msg.date}</div>
+                                        {msg.unreadCount > 0 && (
+                                            <div className="badge">{msg.unreadCount}</div>
+                                        )}
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
 
-                    {!selectedMessage ? (
-                        <div className="empty-state">
-                            <div className="envelope-icon">🔔</div>
-                            <p>No Notifications Selected</p>
+                    <div className="inbox-content-panel">
+                        <div className="inbox-content-header">
+                            {selectedMessage ? selectedMessage.subject : "Notification Viewer"}
                         </div>
-                    ) : (
-                        <div className="message-view">
-                            <p>{selectedMessage.preview}</p>
-                        </div>
-                    )}
+
+                        {!selectedMessage ? (
+                            <div className="empty-state">
+                                <div className="envelope-icon">🔔</div>
+                                <p>No Notifications Selected</p>
+                            </div>
+                        ) : (
+                            <div className="message-view">
+                                <p>{selectedMessage.preview}</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

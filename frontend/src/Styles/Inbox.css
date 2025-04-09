@@ -1,5 +1,5 @@
 
-.inbox-app .inbox-header {
+.inbox-page .inbox-app .inbox-header {
     height: 56px;
     background-color: #242526;
     display: flex;
@@ -15,7 +15,7 @@
     z-index: 1000;
 }
 
-.inbox-app .logo {
+.inbox-page .inbox-app .logo {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -23,24 +23,24 @@
     font-size: 16px;
 }
 
-.inbox-app .header-nav {
+.inbox-page .inbox-app .header-nav {
     display: flex;
     gap: 20px;
     align-items: center;
 }
 
-.inbox-app .header-nav a {
+.inbox-page .inbox-app .header-nav a {
     color: #ddd;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s;
 }
 
-.inbox-app .header-nav a:hover {
+.inbox-page .inbox-app .header-nav a:hover {
     color: white;
 }
 
-.inbox-app .login-btn {
+.inbox-page .inbox-app .login-btn {
     background: none;
     color: white;
     border: 1px solid white;
@@ -50,13 +50,13 @@
     transition: background 0.2s, color 0.2s;
 }
 
-.inbox-app .login-btn:hover {
+.inbox-page .inbox-app .login-btn:hover {
     background-color: white;
     color: #242526;
 }
 
 /* === Main Layout After Header === */
-.inbox-app .inbox-page-container {
+.inbox-page .inbox-app .inbox-page-container {
     display: flex;
     margin-top: 60px;
     height: calc(100vh - 56px);
@@ -65,20 +65,20 @@
 }
 
 /* === Sidebar === */
-.inbox-page-container .inbox-side-menu {
+.inbox-page .inbox-page-container .inbox-side-menu {
     width: 160px;
     background-color: #efefef;
     border-right: 1px solid #ccc;
     padding-top: 20px;
 }
 
-.inbox-page-container .inbox-side-menu ul {
+.inbox-page .inbox-page-container .inbox-side-menu ul {
     list-style: none;
     padding: 0 10px;
     margin: 0;
 }
 
-.inbox-page-container .inbox-side-menu li {
+.inbox-page .inbox-page-container .inbox-side-menu li {
     padding: 12px;
     margin-bottom: 4px;
     cursor: pointer;
@@ -87,18 +87,18 @@
     transition: background 0.2s;
 }
 
-.inbox-page-container .inbox-side-menu li:hover {
+.inbox-page .inbox-page-container .inbox-side-menu li:hover {
     background-color: #e2e2e2;
 }
 
-.inbox-page-container .inbox-side-menu li.active {
+.inbox-page .inbox-page-container .inbox-side-menu li.active {
     background-color: #d0d0d0;
     font-weight: bold;
 }
 
 /* === Thread List Panel === */
-.inbox-page-container .inbox-thread-list {
-    width: 400px;
+.inbox-page .inbox-page-container .inbox-thread-list {
+    width: 420px;
     background-color: #fff;
     border-right: 1px solid #ccc;
     display: flex;
@@ -106,7 +106,7 @@
     margin-top: 14px;
 }
 
-.inbox-page-container .inbox-toolbar {
+.inbox-page .inbox-page-container .inbox-toolbar {
     display: flex;
     gap: 8px;
     padding: 12px;
@@ -115,16 +115,17 @@
     box-shadow: inset 0 -1px 0 #ddd;
 }
 
-.inbox-page-container .inbox-toolbar select,
+.inbox-page .inbox-page-container .inbox-toolbar select,
 .inbox-page-container .inbox-toolbar input {
     padding: 8px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
     flex: 1;
+    width: 100%;
 }
 
-.inbox-page-container .thread-label {
+.inbox-page .inbox-page-container .thread-label {
     font-size: 14px;
     font-weight: 600;
     padding: 10px 12px;
@@ -134,7 +135,7 @@
 }
 
 /* === Message Threads === */
-.inbox-page-container .message-threads {
+.inbox-page .inbox-page-container .message-threads {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -142,7 +143,7 @@
     flex-grow: 1;
 }
 
-.inbox-page-container .thread {
+.inbox-page .inbox-page-container .thread {
     display: flex;
     justify-content: space-between;
     padding: 14px 12px;
@@ -151,46 +152,46 @@
     transition: background 0.2s ease;
 }
 
-.inbox-page-container .thread:hover {
+.inbox-page .inbox-page-container .thread:hover {
     background-color: #f5f9ff;
 }
 
-.inbox-page-container .thread.unread {
+.inbox-page .inbox-page-container .thread.unread {
     background-color: #e8f0ff;
     font-weight: bold;
 }
 
-.inbox-page-container .thread-details {
+.inbox-page .inbox-page-container .thread-details {
     flex-grow: 1;
 }
 
-.inbox-page-container .sender {
+.inbox-page .inbox-page-container .sender {
     font-size: 13px;
     color: #333;
 }
 
-.inbox-page-container .subject {
+.inbox-page .inbox-page-container .subject {
     font-size: 15px;
     font-weight: 600;
     margin-top: 2px;
     margin-bottom: 2px;
 }
 
-.inbox-page-container .preview {
+.inbox-page .inbox-page-container .preview {
     font-size: 13px;
     color: #666;
 }
 
-.inbox-page-container .meta {
+.inbox-page .inbox-page-container .meta {
     text-align: right;
 }
 
-.inbox-page-container .date {
+.inbox-page .inbox-page-container .date {
     font-size: 12px;
     color: #999;
 }
 
-.inbox-page-container .badge {
+.inbox-page .inbox-page-container .badge {
     background-color: #2d9cdb;
     color: white;
     border-radius: 12px;
@@ -201,7 +202,7 @@
 }
 
 /* === Message View === */
-.inbox-page-container .inbox-content-panel {
+.inbox-page .inbox-page-container .inbox-content-panel {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -210,7 +211,7 @@
     margin-top: 16px;
 }
 
-.inbox-page-container .inbox-content-header {
+.inbox-page .inbox-page-container .inbox-content-header {
     padding: 16px 24px;
     font-size: 18px;
     font-weight: bold;
@@ -218,24 +219,24 @@
     background-color: #f9f9f9;
 }
 
-.inbox-page-container .message-view {
+.inbox-page .inbox-page-container .message-view {
     padding: 30px 24px;
 }
 
-.inbox-page-container .message-view p {
+.inbox-page .inbox-page-container .message-view p {
     font-size: 15px;
     color: #333;
     line-height: 1.6;
 }
 
 /* === Empty State === */
-.inbox-page-container .empty-state {
+.inbox-page .inbox-page-container .empty-state {
     text-align: center;
     color: #777;
     margin-top: 100px;
 }
 
-.inbox-page-container .envelope-icon {
+.inbox-page .inbox-page-container .envelope-icon {
     font-size: 64px;
     margin-bottom: 10px;
 }
