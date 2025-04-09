@@ -55,6 +55,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         print(f'Websocket disconnected:{self.channel_name}')
 # This function receive messages from WebSocket. 10:58
     async def receive(self, text_data):
+        print("Inside Receive")
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
 
@@ -73,7 +74,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event['message']
         #send message of sender to websocket
         await self.send(text_data=json.dumps({
-            'message': message
+            'message': 'successful',
+            'body': message
         }))
 
     @sync_to_async

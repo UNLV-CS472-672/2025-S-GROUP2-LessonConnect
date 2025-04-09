@@ -139,22 +139,24 @@ export default function Chat() {
 
     // Handle incoming messages
     useEffect(() => {
-        if (!socket.current) return;
+        console.log("in useffect before if statement")
+        if (socket.current) {
+            console.log("Inside useEffect for incoming messages")
+            socket.current.onmessage = (event) => {
+                console.log("Socket message received: ", event.data);
+                const eventData = JSON.parse(event.data);
 
-        socket.current.onmessage = (event) => {
-            console.log("Socket message received: ", event.data);
-            const eventData = JSON.parse(event.data);
-
-            if (eventData.message === "successful") {
-                const newMessage = {
-                    text: eventData.body,
-                    type: "received",
-                    time: getCurrentTime(),
-                    read: false
+                if (eventData.message === "successful") {
+                    const newMessage = {
+                        text: eventData.body,
+                        type: "received",
+                        time: getCurrentTime(),
+                        read: false
+                    }
+                    setMessages((prev) => [...prev, newMessage]);
                 }
-                setMessages((prev) => [...prev, newMessage]);
-            }
-        };
+            };
+        }
 
         return () => {
             if (socket.current) {
@@ -162,7 +164,7 @@ export default function Chat() {
             }
         };
 
-    }, []);
+    }, [socket]);
 
     // ------------ WEBSOCKET EFFECTS END------------------
 
