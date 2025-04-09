@@ -36,7 +36,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 self.channel_name
             )
             print(">>> About to accept connection")
-            await self.accept()
+            await self.accept("chat") # Returns protocol back to browser (DO NOT DELETE)
             print(">>> WebSocket connection accepted")
             # await self.send(text_data="Connected successfully.")
 
