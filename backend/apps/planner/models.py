@@ -33,10 +33,10 @@ class CalendarEvent(models.Model):
     event_type = models.CharField(
         max_length=20,
         choices=EVENT_TYPES,
-        default=LESSON, 
-        blank=True,
-        null=True, 
+        default=LESSON
     )
+    location = models.TextField(blank=True, null=True) 
+    virtual = models.BooleanField(default=False)
 
     objects = CalendarEventManager()
 
@@ -54,9 +54,18 @@ class CalendarEvent(models.Model):
 
     def clean(self):
         # Ensure that the start_time is before the end_time
-        if self.start_time and self.end_time: # not null 
+        if self.start_time and self.end_time: # Not null 
             if self.start_time >= self.end_time:
                 raise ValidationError("End time must be after the start time.")
         # Ensure that both start and end time are provided
+        elif self.start_time or self.end_time:
+            raise ValidationError("Both start time and end time must be provided.")
+        
+        # Ensure the event is not scheduled in the past
+        if self.start_time and self.end_time: # not null 
+            if self.date < timezone.now().date():
+                raise ValidationError("The event date cannot be in the past.")
+            elif self.date == timezone.now().date() and self.start_time < timezone.now().time():
+                raise ValidationError("The event start time cannot be in the past.")
         elif self.start_time or self.end_time:
             raise ValidationError("Both start time and end time must be provided.")
