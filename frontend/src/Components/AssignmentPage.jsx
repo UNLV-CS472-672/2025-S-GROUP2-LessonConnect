@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "../Styles/AssignmentPage.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -86,31 +86,20 @@ const pastAssignments = [
     },
 ];
 
-const fileFolders = [
-    { name: "Exam Solutions.pdf", created: "Mar 13, 2025", url: "/downloads/exam-solutions.pdf" },
-    { name: "Exam Study Materials.pdf", created: "Jan 26, 2023", url: "/downloads/exam-study-materials.pdf" },
-    { name: "Group Activity Solutions.pdf", created: "Jan 31, 2025", url: "/downloads/group-activity.pdf" },
-    { name: "Homework.pdf", created: "Jan 16, 2023", url: "/downloads/homework.pdf" },
-    { name: "Notes From Class.pdf", created: "Jan 28, 2025", url: "/downloads/notes.pdf" },
-    { name: "Syllabus.pdf", created: "Feb 17, 2023", url: "/downloads/syllabus.pdf" },
-    { name: "Take Home Exams.pdf", created: "Jan 26, 2023", url: "/downloads/take-home.pdf" },
-];
-
 export default function AssignmentPage({ darkMode }) {
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [startAssignment, setStartAssignment] = useState(false);
     const [activeTab, setActiveTab] = useState("assignments");
-
-    const isPastAssignment = selectedAssignment && selectedAssignment.id >= 5;
-
     const [uploadFile, setUploadFile] = useState(null);
     const [uploadStatus, setUploadStatus] = useState("");
+    const [submittedAssignments, setSubmittedAssignments] = useState({});
+    const [uploadedFiles, setUploadedFiles] = useState([]);
+
+    const isPastAssignment = selectedAssignment && selectedAssignment.id >= 5;
 
     const handleFileChange = (e) => {
         setUploadFile(e.target.files[0]);
     };
-    const [submittedAssignments, setSubmittedAssignments] = useState({});
-
 
     const handleSubmit = async () => {
         if (!uploadFile) {
@@ -120,6 +109,7 @@ export default function AssignmentPage({ darkMode }) {
 
         const formData = new FormData();
         formData.append("file", uploadFile);
+        formData.append("assignment_id", selectedAssignment.id);
 
         try {
             const token = localStorage.getItem("accessToken");
@@ -132,12 +122,13 @@ export default function AssignmentPage({ darkMode }) {
             });
 
             if (response.status === 200) {
-                setSubmittedAssignments({
-                    ...submittedAssignments,
+                setSubmittedAssignments((prev) => ({
+                    ...prev,
                     [selectedAssignment.id]: true,
-                });
+                }));
 
                 setUploadStatus("✅ Submitted successfully!");
+                fetchUploadedFiles(); // Refresh file list
             } else {
                 setUploadStatus("Upload failed.");
             }
@@ -147,10 +138,41 @@ export default function AssignmentPage({ darkMode }) {
         }
     };
 
+    const fetchUploadedFiles = useCallback(async () => {
+        try {
+            const token = localStorage.getItem("accessToken");
+            const response = await axios.get("http://127.0.0.1:8000/uploads/", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.data.status === "success") {
+                const files = response.data.data;
+                setUploadedFiles(files);
+
+                const submitted = {};
+                files.forEach((file) => {
+                    if (file.assignment_id) {
+                        submitted[file.assignment_id] = true;
+                    }
+                });
+
+                setSubmittedAssignments((prev) => ({ ...prev, ...submitted }));
+            }
+        } catch (error) {
+            console.error("Failed to fetch uploaded files:", error);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (activeTab === "files") {
+            fetchUploadedFiles();
+        }
+    }, [activeTab, fetchUploadedFiles]);
 
     return (
         <div className={`assignment-container ${darkMode ? "dark-mode" : ""}`}>
-            {/* Sidebar */}
             <aside className="sidebar">
                 <h3 className="term-header text-center">2025 Spring</h3>
                 <div className="home-icon-wrapper">
@@ -182,15 +204,10 @@ export default function AssignmentPage({ darkMode }) {
                                 Files
                             </button>
                         </li>
-                        {/*We will add it if there is time*/}
-                        {/*<li>*/}
-                        {/*    <Link to="/student/grades" className="nav-link">Grades</Link>*/}
-                        {/*</li>*/}
                     </ul>
                 </nav>
             </aside>
 
-            {/* Main Content */}
             <main className="assignment-content">
                 {activeTab === "assignments" && !selectedAssignment && (
                     <>
@@ -205,7 +222,7 @@ export default function AssignmentPage({ darkMode }) {
                                     onClick={() => {
                                         setSelectedAssignment(item);
                                         setStartAssignment(false);
-                                        setUploadStatus(""); // Clear message on open
+                                        setUploadStatus("");
                                     }}
                                 >
                                     <strong>{item.title}</strong>
@@ -224,7 +241,7 @@ export default function AssignmentPage({ darkMode }) {
                                     onClick={() => {
                                         setSelectedAssignment(item);
                                         setStartAssignment(false);
-                                        setUploadStatus(""); // Clear message on open
+                                        setUploadStatus("");
                                     }}
                                 >
                                     <strong>{item.title}</strong>
@@ -245,7 +262,7 @@ export default function AssignmentPage({ darkMode }) {
 
                         {!startAssignment && !isPastAssignment && (
                             <button className="start-btn" onClick={() => setStartAssignment(true)}>
-                                Start Assignment
+                                {submittedAssignments[selectedAssignment.id] ? "Resubmit Assignment" : "Start Assignment"}
                             </button>
                         )}
 
@@ -264,11 +281,7 @@ export default function AssignmentPage({ darkMode }) {
                                     🚀 Drag a file here, or <strong>Choose a file to upload</strong>
                                 </label>
                                 <input type="file" className="file-input" onChange={handleFileChange} />
-                                <textarea
-                                    placeholder="Comments..."
-                                    className="comment-box"
-                                    rows="4"
-                                ></textarea>
+                                <textarea placeholder="Comments..." className="comment-box" rows="4"></textarea>
                                 <div className="button-group">
                                     <button onClick={() => setStartAssignment(false)} className="cancel-btn">
                                         Cancel
@@ -297,15 +310,20 @@ export default function AssignmentPage({ darkMode }) {
                             </tr>
                             </thead>
                             <tbody>
-                            {fileFolders.map((file, index) => (
+                            {uploadedFiles.map((file, index) => (
                                 <tr key={index}>
                                     <td style={{ padding: "0.8rem 0" }}>
-                                        <a href={file.url} download className="file-link">
+                                        <a
+                                            href={`https://res.cloudinary.com/your-cloud-name/image/upload/${file.cloudinary_public_id}.${file.file_format}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="file-link"
+                                        >
                                             <i className="bi bi-file-earmark-text" style={{ marginRight: "8px" }}></i>
-                                            {file.name}
+                                            {file.file_name}
                                         </a>
                                     </td>
-                                    <td>{file.created}</td>
+                                    <td>--</td>
                                     <td>--</td>
                                     <td>--</td>
                                     <td>--</td>

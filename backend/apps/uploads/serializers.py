@@ -15,6 +15,8 @@ class UploadDetailSerializer(serializers.ModelSerializer):
         return UploadRecord.objects.build_url(upload)
 
 class UploadListSerializer(serializers.ModelSerializer):
+    assignment_id = serializers.PrimaryKeyRelatedField(source='assignment.id', read_only=True)
+
     class Meta:
         model = UploadRecord
-        fields = ['file_name', 'file_format', 'cloudinary_public_id']
+        fields = ['file_name', 'file_format', 'cloudinary_public_id', 'assignment_id']

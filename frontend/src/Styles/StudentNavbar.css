@@ -53,3 +53,36 @@
 .student-navbar .theme-toggle-button:hover {
     background-color: #3498db;
 }
+
+.student-navbar .navbar-nav .nav-link {
+    white-space: nowrap;
+}
+
+/* Only apply dark mobile dropdown styles under 768px */
+@media (max-width: 767.98px) {
+    .student-navbar .navbar-collapse {
+        background-color: #1f1f1f !important;
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+        padding-bottom: 15px;
+        padding-left: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .student-navbar .navbar-collapse .nav-link,
+    .student-navbar .navbar-collapse .dropdown-toggle {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        padding-left: 20px;
+    }
+
+    .student-navbar .mail-icon,
+    .student-navbar .bell-icon{
+        margin-left: 0;
+        margin-top: 10px;
+        padding-left: 20px;
+    }
+
+
+}
