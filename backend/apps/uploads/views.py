@@ -15,7 +15,7 @@ from django.apps import apps
 # Create your views here.
 
 class UploadDetailView(APIView):
-    permission_classes = []  # Debug only: No authentication required
+    permission_classes = [IsAuthenticated]
     # Specifies that the view should only accept JSON-formatted request bodies.
     parser_classes = (
             JSONParser,
@@ -89,7 +89,7 @@ class UploadDetailView(APIView):
 
 
 class UploadListView(APIView):
-    permission_classes = []  # Debug only: No authentication required
+    permission_classes = [IsAuthenticated]
     # Specifies that the view can accept both multipart form data
     # and JSON-formatted request bodies.
     parser_classes = (
@@ -101,17 +101,12 @@ class UploadListView(APIView):
     # Uploading a new file
     def post(self, request):
         # request to get user
-        # user = request.user # once authentication is a thing
-
-        # Get the user model class (Debug only)
-        User = apps.get_model(settings.AUTH_USER_MODEL)
-
-        # Get the first user in the database (Debug only)
-        user = User.objects.first()
+        user = request.user  # Authenticated user object
+        profile = user.profile
 
         # Check if user exists
-        if not user:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        if not profile:
+            return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
 
         # request to get file to be uploaded
         file = request.data.get('file')
@@ -124,7 +119,7 @@ class UploadListView(APIView):
         upload_data = UploadRecord.objects.upload(file)
 
         # Use the manager method to save relevant metadata into database
-        UploadRecord.objects.create(upload_data, user)
+        UploadRecord.objects.create(upload_data, profile)
 
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
     # Note: Tested this POST request by entering this into the command line

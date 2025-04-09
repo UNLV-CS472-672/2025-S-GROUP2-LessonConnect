@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../Styles/AssignmentPage.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const upcomingAssignments = [
     {
@@ -102,6 +103,51 @@ export default function AssignmentPage({ darkMode }) {
 
     const isPastAssignment = selectedAssignment && selectedAssignment.id >= 5;
 
+    const [uploadFile, setUploadFile] = useState(null);
+    const [uploadStatus, setUploadStatus] = useState("");
+
+    const handleFileChange = (e) => {
+        setUploadFile(e.target.files[0]);
+    };
+    const [submittedAssignments, setSubmittedAssignments] = useState({});
+
+
+    const handleSubmit = async () => {
+        if (!uploadFile) {
+            setUploadStatus("Please select a file before submitting.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", uploadFile);
+
+        try {
+            const token = localStorage.getItem("accessToken");
+
+            const response = await axios.post("http://127.0.0.1:8000/uploads/", formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            if (response.status === 200) {
+                setSubmittedAssignments({
+                    ...submittedAssignments,
+                    [selectedAssignment.id]: true,
+                });
+
+                setUploadStatus("✅ Submitted successfully!");
+            } else {
+                setUploadStatus("Upload failed.");
+            }
+        } catch (error) {
+            console.error(error);
+            setUploadStatus("An error occurred while uploading.");
+        }
+    };
+
+
     return (
         <div className={`assignment-container ${darkMode ? "dark-mode" : ""}`}>
             {/* Sidebar */}
@@ -159,11 +205,12 @@ export default function AssignmentPage({ darkMode }) {
                                     onClick={() => {
                                         setSelectedAssignment(item);
                                         setStartAssignment(false);
+                                        setUploadStatus(""); // Clear message on open
                                     }}
                                 >
                                     <strong>{item.title}</strong>
                                     <p>Due: {item.due} | Points: {item.points}</p>
-                                    <p>Status: {item.status}</p>
+                                    <p>Status: {submittedAssignments[item.id] ? "Submitted" : item.status}</p>
                                 </div>
                             ))}
                         </div>
@@ -177,11 +224,12 @@ export default function AssignmentPage({ darkMode }) {
                                     onClick={() => {
                                         setSelectedAssignment(item);
                                         setStartAssignment(false);
+                                        setUploadStatus(""); // Clear message on open
                                     }}
                                 >
                                     <strong>{item.title}</strong>
                                     <p>Due: {item.due} | Points: {item.points}</p>
-                                    <p>Status: {item.status}</p>
+                                    <p>Status: {submittedAssignments[item.id] ? "Submitted" : item.status}</p>
                                 </div>
                             ))}
                         </div>
@@ -215,7 +263,7 @@ export default function AssignmentPage({ darkMode }) {
                                 <label className="upload-label">
                                     🚀 Drag a file here, or <strong>Choose a file to upload</strong>
                                 </label>
-                                <input type="file" className="file-input" />
+                                <input type="file" className="file-input" onChange={handleFileChange} />
                                 <textarea
                                     placeholder="Comments..."
                                     className="comment-box"
@@ -225,8 +273,11 @@ export default function AssignmentPage({ darkMode }) {
                                     <button onClick={() => setStartAssignment(false)} className="cancel-btn">
                                         Cancel
                                     </button>
-                                    <button className="start-btn">Submit Assignment</button>
+                                    <button className="start-btn" onClick={handleSubmit}>
+                                        Submit Assignment
+                                    </button>
                                 </div>
+                                {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
                             </div>
                         )}
                     </div>
