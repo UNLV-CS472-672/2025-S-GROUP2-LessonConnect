@@ -114,7 +114,7 @@ export default function Chat() {
     useEffect(() => {
         if (roomName && !socket.current) {
             console.log(roomName);  // Check this value
-            socket.current = socket.current = new WebSocket(`ws://127.0.0.1:8000/ws/apps/chat/${roomName}/`, ["chat", accessToken]);
+            socket.current = new WebSocket(`ws://127.0.0.1:8000/ws/apps/chat/${roomName}/`, ["chat", accessToken]);
 
             // Ensure socket is initialized before setting event handlers
             socket.current.onopen = () => {
@@ -126,13 +126,13 @@ export default function Chat() {
             };
         }
 
-        // Cleanup function to close the socket when the component unmounts or roomName changes
-        return () => {
-            if (socket.current) {
-                socket.current.close(); // Close the WebSocket connection on cleanup
-                socket.current = null; // Reset the socket reference
-            }
-        };
+        // // Cleanup function to close the socket when the component unmounts or roomName changes
+        // return () => {
+        //     if (socket.current) {
+        //         socket.current.close(); // Close the WebSocket connection on cleanup
+        //         socket.current = null; // Reset the socket reference
+        //     }
+        // };
     }, [roomName, accessToken]);
 
     // Handle incoming messages

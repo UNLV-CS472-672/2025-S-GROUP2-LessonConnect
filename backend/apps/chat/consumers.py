@@ -13,26 +13,37 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         user_id = self.scope.get('user_id')
         if user_id is not None:
+            print("user_id is NOT none")
             self.user_id = user_id
             self.room_name = self.scope["url_route"]["kwargs"]["room_name"]  # Extracts the room_name from the URL
             self.room_group_name = f'chat_{self.room_name}'
+            print("we now do self.accept")
 
+
+
+            #if self.is_error_exists():
+             #   error = {
+            #        'error': str(self.scope['error'])
+            #    }
+            #    await self.send(text_data=json.dumps(error))
+            #    await self.close()
+
+            #else:
+                #print("group_add")
+            await self.channel_layer.group_add(  # Adds the WebSocket connection (client) to a channel group
+                self.room_group_name,
+                self.channel_name
+            )
             await self.accept()
+            # await self.send(text_data="Connected successfully.")
 
-            if self.is_error_exists():
-                error = {
-                    'error': str(self.scope['error'])
-                }
-                await self.send(text_data=json.dumps(error))
-                await self.close()
 
-            else:
-                await self.channel_layer.group_add(  # Adds the WebSocket connection (client) to a channel group
-                    self.room_group_name,
-                    self.channel_name
-                )
+        else:
+            print("User_id is none :c")
+
 
     async def disconnect(self, close_code):
+        print(f"Disconnected! Code: {close_code}")
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
@@ -69,7 +80,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         except (Chat.DoesNotExist):
             print(f"Chat room '{room_name}' not found. Message not saved.")
 
-    def is_error_exists(self):
-        """This checks if error exists during websockets"""
-
-        return True if 'error' in self.scope else False
+   # def is_error_exists(self):
+    #    """This checks if error exists during websockets"""
+#
+     #   return True if 'error' in self.scope else False
