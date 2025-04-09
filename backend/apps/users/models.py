@@ -26,7 +26,6 @@ class Profile(models.Model):
 # A model that represents information about a user who is a tutor
 class TutorProfile(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
-
     city = models.CharField(max_length=100, default="Unknown")
 
     state = models.CharField(max_length=2, default="NA")
@@ -52,5 +51,7 @@ class TutorProfile(models.Model):
 
     # Note: Django-watson includes what ever is returned in __str__
     def __str__(self):
-        return f"{self.profile.user.first_name} {self.profile.user.last_name}"
+        full_name = f"{self.profile.user.first_name} {self.profile.user.last_name}".strip()
+        return full_name if full_name else self.profile.user.username
+
 
