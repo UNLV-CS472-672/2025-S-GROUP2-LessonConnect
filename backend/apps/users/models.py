@@ -81,9 +81,11 @@ class ParentProfile(models.Model):
         if self.profile.role != self.profile.PARENT:
             raise ValidationError("Only profiles with a parent role can have a ParentProfile.")
 
-    def save(self, *args, **kwargs):
-        # validate
-        self.full_clean()
+    # https://chatgpt.com/share/67f811f2-2134-8005-a1c1-28a6f4021014
+    def save(self, *args, validate=False, **kwargs):
+        # validate if necessary
+        if validate:
+          self.full_clean()
         # save
         super().save(*args, **kwargs)
 
@@ -107,9 +109,10 @@ class StudentProfile(models.Model):
         if self.profile.role != self.profile.STUDENT:
             raise ValidationError("Only profiles with a student role can have a StudentProfile.")
 
-    def save(self, *args, **kwargs):
-        # validate
-        self.full_clean()
+    def save(self, *args, validate=False, **kwargs):
+        # validate if necessary
+        if validate:
+          self.full_clean()
         # save
         super().save(*args, **kwargs)
 
