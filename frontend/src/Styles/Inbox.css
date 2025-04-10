@@ -72,6 +72,11 @@
     padding-top: 20px;
 }
 
+.inbox-page .inbox-side-menu a {
+    text-decoration: none;
+    color: inherit; /* Optional: Ensures it keeps the parent text color */
+}
+
 .inbox-page .inbox-page-container .inbox-side-menu ul {
     list-style: none;
     padding: 0 10px;
@@ -240,3 +245,4 @@
     font-size: 64px;
     margin-bottom: 10px;
 }
+
