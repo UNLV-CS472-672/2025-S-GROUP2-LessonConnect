@@ -5,6 +5,8 @@ import "../Styles/Inbox.css";
 export default function Inbox() {
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [activeNav, setActiveNav] = useState("Inbox");
+    const [filterType, setFilterType] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
 
     const [messages, setMessages] = useState([
         {
@@ -15,6 +17,7 @@ export default function Inbox() {
             from: "Alex Morgan",
             unreadCount: 1,
             unread: true,
+            type: "general",
         },
         {
             id: 2,
@@ -24,6 +27,7 @@ export default function Inbox() {
             from: "Taylor Brooks",
             unreadCount: 0,
             unread: false,
+            type: "info",
         },
         {
             id: 3,
@@ -31,15 +35,60 @@ export default function Inbox() {
             preview: "Just confirming our next meeting time works for you...",
             date: "Mar 30, 2025",
             from: "Jordan Lee",
-            unreadCount: 2,
+            unreadCount: 3,
             unread: true,
+            type: "update",
+        },
+        {
+            id: 4,
+            subject: "Payment Received",
+            preview: "Your tutoring payment has been processed.",
+            date: "Apr 1, 2025",
+            from: "Billing",
+            unreadCount: 1,
+            unread: true,
+            type: "success",
+        },
+        {
+            id: 7,
+            subject: "Payment Received",
+            preview: "Your tutoring payment has been processed.",
+            date: "Apr 1, 2025",
+            from: "Billing",
+            unreadCount: 1,
+            unread: true,
+            type: "error",
+        },
+        {
+            id: 5,
+            subject: "Warning: Missed Session",
+            preview: "You missed a session scheduled for April 1.",
+            date: "Apr 1, 2025",
+            from: "System",
+            unreadCount: 1,
+            unread: true,
+            type: "warning",
+        },
+        {
+            id: 6,
+            subject: "Profile Update",
+            preview: "Your profile has been updated successfully.",
+            date: "Mar 28, 2025",
+            from: "Support",
+            unreadCount: 0,
+            unread: false,
+            type: "success",
         },
     ]);
 
+    // Displays number of unread messages in a thread as a blue badge.
+    // Resets to 0 (and hides the badge) when a thread is clicked/read.
     const handleSelectMessage = (msg) => {
         setSelectedMessage(msg);
         setMessages((prev) =>
-            prev.map((m) => (m.id === msg.id ? { ...m, unread: false } : m))
+            prev.map((m) =>
+                m.id === msg.id ? { ...m, unread: false, unreadCount: 0 } : m
+            )
         );
     };
 
@@ -75,7 +124,8 @@ export default function Inbox() {
 
                     <div className="inbox-thread-list">
                         <div className="inbox-toolbar">
-                            <select>
+                            <select onChange={(e) => setFilterType(e.target.value)}>
+                                <option value="">All Types</option>
                                 <optgroup label="Notifications">
                                     <option value="success">Success</option>
                                     <option value="warning">Warning</option>
@@ -86,34 +136,52 @@ export default function Inbox() {
                                     <option value="update">Update</option>
                                 </optgroup>
                             </select>
-                            <select>
+
+                            <select disabled>
                                 <option>Schedule</option>
                             </select>
-                            <input type="text" placeholder="Search..." />
+
+                            <input
+                                type="text"
+                                placeholder="Search..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
                         </div>
 
                         <div className="thread-label">Notifications</div>
 
                         <ul className="message-threads">
-                            {messages.map((msg) => (
-                                <li
-                                    key={msg.id}
-                                    className={`thread ${msg.unread ? "unread" : ""}`}
-                                    onClick={() => handleSelectMessage(msg)}
-                                >
-                                    <div className="thread-details">
-                                        <div className="sender">{msg.from}</div>
-                                        <div className="subject">{msg.subject}</div>
-                                        <div className="preview">{msg.preview}</div>
-                                    </div>
-                                    <div className="meta">
-                                        <div className="date">{msg.date}</div>
-                                        {msg.unreadCount > 0 && (
-                                            <div className="badge">{msg.unreadCount}</div>
-                                        )}
-                                    </div>
-                                </li>
-                            ))}
+                            {messages
+                                .filter((msg) =>
+                                    filterType ? msg.type === filterType : true
+                                )
+                                .filter((msg) =>
+                                    searchQuery
+                                        ? msg.preview
+                                            .toLowerCase()
+                                            .includes(searchQuery.toLowerCase())
+                                        : true
+                                )
+                                .map((msg) => (
+                                    <li
+                                        key={msg.id}
+                                        className={`thread ${msg.unread ? "unread" : ""}`}
+                                        onClick={() => handleSelectMessage(msg)}
+                                    >
+                                        <div className="thread-details">
+                                            <div className="sender">{msg.from}</div>
+                                            <div className="subject">{msg.subject}</div>
+                                            <div className="preview">{msg.preview}</div>
+                                        </div>
+                                        <div className="meta">
+                                            <div className="date">{msg.date}</div>
+                                            {msg.unreadCount > 0 && (
+                                                <div className="badge">{msg.unreadCount}</div>
+                                            )}
+                                        </div>
+                                    </li>
+                                ))}
                         </ul>
                     </div>
 
