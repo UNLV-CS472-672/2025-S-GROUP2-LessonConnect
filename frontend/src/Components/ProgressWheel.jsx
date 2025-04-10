@@ -1,6 +1,6 @@
-import React from "react";
 import { ProgressBar } from "react-bootstrap";
 import "../Styles/ProgressWheel.css"; // Add custom styles for the wheel
+import PropTypes from "prop-types";
 
 const ProgressWheel = ({ progress, darkMode }) => {
     return (
@@ -44,3 +44,8 @@ const ProgressWheel = ({ progress, darkMode }) => {
 };
 
 export default ProgressWheel;
+
+ProgressWheel.propTypes = {
+    progress: PropTypes.number.isRequired,
+    darkMode: PropTypes.bool.isRequired,
+};

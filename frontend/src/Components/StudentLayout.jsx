@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import StudentNavbar from "./StudentNavbar";
+import PropTypes from "prop-types";
+
 
 export default function StudentLayout({ children }) {
     const [isDarkMode, setIsDarkMode] = useState(false);
@@ -21,3 +23,8 @@ export default function StudentLayout({ children }) {
         </div>
     );
 }
+
+StudentLayout.propTypes = {
+    children: PropTypes.node.isRequired,
+};
+

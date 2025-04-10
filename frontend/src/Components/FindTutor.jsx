@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-
+import PropTypes from 'prop-types';
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import FilterDropdown from "./FilterDropdown";
@@ -179,3 +179,7 @@ export default function FindTutor({ darkMode }) {
         </div>
     );
 }
+
+FindTutor.propTypes = {
+    darkMode: PropTypes.bool.isRequired,
+};

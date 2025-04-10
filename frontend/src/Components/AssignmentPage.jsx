@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "../Styles/AssignmentPage.css";
+import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -337,3 +338,7 @@ export default function AssignmentPage({ darkMode }) {
         </div>
     );
 }
+
+AssignmentPage.propTypes = {
+    darkMode: PropTypes.bool.isRequired,
+};

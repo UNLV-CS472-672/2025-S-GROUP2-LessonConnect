@@ -1,4 +1,5 @@
 import "../Styles/Services.css";
+import PropTypes from "prop-types";
 
 export default function Services({ darkMode }) {
     return (
@@ -70,3 +71,7 @@ export default function Services({ darkMode }) {
         </>
     );
 }
+
+Services.propTypes = {
+    darkMode: PropTypes.bool.isRequired,
+};

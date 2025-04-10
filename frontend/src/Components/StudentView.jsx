@@ -1,6 +1,6 @@
-import React, {useState} from "react";
 import ProgressWheel from "./ProgressWheel";
 import "../Styles/StudentView.css";
+import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import StudentNavbar from "./StudentNavbar";
 
@@ -77,3 +77,8 @@ export default function StudentView({ darkMode, toggleTheme }) {
         </div>
     );
 }
+
+StudentView.propTypes = {
+    darkMode: PropTypes.bool.isRequired,
+    toggleTheme: PropTypes.func.isRequired,
+};

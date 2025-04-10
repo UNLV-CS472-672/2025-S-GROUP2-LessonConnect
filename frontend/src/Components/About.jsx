@@ -1,4 +1,5 @@
 import '../Styles/about.css'
+import PropTypes from 'prop-types';
 export default function About({ darkMode }) {
     return (
         <>
@@ -22,7 +23,7 @@ export default function About({ darkMode }) {
                             </div>
                             <div className="col-lg-6">
                                 <img
-                                    src="/assets/images/UNLV_pic.png"
+                                    src="/assets/images/LessonConnect_1.jpg"
                                     alt="UNLV"
                                     className="img-fluid rounded"
                                     style={{maxWidth: "100%"}}
@@ -38,7 +39,7 @@ export default function About({ darkMode }) {
                             {/* Team Image on the Left */}
                             <div className="col-lg-6 text-center">
                                 <img
-                                    src="/assets/images/UNLV_pic.png"
+                                    src="/assets/images/LessonConnect_2.jpg "
                                     alt="LessonConnect Team"
                                     className="img-fluid rounded"
                                 />
@@ -78,16 +79,16 @@ export default function About({ darkMode }) {
                                 {name: "Dorian Akhavan", role: "Back End Programmer", img: "/assets/images/UNLV_pic.png"},
                                 {name: "Abdulrahman Alharbi", role: "Front End programmer", img: "/assets/images/UNLV_pic.png"},
                                 {name: "Ashley Arellano", role: "Back End Lead", img: "/assets/images/UNLV_pic.png"},
-                                {name: "Franklin La Rosa Diaz", role: "Front End Lead", img: "/assets/images/UNLV_pic.png"},
+                                {name: "Franklin La Rosa Diaz", role: "Front End Lead", img: "/assets/images/Frank.JPG"},
                                 {name: "Jose Alarcon", role: "Front End Programmer", img: "/assets/images/UNLV_pic.png"},
-                                {name: "Christopher Liscano", role: "Back End programme", img: "/assets/images/UNLV_pic.png"},
-                                {name: "Ethan Zambrano", role: "Back End programmer", img: "/assets/images/UNLV_pic.png"},
-                                {name: "Aviendha Andrus", role: "Back End programmer", img: "/assets/images/UNLV_pic.png"},
+                                {name: "Christopher Liscano", role: "Back End Programmer", img: "/assets/images/UNLV_pic.png"},
+                                {name: "Ethan Zambrano", role: "Back End Programmer", img: "/assets/images/UNLV_pic.png"},
+                                {name: "Aviendha Andrus", role: "Back End Programmer", img: "/assets/images/UNLV_pic.png"},
                                 {name: "Sameer Issa", role: "Front End Programmer", img: "/assets/images/UNLV_pic.png"},
-                                {name: "Allison Kameda", role: "Back End programmer", img: "/assets/images/UNLV_pic.png"},
-                                {name: "Charles Joseph Ballesteros", role: "Back End programmer", img: "/assets/images/UNLV_pic.png"}
+                                {name: "Allison Kameda", role: "Back End Programmer", img: "/assets/images/UNLV_pic.png"},
+                                {name: "Charles Joseph Ballesteros", role: "Back End Programmer", img: "/assets/images/UNLV_pic.png"}
                             ].map((member, index) => (
-                                <div className="col-lg-4 col-md-6 col-sm-12 team-member" key={index}>
+                                <div className="team-member" key={index}>
                                     <img src={member.img} alt={member.name}/>
                                     <h4>{member.name}</h4>
                                     <p>{member.role}</p>
@@ -99,4 +100,9 @@ export default function About({ darkMode }) {
             </div>
         </>
     );
+
 }
+
+About.propTypes = {
+    darkMode: PropTypes.bool.isRequired
+};

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 import "../Styles/StudentNavbar.css";
 
 export default function StudentNavbar({ isDarkMode, toggleTheme }) {
@@ -93,3 +94,8 @@ export default function StudentNavbar({ isDarkMode, toggleTheme }) {
 
     );
 }
+
+StudentNavbar.propTypes = {
+    isDarkMode: PropTypes.bool.isRequired,
+    toggleTheme: PropTypes.func.isRequired,
+};
