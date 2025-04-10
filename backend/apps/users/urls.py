@@ -6,4 +6,5 @@ urlpatterns = [
   path("register/", register_profile, name="register"),
   path("delete_user/", delete_user, name="delete"),
   path("csrf/", csrf_token_view, name="csrf"),
+  path('user-profile/', UserProfileView.as_view(), name='user-profile'),
 ]
