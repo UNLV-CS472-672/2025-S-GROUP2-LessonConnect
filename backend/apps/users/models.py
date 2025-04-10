@@ -88,7 +88,8 @@ class ParentProfile(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.profile.user.first_name} {self.profile.user.last_name}"
+        full = f"{self.profile.user.first_name} {self.profile.user.last_name}".strip()
+        return full if full else self.profile.user.username
 
 
 # A model that represents information for a student user and their profile
@@ -113,4 +114,5 @@ class StudentProfile(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.profile.user.first_name} {self.profile.user.last_name}"
+        full = f"{self.profile.user.first_name} {self.profile.user.last_name}".strip()
+        return full if full else self.profile.user.username
