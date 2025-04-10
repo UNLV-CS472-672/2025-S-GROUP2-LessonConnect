@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "../Styles/Inbox.css";
 
 export default function Inbox() {
@@ -42,14 +43,20 @@ export default function Inbox() {
         );
     };
 
+    const navLinks = {
+        Chat: "/chat",
+        Calendar: "/calendar",
+        Support: "/support",
+        Profile: "/profile",
+    };
+
     return (
         <div className="inbox-page">
             <div className="inbox-app">
-
                 <div className="inbox-page-container">
                     <div className="inbox-side-menu">
                         <ul>
-                            {["Chat", "Calendar", "Support", "Profile"].map((item) => (
+                            {Object.keys(navLinks).map((item) => (
                                 <li
                                     key={item}
                                     className={activeNav === item ? "active" : ""}
@@ -60,7 +67,7 @@ export default function Inbox() {
                                         }
                                     }}
                                 >
-                                    {item}
+                                    <Link to={navLinks[item]}>{item}</Link>
                                 </li>
                             ))}
                         </ul>
