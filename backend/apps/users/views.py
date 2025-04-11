@@ -64,7 +64,8 @@ def register_profile(request):
   last_name = request.data["lastName"]
   password = request.data["password"]
   # TODO: replace "1" with "role" once that is handled by the frontend
-  # role = request.data["role"]  # Get the selected role
+
+  #role = request.data["role"]  # Get the selected role
   role = 3
   # Create user
   user = User.objects.create_user(
@@ -82,12 +83,13 @@ def register_profile(request):
 
   # Store optional profile picture
   if image:
+    # Use the manager method to create and save profile picture
+    profile_picture = ProfilePicture.objects.create(profile)
     # Use the manager method to handle file upload
     upload_data = UploadRecord.objects.upload(image)
     # Use manager method to create and save metadata
     upload_record = UploadRecord.objects.create(upload_data)
-    # Use the manager method to create and save profile picture
-    ProfilePicture.objects.create(profile, upload_record)
+    UploadRecord.objects.add_profile_picture(upload_record, profile_picture)
 
   # Create Tutor Profile if role is Tutor
   if int(profile.role) == Profile.TUTOR:
