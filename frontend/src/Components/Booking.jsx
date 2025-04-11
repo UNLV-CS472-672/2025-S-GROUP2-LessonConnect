@@ -64,7 +64,7 @@ export default function Booking() {
                     <div className="details-header">
                         <div className="details-image-wrapper">
                             <img
-                                src={tutor?.image_url || "assets/images/default_tutor.png"}
+                                src={tutor?.image_url || "/assets/images/default_tutor.png"}
                                 alt={tutor?.first_name}
                                 className="details-image"
                             />

@@ -67,24 +67,23 @@
 /* Team Grid Layout */
 .about-us-page .team-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
-    justify-content: center;
+    justify-items: center;
     margin-top: 40px;
 }
-
 /* Individual Team Member Card */
 .about-us-page .team-member {
     background-color: white;
     border-radius: 15px;
-    padding: 135px;
+    padding: 20px; /* 🔧 changed from 135px */
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* 🔧 changed from center */
     min-height: 320px;
     height: 420px;
 }
@@ -95,17 +94,17 @@
 
 /* Team Member Images (Square) */
 .about-us-page .team-member img {
-    width: 200px;
-    height: 200px;
+    width: 260px;
+    height: 260px;
     border-radius: 10px;
     object-fit: cover;
-    margin-bottom: 15px;
+    margin-bottom: 35px;
     display: block;
 }
 
 /* Team Member Name */
 .about-us-page .team-member h4 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 700;
     margin-bottom: 5px;
 }

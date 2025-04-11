@@ -87,6 +87,6 @@ class TutorProfileManager(models.Manager):
             'hourly_rate',
             'state',
             'city',
-            'profile__upload_record'
+            'profile__profile_picture__upload_record' #changed
         )
         return search_results

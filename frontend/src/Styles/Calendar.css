@@ -16,7 +16,7 @@
 }
 
 /* Global Styles */
-body {
+.calendar-page body {
     background: var(--bg-gradient);
     font-family: 'Roboto', sans-serif;
     color: #333;

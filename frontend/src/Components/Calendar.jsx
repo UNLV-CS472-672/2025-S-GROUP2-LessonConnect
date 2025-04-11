@@ -55,7 +55,7 @@ function LessonCalendar() {
         setValue(newDate);
     };
 
-    // Handler for the Auto-Schedule button (UC5)
+    // Handler for the Auto-StudentView button (UC5)
     const handleAutoSchedule = () => {
         // TODO: Integrate backend API call for auto-scheduling algorithm.
         console.log("Auto-scheduling lessons based on availability...");
@@ -234,7 +234,7 @@ function LessonCalendar() {
                     </div>
                 </div>
 
-                {/* RIGHT PANEL: Auto-Schedule, Search/Filter, Unscheduled Tasks, File Attachment */}
+                {/* RIGHT PANEL: Auto-StudentView, Search/Filter, Unscheduled Tasks, File Attachment */}
                 <div className="right-panel">
                     <button className="auto-sched-btn" onClick={handleAutoSchedule}>
                         AUTO Schedule

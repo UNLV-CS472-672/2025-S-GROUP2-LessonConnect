@@ -1,15 +1,17 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import PropTypes from 'prop-types';
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import FilterDropdown from "./FilterDropdown";
 import "../Styles/FindTutor.css";
-export default function FindTutor() {
+export default function FindTutor({ darkMode }) {
     // State variables for search input, filter options, and results
     const [what, setWhat] = useState(""); // To store the subject or tutor name
     const [where, setWhere] = useState(""); // To store the location
     const [tutorList, setTutorList] = useState([]); // To store fetched tutors
     const [loading, setLoading] = useState(false); // To track loading state
-    const [setError] = useState(""); // To store any error message
+    const [, setError] = useState(""); // To store any error message
 
     // Filter states for subject types, price range, and rating
     const [selectedTypes, setSelectedTypes] = useState([]);
@@ -50,8 +52,12 @@ export default function FindTutor() {
         }
     };
 
+    const location = useLocation();
+    const isStudentRoute = location.pathname.includes("/student");
+
     return (
-        <div className="findTutor-section">
+
+        <div className={`findTutor-section ${darkMode ? "dark-mode" : ""}`}>
             {/* Header Section */}
             <div className="container py-8">
                 <div className="row align-items-center">
@@ -67,7 +73,7 @@ export default function FindTutor() {
                     </div>
                     <div className="col-12 col-md-6">
                         <img
-                            src="assets/images/Pic4.jpg"
+                            src="/assets/images/Pic4.jpg"
                             className="img-fluid"
                             alt="Image"
                         />
@@ -158,7 +164,11 @@ export default function FindTutor() {
                                         <span>{tutor.rating}</span>
                                     </div>
                                 )}
-                                <NavLink to="/booking" state={{ tutor }} className="btn btn-outline-light book-btn">
+                                <NavLink
+                                    to={isStudentRoute ? "/student/booking" : "/booking"}
+                                    state={{ tutor }}
+                                    className="btn btn-outline-light book-btn"
+                                >
                                     Book Now
                                 </NavLink>
                             </div>
@@ -169,3 +179,7 @@ export default function FindTutor() {
         </div>
     );
 }
+
+FindTutor.propTypes = {
+    darkMode: PropTypes.bool.isRequired,
+};

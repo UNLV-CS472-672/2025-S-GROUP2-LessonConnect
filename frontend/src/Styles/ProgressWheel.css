@@ -1,0 +1,76 @@
+/*Light theme styles*/
+
+.progress-wheel-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+.progress-wheel-container p {
+    color: black;
+}
+.progress-wheel-container .progress-wheel {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin: 30px;
+}
+
+
+.progress-wheel-container .progress-circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+
+.progress-wheel-container .circle-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #d3d3d3;
+}
+
+
+.progress-wheel-container .circle-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    clip-path: circle(50% at 50% 50%);
+}
+
+
+.progress-wheel-container .center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+}
+
+.progress-wheel-container .progress-bar {
+    background-color:#E50046
+}
+
+/*Dark theme styles*/
+.progress-wheel-container.dark-mode p {
+    color: #f0f0f0;
+}
+
+.progress-wheel-container.dark-mode  .center-text {
+    color: #f0f0f0;
+}

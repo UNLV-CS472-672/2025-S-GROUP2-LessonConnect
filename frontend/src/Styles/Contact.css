@@ -1,5 +1,5 @@
 /*Add your CSS style here*/
-.contact-header {
+.contact-page .contact-header {
     background-color: #f8f9fa;
     padding: 120px 0;
     text-align: center;
@@ -7,22 +7,22 @@
     padding-bottom: 10px;
 }
 
-.contact-info {
+.contact-page .contact-info {
     padding: 40px 0;
 }
 
-.contact-info h3 {
+.contact-page .contact-info h3 {
     font-weight: 700;
     margin-bottom: 15px;
 }
 
-.form-control {
+.contact-page .form-control {
     border-radius: 5px;
     padding: 10px;
     font-size: 16px;
 }
 
-.btn-primary {
+.contact-page .btn-primary {
     background-color: #007bff;
     border: none;
     padding: 10px 15px;
@@ -30,6 +30,6 @@
     border-radius: 5px;
 }
 
-.btn-primary:hover {
+.contact-page .btn-primary:hover {
     background-color: #0056b3;
 }
