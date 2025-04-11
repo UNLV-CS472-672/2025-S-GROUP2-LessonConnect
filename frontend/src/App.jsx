@@ -22,7 +22,7 @@ import Calendar from "./Components/Calendar.jsx";
 
 import Inbox from "./Components/Inbox.jsx";
 
-=======
+
 import TutorView from "./Components/TutorView.jsx";
 
 
@@ -58,7 +58,7 @@ function App() {
 
                 <Route path="/Inbox" element={<Inbox />} />
 
-=======
+
                 <Route path="/tutorview" element={<TutorView />} />
 
             </Routes>
