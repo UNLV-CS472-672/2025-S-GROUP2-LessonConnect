@@ -76,16 +76,16 @@ export default function About({ darkMode }) {
                         </p>
                         <div className="row team-container">
                             {[
-                                {name: "Dorian Akhavan", role: "Back End Programmer", img: "/assets/images/UNLV_pic.png"},
-                                {name: "Abdulrahman Alharbi", role: "Front End programmer", img: "/assets/images/UNLV_pic.png"},
-                                {name: "Ashley Arellano", role: "Back End Lead", img: "/assets/images/UNLV_pic.png"},
+                                {name: "Dorian Akhavan", role: "Back End Programmer", img: "/assets/images/Dorian.png"},
+                                {name: "Abdulrahman Alharbi", role: "Project Manager/Front End Programmer", img: "/assets/images/Abdul.png"},
                                 {name: "Franklin La Rosa Diaz", role: "Front End Lead", img: "/assets/images/Frank.JPG"},
+                                {name: "Ashley Arellano", role: "Back End Lead", img: "/assets/images/Ashley.png"},
+                                {name: "Ethan Zambrano", role: "Back End Programmer", img: "/assets/images/Ethan.png"},
+                                {name: "Allison Kameda", role: "Back End Programmer", img: "/assets/images/Allison.jpg"},
+                                {name: "Aviendha Andrus", role: "Back End Programmer", img: "/assets/images/Aviendha.png"},
+                                {name: "Christopher Liscano", role: "Back End Programmer", img: "/assets/images/Chris.png"},
                                 {name: "Jose Alarcon", role: "Front End Programmer", img: "/assets/images/UNLV_pic.png"},
-                                {name: "Christopher Liscano", role: "Back End Programmer", img: "/assets/images/UNLV_pic.png"},
-                                {name: "Ethan Zambrano", role: "Back End Programmer", img: "/assets/images/UNLV_pic.png"},
-                                {name: "Aviendha Andrus", role: "Back End Programmer", img: "/assets/images/UNLV_pic.png"},
                                 {name: "Sameer Issa", role: "Front End Programmer", img: "/assets/images/UNLV_pic.png"},
-                                {name: "Allison Kameda", role: "Back End Programmer", img: "/assets/images/UNLV_pic.png"},
                                 {name: "Charles Joseph Ballesteros", role: "Back End Programmer", img: "/assets/images/UNLV_pic.png"}
                             ].map((member, index) => (
                                 <div className="team-member" key={index}>
