@@ -102,6 +102,7 @@ export default function Chat() {
 
     // Create a websocket
     const socket = useRef(null);
+    //const[isSocketSet, setIsSocketSet] = useState(false);
     // Dynamically set the chat room when user clicks a chat
     const [roomName, setRoomName] = useState(null);
     // Used to refetch or re-render messages
@@ -115,33 +116,16 @@ export default function Chat() {
         if (roomName && !socket.current) {
             console.log(roomName);  // Check this value
             socket.current = new WebSocket(`ws://127.0.0.1:8000/ws/apps/chat/${roomName}/`, ["chat", accessToken]);
-
+            //setIsSocketSet(true);
             // Ensure socket is initialized before setting event handlers
             socket.current.onopen = () => {
                 console.log("WebSocket connected to room:", socket.current);
             };
+
             socket.current.onerror = (event) => {
                 console.log("WebSocket error", event);
             };
-            socket.current.onclose = (event) => {
-                console.log("WebSocket closed", event);
-            };
-        }
-
-        // // Cleanup function to close the socket when the component unmounts or roomName changes
-        // return () => {
-        //     if (socket.current) {
-        //         socket.current.close(); // Close the WebSocket connection on cleanup
-        //         socket.current = null; // Reset the socket reference
-        //     }
-        // };
-    }, [roomName, accessToken]);
-
-    // Handle incoming messages
-    useEffect(() => {
-        console.log("in useffect before if statement")
-        if (socket.current) {
-            console.log("Inside useEffect for incoming messages")
+            // Handle incoming messages
             socket.current.onmessage = (event) => {
                 console.log("Socket message received: ", event.data);
                 const eventData = JSON.parse(event.data);
@@ -156,15 +140,53 @@ export default function Chat() {
                     setMessages((prev) => [...prev, newMessage]);
                 }
             };
+            socket.current.onclose = (event) => {
+                console.log("WebSocket closed", event);
+            };
         }
-
+        // Cleanup function to close the socket when the component unmounts or roomName changes
         return () => {
             if (socket.current) {
                 socket.current.onmessage = null;
+                socket.current.close(); // Close the WebSocket connection on cleanup
+                socket.current = null; // Reset the socket reference
+
+               // setIsSocketSet(false);
+                console.log("return aka clean up method, it should not be called :c")
             }
         };
 
-    }, [socket]);
+    }, [roomName, accessToken]);
+
+    // // Handle incoming messages
+    // useEffect(() => {
+    //     console.log("in useffect before if statement")
+    //     console.log("isSocketSet:",isSocketSet);
+    //     if (socket.current) {
+    //         console.log("Inside useEffect for incoming messages")
+    //         socket.current.onmessage = (event) => {
+    //             console.log("Socket message received: ", event.data);
+    //             const eventData = JSON.parse(event.data);
+    //
+    //             if (eventData.message === "successful") {
+    //                 const newMessage = {
+    //                     text: eventData.body,
+    //                     type: "received",
+    //                     time: getCurrentTime(),
+    //                     read: false
+    //                 }
+    //                 setMessages((prev) => [...prev, newMessage]);
+    //             }
+    //         };
+    //     }
+    //
+    //     return () => {
+    //         if (socket.current) {
+    //             socket.current.onmessage = null;
+    //         }
+    //     };
+    //
+    // }, [isSocketSet]);
 
     // ------------ WEBSOCKET EFFECTS END------------------
 
