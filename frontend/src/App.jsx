@@ -19,7 +19,11 @@ import Footer from "./Components/Footer.jsx";
 import Booking from "./Components/Booking.jsx";
 import VideoCall from "./Components/VideoCall.jsx";
 import Calendar from "./Components/Calendar.jsx";
+
 import Inbox from "./Components/Inbox.jsx";
+
+=======
+import TutorView from "./Components/TutorView.jsx";
 
 
 function App() {
@@ -31,7 +35,7 @@ function App() {
 
     return (
         <div className="App">
-            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp" && location.pathname !== "/pomodoro") && <Header />}
+            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp" && location.pathname !== "/pomodoro" && location.pathname !== "/tutorview") && <Header />}
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
@@ -51,7 +55,11 @@ function App() {
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/videocall" element={<VideoCall />} />
                 <Route path="/Calendar" element={<Calendar />} />
+
                 <Route path="/Inbox" element={<Inbox />} />
+
+=======
+                <Route path="/tutorview" element={<TutorView />} />
 
             </Routes>
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
