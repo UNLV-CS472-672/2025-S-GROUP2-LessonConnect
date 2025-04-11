@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -34,7 +34,7 @@ class AssignmentDetailView(APIView):
         assignment.delete_assignment()
         return Response({"status": "success", "message": "Assignment deleted"}, status=status.HTTP_200_OK)
 
-    # Update an assignment (Admin/Tutor only)
+    # (PUT) Update an assignment (Admin/Tutor only)
     def patch(self, request, pk):
         assignment = Assignment.get_assignment(pk)
 
@@ -64,9 +64,75 @@ class AssignmentCreateView(APIView):
 # --------------
 
 
+# - Quiz:
+class QuizListCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    # Fetch/get all quizzes
+    def get(self, request, assignment_id):
+        quizzes = Quiz.objects.filter(assignment__id=assignment_id)
+        serializer = QuizSerializer(quizzes, many=True)
+        return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+    # Create a Quiz (Admin/Tutor only)
+    def post(self, request, assignment_id):
+        """
+        # Check that user is an admin or a tutor
+        self.check_permissions(request)
+        if not IsAdminOrTutor().has_permission(request, self):
+            return Response({"detail": "Not authorized."}, status=status.HTTP_403_FORBIDDEN)
+        """
+        data = request.data.copy()
+        data['assignment'] = assignment_id
+        serializer = QuizSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class QuizDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    # Helper method to check if object is found or not
+    def get_object(self, assignment_id, quiz_id):
+        return get_object_or_404(Quiz, pk=quiz_id, assignment__id=assignment_id)
+
+    # Get (specific) quiz details
+    def get(self, request, assignment_id, quiz_id):
+        quiz = self.get_object(assignment_id, quiz_id)
+        serializer = QuizSerializer(quiz)
+        return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+    # Update a quiz (Admin/Tutor only)
+    def patch(self, request, assignment_id, quiz_id):
+        # Check that user is an admin or a tutor
+        self.check_permissions(request)
+        if not IsAdminOrTutor().has_permission(request, self):
+            return Response({"detail": "Not authorized."}, status=status.HTTP_403_FORBIDDEN)
+
+        quiz = self.get_object(assignment_id, quiz_id)
+        serializer = QuizSerializer(quiz, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # Delete quiz (Admin/Tutor only)
+    def delete(self, request, assignment_id, quiz_id):
+        # Check that user is an admin or a tutor
+        self.check_permissions(request)
+        if not IsAdminOrTutor().has_permission(request, self):
+            return Response({"detail": "Not authorized."}, status=status.HTTP_403_FORBIDDEN)
+
+        quiz = self.get_object(assignment_id, quiz_id)
+        quiz.delete()
+        return Response({"status": "success", "message": "Quiz deleted"}, status=status.HTTP_200_OK)
+
+
 # - Quizzes and Questions:
-# No endpoints that serialize or modify quiz objects. The QuizSerializer was added for potential future use
-# examples being: Fetching quiz or creating quiz or updating quiz
 class QuizQuestionListView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -78,7 +144,7 @@ class QuizQuestionListView(APIView):
             return Response({"error": "Quiz not found"}, status=status.HTTP_404_NOT_FOUND)
 
         questions = Question.objects.filter(quiz=quiz)
-        serializer = QuestionSerializer(questions, many=True)  # QuizSerializer not needed here?
+        serializer = QuestionSerializer(questions, many=True)
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
 

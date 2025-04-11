@@ -2,6 +2,8 @@ from django.urls import path
 from .views import (
     AssignmentDetailView,
     AssignmentCreateView,
+    QuizListCreateView,
+    QuizDetailView,
     QuizQuestionListView,
     QuestionCreateView,
     QuestionUpdateView,
@@ -18,9 +20,14 @@ urlpatterns = [
     path("assignments/create/", AssignmentCreateView.as_view(), name="assignment-create"),
 
     # CRUD endpoints for Quizzes and Questions
+    # QUIZ
+    path("assignments/<int:assignment_id>/quizzes/",
+         QuizListCreateView.as_view(), name="quiz-list-create"),
+    path("assignments/<int:assignment_id>/quiz/<int:quiz_id>/",
+         QuizDetailView.as_view(), name="quiz-detail"),
+    # QUIZ Questions
     path("assignments/<int:assignment_id>/quiz/<int:quiz_id>/questions/",
          QuizQuestionListView.as_view(), name="quiz-question-list"),
-
     path("assignments/<int:assignment_id>/quiz/<int:quiz_id>/questions/create/",
          QuestionCreateView.as_view(), name="question-create"),
     path("assignments/<int:assignment_id>/quiz/<int:quiz_id>/questions/<int:question_id>/update/",
