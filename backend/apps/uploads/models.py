@@ -21,9 +21,6 @@ class UploadRecord(models.Model):
     version = models.PositiveBigIntegerField()
     asset_id = models.CharField(max_length=255)
 
-#     profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='upload_record')
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='upload_record')
-
     # default = 1 for first user (for now)
     description = models.TextField(default="", blank=True, null=False)
 
@@ -35,6 +32,7 @@ class UploadRecord(models.Model):
 
 # A model that acts as a container for the profile picture of user
 class ProfilePicture(models.Model):
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name = "profile_picture", null = True) #changed
     upload = models.OneToOneField(UploadRecord, on_delete=models.CASCADE)
 
     # Link the custom manager to the model

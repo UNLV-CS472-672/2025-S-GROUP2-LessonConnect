@@ -29,7 +29,7 @@ class SubmissionsTestCase(TestCase):
             "version": 1,
             "asset_id": "sample_asset_id"
         }
-        self.upload_record = UploadRecord.objects.create(upload_data=self.upload_data, profile=self.profile)
+        self.upload_record = UploadRecord.objects.create(upload_data=self.upload_data)
 
         # Create submission
         self.submission = Submissions.objects.create(
@@ -426,7 +426,7 @@ class FileQuizSubmissionsAPITestCase(TestCase):
             "version": 1,
             "asset_id": "sample_asset_id"
         }
-        self.file_record = UploadRecord.objects.create(self.upload_data, self.profile)
+        self.file_record = UploadRecord.objects.create(self.upload_data)
         self.quiz_submission = QuizSubmissions.objects.create(submission=self.submission)
 
         self.login_url = "/users/login/"

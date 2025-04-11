@@ -84,10 +84,10 @@ def register_profile(request):
   if image:
     # Use the manager method to handle file upload
     upload_data = UploadRecord.objects.upload(image)
-
-    # Use the manager method to save relevant metadata into database
-    upload_record = UploadRecord.objects.create(upload_data, profile)
-    ProfilePicture.objects.create(upload_record)
+    # Use manager method to create and save metadata
+    upload_record = UploadRecord.objects.create(upload_data)
+    # Use the manager method to create and save profile picture
+    ProfilePicture.objects.create(profile, upload_record)
 
   # Create Tutor Profile if role is Tutor
   if int(profile.role) == Profile.TUTOR:

@@ -5,10 +5,11 @@ import cloudinary.uploader
 from cloudinary import CloudinaryImage
 
 class ProfilePictureManager(models.Manager):
-    def create(self, upload):
+    def create(self, profile, upload_record):
         # Create a new UploadRecord instance with the provided data
         profile_picture = self.model(
-                upload=upload
+                profile=profile,
+                upload=upload_record
             )
         # Save the instance to the database
         profile_picture.save()
@@ -26,7 +27,7 @@ class UploadRecordManager(models.Manager):
         result = cloudinary.uploader.destroy(cloudinary_public_id, invalidate = True)
         return result
 
-    def create(self, upload_data, profile):
+    def create(self, upload_data):
         # Replace 'Z' with '+00:00' for compatibility with fromisoformat
         compatible_created_at = upload_data['created_at'].replace('Z', '+00:00')
         # Convert to datetime object
@@ -42,7 +43,6 @@ class UploadRecordManager(models.Manager):
             cloudinary_public_id=upload_data["public_id"],
             version=upload_data["version"],
             asset_id=upload_data["asset_id"],
-            profile=profile
         )
         # Save the instance to the database
         upload_record.save()
