@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import "../Styles/Inbox.css";
 
-// Utility to convert ISO string to readable date (e.g., Apr 9, 2025)
+// Utility to convert ISO string to readable date
 const formatDate = (isoDate) => {
     const options = { year: "numeric", month: "short", day: "numeric" };
     return new Date(isoDate).toLocaleDateString(undefined, options);
@@ -13,68 +14,40 @@ export default function Inbox() {
     const [activeNav, setActiveNav] = useState("Inbox");
     const [filterType, setFilterType] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
-
-    // Mock data — transformed to match frontend fields
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        // Simulated API response from backend
-        const backendResponse = [
-            {
-                id: 1,
-                notification_title: "New Tutoring Request",
-                notification_message: "Hi there! I'm looking for help with algebra...",
-                created_at: "2025-04-04T15:30:00Z",
-                sender: "Alex Morgan",
-                unread_count: 1,
-                is_unread: true,
-                type: "general",
-            },
-            {
-                id: 2,
-                notification_title: "Follow-up on Geometry Session",
-                notification_message: "Thanks for yesterday’s session. I had a question about...",
-                created_at: "2025-04-02T10:00:00Z",
-                sender: "Taylor Brooks",
-                unread_count: 0,
-                is_unread: false,
-                type: "info",
-            },
-            {
-                id: 3,
-                notification_title: "Schedule Confirmation",
-                notification_message: "Just confirming our next meeting time works for you...",
-                created_at: "2025-03-30T14:00:00Z",
-                sender: "Jordan Lee",
-                unread_count: 3,
-                is_unread: true,
-                type: "update",
-            },
-            {
-                id: 4,
-                notification_title: "Schedule Confirmation",
-                notification_message: "Just confirming our next meeting time works for you...",
-                created_at: "2025-03-30T14:00:00Z",
-                sender: "Jordan Lee",
-                unread_count: 3,
-                is_unread: true,
-                type: "error",
-            },
-        ];
+        const fetchNotifications = async () => {
+            const accessToken = localStorage.getItem("accessToken");
 
-        // Map backend format to frontend fields
-        const mapped = backendResponse.map((n) => ({
-            id: n.id,
-            subject: n.notification_title,
-            preview: n.notification_message,
-            date: formatDate(n.created_at),
-            from: n.sender,
-            unreadCount: n.unread_count,
-            unread: n.is_unread,
-            type: n.type,
-        }));
+            try {
+                const response = await axios.get("http://127.0.0.1:8000/notifications/", {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
 
-        setMessages(mapped);
+                const mapped = response.data.map((n) => ({
+                    id: n.id,
+                    subject: n.notification_title,
+                    preview: n.notification_message,
+                    date: formatDate(n.sent_at),
+                    from: n.sender || "System",
+                    unreadCount: n.unread_count || 0,
+                    unread: !n.is_read,
+                    type: n.notification_type,
+                }));
+
+                setMessages(mapped);
+            } catch (error) {
+                console.error("Error fetching notifications:", error);
+                if (error.response?.status === 401) {
+                    alert("Unauthorized. Please log in again.");
+                }
+            }
+        };
+
+        fetchNotifications();
     }, []);
 
     const handleSelectMessage = (msg) => {
@@ -127,7 +100,7 @@ export default function Inbox() {
                                 </optgroup>
                                 <optgroup label="Information">
                                     <option value="general">General</option>
-                                    <option value="update">Update</option>
+                                    <option value="system">System</option>
                                 </optgroup>
                             </select>
 
@@ -147,14 +120,10 @@ export default function Inbox() {
 
                         <ul className="message-threads">
                             {messages
-                                .filter((msg) =>
-                                    filterType ? msg.type === filterType : true
-                                )
+                                .filter((msg) => (filterType ? msg.type === filterType : true))
                                 .filter((msg) =>
                                     searchQuery
-                                        ? msg.preview
-                                            .toLowerCase()
-                                            .includes(searchQuery.toLowerCase())
+                                        ? msg.preview.toLowerCase().includes(searchQuery.toLowerCase())
                                         : true
                                 )
                                 .map((msg) => (
@@ -181,9 +150,7 @@ export default function Inbox() {
 
                     <div className="inbox-content-panel">
                         <div className="inbox-content-header">
-                            {selectedMessage
-                                ? selectedMessage.subject
-                                : "Notification Viewer"}
+                            {selectedMessage ? selectedMessage.subject : "Notification Viewer"}
                         </div>
 
                         {!selectedMessage ? (
