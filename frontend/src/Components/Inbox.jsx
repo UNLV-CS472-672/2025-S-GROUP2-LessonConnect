@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../Styles/Inbox.css";
+
+// Utility to convert ISO string to readable date (e.g., Apr 9, 2025)
+const formatDate = (isoDate) => {
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    return new Date(isoDate).toLocaleDateString(undefined, options);
+};
 
 export default function Inbox() {
     const [selectedMessage, setSelectedMessage] = useState(null);
@@ -8,81 +14,69 @@ export default function Inbox() {
     const [filterType, setFilterType] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
 
-    const [messages, setMessages] = useState([
-        {
-            id: 1,
-            subject: "New Tutoring Request",
-            preview: "Hi there! I'm looking for help with algebra...",
-            date: "Apr 4, 2025",
-            from: "Alex Morgan",
-            unreadCount: 1,
-            unread: true,
-            type: "general",
-        },
-        {
-            id: 2,
-            subject: "Follow-up on Geometry Session",
-            preview: "Thanks for yesterday’s session. I had a question about...",
-            date: "Apr 2, 2025",
-            from: "Taylor Brooks",
-            unreadCount: 0,
-            unread: false,
-            type: "info",
-        },
-        {
-            id: 3,
-            subject: "Schedule Confirmation",
-            preview: "Just confirming our next meeting time works for you...",
-            date: "Mar 30, 2025",
-            from: "Jordan Lee",
-            unreadCount: 3,
-            unread: true,
-            type: "update",
-        },
-        {
-            id: 4,
-            subject: "Payment Received",
-            preview: "Your tutoring payment has been processed.",
-            date: "Apr 1, 2025",
-            from: "Billing",
-            unreadCount: 1,
-            unread: true,
-            type: "success",
-        },
-        {
-            id: 7,
-            subject: "Payment Received",
-            preview: "Your tutoring payment has been processed.",
-            date: "Apr 1, 2025",
-            from: "Billing",
-            unreadCount: 1,
-            unread: true,
-            type: "error",
-        },
-        {
-            id: 5,
-            subject: "Warning: Missed Session",
-            preview: "You missed a session scheduled for April 1.",
-            date: "Apr 1, 2025",
-            from: "System",
-            unreadCount: 1,
-            unread: true,
-            type: "warning",
-        },
-        {
-            id: 6,
-            subject: "Profile Update",
-            preview: "Your profile has been updated successfully.",
-            date: "Mar 28, 2025",
-            from: "Support",
-            unreadCount: 0,
-            unread: false,
-            type: "success",
-        },
-    ]);
+    // Mock data — transformed to match frontend fields
+    const [messages, setMessages] = useState([]);
 
-    // Displays number of unread messages in a thread as a blue badge.
-    // Resets to 0 (and hides the badge) when a thread is clicked/read.
+    useEffect(() => {
+        // Simulated API response from backend
+        const backendResponse = [
+            {
+                id: 1,
+                notification_title: "New Tutoring Request",
+                notification_message: "Hi there! I'm looking for help with algebra...",
+                created_at: "2025-04-04T15:30:00Z",
+                sender: "Alex Morgan",
+                unread_count: 1,
+                is_unread: true,
+                type: "general",
+            },
+            {
+                id: 2,
+                notification_title: "Follow-up on Geometry Session",
+                notification_message: "Thanks for yesterday’s session. I had a question about...",
+                created_at: "2025-04-02T10:00:00Z",
+                sender: "Taylor Brooks",
+                unread_count: 0,
+                is_unread: false,
+                type: "info",
+            },
+            {
+                id: 3,
+                notification_title: "Schedule Confirmation",
+                notification_message: "Just confirming our next meeting time works for you...",
+                created_at: "2025-03-30T14:00:00Z",
+                sender: "Jordan Lee",
+                unread_count: 3,
+                is_unread: true,
+                type: "update",
+            },
+            {
+                id: 4,
+                notification_title: "Schedule Confirmation",
+                notification_message: "Just confirming our next meeting time works for you...",
+                created_at: "2025-03-30T14:00:00Z",
+                sender: "Jordan Lee",
+                unread_count: 3,
+                is_unread: true,
+                type: "error",
+            },
+        ];
+
+        // Map backend format to frontend fields
+        const mapped = backendResponse.map((n) => ({
+            id: n.id,
+            subject: n.notification_title,
+            preview: n.notification_message,
+            date: formatDate(n.created_at),
+            from: n.sender,
+            unreadCount: n.unread_count,
+            unread: n.is_unread,
+            type: n.type,
+        }));
+
+        setMessages(mapped);
+    }, []);
+
     const handleSelectMessage = (msg) => {
         setSelectedMessage(msg);
         setMessages((prev) =>
@@ -187,7 +181,9 @@ export default function Inbox() {
 
                     <div className="inbox-content-panel">
                         <div className="inbox-content-header">
-                            {selectedMessage ? selectedMessage.subject : "Notification Viewer"}
+                            {selectedMessage
+                                ? selectedMessage.subject
+                                : "Notification Viewer"}
                         </div>
 
                         {!selectedMessage ? (
