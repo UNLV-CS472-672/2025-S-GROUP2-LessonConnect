@@ -1,0 +1,235 @@
+.user-view-section-page .greeting {
+    background-color: #FDF7F4;
+    padding: 150px 0;
+    box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.03);
+    text-align: center;
+    color: #333;
+}
+.user-view-section-page .greeting .inner-container {
+    max-width: 1600px;
+    margin: 150px auto;
+}
+
+.user-view-section-page .greeting h1 {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+}
+
+.user-view-section-page .greeting .subheading {
+    font-size: 1.5rem;
+    color: #4a62d0;
+}
+
+.user-view-section-page .dashboard-section {
+    background-color: #f2f2f2;
+    padding: 50px 0;
+}
+
+.user-view-section-page .dashboard-layout {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr;
+    gap: 30px;
+    max-width: 1395px;
+    margin: auto;
+}
+
+.user-view-section-page .button-grid {
+    background-color: #ffff;
+    padding: 20px;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    width: 900px;
+    height: 500px;
+}
+
+.user-view-section-page .button-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 180px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.user-view-section-page .button-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.user-view-section-page .button-card span {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+    width: 80%; /* Adjust width */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.user-view-section-page .button-card:hover {
+    transform: scale(1.03);
+}
+
+/* Vertical Button Container */
+.user-view-section-page .vertical-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 55px;
+    margin-left: 40px;
+}
+
+
+.user-view-section-page .vertical-button {
+    width: 250px;
+    background-color: #f8c471;
+    color: #333;
+    padding: 12px 0;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+}
+
+
+.user-view-section-page .vertical-button:hover {
+    background-color: #f7b731;
+    transform: scale(1.05);
+}
+
+.user-view-section-page .gaming-section {
+    background-color: #f2f2f2;
+    padding: 50px 0;
+    color: #fff;
+}
+
+
+.user-view-section-page .gaming-section h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: black;
+    margin-bottom: 20px;
+}
+
+.user-view-section-page .badge-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 60px;
+    padding: 50px 0;
+    background-color: #f2f2f2;
+}
+
+.user-view-section-page .badge-item {
+    width: 150px;
+    height: 150px;
+    background-color: #f8c471;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+    font-size: 1rem;
+    position: relative;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+.user-view-section-page .badge-item:hover {
+    transform: scale(1.1);
+    background-color: #f7b731;
+    cursor: pointer;
+}
+
+
+/* Dark Mode Styles */
+.user-view-section-page.dark-mode .greeting {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+}
+
+
+.user-view-section-page.dark-mode .greeting .subheading {
+    color: #8e44ad;
+}
+
+
+.user-view-section-page.dark-mode .dashboard-section {
+    background-color: #34495e;
+}
+
+
+.user-view-section-page.dark-mode .button-grid {
+    background-color: #2c3e50;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.user-view-section-page.dark-mode .button-card {
+    background-color: #34495e;
+    color: #ecf0f1;
+}
+
+
+.user-view-section-page.dark-mode .button-card span {
+    background: rgba(0, 0, 0, 0.6);
+    color: #ecf0f1;
+}
+
+
+.user-view-section-page.dark-mode .vertical-button {
+    background-color: #2980b9;
+    color: #ecf0f1;
+}
+
+
+.user-view-section-page.dark-mode .vertical-button:hover {
+    background-color: #3498db;
+}
+
+
+
+.user-view-section-page.dark-mode .gaming-section {
+    background-color: #34495e;
+    padding: 50px 0;
+    color: #f0f0f0;
+}
+
+.user-view-section-page.dark-mode .gaming-section h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #f0f0f0;
+    margin-bottom: 20px;
+}
+
+.user-view-section-page.dark-mode .badge-section {
+    background-color: #34495e;
+}
+
+.user-view-section-page.dark-mode .badge-item {
+    background-color: #BF3131;
+    color: #f0f0f0;
+}
+
+.user-view-section-page.dark-mode .badge-item:hover {
+    background-color: #7D0A0A;
+}
