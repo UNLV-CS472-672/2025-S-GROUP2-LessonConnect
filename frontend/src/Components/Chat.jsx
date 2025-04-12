@@ -114,6 +114,8 @@ export default function Chat() {
 
     // ------------ WEBSOCKET EFFECTS START------------------
     // Handle opening the WebSocket connection when roomName changes
+
+
     useEffect(() => {
         if (roomName && !socket.current) {
             console.log(roomName);  // Check this value
@@ -151,7 +153,7 @@ export default function Chat() {
                 console.log("return aka clean up method, it should not be called :c")
             }
         };
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [roomName, accessToken]);
 
     // // Handle incoming messages
@@ -193,6 +195,7 @@ export default function Chat() {
         }
     }, [messages]);
     // ------------------- HELPERS --------------------
+
     function messageDisplay(eventData){
         let newMessage = {};
         if (eventData.username === username) {
@@ -211,8 +214,6 @@ export default function Chat() {
                 read: false
             }
         }
-        console.log("New message: ",newMessage)
-        console.log("username: ",username)
         setMessages((prev) => [...prev, newMessage]);
     }
     // Format current time as "hh:mm AM/PM"
@@ -404,34 +405,58 @@ export default function Chat() {
                             </button>
                         </div>
                     </div>
-
                     {/* Chat Body */}
                     <div className="chat-body" ref={chatBodyRef}>
                         {messages.map((msg, index) => (
                             <div
                                 key={index}
-                                className={`message ${msg.type} ${msg.isTyping ? "typing" : ""}`}
+                                className={`message ${msg.type}`}
                             >
-                                {/* For "received" messages, show an avatar if not typing */}
-                                {msg.type === "received" && !msg.isTyping && (
+                                {/* For "received" messages, show an avatar */}
+                                {msg.type === "received" && (
                                     <img src={selectedChat.avatar} alt="Avatar" className="avatar" />
                                 )}
                                 <div className="message-content">
                                     <p>{msg.text}</p>
-                                    {/* Show time if not typing */}
-                                    {!msg.isTyping && (
-                                        <span className="time">
-                      {msg.time}
-                                            {/* If it's a sent message, show a small read receipt check (UC6) */}
-                                            {msg.type === "sent" && msg.read && (
-                                                <i className="fas fa-check read-receipt" title="Message read"></i>
-                                            )}
-                    </span>
-                                    )}
+                                    <span className="time">
+                    {msg.time}
+                                        {/* If it's a sent message, show a small read receipt check (UC6) */}
+                                        {msg.type === "sent" && msg.read && (
+                                            <i className="fas fa-check read-receipt" title="Message read"></i>
+                                        )}
+                </span>
                                 </div>
                             </div>
                         ))}
                     </div>
+
+                    {/*/!* Chat Body *!/*/}
+                    {/*<div className="chat-body" ref={chatBodyRef}>*/}
+                    {/*    {messages.map((msg, index) => (*/}
+                    {/*        <div*/}
+                    {/*            key={index}*/}
+                    {/*            className={`message ${msg.type} ${msg.isTyping ? "typing" : ""}`}*/}
+                    {/*        >*/}
+                    {/*            /!* For "received" messages, show an avatar if not typing *!/*/}
+                    {/*            {msg.type === "received" && !msg.isTyping && (*/}
+                    {/*                <img src={selectedChat.avatar} alt="Avatar" className="avatar" />*/}
+                    {/*            )}*/}
+                    {/*            <div className="message-content">*/}
+                    {/*                <p>{msg.text}</p>*/}
+                    {/*                /!* Show time if not typing *!/*/}
+                    {/*                {!msg.isTyping && (*/}
+                    {/*                    <span className="time">*/}
+                    {/*  {msg.time}*/}
+                    {/*                        /!* If it's a sent message, show a small read receipt check (UC6) *!/*/}
+                    {/*                        {msg.type === "sent" && msg.read && (*/}
+                    {/*                            <i className="fas fa-check read-receipt" title="Message read"></i>*/}
+                    {/*                        )}*/}
+                    {/*</span>*/}
+                    {/*                )}*/}
+                    {/*            </div>*/}
+                    {/*        </div>*/}
+                    {/*    ))}*/}
+                    {/*</div>*/}
 
                     {/* Chat Input (UC5: Send Message) */}
                     {/* Chat Input Area with Fake Attach & Emoji Buttons */}
