@@ -107,6 +107,8 @@ export default function Chat() {
     const [roomName, setRoomName] = useState(null);
     // Used to refetch or re-render messages
     const accessToken = localStorage.getItem("accessToken");
+    const username = localStorage.getItem("username");
+
     // ------------ WEBSOCKET RELATED VARIABLES END------------------
 
 
@@ -129,16 +131,10 @@ export default function Chat() {
             socket.current.onmessage = (event) => {
                 console.log("Socket message received: ", event.data);
                 const eventData = JSON.parse(event.data);
-
-                if (eventData.message === "successful") {
-                    const newMessage = {
-                        text: eventData.body,
-                        type: "received",
-                        time: getCurrentTime(),
-                        read: false
-                    }
-                    setMessages((prev) => [...prev, newMessage]);
+                if(eventData.message === "successful"){
+                    messageDisplay(eventData)
                 }
+
             };
             socket.current.onclose = (event) => {
                 console.log("WebSocket closed", event);
@@ -197,6 +193,28 @@ export default function Chat() {
         }
     }, [messages]);
     // ------------------- HELPERS --------------------
+    function messageDisplay(eventData){
+        let newMessage = {};
+        if (eventData.username === username) {
+            newMessage = {
+                text: eventData.body,
+                type: "sent",
+                time: getCurrentTime(),
+                read: false
+            }
+        }
+        else{
+            newMessage = {
+                text: eventData.body,
+                type: "received",
+                time: getCurrentTime(),
+                read: false
+            }
+        }
+        console.log("New message: ",newMessage)
+        console.log("username: ",username)
+        setMessages((prev) => [...prev, newMessage]);
+    }
     // Format current time as "hh:mm AM/PM"
     function getCurrentTime() {
         return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -207,21 +225,21 @@ export default function Chat() {
         const text = inputText.trim();
         if (text === "") return;
 
-        // Prepare message data for sending
+        // // Prepare message data for sending
         const messageData = {
             message: text
         };
 
         // Add the new message to the local state (chat UI)
-        const newMessage = {
-            text,
-            type: "sent",         // You can adjust message type (sent or received)
-            time: getCurrentTime(), // Assuming you have a helper to get current time
-            read: false,          // Will be marked as read later
-        };
+        // const newMessage = {
+        //     text,
+        //     type: "sent",         // You can adjust message type (sent or received)
+        //     time: getCurrentTime(), // Assuming you have a helper to get current time
+        //     read: false,          // Will be marked as read later
+        // };
 
         // Update the UI with the new message
-        setMessages((prev) => [...prev, newMessage]);
+        //setMessages((prev) => [...prev, newMessage]);
 
         // Clear the input after sending the message
         setInputText("");

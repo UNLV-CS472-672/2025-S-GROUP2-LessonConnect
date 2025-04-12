@@ -20,17 +20,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name = f'chat_{self.room_name}'
             print("we now do self.accept")
 
-
-
-            #if self.is_error_exists():
-             #   error = {
-            #        'error': str(self.scope['error'])
-            #    }
-            #    await self.send(text_data=json.dumps(error))
-            #    await self.close()
-
-            #else:
-                #print("group_add")
             await self.channel_layer.group_add(  # Adds the WebSocket connection (client) to a channel group
                 self.room_group_name,
                 self.channel_name
@@ -60,22 +49,22 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = text_data_json['message']
 
         # Create a new message object
-        await self.save_message(self.user_id, self.room_name, message)
+        username = await self.save_message(self.user_id, self.room_name, message)
 
         await self.channel_layer.group_send( # sends message to all users in a channel group
             self.room_group_name,
             {
                 'type': 'chat_message', # Calls chat_message()
-                'message': message
+                'message': message,
+                'username': username
             }
         )
 
     async def chat_message(self, event):
-        message = event['message']
-        #send message of sender to websocket
         await self.send(text_data=json.dumps({
             'message': 'successful',
-            'body': message
+            'body': event['message'],
+            'username': event['username']
         }))
 
     @sync_to_async
@@ -84,10 +73,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             user = User.objects.get(id=id)
             chat = Chat.objects.get(name = room_name)
             Message.objects.create(content=content, chat = chat, sender = user) # Creates and saves message
+            return user.username
         except (Chat.DoesNotExist):
             print(f"Chat room '{room_name}' not found. Message not saved.")
-
-   # def is_error_exists(self):
-    #    """This checks if error exists during websockets"""
-#
-     #   return True if 'error' in self.scope else False
+            return "Unknown"
