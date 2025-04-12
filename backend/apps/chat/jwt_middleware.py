@@ -21,10 +21,9 @@ class JWTAuthMiddleware(BaseMiddleware):
         return await super().__call__(scope, receive, send)
 
     def get_token_from_subprotocol(self, scope):
-        """
-        Extract token from subprotocols sent during the WebSocket handshake.
-        WebSocket subprotocols are sent as a list of protocols during the handshake.
-        """
+        # Extract token from subprotocols sent during the WebSocket handshake.
+        # WebSocket subprotocols are sent as a list of protocols during the handshake.
+
         subprotocols = scope.get("subprotocols", [])
         if subprotocols:
             # Assuming the token is the second protocol (after the real protocol)
@@ -33,7 +32,7 @@ class JWTAuthMiddleware(BaseMiddleware):
 
     @database_sync_to_async
     def get_user_from_token(self, token):
-        """Validate and get the user from the provided JWT token"""
+        # Validate and get the user from the provided JWT token
         try:
             access_token = AccessToken(token)
             return access_token['user_id']

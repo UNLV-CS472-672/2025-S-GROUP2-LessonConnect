@@ -6,9 +6,6 @@ import "../Styles/Chat.css";
 // TODO: Integrate axios and backend API calls when available
 // https://medium.com/@rojin.dumre98/implementing-websockets-in-django-react-d114deac0abe
 
-
-
-
 export default function Chat() {
     // ------------------- STATE --------------------
     // emoji-picker-react
@@ -17,26 +14,7 @@ export default function Chat() {
     //     setInputText(prev => prev + emojiData.emoji);
     // }
 
-    const [messages, setMessages] = useState([
-        // {
-        //     text: "Hey, can we discuss the project details?",
-        //     type: "received",
-        //     time: "11:01 AM",
-        //     read: true,
-        // },
-        // {
-        //     text: "Hi John, sure thing! Let me know what you need.",
-        //     type: "sent",
-        //     time: "11:02 AM",
-        //     read: true,
-        // },
-        // {
-        //     text: "I was wondering if we could add interactive elements to the presentation?",
-        //     type: "received",
-        //     time: "11:05 AM",
-        //     read: false,
-        // },
-    ]);
+    const [messages, setMessages] = useState([]);
 
     const [inputText, setInputText] = useState("");
 
@@ -102,7 +80,7 @@ export default function Chat() {
 
     // Create a websocket
     const socket = useRef(null);
-    //const[isSocketSet, setIsSocketSet] = useState(false);
+
     // Dynamically set the chat room when user clicks a chat
     const [roomName, setRoomName] = useState(null);
     // Used to refetch or re-render messages
@@ -114,13 +92,10 @@ export default function Chat() {
 
     // ------------ WEBSOCKET EFFECTS START------------------
     // Handle opening the WebSocket connection when roomName changes
-
-
     useEffect(() => {
         if (roomName && !socket.current) {
-            console.log(roomName);  // Check this value
             socket.current = new WebSocket(`ws://127.0.0.1:8000/ws/apps/chat/${roomName}/`, ["chat", accessToken]);
-            //setIsSocketSet(true);
+
             // Ensure socket is initialized before setting event handlers
             socket.current.onopen = () => {
                 console.log("WebSocket connected to room:", socket.current);
@@ -148,43 +123,10 @@ export default function Chat() {
                 socket.current.onmessage = null;
                 socket.current.close(); // Close the WebSocket connection on cleanup
                 socket.current = null; // Reset the socket reference
-
-               // setIsSocketSet(false);
-                console.log("return aka clean up method, it should not be called :c")
             }
         };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [roomName, accessToken]);
-
-    // // Handle incoming messages
-    // useEffect(() => {
-    //     console.log("in useffect before if statement")
-    //     console.log("isSocketSet:",isSocketSet);
-    //     if (socket.current) {
-    //         console.log("Inside useEffect for incoming messages")
-    //         socket.current.onmessage = (event) => {
-    //             console.log("Socket message received: ", event.data);
-    //             const eventData = JSON.parse(event.data);
-    //
-    //             if (eventData.message === "successful") {
-    //                 const newMessage = {
-    //                     text: eventData.body,
-    //                     type: "received",
-    //                     time: getCurrentTime(),
-    //                     read: false
-    //                 }
-    //                 setMessages((prev) => [...prev, newMessage]);
-    //             }
-    //         };
-    //     }
-    //
-    //     return () => {
-    //         if (socket.current) {
-    //             socket.current.onmessage = null;
-    //         }
-    //     };
-    //
-    // }, [isSocketSet]);
 
     // ------------ WEBSOCKET EFFECTS END------------------
 
@@ -226,21 +168,10 @@ export default function Chat() {
         const text = inputText.trim();
         if (text === "") return;
 
-        // // Prepare message data for sending
+        // Prepare message data for sending
         const messageData = {
             message: text
         };
-
-        // Add the new message to the local state (chat UI)
-        // const newMessage = {
-        //     text,
-        //     type: "sent",         // You can adjust message type (sent or received)
-        //     time: getCurrentTime(), // Assuming you have a helper to get current time
-        //     read: false,          // Will be marked as read later
-        // };
-
-        // Update the UI with the new message
-        //setMessages((prev) => [...prev, newMessage]);
 
         // Clear the input after sending the message
         setInputText("");
@@ -253,42 +184,6 @@ export default function Chat() {
         }
         // simulateReply();
     }
-
-    // Simulate receiving a reply with a "typing" indicator (UC6 "read receipts" can be updated here)
-    // function simulateReply() {
-    //     // TODO: Replace with axios call to backend when API is available
-    //     const typingMessage = {
-    //         text: "...",
-    //         type: "received",
-    //         time: "",
-    //         isTyping: true,
-    //         read: false,
-    //     };
-    //     setMessages((prev) => [...prev, typingMessage]);
-    //
-    //     setTimeout(() => {
-    //         setMessages((prev) => {
-    //             // Remove the typing message
-    //             const withoutTyping = prev.filter((msg) => !msg.isTyping);
-    //
-    //             // Mark all sent messages as read
-    //             const updated = withoutTyping.map((m) =>
-    //                 m.type === "sent" ? { ...m, read: true } : m
-    //             );
-    //
-    //             // Add the actual reply
-    //             return [
-    //                 ...updated,
-    //                 {
-    //                     text: "This is a simulated reply.",
-    //                     type: "received",
-    //                     time: getCurrentTime(),
-    //                     read: false,
-    //                 },
-    //             ];
-    //         });
-    //     }, 1000);
-    // }
 
     // Press "Enter" to send
     function handleKeyPress(e) {
@@ -314,14 +209,6 @@ export default function Chat() {
         setSelectedChat(chat);
 
         // TODO: Load messages for the selected chat from backend when available
-        // setMessages([
-        //     {
-        //         text: `Hi, this is ${chat.name}'s conversation. Feel free to start chatting!`,
-        //         type: "received",
-        //         time: getCurrentTime(),
-        //         read: false,
-        //     },
-        // ]);
     }
 
     // Filter chat list by search term
