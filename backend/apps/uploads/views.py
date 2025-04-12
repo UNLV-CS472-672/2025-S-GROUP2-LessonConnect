@@ -119,7 +119,7 @@ class UploadListView(APIView):
         upload_data = UploadRecord.objects.upload(file)
 
         # Use the manager method to save relevant metadata into database
-        UploadRecord.objects.create(upload_data, profile)
+        UploadRecord.objects.create(upload_data)
 
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
     # Note: Tested this POST request by entering this into the command line
