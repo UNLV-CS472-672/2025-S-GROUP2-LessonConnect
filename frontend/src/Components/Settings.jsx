@@ -102,6 +102,25 @@ export default function Settings() {
 
                 );
             case "email":
+                return (
+                    <div className="settings-panel-section">
+                        <h2>Email Settings</h2>
+
+                        <div className="form-group">
+                            <label>Primary Email</label>
+                            <input type="email" placeholder="your@email.com" />
+                            <p className="helper-text">Used for login and notifications.</p>
+                            <button className="save-btn">Save</button>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Backup Email</label>
+                            <input type="email" placeholder="backup@email.com" />
+                            <p className="helper-text">Fallback for password recovery and alerts.</p>
+                            <button className="save-btn">Save</button>
+                        </div>
+                    </div>
+                );
 
             case "security":
 
