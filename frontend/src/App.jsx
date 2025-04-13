@@ -29,6 +29,7 @@ import Inbox from "./Components/Inbox.jsx";
 import TutorView from "./Components/TutorView.jsx";
 import AssignmentPage from "./Components/AssignmentPage.jsx";
 import WhiteboardCanvas from "./Components/WhiteboardCanvas.jsx";
+import LandingPage from "./Components/LandingPage.jsx";
 
 function App() {
     const location = useLocation();
@@ -60,6 +61,7 @@ function App() {
                 <Route path="/findTutor" element={<FindTutor />} />
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/WhiteboardCanvas" element={<WhiteboardCanvas/>} />
+                <Route path="/LandingPage" element={<LandingPage/>} />
                 <Route path="/videocall" element={<VideoCall />} />
                 {/* <Route path="/Calendar" element={<Calendar />} /> */}
 
