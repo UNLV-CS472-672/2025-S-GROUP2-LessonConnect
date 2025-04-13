@@ -1,28 +1,29 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../Styles/TutorView.css";
+import StudentNavbar from "./StudentNavbar";
 
 const dashboardOptions = [
-    { text: "Manage Sessions", img: "/assets/images/UNLV_pic.png" },
-    { text: "Upload Assignments", img: "/assets/images/UNLV_pic.png" },
-    { text: "Pomodoro", img: "/assets/images/UNLV_pic.png" },
-    { text: "Messages", img: "/assets/images/UNLV_pic.png", path: "/inbox" },
-    { text: "Availability", img: "/assets/images/UNLV_pic.png", path: "/calendar" },
-    { text: "Create Quiz", img: "/assets/images/UNLV_pic.png" },
-    { text: "Gaming Stats", img: "/assets/images/UNLV_pic.png" },
-    { text: "Profile", img: "/assets/images/UNLV_pic.png", path: "/profile" },
+    { text: "Manage Sessions", img: "/assets/images/UNLV_pic.png", path:"/tutor/findTutor"},
+    { text: "Upload Assignments", img: "/assets/images/UNLV_pic.png", path:"/tutor/createAssignment" },
+    { text: "Pomodoro", img: "/assets/images/UNLV_pic.png", path:"/tutor/pomodoro" },
+    { text: "Messages", img: "/assets/images/UNLV_pic.png", path:"/tutor/inbox" },
+    { text: "Availability", img: "/assets/images/UNLV_pic.png", path:"/tutor/availability" },
+    { text: "Create Quiz", img: "/assets/images/UNLV_pic.png", path:"/tutor/createQuiz" },
+    { text: "Gaming Stats", img: "/assets/images/UNLV_pic.png", path:"/tutor/gaming" },
+    { text: "Profile", img: "/assets/images/UNLV_pic.png",path:"/tutor/profile" },
 ];
 
 const sidebarOptions = [
-    { text: "Resources", path: "/resources" },
-    { text: "Settings", path: "/settings" },
-    { text: "Calendar", path: "/calendar" },
-    { text: "Student Requests", path: "/requests" },
-    { text: "Post Announcements", path: "/announcements" },
-    { text: "Sticker Book", path: "/stickers" }
+    { text: "Resources", path:"/tutor/resources" },
+    { text: "Settings", path:"/tutor/settings" },
+    { text: "Calendar", path:"/tutor/calendar"},
+    { text: "Student Requests", path:"/tutor/requests" },
+    { text: "Post Announcements", path:"/tutor/announcements" },
+    { text: "Sticker Book", path:"/tutor/sticker" }
 ];
 
-export default function TutorView() {
+export default function TutorView({ darkMode}) {
     const [openDropdown, setOpenDropdown] = useState(null);
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
@@ -49,73 +50,7 @@ export default function TutorView() {
 
     return (
         <div className={`tutor-dashboard-page ${isDarkMode ? "dark-mode" : ""}`}>
-            <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-                <div className="container">
-                    <Link to="/" className="navbar-brand d-flex align-items-center">
-                        <i className="bi bi-house-door"></i>
-                        <span className="ms-2">LessonConnect</span>
-                    </Link>
-
-                    <button className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav-collapse">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div id="nav-collapse" className="collapse navbar-collapse">
-                        <div className="navbar-nav me-auto">
-                            <NavLink to="/findTutor" className="nav-link">Find a tutor</NavLink>
-                            <NavLink to="/services" className="nav-link">Services</NavLink>
-
-                            <div className="nav-item dropdown" onMouseLeave={closeDropdown}>
-                                <button className="nav-link dropdown-toggle" onClick={() => toggleDropdown("support")}>
-                                    Support
-                                </button>
-                                <div className={`dropdown-menu ${openDropdown === "support" ? "show" : ""}`}>
-                                    <NavLink to="/about" className="dropdown-item">About Us</NavLink>
-                                    <NavLink to="/contact" className="dropdown-item">Contact Us</NavLink>
-                                    <NavLink to="/faqs" className="dropdown-item">FAQS</NavLink>
-                                </div>
-                            </div>
-
-                            <div className="nav-item dropdown" onMouseLeave={closeDropdown}>
-                                <button className="nav-link dropdown-toggle" onClick={() => toggleDropdown("more")}>
-                                    More
-                                </button>
-                                <div className={`dropdown-menu ${openDropdown === "more" ? "show" : ""}`}>
-                                    <NavLink to="/learn_more" className="dropdown-item">Learn More</NavLink>
-                                    <NavLink to="/resources" className="dropdown-item">Resources</NavLink>
-                                    <NavLink to="/pomodoro" className="dropdown-item">Pomodoro</NavLink>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button className="theme-toggle-button" onClick={toggleTheme}>
-                            {isDarkMode ? "Light Theme" : "Dark Theme"}
-                        </button>
-
-                        <NavLink to="/inbox" className="nav-link inbox-icon">
-                            <img src="/assets/images/mail.png" alt="Inbox" />
-                        </NavLink>
-
-                        <NavLink to="/notification" className="nav-link bell-icon">
-                            <img src="/assets/images/bell.png" alt="Notifications" />
-                        </NavLink>
-
-                        <div className="nav-item dropdown" onMouseLeave={closeProfileDropdown}>
-                            <button className="nav-link profile-icon" onClick={toggleProfileDropdown}>
-                                <img src="/assets/images/user.png" alt="Profile" />
-                            </button>
-                            {profileDropdownOpen && (
-                                <div className="dropdown-menu dropdown-menu-end show">
-                                    <NavLink to="/profile" className="dropdown-item">My Profile</NavLink>
-                                    <NavLink to="/settings" className="dropdown-item">Settings</NavLink>
-                                    <NavLink to="/logout" className="dropdown-item">Logout</NavLink>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
+            <StudentNavbar isDarkMode={darkMode} toggleTheme={toggleTheme} />
             <section className="greeting">
                 <div className="inner-container">
                     <h1 className="fade-in">👋 Welcome back, Jose!</h1>
