@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import notificationService from "../Services/NotificationServices.js";
 import "../Styles/Inbox.css";
-
-// Utility to convert ISO string to readable date
-const formatDate = (isoDate) => {
-    const options = { year: "numeric", month: "short", day: "numeric" };
-    return new Date(isoDate).toLocaleDateString(undefined, options);
-};
 
 export default function Inbox() {
     const [selectedMessage, setSelectedMessage] = useState(null);
@@ -15,48 +9,60 @@ export default function Inbox() {
     const [filterType, setFilterType] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
+    // Fetch notifications when component mounts
     useEffect(() => {
         const fetchNotifications = async () => {
-            const accessToken = localStorage.getItem("accessToken");
-
             try {
-                const response = await axios.get("http://127.0.0.1:8000/notifications/", {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
+                setLoading(true);
+                const data = await notificationService.getNotifications();
 
-                const mapped = response.data.map((n) => ({
-                    id: n.id,
-                    subject: n.notification_title,
-                    preview: n.notification_message,
-                    date: formatDate(n.sent_at),
-                    from: n.sender || "System",
-                    unreadCount: n.unread_count || 0,
-                    unread: !n.is_read,
-                    type: n.notification_type,
+                // Transform API data to match your UI format
+                const transformedData = data.map(notification => ({
+                    id: notification.id,
+                    subject: notification.notification_title,
+                    preview: notification.notification_message,
+                    date: new Date(notification.sent_at).toLocaleDateString(),
+                    from: "System", // Default sender
+                    unreadCount: notification.is_read ? 0 : 1,
+                    unread: !notification.is_read,
+                    type: notification.notification_type,
                 }));
 
-                setMessages(mapped);
-            } catch (error) {
-                console.error("Error fetching notifications:", error);
-                if (error.response?.status === 401) {
-                    alert("Unauthorized. Please log in again.");
-                }
+                setMessages(transformedData);
+                setError(null);
+            } catch (err) {
+                console.error("Failed to fetch notifications:", err);
+                setError("Failed to load notifications");
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchNotifications();
     }, []);
 
-    const handleSelectMessage = (msg) => {
+    // Handles selecting a message and marking it as read
+    const handleSelectMessage = async (msg) => {
         setSelectedMessage(msg);
+
+        // Update UI immediately
         setMessages((prev) =>
             prev.map((m) =>
                 m.id === msg.id ? { ...m, unread: false, unreadCount: 0 } : m
             )
         );
+
+        // If notification is unread, mark it as read in the backend
+        if (msg.unread) {
+            try {
+                await notificationService.markAsRead(msg.id);
+            } catch (err) {
+                console.error(`Error marking notification ${msg.id} as read:`, err);
+            }
+        }
     };
 
     const navLinks = {
@@ -65,6 +71,15 @@ export default function Inbox() {
         Support: "/support",
         Profile: "/profile",
     };
+
+    // Filter messages based on selected filter and search query
+    const filteredMessages = messages
+        .filter((msg) => filterType ? msg.type === filterType : true)
+        .filter((msg) => searchQuery
+            ? msg.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            msg.preview.toLowerCase().includes(searchQuery.toLowerCase())
+            : true
+        );
 
     return (
         <div className="inbox-page">
@@ -93,15 +108,10 @@ export default function Inbox() {
                         <div className="inbox-toolbar">
                             <select onChange={(e) => setFilterType(e.target.value)}>
                                 <option value="">All Types</option>
-                                <optgroup label="Notifications">
-                                    <option value="success">Success</option>
-                                    <option value="warning">Warning</option>
-                                    <option value="error">Error</option>
-                                </optgroup>
-                                <optgroup label="Information">
-                                    <option value="general">General</option>
-                                    <option value="system">System</option>
-                                </optgroup>
+                                <option value="info">Information</option>
+                                <option value="success">Success</option>
+                                <option value="warning">Warning</option>
+                                <option value="error">Error</option>
                             </select>
 
                             <select disabled>
@@ -118,15 +128,13 @@ export default function Inbox() {
 
                         <div className="thread-label">Notifications</div>
 
-                        <ul className="message-threads">
-                            {messages
-                                .filter((msg) => (filterType ? msg.type === filterType : true))
-                                .filter((msg) =>
-                                    searchQuery
-                                        ? msg.preview.toLowerCase().includes(searchQuery.toLowerCase())
-                                        : true
-                                )
-                                .map((msg) => (
+                        {loading ? (
+                            <div>Loading notifications...</div>
+                        ) : error ? (
+                            <div>{error}</div>
+                        ) : (
+                            <ul className="message-threads">
+                                {filteredMessages.map((msg) => (
                                     <li
                                         key={msg.id}
                                         className={`thread ${msg.unread ? "unread" : ""}`}
@@ -145,7 +153,8 @@ export default function Inbox() {
                                         </div>
                                     </li>
                                 ))}
-                        </ul>
+                            </ul>
+                        )}
                     </div>
 
                     <div className="inbox-content-panel">
