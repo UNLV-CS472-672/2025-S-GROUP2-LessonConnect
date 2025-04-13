@@ -7,29 +7,25 @@ export default function Inbox() {
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [activeNav, setActiveNav] = useState("Inbox");
     const [filterType, setFilterType] = useState("");
-    const [searchQuery, setSearchQuery] = useState("");
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Fetch notifications when component mounts
     useEffect(() => {
         fetchNotifications();
     }, []);
 
-    // function to fetch notifications (moved outside useEffect for reusability)
     const fetchNotifications = async () => {
         try {
             setLoading(true);
             const data = await notificationService.getNotifications();
 
-            // Transform API data to match your UI format
             const transformedData = data.map(notification => ({
                 id: notification.id,
                 subject: notification.notification_title,
                 preview: notification.notification_message,
                 date: new Date(notification.sent_at).toLocaleDateString(),
-                from: notification.sender_username || "System", // use sender username if available
+                from: notification.sender_username || "System",
                 unreadCount: notification.is_read ? 0 : 1,
                 unread: !notification.is_read,
                 type: notification.notification_type,
@@ -45,18 +41,14 @@ export default function Inbox() {
         }
     };
 
-    // Handles selecting a message and marking it as read
     const handleSelectMessage = async (msg) => {
         setSelectedMessage(msg);
-
-        // Update UI immediately
         setMessages((prev) =>
             prev.map((m) =>
                 m.id === msg.id ? { ...m, unread: false, unreadCount: 0 } : m
             )
         );
 
-        // If notification is unread, mark it as read in the backend
         if (msg.unread) {
             try {
                 await notificationService.markAsRead(msg.id);
@@ -66,12 +58,9 @@ export default function Inbox() {
         }
     };
 
-    // mark all notifications as read
     const handleMarkAllAsRead = async () => {
         try {
             await notificationService.markAllAsRead();
-
-            // Update UI to show all messages as read
             setMessages(prev =>
                 prev.map(message => ({
                     ...message,
@@ -85,17 +74,12 @@ export default function Inbox() {
         }
     };
 
-    // delete a specific notification
     const handleDeleteNotification = async () => {
         if (!selectedMessage) return;
 
         try {
             await notificationService.deleteNotification(selectedMessage.id);
-
-            // Remove the deleted notification from state
             setMessages(prev => prev.filter(msg => msg.id !== selectedMessage.id));
-
-            // Clear the selected message
             setSelectedMessage(null);
         } catch (err) {
             console.error(`Failed to delete notification ${selectedMessage.id}:`, err);
@@ -103,20 +87,12 @@ export default function Inbox() {
         }
     };
 
-    // delete all notifications
     const handleDeleteAllNotifications = async () => {
-        // Confirm before deleting all
-        if (!window.confirm("Are you sure you want to delete all notifications?")) {
-            return;
-        }
+        if (!window.confirm("Are you sure you want to delete all notifications?")) return;
 
         try {
             await notificationService.deleteAllNotifications();
-
-            // Clear all messages from state
             setMessages([]);
-
-            // Clear the selected message
             setSelectedMessage(null);
         } catch (err) {
             console.error("Failed to delete all notifications:", err);
@@ -131,14 +107,9 @@ export default function Inbox() {
         Profile: "/profile",
     };
 
-    // Filter messages based on selected filter and search query
-    const filteredMessages = messages
-        .filter((msg) => filterType ? msg.type === filterType : true)
-        .filter((msg) => searchQuery
-            ? msg.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            msg.preview.toLowerCase().includes(searchQuery.toLowerCase())
-            : true
-        );
+    const filteredMessages = messages.filter((msg) =>
+        filterType ? msg.type === filterType : true
+    );
 
     return (
         <div className="inbox-page">
@@ -152,9 +123,7 @@ export default function Inbox() {
                                     className={activeNav === item ? "active" : ""}
                                     onClick={() => {
                                         setActiveNav(item);
-                                        if (item !== "Inbox") {
-                                            setSelectedMessage(null);
-                                        }
+                                        if (item !== "Inbox") setSelectedMessage(null);
                                     }}
                                 >
                                     <Link to={navLinks[item]}>{item}</Link>
@@ -182,17 +151,10 @@ export default function Inbox() {
                                 <button onClick={handleMarkAllAsRead} className="action-button">
                                     Mark All Read
                                 </button>
-                                <button onClick={handleDeleteAllNotifications} className="action-button delete-button">
+                                <button onClick={handleDeleteAllNotifications} className="action-button">
                                     Delete All
                                 </button>
                             </div>
-
-                            <input
-                                type="text"
-                                placeholder="Search..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
                         </div>
 
                         <div className="thread-label">Notifications</div>
@@ -230,7 +192,18 @@ export default function Inbox() {
 
                     <div className="inbox-content-panel">
                         <div className="inbox-content-header">
-                            {selectedMessage ? selectedMessage.subject : "Notification Viewer"}
+                            <div className="header-title">
+                                {selectedMessage ? selectedMessage.subject : "Notification Viewer"}
+                            </div>
+                            <div className="message-actions">
+                                <button
+                                    onClick={handleDeleteNotification}
+                                    className="delete-button"
+                                    disabled={!selectedMessage}
+                                >
+                                    Delete Notification
+                                </button>
+                            </div>
                         </div>
 
                         {!selectedMessage ? (
@@ -241,12 +214,6 @@ export default function Inbox() {
                         ) : (
                             <div className="message-view">
                                 <p>{selectedMessage.preview}</p>
-
-                                <div className="message-actions">
-                                    <button onClick={handleDeleteNotification} className="delete-button">
-                                        Delete Notification
-                                    </button>
-                                </div>
                             </div>
                         )}
                     </div>

@@ -246,3 +246,18 @@
     margin-bottom: 10px;
 }
 
+
+
+
+/* Added for needed buttons */
+.inbox-page .inbox-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+
