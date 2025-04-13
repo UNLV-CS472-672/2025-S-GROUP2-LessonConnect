@@ -106,4 +106,21 @@ export default function WhiteboardCanvas() {
     <button className="action-button neon-hover" onClick={downloadCanvas}>
         Download
     </button>
+
+    useEffect(() => {
+        function handleResize() {
+            resizeCanvas();
+        }
+        resizeCanvas();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    useEffect(() => {
+        if (contextRef.current) {
+            contextRef.current.strokeStyle = lineColor;
+            contextRef.current.lineWidth = lineWidth;
+        }
+    }, [lineColor, lineWidth]);
+
 }
