@@ -82,3 +82,36 @@
     color: var(--primary);
 }
 
+.whiteboard-container .toolbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+}
+
+.whiteboard-container .color-label,
+.whiteboard-container .width-label {
+    font-weight: 600;
+    color: #444;
+}
+
+.whiteboard-container .color-button {
+    width: 28px;
+    height: 28px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform var(--transition-speed);
+}
+
+.whiteboard-container .color-button:hover {
+    transform: scale(1.2);
+    border-color: #ccc;
+}
+
+.whiteboard-container .width-label input {
+    margin-left: 0.5rem;
+    accent-color: var(--primary);
+}
+
