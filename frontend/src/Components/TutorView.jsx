@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "../Styles/TutorView.css";
+import PropTypes from "prop-types";
 import StudentNavbar from "./StudentNavbar";
 
 const dashboardOptions = [
@@ -84,3 +85,8 @@ export default function TutorView({ darkMode, toggleTheme }) {
         </div>
     );
 }
+
+TutorView.propTypes = {
+    darkMode: PropTypes.bool.isRequired,
+    toggleTheme: PropTypes.func.isRequired,
+};

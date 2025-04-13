@@ -100,4 +100,5 @@ export default function StudentNavbar({ isDarkMode, toggleTheme, role}) {
 StudentNavbar.propTypes = {
     isDarkMode: PropTypes.bool.isRequired,
     toggleTheme: PropTypes.func.isRequired,
+    role: PropTypes.string,
 };

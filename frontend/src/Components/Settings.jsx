@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import "../Styles/Settings.css";
 
-export default function Settings({ darkMode, toggleTheme }) {
+export default function Settings({ darkMode }) {
     const [activePanel, setActivePanel] = useState("profile");
 
     const renderPanel = () => {
@@ -203,3 +204,8 @@ export default function Settings({ darkMode, toggleTheme }) {
         </div>
     );
 }
+
+Settings.propTypes = {
+    darkMode: PropTypes.bool.isRequired,
+};
+
