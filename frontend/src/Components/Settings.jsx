@@ -123,11 +123,35 @@ export default function Settings() {
                 );
 
             case "security":
+                return (
+                    <div className="settings-panel-section">
+                        <h2>Password & Security</h2>
+
+                        <div className="form-group">
+                            <label>Current Password</label>
+                            <input type="password" placeholder="Enter current password" />
+                            <p className="helper-text">Make sure to use a secure password manager.</p>
+                        </div>
+
+                        <div className="form-group">
+                            <label>New Password</label>
+                            <input type="password" placeholder="Create a strong password" />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" placeholder="Retype new password" />
+                        </div>
+
+                        <button className="save-btn">Update Password</button>
+                    </div>
+                );
 
             default:
-
+                return <div className="panel-section">Select a setting from the left menu</div>;
         }
     };
+
 
     return (
         <div className="settings-wrapper">
