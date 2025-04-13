@@ -40,7 +40,7 @@ export default function Settings() {
                         <div className="form-group">
                             <label>Bio</label>
                             <textarea placeholder="Tell us a little bit about yourself..." />
-                            <p className="helper-text">You can @mention others and include links.</p>
+                            <p className="helper-text">You can include links.</p>
                         </div>
 
                         <div className="form-group">
@@ -56,11 +56,51 @@ export default function Settings() {
                             <label>URL</label>
                             <input type="text" placeholder="https://yourwebsite.com" />
                         </div>
+                        <button className="save-btn">Save</button>
                     </div>
                 );
 
             case "account":
+                return (
+                    <div className="settings-panel-section">
+                        <h2>Account Settings</h2>
 
+                        <div className="form-group">
+                            <label>Change Username</label>
+                            <input type="text" placeholder="johnDoe123" />
+                            <p className="helper-text">This is your unique handle across the platform.</p>
+                            <button className="save-btn">Change Username</button>
+                        </div>
+
+                        <hr />
+
+                        <div className="form-group">
+                            <label>Location</label>
+                            <input type="text" placeholder="Las Vegas, NV" />
+                            <p className="helper-text">Share your city or region for better connection suggestions.</p>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Occupation</label>
+                            <input type="text" placeholder="e.g. Computer Science Student" />
+                            <p className="helper-text">Helps others understand your background.</p>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Discord</label>
+                            <input type="text" placeholder="johnDoe#4567" />
+                            <p className="helper-text">Used for quick messaging and support.</p>
+                        </div>
+
+                        <div className="form-group">
+                            <label>GitHub</label>
+                            <input type="text" placeholder="https://github.com/johnDoe" />
+                            <p className="helper-text">Showcase your projects and repositories.</p>
+                            <button className="save-btn">Save</button>
+                        </div>
+                    </div>
+
+                );
             case "email":
 
             case "security":

@@ -50,8 +50,9 @@
     padding: 30px 20px;
     border-right: 1px solid #30363d;
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 300;
     line-height: 1.6;
+    height: 100%;
 }
 
 .menu-item {
@@ -79,6 +80,7 @@
 .settings-panel-section {
     width: 100%;
     padding: 0 40px;
+    margin-bottom: 80px;
 }
 
 .settings-panel-section .section-header {
@@ -198,6 +200,32 @@
     margin: 0;
     display: flex;
     flex-direction: column;
+}
+
+/* ==== Buttons ==== */
+.settings-panel-section .save-btn,
+.settings-panel-section .export-btn {
+    background-color: #30363d;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+
+.settings-panel-section .save-btn:hover,
+.settings-panel-section .export-btn:hover {
+    background-color: #586777;
+}
+
+
+/* ==== Divider ==== */
+.settings-panel-section hr {
+    border-color: #30363d;
+    margin: 40px 0;
 }
 
 
