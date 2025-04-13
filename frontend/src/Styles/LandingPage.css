@@ -66,3 +66,20 @@
     line-height: 1.5;
     margin: 0 auto 2rem auto;
 }
+.landing-page__cta-button {
+    background: linear-gradient(90deg, #02c39a, #00a896);
+    color: #fff;
+    border: none;
+    outline: none;
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.landing-page__cta-button--hovered {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
