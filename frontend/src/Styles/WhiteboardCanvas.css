@@ -1,0 +1,21 @@
+.whiteboard-container {
+    --primary: #00b7c2;
+    --primary-dark: #00929b;
+    --accent: #fda085;
+    --glass-bg: rgba(255, 255, 255, 0.25);
+    --white-bg: rgba(255, 255, 255, 0.8);
+    --shadow-light: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+    --transition-speed: 0.3s;
+    --font-main: 'Poppins', sans-serif;
+    --neon: #0ff;
+
+    font-family: var(--font-main);
+    min-height: 100vh;
+    margin-top: 50px;
+    padding: 1rem;
+    background:
+            radial-gradient(circle at top left, rgba(0,255,255,0.15), transparent 50%),
+            radial-gradient(circle at bottom right, rgba(255,0,255,0.15), transparent 50%),
+            linear-gradient(135deg, #e9f0f5, #ffffff);
+}
