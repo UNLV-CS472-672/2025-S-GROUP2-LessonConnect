@@ -85,4 +85,25 @@ export default function WhiteboardCanvas() {
             />
         </label>
     </div>
+
+    const clearCanvas = () => {
+        const canvas = canvasRef.current;
+        contextRef.current.clearRect(0, 0, canvas.width, canvas.height);
+    };
+
+    const downloadCanvas = () => {
+        const canvas = canvasRef.current;
+        const link = document.createElement("a");
+        link.download = "lessonconnect_drawing.png";
+        link.href = canvas.toDataURL();
+        link.click();
+    };
+
+// Add buttons in toolbar div
+    <button className="action-button neon-hover" onClick={clearCanvas}>
+        Clear
+    </button>
+    <button className="action-button neon-hover" onClick={downloadCanvas}>
+        Download
+    </button>
 }
