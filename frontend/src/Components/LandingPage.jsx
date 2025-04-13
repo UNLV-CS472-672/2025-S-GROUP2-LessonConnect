@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import '../Styles/LandingPage.css';
+import { useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
     const [hovered, setHovered] = useState(false);
