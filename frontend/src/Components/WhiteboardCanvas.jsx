@@ -58,4 +58,31 @@ export default function WhiteboardCanvas() {
             />
         </div>
     );
+    const colorOptions = ["#000000", "#7F7F7F", "#BFBFBF", "#FFFFFF",
+        "#FF0000", "#FF7F00", "#FFFF00", "#7FFF00",
+        "#00FF00", "#00FF7F", "#00FFFF", "#007FFF",
+        "#0000FF", "#7F00FF", "#FF00FF", "#FF007F"];
+
+// Inserted inside return()
+    <div className="toolbar glass-card">
+        <label className="color-label">Color:</label>
+        {colorOptions.map((color) => (
+            <button
+                key={color}
+                className="color-button"
+                style={{ backgroundColor: color }}
+                onClick={() => setLineColor(color)}
+            />
+        ))}
+        <label className="width-label">
+            Brush:
+            <input
+                type="range"
+                min="1"
+                max="20"
+                value={lineWidth}
+                onChange={(e) => setLineWidth(e.target.value)}
+            />
+        </label>
+    </div>
 }
