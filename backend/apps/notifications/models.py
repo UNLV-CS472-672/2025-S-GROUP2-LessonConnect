@@ -34,6 +34,15 @@ class Notification(models.Model):
     # related_name='notifications' gets all notifs for a user
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications')
 
+    # gets user's profile name for the inboxing page (inbox.jsx)
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,  # If sender is deleted, keep notification
+        related_name='sent_notifications',
+        null=True,
+        blank=True
+    )
+
     # notification message content
     notification_title = models.CharField(max_length=63)
     notification_message = models.TextField()

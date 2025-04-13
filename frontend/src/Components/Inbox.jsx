@@ -14,35 +14,36 @@ export default function Inbox() {
 
     // Fetch notifications when component mounts
     useEffect(() => {
-        const fetchNotifications = async () => {
-            try {
-                setLoading(true);
-                const data = await notificationService.getNotifications();
-
-                // Transform API data to match your UI format
-                const transformedData = data.map(notification => ({
-                    id: notification.id,
-                    subject: notification.notification_title,
-                    preview: notification.notification_message,
-                    date: new Date(notification.sent_at).toLocaleDateString(),
-                    from: "System", // Default sender
-                    unreadCount: notification.is_read ? 0 : 1,
-                    unread: !notification.is_read,
-                    type: notification.notification_type,
-                }));
-
-                setMessages(transformedData);
-                setError(null);
-            } catch (err) {
-                console.error("Failed to fetch notifications:", err);
-                setError("Failed to load notifications");
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchNotifications();
     }, []);
+
+    // function to fetch notifications (moved outside useEffect for reusability)
+    const fetchNotifications = async () => {
+        try {
+            setLoading(true);
+            const data = await notificationService.getNotifications();
+
+            // Transform API data to match your UI format
+            const transformedData = data.map(notification => ({
+                id: notification.id,
+                subject: notification.notification_title,
+                preview: notification.notification_message,
+                date: new Date(notification.sent_at).toLocaleDateString(),
+                from: notification.sender_username || "System", // use sender username if available
+                unreadCount: notification.is_read ? 0 : 1,
+                unread: !notification.is_read,
+                type: notification.notification_type,
+            }));
+
+            setMessages(transformedData);
+            setError(null);
+        } catch (err) {
+            console.error("Failed to fetch notifications:", err);
+            setError("Failed to load notifications");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     // Handles selecting a message and marking it as read
     const handleSelectMessage = async (msg) => {
@@ -62,6 +63,64 @@ export default function Inbox() {
             } catch (err) {
                 console.error(`Error marking notification ${msg.id} as read:`, err);
             }
+        }
+    };
+
+    // mark all notifications as read
+    const handleMarkAllAsRead = async () => {
+        try {
+            await notificationService.markAllAsRead();
+
+            // Update UI to show all messages as read
+            setMessages(prev =>
+                prev.map(message => ({
+                    ...message,
+                    unread: false,
+                    unreadCount: 0
+                }))
+            );
+        } catch (err) {
+            console.error("Failed to mark all notifications as read:", err);
+            alert("Failed to mark all as read. Please try again.");
+        }
+    };
+
+    // delete a specific notification
+    const handleDeleteNotification = async () => {
+        if (!selectedMessage) return;
+
+        try {
+            await notificationService.deleteNotification(selectedMessage.id);
+
+            // Remove the deleted notification from state
+            setMessages(prev => prev.filter(msg => msg.id !== selectedMessage.id));
+
+            // Clear the selected message
+            setSelectedMessage(null);
+        } catch (err) {
+            console.error(`Failed to delete notification ${selectedMessage.id}:`, err);
+            alert("Failed to delete notification. Please try again.");
+        }
+    };
+
+    // delete all notifications
+    const handleDeleteAllNotifications = async () => {
+        // Confirm before deleting all
+        if (!window.confirm("Are you sure you want to delete all notifications?")) {
+            return;
+        }
+
+        try {
+            await notificationService.deleteAllNotifications();
+
+            // Clear all messages from state
+            setMessages([]);
+
+            // Clear the selected message
+            setSelectedMessage(null);
+        } catch (err) {
+            console.error("Failed to delete all notifications:", err);
+            alert("Failed to delete all notifications. Please try again.");
         }
     };
 
@@ -108,15 +167,25 @@ export default function Inbox() {
                         <div className="inbox-toolbar">
                             <select onChange={(e) => setFilterType(e.target.value)}>
                                 <option value="">All Types</option>
-                                <option value="info">Information</option>
-                                <option value="success">Success</option>
-                                <option value="warning">Warning</option>
-                                <option value="error">Error</option>
+                                <optgroup label="Notifications">
+                                    <option value="success">Success</option>
+                                    <option value="warning">Warning</option>
+                                    <option value="error">Error</option>
+                                </optgroup>
+                                <optgroup label="Information">
+                                    <option value="general">General</option>
+                                    <option value="update">Update</option>
+                                </optgroup>
                             </select>
 
-                            <select disabled>
-                                <option>Schedule</option>
-                            </select>
+                            <div className="notification-actions">
+                                <button onClick={handleMarkAllAsRead} className="action-button">
+                                    Mark All Read
+                                </button>
+                                <button onClick={handleDeleteAllNotifications} className="action-button delete-button">
+                                    Delete All
+                                </button>
+                            </div>
 
                             <input
                                 type="text"
@@ -132,6 +201,8 @@ export default function Inbox() {
                             <div>Loading notifications...</div>
                         ) : error ? (
                             <div>{error}</div>
+                        ) : filteredMessages.length === 0 ? (
+                            <div className="empty-notifications">No notifications found</div>
                         ) : (
                             <ul className="message-threads">
                                 {filteredMessages.map((msg) => (
@@ -170,6 +241,12 @@ export default function Inbox() {
                         ) : (
                             <div className="message-view">
                                 <p>{selectedMessage.preview}</p>
+
+                                <div className="message-actions">
+                                    <button onClick={handleDeleteNotification} className="delete-button">
+                                        Delete Notification
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </div>
