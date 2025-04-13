@@ -1,0 +1,204 @@
+/* ==== Layout Base ==== *//* Fix spacing inside settings-container */
+.settings-wrapper .settings-container {
+    display: flex;
+    background-color: #f0f0f0;
+    color: #0d1117;
+    flex: 1;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+/* ==== Top Profile Header ==== */
+.settings-wrapper .profile-header {
+    display: flex;
+    align-items: center;
+    padding: 24px 40px;
+    background-color: #f0f0f0;
+    /*border-bottom: 1px solid #30363d;*/
+}
+
+.settings-wrapper .profile-header-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    margin-right: 16px;
+    object-fit: cover;
+    border: 2px solid #30363d;
+}
+
+.settings-wrapper .profile-header-info h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #0d1117;
+}
+
+.profile-header-info span {
+    color: #8b949e;
+    font-weight: 500;
+}
+
+.profile-header-info p {
+    margin: 2px 0 0;
+    color: #0d1117;
+    font-size: 14px;
+}
+
+/* ==== Sidebar Menu ==== */
+.settings-menu {
+    width: 250px;
+    background-color: #f0f0f0;
+    padding: 30px 20px;
+    border-right: 1px solid #30363d;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.menu-item {
+    padding: 12px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    color: #0d1117;
+    transition: background 0.2s ease;
+}
+
+.menu-item.active,
+.menu-item:hover {
+    background-color: #343937;
+    color: white;
+}
+
+/* ==== Panel Section ==== */
+.settings-panel {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.settings-panel-section {
+    width: 100%;
+    padding: 0 40px;
+}
+
+.settings-panel-section .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.settings-panel-section .section-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* ==== Subsection Titles ==== */
+.settings-panel-section .subsection-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    margin-top: 24px;
+    color: #0d1117;
+}
+
+/* ==== Avatar Edit Block ==== */
+.settings-panel-section .avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.settings-panel-section .avatar-img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 8px;
+    border: 2px solid #30363d;
+}
+
+.settings-panel-section .edit-avatar {
+    background: transparent;
+    border: 1px solid #30363d;
+    color: black;
+    border-radius: 6px;
+    padding: 6px 26px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.settings-panel-section .edit-avatar:hover {
+    background-color: #30363d;
+    color: #f0f0f0;
+}
+
+/* ==== Form Elements ==== */
+.settings-panel-section .form-group {
+    margin-bottom: 28px;
+}
+
+.settings-panel-section .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #0d1117;
+}
+
+.settings-panel-section input,
+.settings-panel-section textarea,
+.settings-panel-section select {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 6px;
+    background-color: #FDF7F4;
+    color: #0d1117;
+    border: 1px solid #30363d;
+    font-size: 15px;
+    font-weight: 500;
+    appearance: none;
+    outline: none;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Optional: custom arrow icon support */
+.settings-panel-section select:focus {
+    border-color: #388bfd;
+    box-shadow: 0 0 0 2px rgba(56, 139, 253, 0.4);
+    background-color: #f0f0f0;
+}
+
+
+.settings-panel-section input::placeholder,
+.settings-panel-section textarea::placeholder {
+    color: #57616c;
+    font-style: italic;
+}
+
+.settings-panel-section textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+/* ==== Helper Text Under Inputs ==== */
+.settings-panel-section .helper-text {
+    color: #8b949e;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+/* ==== Wrapper Fix for White Gap ==== */
+.settings-wrapper {
+    background-color: #FDF7F4;
+    min-height: 100vh;
+    padding-top: 70px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
