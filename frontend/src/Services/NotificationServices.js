@@ -1,16 +1,14 @@
-// May need to update later to properly handle JWT tokens?
-
 import axios from 'axios';
 
-// create a simple axios instance for notifications
+// create a notification service with all required methods
 const notificationService = {
-    // get all notifications for the current user
+    // cet all notifications for the current user
     getNotifications: async () => {
         try {
             // get the token from storage
             const token = localStorage.getItem('accessToken');
 
-            const response = await axios.get('http://localhost:8000/notifications/', {
+            const response = await axios.get('http://127.0.0.1:8000/notifications/', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -29,7 +27,7 @@ const notificationService = {
         try {
             const token = localStorage.getItem('accessToken');
 
-            const response = await axios.patch(`http://localhost:8000/notifications/${id}/mark-read/`, {}, {
+            const response = await axios.patch(`http://127.0.0.1:8000/notifications/${id}/mark-read/`, {}, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -48,7 +46,7 @@ const notificationService = {
         try {
             const token = localStorage.getItem('accessToken');
 
-            const response = await axios.post('http://localhost:8000/notifications/mark-all-read/', {}, {
+            const response = await axios.post('http://127.0.0.1:8000/notifications/mark-all-read/', {}, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -67,7 +65,7 @@ const notificationService = {
         try {
             const token = localStorage.getItem('accessToken');
 
-            await axios.delete(`http://localhost:8000/notifications/${id}/`, {
+            await axios.delete(`http://127.0.0.1:8000/notifications/${id}/`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -86,7 +84,7 @@ const notificationService = {
         try {
             const token = localStorage.getItem('accessToken');
 
-            await axios.delete('http://localhost:8000/notifications/clear-all/', {
+            await axios.delete('http://127.0.0.1:8000/notifications/clear-all/', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

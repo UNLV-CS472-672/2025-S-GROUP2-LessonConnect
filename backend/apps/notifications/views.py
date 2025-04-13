@@ -43,6 +43,12 @@ class NotificationViewSet(viewsets.ModelViewSet):
             return Response({'status': f'All {count} notifications deleted'}, status=status.HTTP_204_NO_CONTENT)
         return super().list(request, *args, **kwargs)
 
+    def perform_create(self, serializer):
+        notification = serializer.save(
+            user=self.request.user,
+            sender=self.request.user  # the current user is the sender
+        )
+
     """ 
     CUSTOM ENDPOINT FUNCTIONS
     https://djangocentral.com/how-to-use-action-decorator-in-django-rest-framework/
