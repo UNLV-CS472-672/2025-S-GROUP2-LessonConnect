@@ -59,9 +59,3 @@ export default function WhiteboardCanvas() {
         </div>
     );
 }
-export default function SignUp() {
-    return (
-        <div>
-        </div>
-    );
-}
