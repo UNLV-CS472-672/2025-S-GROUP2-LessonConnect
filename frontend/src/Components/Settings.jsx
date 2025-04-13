@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../Styles/Settings.css";
 
-export default function Settings() {
+export default function Settings({ darkMode, toggleTheme }) {
     const [activePanel, setActivePanel] = useState("profile");
 
     const renderPanel = () => {
@@ -154,7 +154,7 @@ export default function Settings() {
 
 
     return (
-        <div className="settings-wrapper">
+        <div className={`settings-wrapper ${darkMode ? "dark-mode" : ""}`}>
             {/* Top Profile Header */}
             <div className="profile-header">
                 <img
