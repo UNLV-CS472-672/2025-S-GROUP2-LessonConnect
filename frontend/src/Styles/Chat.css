@@ -558,6 +558,18 @@
         z-index: 998;
         border-radius: 0;
     }
+    /* Center content for the no-chat state */
+    .chat-page .no-chat-selected {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Only affects the content area */
+        width: 100%;
+        font-size: 1.2rem;
+        color: #888;
+        text-align: center;
+        padding: 1rem;
+    }
 }
 
 /* Example chat input area styling */
@@ -665,3 +677,16 @@
     pointer-events: none;
     z-index: 1;
 }
+
+/*.no-chat-selected {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    height: 100%;*/
+/*    width: 100%;*/
+/*    font-size: 1.2rem;*/
+/*    color: #888;*/
+/*    text-align: center;*/
+/*    padding: 1rem;*/
+/*}*/
+

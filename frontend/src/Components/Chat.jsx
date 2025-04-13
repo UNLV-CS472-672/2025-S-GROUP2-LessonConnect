@@ -64,7 +64,7 @@ export default function Chat() {
     ]);
 
     // Track which chat is selected
-    const [selectedChat, setSelectedChat] = useState(chatList[0]);
+    const [selectedChat, setSelectedChat] = useState(null);
 
     // For toggling sidebars (UC2)
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -216,6 +216,11 @@ export default function Chat() {
         chat.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    // useEffect(() => {
+    //     console.log("Selected Chat:", selectedChat);
+    //
+    // }, [selectedChat])
+
     // ------------------- RENDER --------------------
     return (
         <div className="chat-page">
@@ -252,7 +257,7 @@ export default function Chat() {
                         {filteredChatList.map((chat) => (
                             <li
                                 key={chat.id}
-                                className={`chat-item ${selectedChat.id === chat.id ? "active" : ""}`}
+                                className={`chat-item ${selectedChat?.id === chat.id ? "active" : ""}`}
                                 onClick={() => handleSelectChat(chat)}
                             >
                                 <img src={chat.avatar} alt="User Avatar" className="avatar" />
@@ -268,151 +273,131 @@ export default function Chat() {
                         ))}
                     </ul>
                 </aside>
-
-                {/* CHAT WINDOW */}
-                <section className="chat-window">
-                    {/* Chat Header */}
-                    <div className="chat-header">
-                        <div className="chat-with">
-                            <button className="sidebar-toggle" onClick={toggleSidebar}>
-                                <i className="fas fa-bars"></i>
-                            </button>
-                            <img src={selectedChat.avatar} alt="User Avatar" className="avatar" />
-                            <div>
-                                <h2>{selectedChat.name}</h2>
-                                <p className="status">{selectedChat.status}</p>
-                            </div>
-                        </div>
-                        <div className="chat-actions">
-                            <button className="action-btn" onClick={() => alert("Video call!")}>
-                                <i className="fas fa-video"></i>
-                            </button>
-                            <button className="action-btn" onClick={toggleDetails}>
-                                <i className="fas fa-info-circle"></i>
-                            </button>
-                        </div>
-                    </div>
-                    {/* Chat Body */}
-                    <div className="chat-body" ref={chatBodyRef}>
-                        {messages.map((msg, index) => (
-                            <div
-                                key={index}
-                                className={`message ${msg.type}`}
-                            >
-                                {/* For "received" messages, show an avatar */}
-                                {msg.type === "received" && (
-                                    <img src={selectedChat.avatar} alt="Avatar" className="avatar" />
-                                )}
-                                <div className="message-content">
-                                    <p>{msg.text}</p>
-                                    <span className="time">
-                    {msg.time}
-                                        {/* If it's a sent message, show a small read receipt check (UC6) */}
-                                        {msg.type === "sent" && msg.read && (
-                                            <i className="fas fa-check read-receipt" title="Message read"></i>
-                                        )}
-                </span>
+                {selectedChat ? (
+                    <>
+                        {/* CHAT WINDOW */}
+                        <section className="chat-window">
+                            {/* Chat Header */}
+                            <div className="chat-header">
+                                <div className="chat-with">
+                                    <button className="sidebar-toggle" onClick={toggleSidebar}>
+                                        <i className="fas fa-bars"></i>
+                                    </button>
+                                    <img src={selectedChat.avatar} alt="User Avatar" className="avatar" />
+                                    <div>
+                                        <h2>{selectedChat.name}</h2>
+                                        <p className="status">{selectedChat.status}</p>
+                                    </div>
+                                </div>
+                                <div className="chat-actions">
+                                    <button className="action-btn" onClick={() => alert("Video call!")}>
+                                        <i className="fas fa-video"></i>
+                                    </button>
+                                    <button className="action-btn" onClick={toggleDetails}>
+                                        <i className="fas fa-info-circle"></i>
+                                    </button>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                            {/* Chat Body */}
+                            <div className="chat-body" ref={chatBodyRef}>
+                                {messages.map((msg, index) => (
+                                    <div
+                                        key={index}
+                                        className={`message ${msg.type}`}
+                                    >
+                                        {/* For "received" messages, show an avatar */}
+                                        {msg.type === "received" && (
+                                            <img src={selectedChat.avatar} alt="Avatar" className="avatar" />
+                                        )}
+                                        <div className="message-content">
+                                            <p>{msg.text}</p>
+                                            <span className="time">
+                            {msg.time}
+                                                {/* If it's a sent message, show a small read receipt check (UC6) */}
+                                                {msg.type === "sent" && msg.read && (
+                                                    <i className="fas fa-check read-receipt" title="Message read"></i>
+                                                )}
+                        </span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
 
-                    {/*/!* Chat Body *!/*/}
-                    {/*<div className="chat-body" ref={chatBodyRef}>*/}
-                    {/*    {messages.map((msg, index) => (*/}
-                    {/*        <div*/}
-                    {/*            key={index}*/}
-                    {/*            className={`message ${msg.type} ${msg.isTyping ? "typing" : ""}`}*/}
-                    {/*        >*/}
-                    {/*            /!* For "received" messages, show an avatar if not typing *!/*/}
-                    {/*            {msg.type === "received" && !msg.isTyping && (*/}
-                    {/*                <img src={selectedChat.avatar} alt="Avatar" className="avatar" />*/}
-                    {/*            )}*/}
-                    {/*            <div className="message-content">*/}
-                    {/*                <p>{msg.text}</p>*/}
-                    {/*                /!* Show time if not typing *!/*/}
-                    {/*                {!msg.isTyping && (*/}
-                    {/*                    <span className="time">*/}
-                    {/*  {msg.time}*/}
-                    {/*                        /!* If it's a sent message, show a small read receipt check (UC6) *!/*/}
-                    {/*                        {msg.type === "sent" && msg.read && (*/}
-                    {/*                            <i className="fas fa-check read-receipt" title="Message read"></i>*/}
-                    {/*                        )}*/}
-                    {/*</span>*/}
-                    {/*                )}*/}
-                    {/*            </div>*/}
-                    {/*        </div>*/}
-                    {/*    ))}*/}
-                    {/*</div>*/}
+                            {/* Chat Input (UC5: Send Message) */}
+                            {/* Chat Input Area with Fake Attach & Emoji Buttons */}
+                            {/* This is the updated chat input area with Video & Upload on the right */}
+                            <div className="chat-input-area">
+                                {/* Left: Emoji Button */}
+                                <button
+                                    className="emoji-btn"
+                                    // onClick={() => setShowEmojiPicker(prev => !prev)}
+                                >
+                                    🙂
+                                </button>
+                                {/*/!* Render Emoji Picker when showEmojiPicker is true *!/*/}
+                                {/*{showEmojiPicker && (*/}
+                                {/*    <div className="emoji-picker-container">*/}
+                                {/*        <EmojiPicker onEmojiClick={handleEmojiClick} />*/}
+                                {/*    </div>*/}
+                                {/*)}*/}
 
-                    {/* Chat Input (UC5: Send Message) */}
-                    {/* Chat Input Area with Fake Attach & Emoji Buttons */}
-                    {/* This is the updated chat input area with Video & Upload on the right */}
-                    <div className="chat-input-area">
-                        {/* Left: Emoji Button */}
-                        <button
-                            className="emoji-btn"
-                            // onClick={() => setShowEmojiPicker(prev => !prev)}
-                        >
-                            🙂
-                        </button>
-                        {/*/!* Render Emoji Picker when showEmojiPicker is true *!/*/}
-                        {/*{showEmojiPicker && (*/}
-                        {/*    <div className="emoji-picker-container">*/}
-                        {/*        <EmojiPicker onEmojiClick={handleEmojiClick} />*/}
-                        {/*    </div>*/}
-                        {/*)}*/}
+                                {/* Center: Text Input */}
+                                <input
+                                    type="text"
+                                    placeholder="Type your message..."
+                                    value={inputText}
+                                    onChange={(e) => setInputText(e.target.value)}
+                                    onKeyPress={handleKeyPress}
+                                />
 
-                        {/* Center: Text Input */}
-                        <input
-                            type="text"
-                            placeholder="Type your message..."
-                            value={inputText}
-                            onChange={(e) => setInputText(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                        />
+                                {/* Right: Video, Upload, Send */}
+                                <button className="video-btn" onClick={() => alert("Video call not implemented!")}>
+                                    🎥
+                                </button>
+                                <button className="upload-btn" onClick={() => alert("File upload not implemented!")}>
+                                    ⏏
+                                </button>
+                                <button className="send-btn" onClick={handleSend}>
+                                    Send
+                                </button>
+                            </div>
+                        </section>
 
-                        {/* Right: Video, Upload, Send */}
-                        <button className="video-btn" onClick={() => alert("Video call not implemented!")}>
-                            🎥
-                        </button>
-                        <button className="upload-btn" onClick={() => alert("File upload not implemented!")}>
-                            ⏏
-                        </button>
-                        <button className="send-btn" onClick={handleSend}>
-                            Send
-                        </button>
+                        {/* RIGHT SIDEBAR (UC7: View Contact Info, UC8: Role-based Labeling, UC10: Status Indicator) */}
+                        <aside className={`details-sidebar ${isDetailsOpen ? "open" : "closed"}`}>
+                            <div className="details-card">
+                                <img src={selectedChat.avatar} alt="User Avatar" className="profile-avatar" />
+                                <h3>{selectedChat.name}</h3>
+                                <p className="role-label">{selectedChat.role}</p>
+                            </div>
+                            <div className="details-info">
+                                <p>
+                                    <strong>Status:</strong> {selectedChat.status}
+                                </p>
+                                <p>
+                                    <strong>Email:</strong> {selectedChat.email}
+                                </p>
+                                <p>
+                                    <strong>Joined:</strong> {selectedChat.joined}
+                                </p>
+                                <p>
+                                    <strong>Location:</strong> {selectedChat.location}
+                                </p>
+                            </div>
+                            <div className="details-actions">
+                                {/* UC: Mute, Block, Report */}
+                                <button onClick={() => alert("Muted user!")}>Mute</button>
+                                <button onClick={() => alert("Blocked user!")}>Block</button>
+                                <button onClick={() => alert("Reported user!")}>Report</button>
+                            </div>
+                        </aside>
+                    </>
+                ) : (
+                    <div className="no-chat-selected">
+                        <p>Please select a chat to start messaging.</p>
+                        {/* Optional: add an icon or illustration here for better UX */}
                     </div>
-                </section>
-
-                {/* RIGHT SIDEBAR (UC7: View Contact Info, UC8: Role-based Labeling, UC10: Status Indicator) */}
-                <aside className={`details-sidebar ${isDetailsOpen ? "open" : "closed"}`}>
-                    <div className="details-card">
-                        <img src={selectedChat.avatar} alt="User Avatar" className="profile-avatar" />
-                        <h3>{selectedChat.name}</h3>
-                        <p className="role-label">{selectedChat.role}</p>
-                    </div>
-                    <div className="details-info">
-                        <p>
-                            <strong>Status:</strong> {selectedChat.status}
-                        </p>
-                        <p>
-                            <strong>Email:</strong> {selectedChat.email}
-                        </p>
-                        <p>
-                            <strong>Joined:</strong> {selectedChat.joined}
-                        </p>
-                        <p>
-                            <strong>Location:</strong> {selectedChat.location}
-                        </p>
-                    </div>
-                    <div className="details-actions">
-                        {/* UC: Mute, Block, Report */}
-                        <button onClick={() => alert("Muted user!")}>Mute</button>
-                        <button onClick={() => alert("Blocked user!")}>Block</button>
-                        <button onClick={() => alert("Reported user!")}>Report</button>
-                    </div>
-                </aside>
+                )}
             </main>
         </div>
     );
