@@ -122,5 +122,29 @@ export default function WhiteboardCanvas() {
             contextRef.current.lineWidth = lineWidth;
         }
     }, [lineColor, lineWidth]);
+    const handleToolClick = (toolName) => {
+        alert(`Tool ${toolName} clicked! (Feature to be added)`);
+    };
 
+// Inside return(), topbar div
+    <div className="whiteboard-topbar glass-card">
+        <div className="whiteboard-title">Whiteboard</div>
+        <div className="whiteboard-tools">
+            <button className="tool-btn neon-hover" onClick={() => handleToolClick("Cursor")}>
+                <i className="fas fa-mouse-pointer"></i>
+            </button>
+            <button className="tool-btn neon-hover" onClick={() => handleToolClick("Pencil")}>
+                <i className="fas fa-pencil-alt"></i>
+            </button>
+            <button className="tool-btn neon-hover" onClick={() => handleToolClick("Rectangle")}>
+                <i className="far fa-square"></i>
+            </button>
+            <button className="tool-btn neon-hover" onClick={() => handleToolClick("Circle")}>
+                <i className="far fa-circle"></i>
+            </button>
+            <button className="tool-btn neon-hover" onClick={() => handleToolClick("Eraser")}>
+                <i className="fas fa-eraser"></i>
+            </button>
+        </div>
+    </div>
 }
