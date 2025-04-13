@@ -19,3 +19,16 @@
             radial-gradient(circle at bottom right, rgba(255,0,255,0.15), transparent 50%),
             linear-gradient(135deg, #e9f0f5, #ffffff);
 }
+.whiteboard-container * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.whiteboard-container .whiteboard-canvas-container {
+    display: flex;
+    margin-top: 50px;
+    flex-direction: column;
+    gap: 1rem;
+}
+
