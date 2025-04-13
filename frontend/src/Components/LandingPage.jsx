@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import '../Styles/LandingPage.css';
 
 export default function LandingPage() {
     const [hovered, setHovered] = useState(false);
