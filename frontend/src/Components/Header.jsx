@@ -71,6 +71,7 @@ export default function Header() {
                                         <NavLink to="/learn_more" className="dropdown-item">Learn More</NavLink>
                                         <NavLink to="/resources" className="dropdown-item">Resources</NavLink>
                                         <NavLink to="/pomodoro" className="dropdown-item">Pomodoro</NavLink>
+                                        {/*<NavLink to="/LandingPage" className="dropdown-item">LandingPage</NavLink>*/}
                                     </div>
                                 </div>
 
