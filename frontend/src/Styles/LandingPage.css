@@ -1,3 +1,7 @@
+/*
+   Scopes all rules under .landing-page so that
+   styles only affect this component.
+*/
 .landing-page {
     position: relative;
     width: 100%;
@@ -9,6 +13,8 @@
     justify-content: center;
     align-items: center;
 }
+
+/* Background gradient (100% -> 200% to ensure no edges show) */
 .landing-page__background-gradient {
     position: absolute;
     top: 0;
@@ -27,6 +33,7 @@
     z-index: 1;
 }
 
+/* Keyframes for the slow gradient motion */
 @keyframes landing-page__gradientBG {
     0% {
         background-position: 0% 50%;
@@ -38,6 +45,8 @@
         background-position: 0% 50%;
     }
 }
+
+/* Glass overlay card with frosted blur */
 .landing-page__content-overlay {
     position: relative;
     z-index: 2;
@@ -49,6 +58,8 @@
     padding: 3rem 4rem;
     text-align: center;
 }
+
+/* Large heading with brand accent */
 .landing-page__main-heading {
     font-size: 3rem;
     margin-bottom: 1rem;
@@ -58,6 +69,8 @@
 .landing-page__brand-name {
     color: #ffd700; /* Golden accent color */
 }
+
+/* Tagline text */
 .landing-page__tagline {
     font-size: 1.1rem;
     margin-bottom: 2rem;
@@ -66,6 +79,8 @@
     line-height: 1.5;
     margin: 0 auto 2rem auto;
 }
+
+/* Call-to-action button */
 .landing-page__cta-button {
     background: linear-gradient(90deg, #02c39a, #00a896);
     color: #fff;
@@ -79,6 +94,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Hover state for CTA button */
 .landing-page__cta-button--hovered {
     transform: translateY(-3px) scale(1.03);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
