@@ -58,3 +58,11 @@
 .landing-page__brand-name {
     color: #ffd700; /* Golden accent color */
 }
+.landing-page__tagline {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #f0f0f0;
+    max-width: 600px;
+    line-height: 1.5;
+    margin: 0 auto 2rem auto;
+}
