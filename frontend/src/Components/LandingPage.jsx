@@ -4,7 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
     const [hovered, setHovered] = useState(false);
+    const navigate = useNavigate();  // get navigation hook
 
+    const handleClick = () => {
+             navigate("/WhiteboardCanvas");
+             console.log("Navigate to Whiteboard page...");
+         };
     return (
         <div className="landing-page">
             <div className="landing-page__background-gradient" />
@@ -24,6 +29,7 @@ export default function LandingPage() {
                     }`}
                     onMouseEnter={() => setHovered(true)}
                     onMouseLeave={() => setHovered(false)}
+                    onClick={handleClick}
                 >
                     Launch Whiteboard
                 </button>
