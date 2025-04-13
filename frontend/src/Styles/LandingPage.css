@@ -38,3 +38,14 @@
         background-position: 0% 50%;
     }
 }
+.landing-page__content-overlay {
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    padding: 3rem 4rem;
+    text-align: center;
+}
