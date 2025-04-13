@@ -115,3 +115,19 @@
     accent-color: var(--primary);
 }
 
+.whiteboard-container .action-button {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background var(--transition-speed), transform var(--transition-speed);
+    font-weight: 600;
+}
+
+.whiteboard-container .action-button:hover {
+    background: var(--primary-dark);
+    transform: scale(1.07);
+}
+
