@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../Styles/TutorView.css";
 import StudentNavbar from "./StudentNavbar";
 
@@ -23,33 +22,9 @@ const sidebarOptions = [
     { text: "Sticker Book", path:"/tutor/sticker" }
 ];
 
-export default function TutorView({ darkMode}) {
-    const [openDropdown, setOpenDropdown] = useState(null);
-    const [isDarkMode, setIsDarkMode] = useState(false);
-    const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-
-    const toggleDropdown = (menu) => {
-        setOpenDropdown(openDropdown === menu ? null : menu);
-    };
-
-    const closeDropdown = () => {
-        setOpenDropdown(null);
-    };
-
-    const toggleTheme = () => {
-        setIsDarkMode(!isDarkMode);
-    };
-
-    const toggleProfileDropdown = () => {
-        setProfileDropdownOpen(!profileDropdownOpen);
-    };
-
-    const closeProfileDropdown = () => {
-        setProfileDropdownOpen(false);
-    };
-
+export default function TutorView({ darkMode, toggleTheme }) {
     return (
-        <div className={`tutor-dashboard-page ${isDarkMode ? "dark-mode" : ""}`}>
+        <div className={`tutor-dashboard-page ${darkMode ? "dark-mode" : ""}`}>
             <StudentNavbar isDarkMode={darkMode} toggleTheme={toggleTheme} />
             <section className="greeting">
                 <div className="inner-container">
