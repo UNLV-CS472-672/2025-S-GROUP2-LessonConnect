@@ -68,3 +68,17 @@
     box-shadow: 0 0 8px var(--neon), 0 0 16px var(--neon);
 }
 
+.whiteboard-container .tool-btn {
+    background: transparent;
+    border: none;
+    color: #333;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    transition: color var(--transition-speed);
+}
+
+.whiteboard-container .tool-btn:hover {
+    color: var(--primary);
+}
+
