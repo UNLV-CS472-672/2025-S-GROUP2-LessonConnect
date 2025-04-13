@@ -59,3 +59,12 @@
     gap: 0.6rem;
 }
 
+.whiteboard-container .neon-hover {
+    transition: transform var(--transition-speed), color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.whiteboard-container .neon-hover:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 8px var(--neon), 0 0 16px var(--neon);
+}
+
