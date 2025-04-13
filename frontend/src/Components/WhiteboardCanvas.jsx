@@ -9,6 +9,17 @@ export default function WhiteboardCanvas() {
     const [lineColor, setLineColor] = useState("#000000");
     const [lineWidth, setLineWidth] = useState(3);
 
+    // Example color palette
+    const colorOptions = [
+        "#000000", "#7F7F7F", "#BFBFBF", "#FFFFFF",
+        "#FF0000", "#FF7F00", "#FFFF00", "#7FFF00",
+        "#00FF00", "#00FF7F", "#00FFFF", "#007FFF",
+        "#0000FF", "#7F00FF", "#FF00FF", "#FF007F"
+    ];
+
+    /**
+     * Set up the canvas size and context for drawing
+     */
     const resizeCanvas = () => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -25,6 +36,28 @@ export default function WhiteboardCanvas() {
         contextRef.current = context;
     };
 
+    // Resize only on mount or window resize (not on color/width changes)
+    useEffect(() => {
+        function handleResize() {
+            resizeCanvas();
+        }
+        // Initial sizing
+        resizeCanvas();
+
+        // If you want dynamic resizing
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    // Update stroke style on color/width changes
+    useEffect(() => {
+        if (contextRef.current) {
+            contextRef.current.strokeStyle = lineColor;
+            contextRef.current.lineWidth = lineWidth;
+        }
+    }, [lineColor, lineWidth]);
+
+    // Mouse event handlers
     const startDrawing = (e) => {
         const { offsetX, offsetY } = e.nativeEvent;
         contextRef.current.beginPath();
@@ -46,46 +79,7 @@ export default function WhiteboardCanvas() {
         }
     };
 
-    return (
-        <div className="whiteboard-container">
-            <canvas
-                ref={canvasRef}
-                className="drawing-canvas"
-                onMouseDown={startDrawing}
-                onMouseMove={draw}
-                onMouseUp={stopDrawing}
-                onMouseLeave={stopDrawing}
-            />
-        </div>
-    );
-    const colorOptions = ["#000000", "#7F7F7F", "#BFBFBF", "#FFFFFF",
-        "#FF0000", "#FF7F00", "#FFFF00", "#7FFF00",
-        "#00FF00", "#00FF7F", "#00FFFF", "#007FFF",
-        "#0000FF", "#7F00FF", "#FF00FF", "#FF007F"];
-
-// Inserted inside return()
-    <div className="toolbar glass-card">
-        <label className="color-label">Color:</label>
-        {colorOptions.map((color) => (
-            <button
-                key={color}
-                className="color-button"
-                style={{ backgroundColor: color }}
-                onClick={() => setLineColor(color)}
-            />
-        ))}
-        <label className="width-label">
-            Brush:
-            <input
-                type="range"
-                min="1"
-                max="20"
-                value={lineWidth}
-                onChange={(e) => setLineWidth(e.target.value)}
-            />
-        </label>
-    </div>
-
+    // Utility buttons
     const clearCanvas = () => {
         const canvas = canvasRef.current;
         contextRef.current.clearRect(0, 0, canvas.width, canvas.height);
@@ -99,52 +93,54 @@ export default function WhiteboardCanvas() {
         link.click();
     };
 
-// Add buttons in toolbar div
-    <button className="action-button neon-hover" onClick={clearCanvas}>
-        Clear
-    </button>
-    <button className="action-button neon-hover" onClick={downloadCanvas}>
-        Download
-    </button>
-
-    useEffect(() => {
-        function handleResize() {
-            resizeCanvas();
-        }
-        resizeCanvas();
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    useEffect(() => {
-        if (contextRef.current) {
-            contextRef.current.strokeStyle = lineColor;
-            contextRef.current.lineWidth = lineWidth;
-        }
-    }, [lineColor, lineWidth]);
+    // Placeholder for extra tools
     const handleToolClick = (toolName) => {
         alert(`Tool ${toolName} clicked! (Feature to be added)`);
     };
 
-// Inside return(), topbar div
-    <div className="whiteboard-topbar glass-card">
-        <div className="whiteboard-title">Whiteboard</div>
-        <div className="whiteboard-tools">
-            <button className="tool-btn neon-hover" onClick={() => handleToolClick("Cursor")}>
-                <i className="fas fa-mouse-pointer"></i>
-            </button>
-            <button className="tool-btn neon-hover" onClick={() => handleToolClick("Pencil")}>
-                <i className="fas fa-pencil-alt"></i>
-            </button>
-            <button className="tool-btn neon-hover" onClick={() => handleToolClick("Rectangle")}>
-                <i className="far fa-square"></i>
-            </button>
-            <button className="tool-btn neon-hover" onClick={() => handleToolClick("Circle")}>
-                <i className="far fa-circle"></i>
-            </button>
-            <button className="tool-btn neon-hover" onClick={() => handleToolClick("Eraser")}>
-                <i className="fas fa-eraser"></i>
-            </button>
-        </div>
-    </div>
-}
+    return (
+        // Unique parent class to scope styling:
+        <div className="whiteboard-container">
+            <div className="whiteboard-canvas-container">
+                {/* Top bar */}
+                <div className="whiteboard-topbar glass-card">
+                    <div className="whiteboard-title">Whiteboard</div>
+                    <div className="whiteboard-tools">
+                        <button
+                            className="tool-btn neon-hover"
+                            title="Cursor"
+                            onClick={() => handleToolClick("Cursor")}
+                        >
+                            <i className="fas fa-mouse-pointer"></i>
+                        </button>
+                        <button
+                            className="tool-btn neon-hover"
+                            title="Pencil"
+                            onClick={() => handleToolClick("Pencil")}
+                        >
+                            <i className="fas fa-pencil-alt"></i>
+                        </button>
+                        <button
+                            className="tool-btn neon-hover"
+                            title="Rectangle"
+                            onClick={() => handleToolClick("Rectangle")}
+                        >
+                            <i className="far fa-square"></i>
+                        </button>
+                        <button
+                            className="tool-btn neon-hover"
+                            title="Circle"
+                            onClick={() => handleToolClick("Circle")}
+                        >
+                            <i className="far fa-circle"></i>
+                        </button>
+                        <button
+                            className="tool-btn neon-hover"
+                            title="Eraser"
+                            onClick={() => handleToolClick("Eraser")}
+                        >
+                            <i className="fas fa-eraser"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
