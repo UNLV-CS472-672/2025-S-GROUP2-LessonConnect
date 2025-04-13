@@ -49,3 +49,12 @@
     padding: 3rem 4rem;
     text-align: center;
 }
+.landing-page__main-heading {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 800;
+}
+
+.landing-page__brand-name {
+    color: #ffd700; /* Golden accent color */
+}
