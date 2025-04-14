@@ -6,7 +6,7 @@ export default function FAQS() {
             {/* FAQ Section */}
             {/* FAQ Background Section */}
             <div className="faq-background">
-                <img src="assets/images/FAQs.webp" alt="FAQs Background" className="faq-bg-image" />
+                <img src="/assets/images/FAQs.webp" alt="FAQs Background" className="faq-bg-image" />
                 <h1 className="faq-title">FAQs:</h1>
             </div>
 
