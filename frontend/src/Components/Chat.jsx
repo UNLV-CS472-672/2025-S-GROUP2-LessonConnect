@@ -14,7 +14,7 @@ export default function Chat() {
     //     setInputText(prev => prev + emojiData.emoji);
     // }
 
-    const [messages, setMessages] = useState([]);
+    const messages = useState([]);
 
     const [inputText, setInputText] = useState("");
 
@@ -83,10 +83,12 @@ export default function Chat() {
 
     // Dynamically set the chat room when user clicks a chat
     const [roomName, setRoomName] = useState(null);
+    const [isTyping, setIsTyping] = useState(null);
     // Used to refetch or re-render messages
     const accessToken = localStorage.getItem("accessToken");
     const username = localStorage.getItem("username");
-    // Handles typing notifying others that user is typing
+
+    // Handles notifying others that user is typing
     const handleTyping = (e) => {
         setInputText(e.target.value)
         // Prepare typing data
@@ -99,6 +101,15 @@ export default function Chat() {
             console.warn("WebSocket not open.");
         }
     }
+    // https://dev.to/3mustard/create-a-typing-animation-in-react-17o0
+    // typing animation component
+    const Typing = () => (
+        <div className="typing">
+            <div className="typing__dot"></div>
+            <div className="typing__dot"></div>
+            <div className="typing__dot"></div>
+        </div>
+    )
     // ------------ WEBSOCKET RELATED VARIABLES END------------------
 
     // ------------ WEBSOCKET EFFECTS START------------------
@@ -138,8 +149,11 @@ export default function Chat() {
             socket.current.onmessage = (event) => {
                 console.log("Socket message received: ", event.data);
                 const eventData = JSON.parse(event.data);
-                if(eventData.message === "successful"){
+                if('body' in eventData && eventData.message === "successful"){
                     messageDisplay(eventData)
+                }
+                else if ('typing' in eventData && eventData.username !== username && eventData.message === "successful"){
+                    setIsTyping(eventData.typing)
                 }
 
             };
@@ -157,6 +171,19 @@ export default function Chat() {
         };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [roomName, accessToken]);
+
+    useEffect(() => {
+        renderTyping()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isTyping]);
+
+    function renderTyping() {
+        return (
+            <div>
+                {isTyping ? <Typing /> : null}
+            </div>
+        );
+    }
 
     // ------------ WEBSOCKET EFFECTS END------------------
 
@@ -192,8 +219,6 @@ export default function Chat() {
     function getCurrentTime() {
         return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     }
-
-
 
     // Send a message (UC5)
     function handleSend() {
@@ -247,11 +272,6 @@ export default function Chat() {
     const filteredChatList = chatList.filter((chat) =>
         chat.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
-    // useEffect(() => {
-    //     console.log("Selected Chat:", selectedChat);
-    //
-    // }, [selectedChat])
 
     // ------------------- RENDER --------------------
     return (

@@ -65,7 +65,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def typing_status(self, event):
         await self.send(text_data=json.dumps({
             'message': 'successful',
-            'typing_status': event['typing'],
+            'typing': event['typing'],
             'username': event['username']
         }))
 
