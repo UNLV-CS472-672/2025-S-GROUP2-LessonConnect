@@ -7,16 +7,26 @@ export default function Settings({ darkMode }) {
     const [saveSuccess, setSaveSuccess] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
 
+    const [role] = useState("student"); // Change this to "tutor" for testing
+
     // Profile State
     const [bio, setBio] = useState("");
     const [initialBio] = useState("");
-
     const [name, setName] = useState("");
     const [initialName] = useState("");
 
+    // Tutor Fields
+    const [tutorSubjects, setTutorSubjects] = useState("");
+    const [hourlyRate, setHourlyRate] = useState("");
+
+    // Student Fields
+    const [gradeLevel, setGradeLevel] = useState("");
+    const [preferredSubjects, setPreferredSubjects] = useState("");
+    const [emergencyContactName, setEmergencyContactName] = useState("");
+    const [emergencyContactEmail, setEmergencyContactEmail] = useState("");
+
     // Account State
     const [username, setUsername] = useState("");
-
     const [location, setLocation] = useState("");
     const [occupation, setOccupation] = useState("");
     const [discord, setDiscord] = useState("");
@@ -26,7 +36,7 @@ export default function Settings({ darkMode }) {
     const [primaryEmail, setPrimaryEmail] = useState("");
     const [backupEmail, setBackupEmail] = useState("");
 
-    // Password State (no need to store initial password)
+    // Password State
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -41,8 +51,8 @@ export default function Settings({ darkMode }) {
         setTimeout(() => {
             setIsSaving(false);
             setSaveSuccess(true);
-            setTimeout(() => setSaveSuccess(false), 3000); // Hide success msg after 3s
-        }, 1000); // Simulate a save delay
+            setTimeout(() => setSaveSuccess(false), 3000);
+        }, 1000);
     };
 
     const renderPanel = () => {
@@ -56,11 +66,7 @@ export default function Settings({ darkMode }) {
 
                         <h3 className="subsection-title">Profile picture</h3>
                         <div className="avatar-container">
-                            <img
-                                src="/assets/images/user.png"
-                                alt="Profile"
-                                className="avatar-img"
-                            />
+                            <img src="/assets/images/user.png" alt="Profile" className="avatar-img" />
                             <button className="edit-avatar">Change Picture</button>
                         </div>
 
@@ -108,6 +114,78 @@ export default function Settings({ darkMode }) {
                             <label>URL</label>
                             <input type="text" placeholder="https://yourwebsite.com" />
                         </div>
+
+                        {/*  Tutor-specific fields */}
+                        {role === "tutor" && (
+                            <>
+                                <div className="form-group">
+                                    <label>Subjects You Teach</label>
+                                    <input
+                                        type="text"
+                                        placeholder="e.g. Math, Physics"
+                                        value={tutorSubjects}
+                                        onChange={(e) => setTutorSubjects(e.target.value)}
+                                    />
+                                    <p className="helper-text">Separate multiple subjects with commas.</p>
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Hourly Rate ($)</label>
+                                    <input
+                                        type="number"
+                                        placeholder="e.g. 30"
+                                        value={hourlyRate}
+                                        onChange={(e) => setHourlyRate(e.target.value)}
+                                    />
+                                    <p className="helper-text">This is how much you charge per hour of tutoring.</p>
+                                </div>
+                            </>
+                        )}
+
+                        {/*  Student-specific fields */}
+                        {role === "student" && (
+                            <>
+                                <div className="form-group">
+                                    <label>Grade Level</label>
+                                    <input
+                                        type="text"
+                                        placeholder="e.g. 10th Grade"
+                                        value={gradeLevel}
+                                        onChange={(e) => setGradeLevel(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Preferred Subjects</label>
+                                    <input
+                                        type="text"
+                                        placeholder="e.g. Biology, Algebra"
+                                        value={preferredSubjects}
+                                        onChange={(e) => setPreferredSubjects(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Emergency Contact Name</label>
+                                    <input
+                                        type="text"
+                                        placeholder="e.g. Jane Doe"
+                                        value={emergencyContactName}
+                                        onChange={(e) => setEmergencyContactName(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Emergency Contact Email</label>
+                                    <input
+                                        type="email"
+                                        placeholder="e.g. janedoe@email.com"
+                                        value={emergencyContactEmail}
+                                        onChange={(e) => setEmergencyContactEmail(e.target.value)}
+                                    />
+                                </div>
+                            </>
+                        )}
 
                         <div className="button-group">
                             <button className="save-btn" onClick={handleSave} disabled={isSaving}>
