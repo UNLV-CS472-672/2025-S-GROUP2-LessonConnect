@@ -17,7 +17,7 @@ const dashboardOptions = [
 ];
 
 const externalLinks = [
-    { text: "Go to my files", path:"/student/lessons" },
+    { text: "Go to my files", path:"/student/assignment?tab=files" },
     { text: "Gaming Stats", path:"/student/view#gaming" },
     { text: "Support", path:"/student/support" },
     { text: "settings", path:"/student/settings" },
