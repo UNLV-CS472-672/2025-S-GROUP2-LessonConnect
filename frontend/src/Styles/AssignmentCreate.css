@@ -1,45 +1,73 @@
-.global_container {
-    padding: 20px;
+.assignment-create_container {
     font-family: Arial, sans-serif;
+    padding: 40px;
+    background-color: #fff;
+    margin: 140px;
 }
 
-.global_header {
-    font-size: 24px;
-    margin-bottom: 10px;
+.assignment-create_container .assignment-create_header {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-.global_buttonContainer {
-    margin-bottom: 15px;
+.assignment-create_container .assignment-create_button-container {
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-.global_button {
+.assignment-create_container .assignment-create_button {
     padding: 8px 16px;
+    margin: 0 10px;
     font-size: 14px;
+    background-color: #0073e6;
+    color: white;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
 }
 
-.global_table {
-    width: 100%;
-    border-collapse: collapse;
+.assignment-create_container .assignment-create_button:hover {
+    background-color: #005bb5;
 }
 
-.global_label {
+.assignment-create_container .assignment-create_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.assignment-create_container .assignment-create_label {
     background-color: #f2f2f2;
     padding: 8px;
     border: 1px solid #ddd;
     text-align: left;
 }
 
-.global_cell {
+.assignment-create_container .assignment-create_cell {
     padding: 8px;
     border: 1px solid #ddd;
 }
 
-.global_link {
-    padding: 4px 8px;
-    background-color: #007bff;
-    color: white;
+.assignment-create_container .assignment-create_link {
+    background: none;
+    color: #0073e6;
     border: none;
     cursor: pointer;
     font-size: 12px;
+}
+
+.assignment-create_container .assignment-create_form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.assignment-create_container .assignment-create_input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
 }
