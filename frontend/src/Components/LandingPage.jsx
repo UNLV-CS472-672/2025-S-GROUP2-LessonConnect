@@ -1,24 +1,27 @@
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";  // for navigation
+import { useNavigate, useLocation } from "react-router-dom";  // added useLocation
 import '../Styles/LandingPage.css';
 
 export default function LandingPage() {
     const [hovered, setHovered] = useState(false);
-    const navigate = useNavigate();  // get navigation hook
+    const navigate = useNavigate();
+    const location = useLocation();  // get current path
 
     const handleClick = () => {
-        // we are using React Router, then im thinking something like:
-        // navigate("/whiteboard"); && link to the page... 
-        navigate("/WhiteboardCanvas");
-        console.log("Navigate to Whiteboard page...");
+        const currentPath = location.pathname.toLowerCase();
+
+        if (currentPath.startsWith('/student')) {
+            navigate("/student/WhiteboardCanvas");
+        } else if (currentPath.startsWith('/tutor')) {
+            navigate("/tutor/WhiteboardCanvas");
+        } else {
+            console.warn("Unrecognized path:", currentPath);
+        }
     };
 
     return (
         <div className="landing-page">
-            {/* Animated gradient behind everything */}
             <div className="landing-page__background-gradient" />
-
-            {/* Frosted overlay with content */}
             <div className="landing-page__content-overlay">
                 <h1 className="landing-page__main-heading">
                     Welcome to <span className="landing-page__brand-name">LessonConnect</span>
@@ -27,7 +30,6 @@ export default function LandingPage() {
                     Experience the next-generation interactive whiteboard.<br />
                     Teach, learn, and collaborate with anyone, anywhere.
                 </p>
-
                 <button
                     className={`landing-page__cta-button ${
                         hovered ? 'landing-page__cta-button--hovered' : ''

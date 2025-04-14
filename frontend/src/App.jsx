@@ -61,8 +61,9 @@ function App() {
                 <Route path="/findTutor" element={<FindTutor />} />
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/WhiteboardCanvas" element={<WhiteboardCanvas/>} />
-                <Route path="/LandingPage" element={<LandingPage/>} />
-                <Route path="/videocall" element={<VideoCall />} />
+                {/*this is from abduls Whiteboard PR;;*/}
+                {/*<Route path="/LandingPage" element={<LandingPage/>} />*/}
+                {/*<Route path="/videocall" element={<VideoCall />} />*/}
 
                 {/* Student Routes with Layout */}
                 <Route path="/student/view" element={<StudentLayout><StudentView /></StudentLayout>} />
@@ -81,7 +82,8 @@ function App() {
                 <Route path="/student/assignment" element={<StudentLayout><AssignmentPage /></StudentLayout>} />
                 <Route path="/student/settings" element={<StudentLayout><Settings /></StudentLayout>} />
                 <Route path="/student/inbox" element={<StudentLayout><Inbox /></StudentLayout>} />
-
+                <Route path="/student/WhiteboardCanvas" element={<StudentLayout><WhiteboardCanvas /></StudentLayout>} />
+                <Route path="/student/LandingPage" element={<StudentLayout><LandingPage /></StudentLayout>} />
 
                 {/* Tutor Routes with Layout */}
                 <Route path="/tutor/view" element={<StudentLayout><TutorView /></StudentLayout>} />
@@ -100,6 +102,8 @@ function App() {
                 <Route path="/tutor/settings" element={<StudentLayout><Settings /></StudentLayout>} />
                 <Route path="/tutor/calendar" element={<StudentLayout><Calendar /></StudentLayout>} />
                 <Route path="/tutor/inbox" element={<StudentLayout><Inbox /></StudentLayout>} />
+                <Route path="/tutor/WhiteboardCanvas" element={<StudentLayout><WhiteboardCanvas /></StudentLayout>} />
+                <Route path="/tutor/LandingPage" element={<StudentLayout><LandingPage /></StudentLayout>} />
             </Routes>
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>
