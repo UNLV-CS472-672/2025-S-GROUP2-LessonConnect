@@ -1,8 +1,84 @@
+/*.assignment-create_container {*/
+/*    font-family: Arial, sans-serif;*/
+/*    padding: 40px;*/
+/*    background-color: #fff;*/
+/*    margin: 140px;*/
+/*}*/
+
+/*.assignment-create_container .assignment-create_header {*/
+/*    font-size: 32px;*/
+/*    font-weight: bold;*/
+/*    margin-bottom: 20px;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.assignment-create_container .assignment-create_button-container {*/
+/*    margin-bottom: 20px;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.assignment-create_container .assignment-create_button {*/
+/*    padding: 8px 16px;*/
+/*    margin: 0 10px;*/
+/*    font-size: 14px;*/
+/*    background-color: #0073e6;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    border-radius: 6px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.assignment-create_container .assignment-create_button:hover {*/
+/*    background-color: #005bb5;*/
+/*}*/
+
+/*.assignment-create_container .assignment-create_table {*/
+/*    width: 100%;*/
+/*    border-collapse: collapse;*/
+/*    margin-top: 20px;*/
+/*}*/
+
+/*.assignment-create_container .assignment-create_label {*/
+/*    background-color: #f2f2f2;*/
+/*    padding: 8px;*/
+/*    border: 1px solid #ddd;*/
+/*    text-align: left;*/
+/*}*/
+
+/*.assignment-create_container .assignment-create_cell {*/
+/*    padding: 8px;*/
+/*    border: 1px solid #ddd;*/
+/*}*/
+
+/*.assignment-create_container .assignment-create_link {*/
+/*    background: none;*/
+/*    color: #0073e6;*/
+/*    border: none;*/
+/*    cursor: pointer;*/
+/*    font-size: 12px;*/
+/*}*/
+
+/*.assignment-create_container .assignment-create_form {*/
+/*    max-width: 600px;*/
+/*    margin: 0 auto;*/
+/*}*/
+
+/*.assignment-create_container .assignment-create_input {*/
+/*    width: 100%;*/
+/*    padding: 10px;*/
+/*    margin-bottom: 15px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 6px;*/
+/*    font-size: 14px;*/
+/*}*/
+
+
 .assignment-create_container {
     font-family: Arial, sans-serif;
     padding: 40px;
     background-color: #fff;
-    margin: 140px;
+    margin: 80px auto;
+    max-width: 1000px;
 }
 
 .assignment-create_container .assignment-create_header {
@@ -56,6 +132,7 @@
     border: none;
     cursor: pointer;
     font-size: 12px;
+    margin-right: 10px;
 }
 
 .assignment-create_container .assignment-create_form {
@@ -70,4 +147,5 @@
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 14px;
+    box-sizing: border-box;
 }
