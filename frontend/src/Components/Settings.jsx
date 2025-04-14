@@ -4,6 +4,7 @@ import "../Styles/Settings.css";
 
 export default function Settings({ darkMode }) {
     const [activePanel, setActivePanel] = useState("profile");
+    const [bio, setBio] = useState("");
 
     const renderPanel = () => {
         switch (activePanel) {
@@ -40,8 +41,14 @@ export default function Settings({ darkMode }) {
 
                         <div className="form-group">
                             <label>Bio</label>
-                            <textarea placeholder="Tell us a little bit about yourself..." />
+                            <textarea
+                                placeholder="Tell us a little bit about yourself..."
+                                maxLength={500}
+                                value={bio}
+                                onChange={(e) => setBio(e.target.value)}
+                            />
                             <p className="helper-text">You can include links.</p>
+                            <p className="char-counter">{bio.length}/500</p>
                         </div>
 
                         <div className="form-group">
