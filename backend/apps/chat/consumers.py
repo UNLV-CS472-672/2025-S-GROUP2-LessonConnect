@@ -34,8 +34,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 # This function receive messages from WebSocket.
     async def receive(self, text_data):
         # Message is received
+        text_data_json = json.loads(text_data)
         if 'message' in text_data_json:
-            text_data_json = json.loads(text_data)
             message = text_data_json['message']
 
             # Create a new message object
@@ -53,6 +53,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Typing status is received
         elif 'typing' in text_data_json:
             typing = text_data_json['typing']
+            username = await self.get_username(self.user_id)
             await self.channel_layer.group_send( # sends message to all users in a channel group
                 self.room_group_name,
                 {
@@ -75,6 +76,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'body': event['message'],
             'username': event['username']
         }))
+
+    @sync_to_async
+    def get_username(self, id):
+        user = User.objects.get(id=id)
+        return user.username
 
     @sync_to_async
     def save_message(self, id, room_name, content):
