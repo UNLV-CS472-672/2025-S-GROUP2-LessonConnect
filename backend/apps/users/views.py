@@ -112,9 +112,11 @@ def register_profile(request):
       preferred_subjects = request.data["preferred_subjects"]
       emergency_contact_name = request.data["emergency_contact_name"]
       emergency_contact_phone_number = request.data["emergency_contact_phone_number"]
+      parent_profile_id = request.data["parent_profile"]
+      parent_profile_instance = ParentProfile.objects.get(id=parent_profile_id)
       student = StudentProfile.objects.create(
-          profile = profile,
-          parent_profile = parent_profile,
+          profile=profile,
+          parent_profile=parent_profile_instance,
           grade_level = grade_level,
           preferred_subjects = preferred_subjects,
           emergency_contact_name = emergency_contact_name,
