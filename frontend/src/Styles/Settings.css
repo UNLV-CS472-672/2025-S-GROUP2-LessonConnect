@@ -247,6 +247,11 @@
     background-color: #586777;
 }
 
+.settings-panel-section .success-msg {
+    color: #28a745;
+    font-size: 14px;
+    margin-top: 10px;
+}
 
 /* ==== DARK MODE STYLING ==== */
 .settings-wrapper.dark-mode {
@@ -364,4 +369,9 @@
 
 .settings-wrapper.dark-mode .cancel-btn:hover {
     background-color: #3498db;
+}
+
+/* Optional dark mode support */
+.settings-wrapper.dark-mode .success-msg {
+    color: #00dd00;
 }

@@ -4,6 +4,8 @@ import "../Styles/Settings.css";
 
 export default function Settings({ darkMode }) {
     const [activePanel, setActivePanel] = useState("profile");
+    const [saveSuccess, setSaveSuccess] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
 
     // Profile State
     const [bio, setBio] = useState("");
@@ -54,6 +56,15 @@ export default function Settings({ darkMode }) {
         setConfirmPassword("");
     };
 
+    const handleSave = () => {
+        setIsSaving(true);
+        setTimeout(() => {
+            setIsSaving(false);
+            setSaveSuccess(true);
+            setTimeout(() => setSaveSuccess(false), 3000); // Hide success msg after 3s
+        }, 1000); // Simulate a save delay
+    };
+
     const renderPanel = () => {
         switch (activePanel) {
             case "profile":
@@ -70,7 +81,7 @@ export default function Settings({ darkMode }) {
                                 alt="Profile"
                                 className="avatar-img"
                             />
-                            <button className="edit-avatar">Edit</button>
+                            <button className="edit-avatar">Change Picture</button>
                         </div>
 
                         <div className="form-group">
@@ -119,9 +130,12 @@ export default function Settings({ darkMode }) {
                         </div>
 
                         <div className="button-group">
-                            <button className="save-btn">Save</button>
-                            <button className="cancel-btn" onClick={handleCancelProfile}>Cancel</button>
+                            <button className="save-btn" onClick={handleSave} disabled={isSaving}>
+                                {isSaving ? "Saving..." : "Save"}
+                            </button>
+                            <button className="cancel-btn" onClick={handleCancelProfile}>Discard Changes</button>
                         </div>
+                        {saveSuccess && <p className="success-msg">Changes saved successfully ✅</p>}
                     </div>
                 );
 
@@ -187,9 +201,12 @@ export default function Settings({ darkMode }) {
                         </div>
 
                         <div className="button-group">
-                            <button className="save-btn">Save</button>
-                            <button className="cancel-btn" onClick={handleCancelAccount}>Cancel</button>
+                            <button className="save-btn" onClick={handleSave} disabled={isSaving}>
+                                {isSaving ? "Saving..." : "Save"}
+                            </button>
+                            <button className="cancel-btn" onClick={handleCancelProfile}>Discard Changes</button>
                         </div>
+                        {saveSuccess && <p className="success-msg">Changes saved successfully ✅</p>}
                     </div>
                 );
 
@@ -221,9 +238,12 @@ export default function Settings({ darkMode }) {
                         </div>
 
                         <div className="button-group">
-                            <button className="save-btn">Save</button>
-                            <button className="cancel-btn" onClick={handleCancelEmail}>Cancel</button>
+                            <button className="save-btn" onClick={handleSave} disabled={isSaving}>
+                                {isSaving ? "Saving..." : "Save"}
+                            </button>
+                            <button className="cancel-btn" onClick={handleCancelProfile}>Discard Changes</button>
                         </div>
+                        {saveSuccess && <p className="success-msg">Changes saved successfully ✅</p>}
                     </div>
                 );
 
@@ -263,9 +283,12 @@ export default function Settings({ darkMode }) {
                         </div>
 
                         <div className="button-group">
-                            <button className="save-btn">Update Password</button>
-                            <button className="cancel-btn" onClick={handleCancelPassword}>Cancel</button>
+                            <button className="save-btn" onClick={handleSave} disabled={isSaving}>
+                                {isSaving ? "Saving..." : "Save"}
+                            </button>
+                            <button className="cancel-btn" onClick={handleCancelProfile}>Discard Changes</button>
                         </div>
+                        {saveSuccess && <p className="success-msg">Changes saved successfully ✅</p>}
                     </div>
                 );
 
