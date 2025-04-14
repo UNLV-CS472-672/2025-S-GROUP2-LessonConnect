@@ -84,9 +84,9 @@ export default function About({ darkMode }) {
                                 {name: "Allison Kameda", role: "Back End Programmer", img: "/assets/images/allison.png"},
                                 {name: "Aviendha Andrus", role: "Back End Programmer", img: "/assets/images/Aviendha.png"},
                                 {name: "Christopher Liscano", role: "Back End Programmer", img: "/assets/images/Chris.png"},
-                                {name: "Jose Alarcon", role: "Front End Programmer", img: "/assets/images/UNLV_pic.png"},
+                                {name: "Charles Joseph Ballesteros", role: "Back End Programmer", img: "/assets/images/CJ.png"},
                                 {name: "Sameer Issa", role: "Front End Programmer", img: "/assets/images/UNLV_pic.png"},
-                                {name: "Charles Joseph Ballesteros", role: "Back End Programmer", img: "/assets/images/UNLV_pic.png"}
+                                {name: "Jose Alarcon", role: "Front End Programmer", img: "/assets/images/UNLV_pic.png"}
                             ].map((member, index) => (
                                 <div className="team-member" key={index}>
                                     <img src={member.img} alt={member.name}/>
