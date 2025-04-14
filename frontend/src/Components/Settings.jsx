@@ -16,7 +16,6 @@ export default function Settings({ darkMode }) {
 
     // Account State
     const [username, setUsername] = useState("");
-    const [initialUsername] = useState("");
 
     const [location, setLocation] = useState("");
     const [occupation, setOccupation] = useState("");
@@ -35,25 +34,6 @@ export default function Settings({ darkMode }) {
     const handleCancelProfile = () => {
         setBio(initialBio);
         setName(initialName);
-    };
-
-    const handleCancelAccount = () => {
-        setUsername(initialUsername);
-        setLocation("");
-        setOccupation("");
-        setDiscord("");
-        setGithub("");
-    };
-
-    const handleCancelEmail = () => {
-        setPrimaryEmail("");
-        setBackupEmail("");
-    };
-
-    const handleCancelPassword = () => {
-        setCurrentPassword("");
-        setNewPassword("");
-        setConfirmPassword("");
     };
 
     const handleSave = () => {
