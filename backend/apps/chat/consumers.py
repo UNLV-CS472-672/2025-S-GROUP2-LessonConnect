@@ -33,20 +33,41 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 # This function receive messages from WebSocket.
     async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+        # Message is received
+        if 'message' in text_data_json:
+            text_data_json = json.loads(text_data)
+            message = text_data_json['message']
 
-        # Create a new message object
-        username = await self.save_message(self.user_id, self.room_name, message)
+            # Create a new message object
+            username = await self.save_message(self.user_id, self.room_name, message)
 
-        await self.channel_layer.group_send( # sends message to all users in a channel group
-            self.room_group_name,
-            {
-                'type': 'chat_message', # Calls chat_message()
-                'message': message,
-                'username': username
-            }
-        )
+            await self.channel_layer.group_send( # sends message to all users in a channel group
+                self.room_group_name,
+                {
+                    'type': 'chat_message', # Calls chat_message()
+                    'message': message,
+                    'username': username
+                }
+            )
+
+        # Typing status is received
+        elif 'typing' in text_data_json:
+            typing = text_data_json['typing']
+            await self.channel_layer.group_send( # sends message to all users in a channel group
+                self.room_group_name,
+                {
+                    'type': 'typing_status', # Calls typing_status()
+                    'typing': typing,
+                    'username': username
+                }
+            )
+
+    async def typing_status(self, event):
+        await self.send(text_data=json.dumps({
+            'message': 'successful',
+            'typing_status': event['typing'],
+            'username': event['username']
+        }))
 
     async def chat_message(self, event):
         await self.send(text_data=json.dumps({

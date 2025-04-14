@@ -86,11 +86,41 @@ export default function Chat() {
     // Used to refetch or re-render messages
     const accessToken = localStorage.getItem("accessToken");
     const username = localStorage.getItem("username");
-
+    // Handles typing notifying others that user is typing
+    const handleTyping = (e) => {
+        setInputText(e.target.value)
+        // Prepare typing data
+        const typingStatus = {
+            typing: true
+        };
+        if (socket.current && socket.current.readyState === WebSocket.OPEN) {
+            socket.current.send(JSON.stringify(typingStatus));
+        } else {
+            console.warn("WebSocket not open.");
+        }
+    }
     // ------------ WEBSOCKET RELATED VARIABLES END------------------
 
-
     // ------------ WEBSOCKET EFFECTS START------------------
+
+    // Notify others that user has stopped typing with delay
+    useEffect(() => {
+        // Prepare typing data
+        const typingStatus = {
+            typing: false
+        };
+
+        const typingTimer = setTimeout(() => {
+            if (socket.current && socket.current.readyState === WebSocket.OPEN) {
+                socket.current.send(JSON.stringify(typingStatus));
+            } else {
+                console.warn("WebSocket not open.");
+            }
+        }, 2000); // Stop typing after 2 seconds
+
+        return () => clearTimeout(typingTimer);
+    }, [inputText]);
+
     // Handle opening the WebSocket connection when roomName changes
     useEffect(() => {
         if (roomName && !socket.current) {
@@ -162,6 +192,8 @@ export default function Chat() {
     function getCurrentTime() {
         return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     }
+
+
 
     // Send a message (UC5)
     function handleSend() {
@@ -346,7 +378,7 @@ export default function Chat() {
                                     type="text"
                                     placeholder="Type your message..."
                                     value={inputText}
-                                    onChange={(e) => setInputText(e.target.value)}
+                                    onChange={handleTyping}
                                     onKeyPress={handleKeyPress}
                                 />
 
