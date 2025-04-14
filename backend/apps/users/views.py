@@ -104,7 +104,7 @@ def register_profile(request):
       tutor = TutorProfile.objects.create(profile=profile, city=city, state=state, bio=bio, hourly_rate=hourly_rate)
   # otherwise, check if parent
   elif int(profile.role) == Profile.PARENT:
-      parent = ParentProfile.objects.create(profile)
+      parent = ParentProfile.objects.create(profile=profile)
   # otherwise, student
   else:
       parent_profile = request.data["parent_profile"]
