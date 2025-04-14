@@ -10,6 +10,9 @@ export default function WhiteboardCanvas() {
     const [lineColor, setLineColor] = useState("#000000");
     const [lineWidth, setLineWidth] = useState(3);
 
+    // 1) NEW: Undo stack state
+    const [undoStack, setUndoStack] = useState([]);
+
     // Example color palette
     const colorOptions = [
         "#000000", "#7F7F7F", "#BFBFBF", "#FFFFFF",
@@ -58,6 +61,38 @@ export default function WhiteboardCanvas() {
         }
     }, [lineColor, lineWidth]);
 
+    // 2) NEW: After the canvas is set up, capture its initial state for undo
+    useEffect(() => {
+        if (canvasRef.current && contextRef.current) {
+            const canvas = canvasRef.current;
+            const ctx = contextRef.current;
+            const initialData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            setUndoStack([initialData]);
+        }
+    }, []);
+
+    // 3) NEW: Helper function to push the current canvas to undo stack
+    const pushToUndoStack = () => {
+        if (!canvasRef.current || !contextRef.current) return;
+        const canvas = canvasRef.current;
+        const data = contextRef.current.getImageData(0, 0, canvas.width, canvas.height);
+        setUndoStack((prevStack) => [...prevStack, data]);
+    };
+
+    // 4) NEW: Undo logic
+    const undoLastAction = () => {
+        if (undoStack.length > 1) {
+            const newStack = [...undoStack];
+            newStack.pop(); // Remove current state
+            const previous = newStack[newStack.length - 1];
+            contextRef.current.putImageData(previous, 0, 0);
+            setUndoStack(newStack);
+        } else {
+            // If nothing left, just clear
+            clearCanvas();
+        }
+    };
+
     // Mouse event handlers
     const startDrawing = (e) => {
         const { offsetX, offsetY } = e.nativeEvent;
@@ -77,6 +112,8 @@ export default function WhiteboardCanvas() {
         if (isDrawing) {
             contextRef.current.closePath();
             setIsDrawing(false);
+            // 5) NEW: After each stroke, capture the final canvas state
+            pushToUndoStack();
         }
     };
 
@@ -98,6 +135,44 @@ export default function WhiteboardCanvas() {
     const handleToolClick = (toolName) => {
         alert(`Tool ${toolName} clicked! (Feature to be added)`);
     };
+
+    // 6) NEW: Listen for Eraser button click => switch to eraser mode
+    useEffect(() => {
+        const eraserButton = document.querySelector(".tool-btn[title='Eraser']");
+        if (!eraserButton) return;
+
+        const handleEraserClick = () => {
+            if (contextRef.current) {
+                contextRef.current.globalCompositeOperation = "destination-out";
+                // Optionally adjust eraser size:
+                setLineWidth(20);
+            }
+        };
+
+        eraserButton.addEventListener("click", handleEraserClick);
+        return () => {
+            eraserButton.removeEventListener("click", handleEraserClick);
+        };
+    }, []);
+
+    // 7) NEW: Listen for Pencil button click => switch back to normal drawing
+    useEffect(() => {
+        const pencilButton = document.querySelector(".tool-btn[title='Pencil']");
+        if (!pencilButton) return;
+
+        const handlePencilClick = () => {
+            if (contextRef.current) {
+                contextRef.current.globalCompositeOperation = "source-over";
+                // Reset brush size if desired:
+                setLineWidth(3);
+            }
+        };
+
+        pencilButton.addEventListener("click", handlePencilClick);
+        return () => {
+            pencilButton.removeEventListener("click", handlePencilClick);
+        };
+    }, []);
 
     return (
         // Unique parent class to scope styling:
@@ -169,6 +244,12 @@ export default function WhiteboardCanvas() {
                     <button className="action-button neon-hover" onClick={clearCanvas}>
                         Clear
                     </button>
+
+                    {/* 8) NEW: Undo button */}
+                    <button className="action-button neon-hover" onClick={undoLastAction}>
+                        Undo
+                    </button>
+
                     <button className="action-button neon-hover" onClick={downloadCanvas}>
                         Download
                     </button>
