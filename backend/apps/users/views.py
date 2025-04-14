@@ -5,15 +5,20 @@ from django.contrib.auth import authenticate
 from django.http import JsonResponse, HttpResponse
 from django.middleware.csrf import get_token
 from .models import Profile
-from apps.users.models import Profile, TutorProfile
+from apps.users.models import Profile, TutorProfile, ParentProfile, StudentProfile
 from apps.uploads.models import UploadRecord, ProfilePicture
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.decorators import api_view, permission_classes
+from .serializers import (
+    StudentProfileSerializer,
+    TutorProfileSerializer,
+    ParentProfileSerializer,
+)
 
 login_template = "login.html"
 register_profile_template = "register.html"
@@ -65,7 +70,7 @@ def register_profile(request):
   password = request.data["password"]
   # TODO: replace "1" with "role" once that is handled by the frontend
   # role = request.data["role"]  # Get the selected role
-  role = 3
+  role = Profile.STUDENT
   # Create user
   user = User.objects.create_user(
     username=username,
@@ -82,12 +87,13 @@ def register_profile(request):
 
   # Store optional profile picture
   if image:
+    # Use the manager method to create and save profile picture
+    profile_picture = ProfilePicture.objects.create(profile)
     # Use the manager method to handle file upload
     upload_data = UploadRecord.objects.upload(image)
-
-    # Use the manager method to save relevant metadata into database
-    upload_record = UploadRecord.objects.create(upload_data, profile)
-    ProfilePicture.objects.create(upload_record)
+    # Use manager method to create and save metadata
+    upload_record = UploadRecord.objects.create(upload_data)
+    UploadRecord.objects.add_profile_picture(upload_record, profile_picture)
 
   # Create Tutor Profile if role is Tutor
   if int(profile.role) == Profile.TUTOR:
@@ -95,7 +101,27 @@ def register_profile(request):
       state=request.data["state"]
       bio=request.data["bio"]
       hourly_rate=request.data["hourly_rate"]
-      tutor = TutorProfile.objects.create(profile, city, state, bio, hourly_rate)
+      tutor = TutorProfile.objects.create(profile=profile, city=city, state=state, bio=bio, hourly_rate=hourly_rate)
+  # otherwise, check if parent
+  elif int(profile.role) == Profile.PARENT:
+      parent = ParentProfile.objects.create(profile=profile)
+  # otherwise, student
+  else:
+      parent_profile = request.data["parent_profile"]
+      grade_level = request.data["grade_level"]
+      preferred_subjects = request.data["preferred_subjects"]
+      emergency_contact_name = request.data["emergency_contact_name"]
+      emergency_contact_phone_number = request.data["emergency_contact_phone_number"]
+      parent_profile_id = request.data["parent_profile"]
+      parent_profile_instance = ParentProfile.objects.get(id=parent_profile_id)
+      student = StudentProfile.objects.create(
+          profile=profile,
+          parent_profile=parent_profile_instance,
+          grade_level = grade_level,
+          preferred_subjects = preferred_subjects,
+          emergency_contact_name = emergency_contact_name,
+          emergency_contact_phone_number = emergency_contact_phone_number
+      )
   return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
@@ -112,3 +138,52 @@ def delete_user(request):
   # should never reach here, but still just in case
   return Response("FATAL: Undefined functionality, please contact system administrator", 
                   status=status.HTTP_404_NOT_FOUND)
+
+# https://chatgpt.com/share/67f1b472-b004-8005-8550-62871c22bef9
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            profile = Profile.objects.get(user=request.user)
+
+            if profile.role == Profile.STUDENT:
+                student_profile = StudentProfile.objects.get(profile=profile)
+                serializer = StudentProfileSerializer(student_profile)
+            elif profile.role == Profile.TUTOR:
+                tutor_profile = TutorProfile.objects.get(profile=profile)
+                serializer = TutorProfileSerializer(tutor_profile)
+            elif profile.role == Profile.PARENT:
+                parent_profile = ParentProfile.objects.get(profile=profile)
+                serializer = ParentProfileSerializer(parent_profile)
+            else:
+                return Response({'error': 'Invalid role.'}, status=400)
+
+            return Response(serializer.data)
+
+        except Profile.DoesNotExist:
+            return Response({'error': 'Profile not found.'}, status=404)
+
+    def patch(self, request):
+        try:
+            profile = Profile.objects.get(user=request.user)
+
+            if profile.role == Profile.STUDENT:
+                student_profile = StudentProfile.objects.get(profile=profile)
+                serializer = StudentProfileSerializer(student_profile, data=request.data, partial=True)
+            elif profile.role == Profile.TUTOR:
+                tutor_profile = TutorProfile.objects.get(profile=profile)
+                serializer = TutorProfileSerializer(tutor_profile, data=request.data, partial=True)
+            elif profile.role == Profile.PARENT:
+                parent_profile = ParentProfile.objects.get(profile=profile)
+                serializer = ParentProfileSerializer(parent_profile, data=request.data, partial=True)
+            else:
+                return Response({'error': 'Invalid role.'}, status=400)
+
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Profile.DoesNotExist:
+            return Response({'error': 'Profile not found.'}, status=404)
