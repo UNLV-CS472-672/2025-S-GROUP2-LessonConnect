@@ -2,8 +2,10 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from .models import UploadRecord
+from apps.users.models import Profile
 from django.contrib.auth import get_user_model
 from .serializers import UploadListSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class UploadRecordViewTest(APITestCase):
     def setUp(self):
@@ -16,8 +18,6 @@ class UploadRecordViewTest(APITestCase):
         self.version = 1234567890
         self.asset_id = "test-asset-id"
 
-        self.url = reverse('upload-list')
-
         self.fake_user = get_user_model().objects.create_user(
                     username='testuser',
                     password='password',
@@ -25,16 +25,26 @@ class UploadRecordViewTest(APITestCase):
                     last_name='User',
                     email='testuser@example.com'
                 )
+        self.profile = Profile.objects.create(self.fake_user, 2)
+        self.token = self.get_jwt_token(self.fake_user)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token}')
+
+    def get_jwt_token(self, user):
+        refresh = RefreshToken.for_user(user)
+        return str(refresh.access_token)
+
     # Ensure that if there are no uploads,
     # the API returns a 404 error with the proper message.
     def test_get_uploads_empty(self):
-        response = self.client.get(self.url)
+        url = reverse('upload-list')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(response.data, {'error': 'No uploads found'})
 
     # Test that the API returns a 200 status and
     # the correct serialized data when uploads exist.
     def test_get_uploads_success(self):
+        url = reverse('upload-list')
         # Create an example UploadRecord instance.
         upload_record = UploadRecord.objects.create(
             upload_data={
@@ -47,11 +57,10 @@ class UploadRecordViewTest(APITestCase):
                 "version": self.version,
                 "asset_id": self.asset_id,
             },
-            user=self.fake_user
         )
 
         # Perform the GET request
-        response = self.client.get(self.url)
+        response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Serialize the created object using the serializer

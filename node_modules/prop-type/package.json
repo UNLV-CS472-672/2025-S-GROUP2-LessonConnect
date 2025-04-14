@@ -1,0 +1,28 @@
+{
+  "name": "prop-type",
+  "version": "0.0.1",
+  "description": "Small wrapper to wrap your custom type check so that you can use `myCustomType.isRequired` in a similar fasion to React's built-in types.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/c9/prop-type"
+  },
+  "keywords": [
+    "type",
+    "prop-type",
+    "propType",
+    "react"
+  ],
+  "author": "Matthijs van Henten",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/c9/prop-type/issues"
+  },
+  "homepage": "https://github.com/c9/prop-type",
+  "devDependencies": {
+    "tape": "^4.2.0"
+  }
+}

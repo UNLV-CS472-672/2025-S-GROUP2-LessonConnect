@@ -4,6 +4,16 @@ from datetime import datetime
 import cloudinary.uploader
 from cloudinary import CloudinaryImage
 
+class ProfilePictureManager(models.Manager):
+    def create(self, profile):
+        # Create a new UploadRecord instance with the provided data
+        profile_picture = self.model(
+                profile=profile
+            )
+        # Save the instance to the database
+        profile_picture.save()
+        return profile_picture
+
 class UploadRecordManager(models.Manager):
 
     def upload(self, file):
@@ -16,7 +26,11 @@ class UploadRecordManager(models.Manager):
         result = cloudinary.uploader.destroy(cloudinary_public_id, invalidate = True)
         return result
 
-    def create(self, upload_data, user):
+    def add_profile_picture(self, upload_record, profile_picture):
+        upload_record.profile_picture = profile_picture
+        upload_record.save(update_fields=['profile_picture'])
+
+    def create(self, upload_data):
         # Replace 'Z' with '+00:00' for compatibility with fromisoformat
         compatible_created_at = upload_data['created_at'].replace('Z', '+00:00')
         # Convert to datetime object
@@ -30,9 +44,8 @@ class UploadRecordManager(models.Manager):
             file_format=upload_data["format"],
             created_at=created_at_datetime,
             cloudinary_public_id=upload_data["public_id"],
-            user=user,
             version=upload_data["version"],
-            asset_id=upload_data["asset_id"]
+            asset_id=upload_data["asset_id"],
         )
         # Save the instance to the database
         upload_record.save()
@@ -45,9 +58,9 @@ class UploadRecordManager(models.Manager):
         dynamic_asset_url, _ = cloudinary.utils.cloudinary_url(cloudinary_public_id, resource_type = resource_type)
         return dynamic_asset_url
 
-    def get_upload(self,public_id):
+    def get_upload(self, cloudinary_public_id):
         # Retrieve the upload record by its public ID
-        upload_record = self.get_queryset().filter(public_id=public_id).first()
+        upload_record = self.get_queryset().filter(cloudinary_public_id=cloudinary_public_id).first()
         return upload_record
 
     def get_all_uploads(self):

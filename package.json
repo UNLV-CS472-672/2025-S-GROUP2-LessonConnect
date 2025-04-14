@@ -1,7 +1,11 @@
 {
   "dependencies": {
-    "bootstrap": "^5.3.3",
+    "axios": "^1.8.4",
+    "bootstrap": "^5.3.5",
     "bootstrap-icons": "^1.11.3",
+    "prop-type": "^0.0.1",
+    "prop-types": "^15.8.1",
+    "react-bootstrap": "^2.10.9",
     "react-router-dom": "^6.30.0"
   },
   "devDependencies": {
