@@ -61,9 +61,6 @@ function App() {
                 <Route path="/findTutor" element={<FindTutor />} />
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/WhiteboardCanvas" element={<WhiteboardCanvas/>} />
-                {/*this is from abduls Whiteboard PR;;*/}
-                {/*<Route path="/LandingPage" element={<LandingPage/>} />*/}
-                {/*<Route path="/videocall" element={<VideoCall />} />*/}
 
                 {/* Student Routes with Layout */}
                 <Route path="/student/view" element={<StudentLayout><StudentView /></StudentLayout>} />
