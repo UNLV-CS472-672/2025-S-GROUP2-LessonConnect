@@ -28,7 +28,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
     # ensure notification is created for the current user.
     def perform_create(self, serializer):
-        notification = serializer.save(user=self.request.user)
+        notification = serializer.save(user=self.request.user, sender=self.request.user)
 
         # try to deliver the notification via WebSocket
         from .utils import deliver_notification
@@ -42,12 +42,6 @@ class NotificationViewSet(viewsets.ModelViewSet):
             self.get_queryset().delete()
             return Response({'status': f'All {count} notifications deleted'}, status=status.HTTP_204_NO_CONTENT)
         return super().list(request, *args, **kwargs)
-
-    def perform_create(self, serializer):
-        notification = serializer.save(
-            user=self.request.user,
-            sender=self.request.user  # the current user is the sender
-        )
 
     """ 
     CUSTOM ENDPOINT FUNCTIONS
