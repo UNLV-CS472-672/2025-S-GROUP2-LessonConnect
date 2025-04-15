@@ -208,7 +208,7 @@ class ChoiceListView(APIView):
     permission_classes = [IsAuthenticated]
 
     # List choices for a question
-    def get(self, request, question_id):
+    def get(self, request, assignment_id, quiz_id, question_id):
         question = Question.get_question(question_id)
 
         if not question:
@@ -223,7 +223,7 @@ class ChoiceCreateView(APIView):
     permission_classes = [IsAdminOrTutor]
 
     # Add multiple choices at once (Admin/Tutor only)
-    def post(self, request, question_id):
+    def post(self, request, assignment_id, quiz_id, question_id):
         question = Question.get_question(question_id)
 
         if not question:
@@ -243,7 +243,8 @@ class ChoiceUpdateView(APIView):
     permission_classes = [IsAdminOrTutor]
 
     # Bulk update choices (Admin/Tutor only)
-    def put(self, request, question_id):    # maybe convert to patch? Where serializer partial=true.
+    def put(self, request, assignment_id, quiz_id, question_id):
+        # maybe convert to patch? Where serializer partial=true.
         question = Question.get_question(question_id)
 
         if not question:
@@ -264,7 +265,7 @@ class ChoiceDeleteView(APIView):
     permission_classes = [IsAdminOrTutor]
 
     # Delete all choices for a question (Admin/Tutor only)
-    def delete(self, request, question_id):
+    def delete(self, request, assignment_id, quiz_id, question_id):
         question = Question.get_question(question_id)
 
         if not question:
