@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .permissions import IsAdminOrTutor
-from .models import Assignment, Quiz, Question, Choice
-from .serializers import AssignmentSerializer, QuizSerializer, QuestionSerializer, ChoiceSerializer
+from .models import Assignment, Quiz, Question, Choice, Solution
+from .serializers import AssignmentSerializer, QuizSerializer, QuestionSerializer, ChoiceSerializer, SolutionSerializer
 
 
 # - Assignments:
@@ -130,10 +130,11 @@ class QuizDetailView(APIView):
         quiz = self.get_object(assignment_id, quiz_id)
         quiz.delete()
         return Response({"status": "success", "message": "Quiz deleted"}, status=status.HTTP_200_OK)
+# --------------
 
 
 # - Quizzes and Questions:
-class QuizQuestionListView(APIView):
+class QQuestionListView(APIView):
     permission_classes = [IsAuthenticated]
 
     # Fetch/get all questions for a quiz
@@ -273,3 +274,75 @@ class ChoiceDeleteView(APIView):
 
         Choice.delete_choices(question)
         return Response({"status": "success", "message": "All choices deleted"}, status=status.HTTP_200_OK)
+# --------------
+
+
+# - Solutions:
+class SolutionDetailView(APIView):
+    permission_classes = [IsAdminOrTutor]
+
+    # Helper method to check if object is found or not
+    def get_object(self, question_id):
+        try:
+            # Assumes each question has one solution
+            return Solution.objects.get(question__id=question_id)
+        except Solution.DoesNotExist:
+            return None
+
+    # Retrieve a solution for a given question (Admin/Tutor only)
+    def get(self, request, question_id):
+        solution = self.get_object(question_id)
+        if not solution:
+            return Response({"error": "Solution not found"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = SolutionSerializer(solution)
+        return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+
+class SolutionCreateView(APIView):
+    permission_classes = [IsAdminOrTutor]
+
+    # Create a Solution for a given question (Admin/Tutor only)
+    def post(self, request, question_id):
+        question = Question.get_question(question_id)
+        if not question:
+            return Response({"error": "Question not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        data = request.data.copy()
+        data["question"] = question_id  # Associate the solution with the question
+
+        serializer = SolutionSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SolutionUpdateView(APIView):
+    permission_classes = [IsAdminOrTutor]
+
+    # Update the Solution for a given question (Admin/Tutor only)
+    def put(self, request, question_id):
+        try:
+            solution = Solution.objects.get(question__id=question_id)
+        except Solution.DoesNotExist:
+            return Response({"error": "Solution not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = SolutionSerializer(solution, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SolutionDeleteView(APIView):
+    permission_classes = [IsAdminOrTutor]
+
+    # Delete the solution for a given question (Admin/Tutor only)
+    def delete(self, request, question_id):
+        try:
+            solution = Solution.objects.get(question__id=question_id)
+        except Solution.DoesNotExist:
+            return Response({"error": "Solution not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        solution.delete()
+        return Response({"status": "success", "message": "Solution deleted"}, status=status.HTTP_200_OK)
