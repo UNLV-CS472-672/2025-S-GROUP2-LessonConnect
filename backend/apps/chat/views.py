@@ -36,7 +36,7 @@ class ChatViewSet(viewsets.ModelViewSet):
         except User.DoesNotExist:
             raise serializers.ValidationError({"user2": "User not found."})
 
-        chat, created = Chat.get_or_create_chat(user1, user2)
+        chat, created = Chat.objects.get_or_create_chat(user1, user2)
         if not created:
             raise serializers.ValidationError("Chat already exists.")
         serializer.instance = chat

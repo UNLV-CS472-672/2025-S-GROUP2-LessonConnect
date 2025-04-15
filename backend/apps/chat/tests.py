@@ -29,22 +29,22 @@ class ChatAPITestCase(APITestCase):
         self.assertEqual(Chat.objects.count(), 1)
 
     def test_prevent_duplicate_chat(self):
-        Chat.get_or_create_chat(self.user1, self.user2)
+        Chat.objects.get_or_create_chat(self.user1, self.user2)
         url = reverse('chat-list')
         data = {'user2': self.user2.id}
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_list_user_chats(self):
-        Chat.get_or_create_chat(self.user1, self.user2)
-        Chat.get_or_create_chat(self.user1, self.user3)
+        Chat.objects.get_or_create_chat(self.user1, self.user2)
+        Chat.objects.get_or_create_chat(self.user1, self.user3)
         url = reverse('chat-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
 
     def test_send_message(self):
-        chat, _ = Chat.get_or_create_chat(self.user1, self.user2)
+        chat, _ = Chat.objects.get_or_create_chat(self.user1, self.user2)
         url = reverse('message-list')
         data = {'chat': chat.id, 'content': 'Hello Bob!'}
         response = self.client.post(url, data)
@@ -56,7 +56,7 @@ class ChatAPITestCase(APITestCase):
 
 
     def test_list_chat_messages(self):
-        chat, created = Chat.get_or_create_chat(self.user1, self.user2)
+        chat, created = Chat.objects.get_or_create_chat(self.user1, self.user2)
         Message.objects.create(chat=chat, sender=self.user1, content='Hi Bob!')
         Message.objects.create(chat=chat, sender=self.user2, content='Hey Alice!')
 
