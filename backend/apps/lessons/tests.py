@@ -23,7 +23,7 @@ class AssignmentAPITests(APITestCase):
         # Set authorization header
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
 
-        # Create an initial assignment for testing
+        # Create an initial assignment for assignment & quiz testing
         self.assignment = Assignment.objects.create(
             title="Initial Assignment",
             description="Initial assignment description.",
@@ -37,6 +37,14 @@ class AssignmentAPITests(APITestCase):
             num_of_questions=10,
             attempts=1,
             is_active=True
+        )
+        # Create a question for testing choices
+        self.question = Question.objects.create(
+            quiz=self.quiz,
+            question_type="MC",
+            order_of_question=1,
+            question_text="What is the color of the sky?",
+            points=1
         )
 
         # Define URLs
@@ -106,7 +114,7 @@ class AssignmentAPITests(APITestCase):
         url = reverse('quiz-list-create', kwargs={'assignment_id': self.assignment.id})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        # Expecting 2 quizzes to be returned + 1 self made one (used for questions)
+        # Expecting 2 quizzes to be returned + 1 self-made one (used for questions)
         self.assertEqual(len(response.data['data']), 3)
 
     # Test GET single quiz
@@ -172,8 +180,8 @@ class AssignmentAPITests(APITestCase):
         )
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        # Verify: 2 questions are returned
-        self.assertEqual(len(response.data['data']), 2)
+        # Verify: 2 questions are returned + 1 self-made one (used for choices)
+        self.assertEqual(len(response.data['data']), 3)
 
     # Test POST creating a new question for a quiz
     def test_create_question(self):
@@ -189,7 +197,6 @@ class AssignmentAPITests(APITestCase):
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
         # Ensure the response contains the quiz id and correct question details
         self.assertEqual(response.data['data']['quiz'], self.quiz.id)
         self.assertEqual(response.data['data']['question_text'], "What is the capital of France?")
@@ -241,3 +248,92 @@ class AssignmentAPITests(APITestCase):
 
 # ----------------------- + ------------------------------
 # Choices testing zone:
+    # Test GET list of choices for a given question.
+    def test_get_choice_list(self):
+        # Create two choices associated with the (setup) question
+        Choice.objects.create(question=self.question, choice_text="Blue", is_correct=True)
+        Choice.objects.create(question=self.question, choice_text="Red", is_correct=False)
+
+        url = reverse(
+            "choice-list",
+            kwargs={"assignment_id": self.assignment.id, "quiz_id": self.quiz.id, "question_id": self.question.id}
+        )
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # Verify that two choices are returned
+        self.assertEqual(len(response.data["data"]), 2)
+
+    # Test POST bulk-create choices for a given question
+    def test_create_choices(self):
+        url = reverse(
+            "choice-create",
+            kwargs={"assignment_id": self.assignment.id, "quiz_id": self.quiz.id,"question_id": self.question.id}
+        )
+        # choices data with multiple choices
+        choices_payload = {
+            "choices": [{"choice_text": "Blue", "is_correct": True}, {"choice_text": "Green", "is_correct": False}]
+        }
+        response = self.client.post(url, choices_payload, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        # Verify that 2 choices were created and associated with the question
+        self.assertEqual(len(response.data["data"]), 2)
+        for choice_data in response.data["data"]:
+            self.assertEqual(choice_data["question"], self.question.id)
+
+    # Test PUT bulk-update choices for a given question
+    def test_update_choices(self):
+        # Create two initial choices
+        choice1 = Choice.objects.create(
+            question=self.question, choice_text="Blue", is_correct=True
+        )
+        choice2 = Choice.objects.create(
+            question=self.question, choice_text="Green", is_correct=False
+        )
+        url = reverse(
+            "choice-update",
+            kwargs={"assignment_id": self.assignment.id, "quiz_id": self.quiz.id, "question_id": self.question.id}
+        )
+        # data with multiple choices
+        update_data = {
+            "choices": [
+                {"id": choice1.id, "choice_text": "Navy Blue", "is_correct": True},
+                {"id": choice2.id, "choice_text": "Lime Green", "is_correct": True}
+            ]
+        }
+        response = self.client.put(url, update_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        updated_choices = response.data["data"]
+        self.assertEqual(len(updated_choices), 2)
+        # Reload the choices from the database and verify updates - AI & Websearch assisted
+        for updated in updated_choices:
+            choice_obj = Choice.objects.get(id=updated["id"])
+            expected = next(
+                item for item in update_data["choices"] if item["id"] == updated["id"]
+            )
+            self.assertEqual(choice_obj.choice_text, expected["choice_text"])
+            self.assertEqual(choice_obj.is_correct, expected["is_correct"])
+
+    # Test DELETE all choices for a question
+    def test_delete_choices(self):
+        # Create multiple (3) choices for the (setup) question
+        Choice.objects.create(question=self.question, choice_text="Blue", is_correct=True)
+        Choice.objects.create(question=self.question, choice_text="Green", is_correct=False)
+        Choice.objects.create(question=self.question, choice_text="Red", is_correct=False)
+
+        url = reverse(
+            "choice-delete",
+            kwargs={"assignment_id": self.assignment.id, "quiz_id": self.quiz.id, "question_id": self.question.id}
+        )
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["status"], "success")
+        # Verify that the choices are actually deleted. A follow-up GET request should return no choices.
+        list_url = reverse(
+            "choice-list",
+            kwargs={"assignment_id": self.assignment.id, "quiz_id": self.quiz.id, "question_id": self.question.id}
+        )
+        get_response = self.client.get(list_url)
+        self.assertEqual(get_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(get_response.data["data"]), 0)
+# ----------------------- + ------------------------------
+# Solutions testing zone:
