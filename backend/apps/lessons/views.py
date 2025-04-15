@@ -137,7 +137,7 @@ class QuizQuestionListView(APIView):
     permission_classes = [IsAuthenticated]
 
     # Fetch/get all questions for a quiz
-    def get(self, request, quiz_id):
+    def get(self, request, assignment_id, quiz_id):
         quiz = Quiz.get_quiz(quiz_id)
 
         if not quiz:
@@ -152,7 +152,7 @@ class QuestionCreateView(APIView):
     permission_classes = [IsAdminOrTutor]
 
     # Add question (Admin/Tutor only)
-    def post(self, request, quiz_id):
+    def post(self, request, assignment_id, quiz_id):
         quiz = Quiz.get_quiz(quiz_id)
 
         if not quiz:
@@ -173,7 +173,7 @@ class QuestionUpdateView(APIView):
     permission_classes = [IsAdminOrTutor]
 
     # Update (an existing) question (Admin/Tutor only)
-    def put(self, request, quiz_id, question_id):
+    def put(self, request, assignment_id, quiz_id, question_id):
         # question_id required!
         question = Question.get_question(question_id)
 
@@ -192,7 +192,7 @@ class QuestionDeleteView(APIView):
     permission_classes = [IsAdminOrTutor]
 
     # Delete a question (Admin/Tutor only)
-    def delete(self, request, quiz_id, question_id):
+    def delete(self, request, assignment_id, quiz_id, question_id):
         question = Question.get_question(question_id)
 
         if not question:
