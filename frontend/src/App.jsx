@@ -23,12 +23,13 @@ import Chat from "./Components/Chat.jsx";
 import Booking from "./Components/Booking.jsx";
 import VideoCall from "./Components/VideoCall.jsx";
 import Calendar from "./Components/Calendar.jsx";
-
 import Inbox from "./Components/Inbox.jsx";
-
-
 import TutorView from "./Components/TutorView.jsx";
 import AssignmentPage from "./Components/AssignmentPage.jsx";
+import WhiteboardCanvas from "./Components/WhiteboardCanvas.jsx";
+import LandingPage from "./Components/LandingPage.jsx";
+
+import Settings from "./Components/Settings.jsx";
 
 
 function App() {
@@ -60,17 +61,10 @@ function App() {
                 <Route path="/faqs" element={<FAQS />} />
                 <Route path="/findTutor" element={<FindTutor />} />
                 <Route path="/chat" element={<Chat />} />
-                <Route path="/videocall" element={<VideoCall />} />
-                {/* <Route path="/Calendar" element={<Calendar />} /> */}
-
-                {/* Jose needs this for this tutorView and inbox to work */}
-                <Route path="/tutorview" element={<TutorView />} />
-                <Route path="/Calendar" element={<Calendar />} />
-                <Route path="/Inbox" element={<Inbox />} />
-                <Route path="/tutorview" element={<TutorView />} />
+                <Route path="/WhiteboardCanvas" element={<WhiteboardCanvas/>} />
 
                 {/* Student Routes with Layout */}
-                <Route path="/StudentView" element={<StudentLayout><StudentView /></StudentLayout>} />
+                <Route path="/student/view" element={<StudentLayout><StudentView /></StudentLayout>} />
                 <Route path="/student/calendar" element={<StudentLayout><Calendar /></StudentLayout>} />
                 <Route path="/student/chat" element={<StudentLayout><Chat /></StudentLayout>} />
                 <Route path="/student/videocall" element={<StudentLayout><VideoCall /></StudentLayout>} />
@@ -84,9 +78,30 @@ function App() {
                 <Route path="/student/learn_more" element={<StudentLayout><Learn_more /></StudentLayout>} />
                 <Route path="/student/about" element={<StudentLayout><About /></StudentLayout>} />
                 <Route path="/student/assignment" element={<StudentLayout><AssignmentPage /></StudentLayout>} />
-                {/*<Route path="/student/settings" element={<StudentLayout><Settings /></StudentLayout>} />*/}
-                {/*<Route path="/student/lessons" element={<StudentLayout><Lessons /></StudentLayout>} />*/}
-                {/*<Route path="/student/resources" element={<StudentLayout><Resources /></StudentLayout>} />*/}
+                <Route path="/student/settings" element={<StudentLayout><Settings /></StudentLayout>} />
+                <Route path="/student/inbox" element={<StudentLayout><Inbox /></StudentLayout>} />
+                <Route path="/student/WhiteboardCanvas" element={<StudentLayout><WhiteboardCanvas /></StudentLayout>} />
+                <Route path="/student/LandingPage" element={<StudentLayout><LandingPage /></StudentLayout>} />
+
+                {/* Tutor Routes with Layout */}
+                <Route path="/tutor/view" element={<StudentLayout><TutorView /></StudentLayout>} />
+                <Route path="/tutor/calendar" element={<StudentLayout><Calendar /></StudentLayout>} />
+                <Route path="/tutor/chat" element={<StudentLayout><Chat /></StudentLayout>} />
+                <Route path="/tutor/videocall" element={<StudentLayout><VideoCall /></StudentLayout>} />
+                <Route path="/tutor/booking" element={<StudentLayout><Booking /></StudentLayout>} />
+                <Route path="/tutor/pomodoro" element={<StudentLayout><Pomodoro /></StudentLayout>} />
+                <Route path="/tutor/findTutor" element={<StudentLayout><FindTutor /></StudentLayout>} />
+                <Route path="/tutor/support" element={<StudentLayout><Support /></StudentLayout>} />
+                <Route path="/tutor/contact" element={<StudentLayout><Contact /></StudentLayout>} />
+                <Route path="/tutor/services" element={<StudentLayout><Services /></StudentLayout>} />
+                <Route path="/tutor/faqs" element={<StudentLayout><FAQS /></StudentLayout>} />
+                <Route path="/tutor/learn_more" element={<StudentLayout><Learn_more /></StudentLayout>} />
+                <Route path="/tutor/about" element={<StudentLayout><About /></StudentLayout>} />
+                <Route path="/tutor/settings" element={<StudentLayout><Settings /></StudentLayout>} />
+                <Route path="/tutor/calendar" element={<StudentLayout><Calendar /></StudentLayout>} />
+                <Route path="/tutor/inbox" element={<StudentLayout><Inbox /></StudentLayout>} />
+                <Route path="/tutor/WhiteboardCanvas" element={<StudentLayout><WhiteboardCanvas /></StudentLayout>} />
+                <Route path="/tutor/LandingPage" element={<StudentLayout><LandingPage /></StudentLayout>} />
             </Routes>
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>

@@ -3,60 +3,6 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-
-.tutor-dashboard-page .navbar {
-    background-color: #1c1f26 !important;
-    border-bottom: 1px solid #2a2d34;
-}
-
-.tutor-dashboard-page .navbar .nav-link,
-.tutor-dashboard-page .navbar .navbar-brand span {
-    color: #ffffff !important;
-}
-
-.tutor-dashboard-page .navbar .nav-link:hover {
-    color: #66aaff !important;
-}
-
-.tutor-dashboard-page .inbox-icon img,
-.tutor-dashboard-page .bell-icon img {
-    width: 35px;
-    height: 35px;
-    padding: 6px;
-    background-color: #e53935;
-    border-radius: 50%;
-    object-fit: contain;
-    margin-right: 10px;
-}
-
-.tutor-dashboard-page .profile-icon img {
-    width: 40px;
-    height: 40px;
-    background-color: #4a5b7d;
-    border-radius: 50%;
-    padding: 6px;
-    object-fit: contain;
-}
-
-
-.tutor-dashboard-page .theme-toggle-button {
-    background-color: #2a3b56;
-    color: #ffffff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-    margin-right: 15px;
-}
-
-.tutor-dashboard-page .theme-toggle-button:hover {
-    background-color: #3c4f6d;
-}
-
-
 .tutor-dashboard-page .greeting {
     background-color: #f5f5f5;
     padding: 150px 0;
@@ -285,14 +231,6 @@
 }
 
 
-.tutor-dashboard-page.dark-mode .navbar {
-    background-color: #1c1f26 !important;
-}
-
-.tutor-dashboard-page.dark-mode .navbar .nav-link,
-.tutor-dashboard-page.dark-mode .navbar .navbar-brand span {
-    color: #ffffff !important;
-}
 
 .tutor-dashboard-page .sidebar-button-link {
     text-decoration: none;

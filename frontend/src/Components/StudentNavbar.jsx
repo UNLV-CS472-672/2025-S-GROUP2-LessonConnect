@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import {Link, NavLink, useLocation} from "react-router-dom";
 import PropTypes from "prop-types";
 import "../Styles/StudentNavbar.css";
 
-export default function StudentNavbar({ isDarkMode, toggleTheme }) {
+export default function StudentNavbar({ isDarkMode, toggleTheme, role}) {
     const [openDropdown, setOpenDropdown] = useState(null);
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
@@ -11,7 +11,9 @@ export default function StudentNavbar({ isDarkMode, toggleTheme }) {
         setOpenDropdown(openDropdown === menu ? null : menu);
     };
 
-    const closeDropdown = () => setOpenDropdown(null);
+    const location = useLocation();
+    const pathRole = location.pathname.split("/")[1];
+    const safeRole = role || (pathRole === "tutor" ? "tutor" : "student");    const closeDropdown = () => setOpenDropdown(null);
     const toggleProfileDropdown = () => setProfileDropdownOpen(!profileDropdownOpen);
     const closeProfileDropdown = () => setProfileDropdownOpen(false);
 
@@ -23,7 +25,7 @@ export default function StudentNavbar({ isDarkMode, toggleTheme }) {
         <div className="student-navbar">
             <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
                 <div className="container">
-                    <Link to="/StudentView" className="navbar-brand d-flex align-items-center">
+                    <Link to={`/${safeRole}/view`} className="navbar-brand d-flex align-items-center">
                         <i className="bi bi-house-door"></i>
                         <span className="ms-2">LessonConnect</span>
                     </Link>
@@ -34,17 +36,17 @@ export default function StudentNavbar({ isDarkMode, toggleTheme }) {
 
                     <div id="nav-collapse" className="collapse navbar-collapse">
                         <div className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <NavLink to="/student/findTutor" className="nav-link">Find a tutor</NavLink>
-                            <NavLink to="/student/services" className="nav-link">Services</NavLink>
+                            <NavLink to={`/${safeRole}/findTutor`} className="nav-link">Find a tutor</NavLink>
+                            <NavLink to={`/${safeRole}/services`} className="nav-link">Services</NavLink>
 
                             <div className="nav-item dropdown" onMouseLeave={closeDropdown}>
                                 <button className="nav-link dropdown-toggle" onClick={() => toggleDropdown("support")}>
                                     Support
                                 </button>
                                 <div className={`dropdown-menu ${openDropdown === "support" ? "show" : ""}`}>
-                                    <NavLink to="/student/about" className="dropdown-item">About Us</NavLink>
-                                    <NavLink to="/student/contact" className="dropdown-item">Contact Us</NavLink>
-                                    <NavLink to="/student/faqs" className="dropdown-item">FAQS</NavLink>
+                                    <NavLink to={`/${safeRole}/about`} className="dropdown-item">About Us</NavLink>
+                                    <NavLink to={`/${safeRole}/contact`} className="dropdown-item">Contact Us</NavLink>
+                                    <NavLink to={`/${safeRole}/faqs`} className="dropdown-item">FAQS</NavLink>
                                 </div>
                             </div>
 
@@ -53,9 +55,9 @@ export default function StudentNavbar({ isDarkMode, toggleTheme }) {
                                     More
                                 </button>
                                 <div className={`dropdown-menu ${openDropdown === "more" ? "show" : ""}`}>
-                                    <NavLink to="/student/learn_more" className="dropdown-item">Learn More</NavLink>
-                                    <NavLink to="/student/resources" className="dropdown-item">Resources</NavLink>
-                                    <NavLink to="/student/pomodoro" className="dropdown-item">Pomodoro</NavLink>
+                                    <NavLink to={`/${safeRole}/learn_more`} className="dropdown-item">Learn More</NavLink>
+                                    <NavLink to={`/${safeRole}/resources`} className="dropdown-item">Resources</NavLink>
+                                    <NavLink to={`/${safeRole}/pomodoro`} className="dropdown-item">Pomodoro</NavLink>
                                 </div>
                             </div>
                         </div>
@@ -64,11 +66,11 @@ export default function StudentNavbar({ isDarkMode, toggleTheme }) {
                             {isDarkMode ? "Light Theme" : "Dark Theme"}
                         </button>
 
-                        <NavLink to="/inbox" className="nav-link inbox-icon">
+                        <NavLink to={`/${safeRole}/inbox`} className="nav-link inbox-icon">
                             <img src="/assets/images/mail.png" alt="Inbox" width="30" height="30" />
                         </NavLink>
 
-                        <NavLink to="/notification" className="nav-link bell-icon">
+                        <NavLink to={`/${safeRole}/notification`} className="nav-link bell-icon">
                             <img src="/assets/images/bell.png" alt="Notification" width="30" height="30" />
                         </NavLink>
 
@@ -78,9 +80,9 @@ export default function StudentNavbar({ isDarkMode, toggleTheme }) {
                             </button>
                             {profileDropdownOpen && (
                                 <div className="dropdown-menu dropdown-menu-end show">
-                                    <NavLink to="/student/profile" className="dropdown-item">My Profile</NavLink>
-                                    <NavLink to="/student/settings" className="dropdown-item">Settings</NavLink>
-                                    <NavLink to="/student/logout" className="dropdown-item">Logout</NavLink>
+                                    <NavLink to={`/${safeRole}/profile`} className="dropdown-item">My Profile</NavLink>
+                                    <NavLink to={`/${safeRole}/settings`} className="dropdown-item">Settings</NavLink>
+                                    <NavLink to={`/${safeRole}/logout`} className="dropdown-item">Logout</NavLink>
                                 </div>
                             )}
                         </div>
@@ -98,4 +100,5 @@ export default function StudentNavbar({ isDarkMode, toggleTheme }) {
 StudentNavbar.propTypes = {
     isDarkMode: PropTypes.bool.isRequired,
     toggleTheme: PropTypes.func.isRequired,
+    role: PropTypes.string,
 };
