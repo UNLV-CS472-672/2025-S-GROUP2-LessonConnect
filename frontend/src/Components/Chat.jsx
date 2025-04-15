@@ -14,7 +14,7 @@ export default function Chat() {
     //     setInputText(prev => prev + emojiData.emoji);
     // }
 
-    const messages = useState([]);
+    const [messages, setMessages] = useState([]);
 
     const [inputText, setInputText] = useState("");
 
@@ -172,18 +172,19 @@ export default function Chat() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [roomName, accessToken]);
 
-    useEffect(() => {
-        renderTyping()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isTyping]);
-
-    function renderTyping() {
-        return (
-            <div>
-                {isTyping ? <Typing /> : null}
-            </div>
-        );
-    }
+    // useEffect(() => {
+    //     console.log("rendertyping")
+    //     renderTyping()
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [isTyping]);
+    //
+    // function renderTyping() {
+    //     return (
+    //         <div>
+    //             {isTyping ? <Typing /> : null}
+    //         </div>
+    //     );
+    // }
 
     // ------------ WEBSOCKET EFFECTS END------------------
 
@@ -373,6 +374,9 @@ export default function Chat() {
                                         </div>
                                     </div>
                                 ))}
+                                {/* Show typing indicator at the bottom if someone is typing */}
+                                {isTyping && <Typing />}
+                                {/*{isTyping && <div style={{ backgroundColor: 'lightgray', padding: '10px' }}>Typing...</div>}*/}
                             </div>
 
                             {/* Chat Input (UC5: Send Message) */}

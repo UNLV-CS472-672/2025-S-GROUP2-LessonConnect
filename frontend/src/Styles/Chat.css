@@ -675,7 +675,7 @@
 }
 /*https://dev.to/3mustard/create-a-typing-animation-in-react-17o0*/
 /*Typing bubble animation*/
-.typing {
+.chat-page .chat-body .typing {
     width: 5em;
     height: 2em;
     position: relative;
@@ -685,7 +685,7 @@
     border-radius: 20px;
 }
 
-.typing__dot {
+.chat-page .chat-body .typing__dot {
     float: left;
     width: 8px;
     height: 8px;
@@ -696,15 +696,15 @@
     animation: loadingFade 1s infinite;
 }
 
-.typing__dot:nth-child(1) {
+.chat-page .chat-body .typing__dot:nth-child(1) {
     animation-delay: 0s;
 }
 
-.typing__dot:nth-child(2) {
+.chat-page .chat-body .typing__dot:nth-child(2) {
     animation-delay: 0.2s;
 }
 
-.typing__dot:nth-child(3) {
+.chat-page .chat-body .typing__dot:nth-child(3) {
     animation-delay: 0.4s;
 }
 
