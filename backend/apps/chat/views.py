@@ -4,6 +4,63 @@ from django.urls import reverse
 from .models import Chat, User
 from .forms import MessageForm
 
+# https://chatgpt.com/share/67fd9c70-d378-8005-8c39-b0453f0f790f
+from rest_framework import viewsets, permissions, serializers
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from django.contrib.auth.models import User
+from django.db.models import Q
+from .models import Chat, Message
+from .serializers import ChatSerializer, MessageSerializer
+
+class ChatViewSet(viewsets.ModelViewSet):
+    queryset = Chat.objects.all()
+    serializer_class = ChatSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """Restrict to chats where the user is a participant."""
+        user = self.request.user
+        return Chat.objects.filter(Q(user1=user) | Q(user2=user)).order_by('-updatedAt')
+        # return Chat.objects.filter(user1=user).union(Chat.objects.filter(user2=user)).order_by('-updatedAt')
+
+    def perform_create(self, serializer):
+        """Prevent duplicate chats, enforce user1-user2 ordering."""
+        user1 = self.request.user
+        user2_id = self.request.data.get('user2')
+        if not user2_id:
+            raise serializers.ValidationError({"user2": "This field is required."})
+
+        try:
+            user2 = User.objects.get(id=user2_id)
+        except User.DoesNotExist:
+            raise serializers.ValidationError({"user2": "User not found."})
+
+        chat, created = Chat.get_or_create_chat(user1, user2)
+        if not created:
+            raise serializers.ValidationError("Chat already exists.")
+        serializer.instance = chat
+
+    @action(detail=True, methods=['get'])
+    def messages(self, request, pk=None):
+        """List messages for a chat."""
+        chat = self.get_object()
+        messages = chat.messages.all()
+        serializer = MessageSerializer(messages, many=True)
+        return Response(serializer.data)
+
+class MessageViewSet(viewsets.ModelViewSet):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(sender=self.request.user)
+
+# =============================================
+# NOTE: ENPOINTS BELOW ARE CONSIDERED LEGACY
+# =============================================
+
 @login_required
 def select_send_message(request):
   """Allow the user to select a recipient for messaging."""
