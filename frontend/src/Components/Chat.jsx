@@ -150,6 +150,7 @@ export default function Chat() {
                 console.log("Socket message received: ", event.data);
                 const eventData = JSON.parse(event.data);
                 if('body' in eventData && eventData.message === "successful"){
+                    setIsTyping(false)
                     messageDisplay(eventData)
                 }
                 else if ('typing' in eventData && eventData.username !== username && eventData.message === "successful"){
@@ -172,28 +173,20 @@ export default function Chat() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [roomName, accessToken]);
 
-    // useEffect(() => {
-    //     console.log("rendertyping")
-    //     renderTyping()
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [isTyping]);
-    //
-    // function renderTyping() {
-    //     return (
-    //         <div>
-    //             {isTyping ? <Typing /> : null}
-    //         </div>
-    //     );
-    // }
-
     // ------------ WEBSOCKET EFFECTS END------------------
 
     // ------------------- EFFECTS --------------------
     useEffect(() => {
-        if (chatBodyRef.current) {
-            chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+        const chat = chatBodyRef.current;
+        console.log("chat")
+        if(!chat) return;
+        const shouldScroll =
+            chat.scrollTop + chat.clientHeight >= chat.scrollHeight - 100;
+
+        if (shouldScroll) {
+            chat.scrollTop = chat.scrollHeight;
         }
-    }, [messages]);
+    }, [messages, isTyping]);
     // ------------------- HELPERS --------------------
 
     function messageDisplay(eventData){
