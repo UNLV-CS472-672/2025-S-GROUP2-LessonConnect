@@ -178,7 +178,6 @@ export default function Chat() {
     // ------------------- EFFECTS --------------------
     useEffect(() => {
         const chat = chatBodyRef.current;
-        console.log("chat")
         if(!chat) return;
         const shouldScroll =
             chat.scrollTop + chat.clientHeight >= chat.scrollHeight - 100;

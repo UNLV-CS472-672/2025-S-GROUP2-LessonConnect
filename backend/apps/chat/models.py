@@ -27,13 +27,22 @@ class Chat(models.Model):
 
 # https://www.youtube.com/watch?v=Rv6gkYcN88Q
 class Message(models.Model):
+  SEEN = 1
+  NOT_SEEN = 2
+  NOT_SENT = 3
+  STATUS_CHOICES = (
+    (SEEN, 'Seen'),
+    (NOT_SEEN, 'Not seen'),
+    (NOT_SENT, 'Not sent'),
+  )
   chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name="messages")
+  status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, null=False, blank=False, default=NOT_SEEN)
   sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_messages")
   content = models.TextField()
   timestamp = models.DateTimeField(default=now)
 
   class Meta:
-    ordering = ['timestamp']
+      ordering = ['timestamp']
 
   def __str__(self):
     return f"From {self.sender} in Chat {self.chat.id} at {self.timestamp}"

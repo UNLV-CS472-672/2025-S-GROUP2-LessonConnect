@@ -62,6 +62,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'username': username
                 }
             )
+        # Seen status is received
+        elif 'seen' in text_data_json:
+            seen = text_data_json['seen']
+            await self.mark_as_seen(self.room_name)
+
+    @sync_to_async
+    def mark_as_seen(self, room_name):
+        chat = Chat.objects.get(name = room_name)
+        latest_message = chat.messages.order_by('-timestamp').first()
+        if latest_message and latest_message.status == Message.NOT_SEEN:
+            latest_message.status = Message.SEEN
+            latest_message.save(update_fields=['status'])
 
     async def typing_status(self, event):
         await self.send(text_data=json.dumps({
