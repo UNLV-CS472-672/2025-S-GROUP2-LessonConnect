@@ -83,7 +83,8 @@ export default function Chat() {
 
     // Dynamically set the chat room when user clicks a chat
     const [roomName, setRoomName] = useState(null);
-    const [isTyping, setIsTyping] = useState(null);
+    const [isTyping, setIsTyping] = useState(false);
+    const [isSeen, setIsSeen] = useState(false);
     // Used to refetch or re-render messages
     const accessToken = localStorage.getItem("accessToken");
     const username = localStorage.getItem("username");
@@ -156,7 +157,9 @@ export default function Chat() {
                 else if ('typing' in eventData && eventData.username !== username && eventData.message === "successful"){
                     setIsTyping(eventData.typing)
                 }
-
+                else if('seen' in eventData && eventData.username === username && eventData.message === "successful"){
+                    setIsSeen(true)
+                }
             };
             socket.current.onclose = (event) => {
                 console.log("WebSocket closed", event);
@@ -174,7 +177,9 @@ export default function Chat() {
     }, [roomName, accessToken]);
 
     // ------------ WEBSOCKET EFFECTS END------------------
-
+    useEffect(() => {
+        console.log("isSeen", isSeen);
+    },[isSeen]);
     // ------------------- EFFECTS --------------------
     useEffect(() => {
         const chat = chatBodyRef.current;
@@ -194,16 +199,24 @@ export default function Chat() {
             newMessage = {
                 text: eventData.body,
                 type: "sent",
-                time: getCurrentTime(),
-                read: false
+                time: getCurrentTime()
             }
         }
         else{
             newMessage = {
                 text: eventData.body,
                 type: "received",
-                time: getCurrentTime(),
-                read: false
+                time: getCurrentTime()
+            }
+            console.log("recieved message")
+            const seenStatus = {
+                seen: true
+            };
+            // Send the seen status via WebSocket if the connection is open
+            if (socket.current && socket.current.readyState === WebSocket.OPEN) {
+                socket.current.send(JSON.stringify(seenStatus));
+            } else {
+                console.warn("WebSocket not open.");
             }
         }
         setMessages((prev) => [...prev, newMessage]);
@@ -229,6 +242,7 @@ export default function Chat() {
         // Send the message via WebSocket if the connection is open
         if (socket.current && socket.current.readyState === WebSocket.OPEN) {
             socket.current.send(JSON.stringify(messageData));
+            setIsSeen(false) //i think here?
         } else {
             console.warn("WebSocket not open.");
         }
@@ -359,7 +373,7 @@ export default function Chat() {
                                             <span className="time">
                             {msg.time}
                                                 {/* If it's a sent message, show a small read receipt check (UC6) */}
-                                                {msg.type === "sent" && msg.read && (
+                                                {msg.type === "sent" && isSeen && (
                                                     <i className="fas fa-check read-receipt" title="Message read"></i>
                                                 )}
                         </span>
