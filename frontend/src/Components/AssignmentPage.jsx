@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import "../Styles/AssignmentPage.css";
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 const upcomingAssignments = [
@@ -95,6 +96,20 @@ export default function AssignmentPage({ darkMode }) {
     const [uploadStatus, setUploadStatus] = useState("");
     const [submittedAssignments, setSubmittedAssignments] = useState({});
     const [uploadedFiles, setUploadedFiles] = useState([]);
+
+    const location = useLocation();
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const tabParam = params.get("tab");
+        if (tabParam === "files") {
+            setActiveTab("files");
+        }
+    }, [location.search]);
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }, []);
 
     const isPastAssignment = selectedAssignment && selectedAssignment.id >= 5;
 
