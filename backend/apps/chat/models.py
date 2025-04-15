@@ -22,7 +22,7 @@ class Chat(models.Model):
     if user1.id > user2.id:
       user1, user2 = user2, user1
     chat, created = cls.objects.get_or_create(user1=user1, user2=user2)
-    return chat
+    return chat, created
 
 class Message(models.Model):
   chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name="messages")
