@@ -1,0 +1,101 @@
+/*
+   Scopes all rules under .landing-page so that
+   styles only affect this component.
+*/
+.landing-page {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    color: #ffffff;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Background gradient (100% -> 200% to ensure no edges show) */
+.landing-page__background-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+            -45deg,
+            #ff7e5f,
+            #feb47b,
+            #86a8e7,
+            #91eae4
+    );
+    background-size: 400% 400%;
+    animation: landing-page__gradientBG 15s ease infinite;
+    z-index: 1;
+}
+
+/* Keyframes for the slow gradient motion */
+@keyframes landing-page__gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Glass overlay card with frosted blur */
+.landing-page__content-overlay {
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    padding: 3rem 4rem;
+    text-align: center;
+}
+
+/* Large heading with brand accent */
+.landing-page__main-heading {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 800;
+}
+
+.landing-page__brand-name {
+    color: #ffd700; /* Golden accent color */
+}
+
+/* Tagline text */
+.landing-page__tagline {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #f0f0f0;
+    max-width: 600px;
+    line-height: 1.5;
+    margin: 0 auto 2rem auto;
+}
+
+/* Call-to-action button */
+.landing-page__cta-button {
+    background: linear-gradient(90deg, #02c39a, #00a896);
+    color: #fff;
+    border: none;
+    outline: none;
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover state for CTA button */
+.landing-page__cta-button--hovered {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
