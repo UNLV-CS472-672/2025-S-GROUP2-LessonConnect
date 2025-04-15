@@ -13,7 +13,7 @@ const dashboardOptions = [
     { text: "My Calendar", img: "/assets/images/calendar_icon.png", path:"/student/calendar" },
     { text: "My Assignments", img: "/assets/images/assignment_icon.png", path:"/student/assignment"},
     { text: "My Messages", img: "/assets/images/messages_icon.png", path:"/student/messages" },
-    { text: "My Whiteboard", img: "/assets/images/whiteboard_icon.png", path:"/student/whiteboard" },
+    { text: "My Whiteboard", img: "/assets/images/whiteboard_icon.png", path:"/student/LandingPage" },
 ];
 
 const externalLinks = [
