@@ -371,13 +371,20 @@ export default function Chat() {
                                         <div className="message-content">
                                             <p>{msg.text}</p>
                                             <span className="time">
-                            {msg.time}
-                                                {/* If it's a sent message, show a small read receipt check (UC6) */}
+                                                {msg.time}
+                                                {/*{(() => {*/}
+                                                {/*    console.log("msg.type:", msg.type, "isSeen:", isSeen);*/}
+                                                {/*    if (msg.type === "sent" && isSeen) {*/}
+                                                {/*        return <i className="fas fa-check read-receipt" title="Message read"></i>;*/}
+                                                {/*    }*/}
+                                                {/*    return null;*/}
+                                                {/*})()}*/}
                                                 {msg.type === "sent" && isSeen && (
                                                     <i className="fas fa-check read-receipt" title="Message read"></i>
                                                 )}
-                        </span>
+                                            </span>
                                         </div>
+
                                     </div>
                                 ))}
                                 {/* Show typing indicator at the bottom if someone is typing */}

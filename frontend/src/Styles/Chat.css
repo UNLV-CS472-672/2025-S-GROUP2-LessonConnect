@@ -375,10 +375,10 @@
     margin-left: 0.5rem;
 }
 
-.chat-page .read-receipt {
+.chat-page .chat-body .read-receipt {
     margin-left: 0.3rem;
     font-size: 0.8rem;
-    color: var(--secondary);
+    color: var(--bg-white);
 }
 
 .chat-page .message.typing .message-content p {

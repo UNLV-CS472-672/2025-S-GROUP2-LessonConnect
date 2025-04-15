@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import Header from "./Components/Header.jsx";
 import Footer from "./Components/Footer.jsx";
 import StudentLayout from "./Components/StudentLayout.jsx";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 // Components
 import Home from "./components/Home.jsx";
