@@ -290,7 +290,7 @@ class SolutionDetailView(APIView):
             return None
 
     # Retrieve a solution for a given question (Admin/Tutor only)
-    def get(self, request, question_id):
+    def get(self, request, assignment_id, quiz_id, question_id):
         solution = self.get_object(question_id)
         if not solution:
             return Response({"error": "Solution not found"}, status=status.HTTP_404_NOT_FOUND)
@@ -302,7 +302,7 @@ class SolutionCreateView(APIView):
     permission_classes = [IsAdminOrTutor]
 
     # Create a Solution for a given question (Admin/Tutor only)
-    def post(self, request, question_id):
+    def post(self, request, assignment_id, quiz_id, question_id):
         question = Question.get_question(question_id)
         if not question:
             return Response({"error": "Question not found"}, status=status.HTTP_404_NOT_FOUND)
@@ -321,7 +321,7 @@ class SolutionUpdateView(APIView):
     permission_classes = [IsAdminOrTutor]
 
     # Update the Solution for a given question (Admin/Tutor only)
-    def put(self, request, question_id):
+    def put(self, request, assignment_id, quiz_id, question_id):
         try:
             solution = Solution.objects.get(question__id=question_id)
         except Solution.DoesNotExist:
@@ -338,7 +338,7 @@ class SolutionDeleteView(APIView):
     permission_classes = [IsAdminOrTutor]
 
     # Delete the solution for a given question (Admin/Tutor only)
-    def delete(self, request, question_id):
+    def delete(self, request, assignment_id, quiz_id, question_id):
         try:
             solution = Solution.objects.get(question__id=question_id)
         except Solution.DoesNotExist:
