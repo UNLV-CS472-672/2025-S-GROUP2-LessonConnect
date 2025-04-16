@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "../Styles/Chat.css";
+import Calendar from "react-calendar";
 // import EmojiPicker from "emoji-picker-react";
 
 
@@ -85,6 +86,12 @@ export default function Chat() {
     const [roomName, setRoomName] = useState(null);
     const [isTyping, setIsTyping] = useState(false);
     const [isSeen, setIsSeen] = useState(false);
+
+    // States + variable used for pop-ups
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [modalInputText, setModalInputText] = useState("");
+    const [usernameList, setUsernameList] = useState([]);
+
     // Used to refetch or re-render messages
     const accessToken = localStorage.getItem("accessToken");
     const username = localStorage.getItem("username");
@@ -208,7 +215,6 @@ export default function Chat() {
                 type: "received",
                 time: getCurrentTime()
             }
-            console.log("recieved message")
             const seenStatus = {
                 seen: true
             };
@@ -275,6 +281,15 @@ export default function Chat() {
         // TODO: Load messages for the selected chat from backend when available
     }
 
+    // Creates a new chat
+    function handleCreateChat() {
+        const text = modalInputText.trim();
+        if (text === "") return;
+        // TODO: Connect with backend to allow a new chat to be made
+        alert("Starting a new chat... (UC1, future scope)")
+        setModalInputText("")
+    }
+
     // Filter chat list by search term
     const filteredChatList = chatList.filter((chat) =>
         chat.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -307,7 +322,8 @@ export default function Chat() {
                         <h2>Chats</h2>
                         <button
                             className="new-chat"
-                            onClick={() => alert("Starting a new chat... (UC1, future scope)")}
+                            //onClick={() => alert("Starting a new chat... (UC1, future scope)")}
+                            onClick={() => setShowCreateModal(true)}
                         >
                             <i className="fas fa-plus"></i> <span>New Chat</span>
                         </button>
@@ -332,6 +348,26 @@ export default function Chat() {
                         ))}
                     </ul>
                 </aside>
+                {/* ====== Modal for Creating Chats ====== */}
+                {showCreateModal && (
+                    <div className="create-modal-overlay">
+                        <div className="create-modal-content">
+                            {/* Close Modal (×) Button - absolute top right */}
+                            <button className="close-create-modal-btn" onClick={() => setShowCreateModal(false)}>
+                                ×
+                            </button>
+                            {/* Text Input */}
+                            <input
+                                type="text"
+                                placeholder="Add user to new chat..."
+                                value={modalInputText}
+                            />
+                            <button className="confirm-btn" disabled={!modalInputText} onClick={handleCreateChat}>
+                                    Confirm
+                            </button>
+                        </div>
+                    </div>
+                )}
                 {selectedChat ? (
                     <>
                         {/* CHAT WINDOW */}
