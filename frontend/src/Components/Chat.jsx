@@ -350,10 +350,10 @@ export default function Chat() {
                 </aside>
                 {/* ====== Modal for Creating Chats ====== */}
                 {showCreateModal && (
-                    <div className="create-modal-overlay">
-                        <div className="create-modal-content">
+                    <div className="modal-overlay">
+                        <div className="modal-content">
                             {/* Close Modal (×) Button - absolute top right */}
-                            <button className="close-create-modal-btn" onClick={() => setShowCreateModal(false)}>
+                            <button className="close-modal-btn" onClick={() => setShowCreateModal(false)}>
                                 ×
                             </button>
                             {/* Text Input */}
@@ -361,10 +361,14 @@ export default function Chat() {
                                 type="text"
                                 placeholder="Add user to new chat..."
                                 value={modalInputText}
+                                onChange={(e) => setModalInputText(e.target.value)}
+                                style={{ width: '200px', height: '30px', fontSize: '14px' }}
                             />
-                            <button className="confirm-btn" disabled={!modalInputText} onClick={handleCreateChat}>
-                                    Confirm
-                            </button>
+                            <div className="confirm-btn-wrapper">
+                                <button className="confirm-btn" disabled={!modalInputText} onClick={handleCreateChat}>
+                                        Confirm
+                                </button>
+                            </div>
                         </div>
                     </div>
                 )}
