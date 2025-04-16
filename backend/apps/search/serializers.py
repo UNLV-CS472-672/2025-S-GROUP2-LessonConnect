@@ -16,8 +16,8 @@ class TutorSearchResultSerializer(serializers.ModelSerializer):
 
     def get_image_url(self, result_data):
         # Ensure that the profile and profile_picture exist before accessing them
-        if hasattr(result_data, "profile") and hasattr(result_data.profile, "upload_record"):
-            return UploadRecord.objects.build_url(result_data.profile.upload_record)
+        if hasattr(result_data, "profile") and hasattr(result_data.profile, "profile_picture") and hasattr(result_data.profile.profile_picture, "upload_record"):
+            return UploadRecord.objects.build_url(result_data.profile.profile_picture.upload_record)
         return None  # Return None if there's no profile picture
 
     def get_subjects(self, result_data):
