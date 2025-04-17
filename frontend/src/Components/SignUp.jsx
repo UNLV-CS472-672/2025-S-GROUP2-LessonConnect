@@ -1,9 +1,10 @@
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import "../Styles/SignUp.css"; // Import the CSS file
+import axios from "axios";
 
 export default function SignUp() {
-    const location = useLocation();
+    const location = useLocation(); // Uncomment if you are going use it (Ashley helped by Frank)
     // this will help later for the back end
     const dob = location.state || {};
 
@@ -14,6 +15,7 @@ export default function SignUp() {
         lastName: "",
         displayName: "",
         password: "",
+        dateOfBirth: dob,
         termsAccepted: false,
     });
 
@@ -25,15 +27,31 @@ export default function SignUp() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!formData.termsAccepted) {
             alert("You must accept the Terms of Service.");
             return;
         }
         console.log("Sign-Up form submitted", formData);
-        // here is where we add any sign-up logic or API calls
+
+        try {
+            const response = await axios.post("http://127.0.0.1:8000/users/register/", formData);
+
+
+            // Do this for login
+            // Store only the access and refresh tokens
+            // localStorage.setItem("accessToken", response.data.accessToken);
+            // localStorage.setItem("refreshToken", response.data.refreshToken);
+
+
+            alert("Registration successful!\n" + response.data.message);
+        } catch (error) {
+            alert("Registration failed! " + (error.response?.data?.message || error.message));
+        }
     };
+
 
     return (
         <div className="signup-page">

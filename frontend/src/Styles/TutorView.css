@@ -1,0 +1,237 @@
+
+.tutor-dashboard-page {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.tutor-dashboard-page .greeting {
+    background-color: #f5f5f5;
+    padding: 150px 0;
+    text-align: center;
+    color: #111;
+}
+
+.tutor-dashboard-page .greeting .inner-container {
+    max-width: 1600px;
+    margin: 150px auto;
+}
+
+.tutor-dashboard-page .greeting h1 {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+    color: #0056b3;
+}
+
+.tutor-dashboard-page .greeting .subheading {
+    font-size: 1.5rem;
+    color: #555;
+}
+
+
+.tutor-dashboard-page .dashboard-section {
+    background-color: #f0f0f0;
+    padding: 120px 0;
+}
+
+.tutor-dashboard-page .dashboard-layout {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr;
+    gap: 40px;
+    max-width: 1395px;
+    margin: auto;
+}
+
+.tutor-dashboard-page .button-grid {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 1100px;
+}
+
+.tutor-dashboard-page .button-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 170px;
+    cursor: pointer;
+    background-color: #eeeeee;
+    transition: transform 0.3s;
+}
+
+.tutor-dashboard-page .button-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.tutor-dashboard-page .button-card span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    z-index: 2;
+    width: 100%;
+    text-align: center;
+    line-height: 1.2;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.tutor-dashboard-page .button-card:hover {
+    transform: scale(1.05);
+}
+
+
+.tutor-dashboard-page .sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: flex-start;
+    padding-top: 20px;
+}
+
+.tutor-dashboard-page .sidebar-buttons button {
+    background-color: #4a90ff;
+    color: #fff;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-align: left;
+    display: block;
+}
+
+
+.tutor-dashboard-page .sidebar-buttons button:hover {
+    background-color: #6bb4ff;
+}
+
+
+.tutor-dashboard-page .quick-stats-section {
+    background-color: #f8f9fa;
+    padding: 180px 0;
+    color: #000;
+    text-align: center;
+}
+
+.tutor-dashboard-page .stats-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.tutor-dashboard-page .stats-container h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #f7c66f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.tutor-dashboard-page .stats-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.tutor-dashboard-page .stat-card {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    min-width: 240px;
+    max-width: 300px;
+    flex: 1 1 240px;
+}
+
+.tutor-dashboard-page .stat-card h3 {
+    font-size: 1.2rem;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.tutor-dashboard-page .stat-card p {
+    font-size: 2.5rem;
+    color: #0056b3;
+    margin: 0;
+}
+
+.tutor-dashboard-page.dark-mode {
+    background-color: #121212;
+    color: #eaeaea;
+}
+
+.tutor-dashboard-page.dark-mode .greeting {
+    background-color: #1a1d24;
+    color: #eaeaea;
+}
+
+.tutor-dashboard-page.dark-mode .greeting h1 {
+    color: #66aaff;
+}
+
+.tutor-dashboard-page.dark-mode .greeting .subheading {
+    color: #ccc;
+}
+
+.tutor-dashboard-page.dark-mode .dashboard-section {
+    background-color: #1a1d24;
+}
+
+.tutor-dashboard-page.dark-mode .button-grid {
+    background-color: #2a2d34;
+}
+
+.tutor-dashboard-page.dark-mode .button-card {
+    background-color: #000;
+}
+
+.tutor-dashboard-page.dark-mode .sidebar-buttons button {
+    background-color: #ffc107;
+    color: #000;
+    width: 100%;
+}
+
+.tutor-dashboard-page.dark-mode .sidebar-buttons button:hover {
+    background-color: #ffd54f;
+}
+
+.tutor-dashboard-page.dark-mode .quick-stats-section {
+    background-color: #1a1d24;
+    color: #eaeaea;
+}
+
+.tutor-dashboard-page.dark-mode .stat-card {
+    background-color: #2a2d34;
+}
+
+.tutor-dashboard-page.dark-mode .stat-card h3 {
+    color: #bbb;
+}
+
+.tutor-dashboard-page.dark-mode .stat-card p {
+    color: #66aaff;
+}
+
+
+
+.tutor-dashboard-page .sidebar-button-link {
+    text-decoration: none;
+}

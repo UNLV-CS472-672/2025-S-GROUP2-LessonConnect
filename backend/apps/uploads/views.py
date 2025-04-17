@@ -15,7 +15,7 @@ from django.apps import apps
 # Create your views here.
 
 class UploadDetailView(APIView):
-    permission_classes = []  # Debug only: No authentication required
+    permission_classes = [IsAuthenticated]
     # Specifies that the view should only accept JSON-formatted request bodies.
     parser_classes = (
             JSONParser,
@@ -23,9 +23,9 @@ class UploadDetailView(APIView):
 
     # Handles GET HTTP request from frontend
     # Get a specific upload by id
-    def get(self, request, public_id):
-        # Use the manager method to find specific upload using public_id (UUID)
-        upload = UploadRecord.objects.get_upload(public_id)
+    def get(self, request, cloudinary_public_id):
+        # Use the manager method to find specific upload using id
+        upload = UploadRecord.objects.get_upload(cloudinary_public_id)
 
         if not upload:  # Check if the object exists
             return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -36,17 +36,19 @@ class UploadDetailView(APIView):
         # Return specific upload details to front-end
         return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_200_OK)
     # Note: Tested this GET request by entering this into the command line
-    # curl -X GET http://127.0.0.1:8000/uploads/{public_id}/
+    # curl -X GET http://127.0.0.1:8000/uploads/{id}/
 
 
     # Handles DELETE HTTP request from frontend
     # Deletes an existing uploaded file from the database
 
-    def delete(self, request, public_id):
-        # Use the manager method to find specific upload using public_id (UUID)
-        upload = UploadRecord.objects.get_upload(public_id)
+    def delete(self, request, cloudinary_public_id):
+        # Check if object exists:
 
-        if not upload:  # Check if the object exists
+        # Use the manager method to find specific upload using id
+        upload = UploadRecord.objects.get_upload(cloudinary_public_id)
+
+        if not upload:
             return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
 
         # Delete from Cloudinary
@@ -58,16 +60,16 @@ class UploadDetailView(APIView):
         upload.delete()
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
     # Note: Tested this DELETE request by entering this into the command line
-    # curl -X DELETE http://127.0.0.1:8000/uploads/{public_id}/
+    # curl -X DELETE http://127.0.0.1:8000/uploads/{id}/
 
 
     # Handles PATCH request from the frontend
     # Updates the description of a file
-    def patch(self, request, public_id):
+    def patch(self, request, cloudinary_public_id):
         new_description = request.data.get('description')  # Get 'description' from request body
 
-        # Use the manager method to find specific upload using public_id (UUID)
-        upload = UploadRecord.objects.get_upload(public_id)
+        # Use the manager method to find specific upload using id
+        upload = UploadRecord.objects.get_upload(cloudinary_public_id)
 
         if not upload:  # Check if the object exists
             return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -80,14 +82,14 @@ class UploadDetailView(APIView):
             # Return updated specific upload details to front-end
             return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_200_OK)
         else:
-            return Response(status=HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
     # Note: Tested this PATCH request by entering this into the command line
-    # curl -X PATCH http://127.0.0.1:8000/uploads/{public_id}/ -H "Content-Type: application/json" -d '{"description": "Updated upload description"}'
+    # curl -X PATCH http://127.0.0.1:8000/uploads/{id}/ -H "Content-Type: application/json" -d '{"description": "Updated upload description"}'
 
 
 
 class UploadListView(APIView):
-    permission_classes = []  # Debug only: No authentication required
+    permission_classes = [IsAuthenticated]
     # Specifies that the view can accept both multipart form data
     # and JSON-formatted request bodies.
     parser_classes = (
@@ -99,17 +101,12 @@ class UploadListView(APIView):
     # Uploading a new file
     def post(self, request):
         # request to get user
-        # user = request.user # once authentication is a thing
-
-        # Get the user model class (Debug only)
-        User = apps.get_model(settings.AUTH_USER_MODEL)
-
-        # Get the first user in the database (Debug only)
-        user = User.objects.first()
+        user = request.user  # Authenticated user object
+        profile = user.profile
 
         # Check if user exists
-        if not user:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        if not profile:
+            return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
 
         # request to get file to be uploaded
         file = request.data.get('file')
@@ -122,7 +119,7 @@ class UploadListView(APIView):
         upload_data = UploadRecord.objects.upload(file)
 
         # Use the manager method to save relevant metadata into database
-        UploadRecord.objects.create(upload_data, user)
+        UploadRecord.objects.create(upload_data)
 
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
     # Note: Tested this POST request by entering this into the command line

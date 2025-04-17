@@ -1,0 +1,447 @@
+/*will add code here later*/
+/* Calendar.css */
+
+/* Define custom properties for theming */
+:root {
+    --primary-color: #3e64ff;
+    --primary-darker: #324ec9; /* 10% darker than primary */
+    --secondary-color: #ff5252;
+    --secondary-darker: #e04343; /* 10% darker than secondary */
+    --accent-color: #ffd600;
+    --bg-gradient: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    --card-bg: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+/* Global Styles */
+.calendar-page body {
+    background: var(--bg-gradient);
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    /*margin-top: 100px;*/
+}
+
+/* Overall Calendar Page Container (Scoped with .calendar-page) */
+.calendar-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 2rem;
+    background: var(--bg-gradient);
+}
+
+/* Main Calendar Body */
+.calendar-page .calendar-body {
+    display: flex;
+    gap: 2rem;
+    margin-top: 80px; /* offset for global header */
+}
+
+/* Panel Common Styles */
+.calendar-page .left-panel,
+.calendar-page .right-panel {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+}
+
+/* Left Panel (Calendar Display & Progress) */
+.calendar-page .left-panel {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Month Header & View Toggle */
+.calendar-page .month-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.calendar-page .view-toggle button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    background: #e8efff;
+    color: var(--primary-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.calendar-page .view-toggle button:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.calendar-page .view-toggle .active {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.calendar-page .month-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* Header Actions (Today & Create Event) */
+.calendar-page .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.calendar-page .today-btn {
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.calendar-page .today-btn:hover {
+    background: var(--primary-darker);
+}
+
+.calendar-page .create-event-btn {
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.calendar-page .create-event-btn:hover {
+    background: var(--primary-darker);
+}
+
+/* Calendar Wrapper & Navigation Arrows */
+.calendar-page .calendar-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.calendar-page .nav-arrow {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.calendar-page .nav-arrow:hover {
+    color: var(--primary-darker);
+}
+
+/* React-Calendar Overrides */
+.calendar-page .react-calendar {
+    border: none;
+    width: 100%;
+    max-width: 100%;
+    background-color: transparent;
+    font-family: 'Roboto', sans-serif;
+}
+
+.calendar-page .react-calendar__navigation button {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+/* Tiles */
+.calendar-page .react-calendar__tile {
+    transition: var(--transition);
+    border-radius: 8px;
+}
+
+.calendar-page .react-calendar__tile:hover {
+    background-color: rgba(62, 100, 255, 0.1);
+}
+
+.calendar-page .react-calendar__tile--active {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 8px;
+}
+
+/* Event Markers on Tiles */
+.calendar-page .tile-events {
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.calendar-page .calendar-event-marker {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+}
+
+/* Progress Section */
+.calendar-page .progress-section {
+    margin-top: 2rem;
+}
+
+.calendar-page .toggle-progress {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    gap: 0.5rem;
+}
+
+.calendar-page .toggle-progress input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.calendar-page .progress-bars {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.calendar-page .progress-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.calendar-page .progress-bar {
+    flex: 1;
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.calendar-page .progress-fill {
+    height: 100%;
+    background: var(--primary-color);
+    transition: width 0.5s ease;
+}
+
+.calendar-page .progress-percent {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Right Panel (Auto-Schedule, Search/Filter, Tasks, File Attach) */
+.calendar-page .right-panel {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Auto-Schedule Button */
+.calendar-page .auto-sched-btn {
+    background: var(--secondary-color);
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.calendar-page .auto-sched-btn:hover {
+    background: var(--secondary-darker);
+}
+
+/* Search Section */
+.calendar-page .search-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.calendar-page .search-bar {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    outline: none;
+    transition: var(--transition);
+}
+
+.calendar-page .search-bar:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(62, 100, 255, 0.5);
+}
+
+/* Filter Section */
+.calendar-page .filter-section {
+    background: #f9f9f9;
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.calendar-page .filter-section h4 {
+    margin: 0 0 0.5rem;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+.calendar-page .filter-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.calendar-page .filter-section li {
+    padding: 0.5rem 0;
+    cursor: pointer;
+    transition: var(--transition);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.calendar-page .filter-section li:last-child {
+    border-bottom: none;
+}
+
+.calendar-page .filter-section li:hover {
+    background: rgba(62, 100, 255, 0.1);
+}
+
+/* Unscheduled Tasks */
+.calendar-page .unscheduled-tasks {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: var(--shadow);
+}
+
+.calendar-page .unscheduled-tasks h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+.calendar-page .unscheduled-tasks ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.calendar-page .unscheduled-tasks li {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: var(--transition);
+    display: flex;
+    justify-content: space-between;
+}
+
+.calendar-page .unscheduled-tasks li:last-child {
+    border-bottom: none;
+}
+
+.calendar-page .task-type {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* File Attachment Button */
+.calendar-page .file-attach-btn {
+    background: #0095ff;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.calendar-page .file-attach-btn:hover {
+    background: #0078cc;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .calendar-page .calendar-body {
+        flex-direction: column;
+    }
+    .calendar-page .right-panel {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+}
+
+/* Week View Container */
+.calendar-page .week-view {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Individual Week Day Card */
+.calendar-page .week-day {
+    flex: 1;
+    margin: 0 4px;
+    padding: 8px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Week Day Header */
+.calendar-page .week-day-header {
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: var(--primary-color);
+}
+
+/* Container for events in week view */
+.calendar-page .week-day-events {
+    margin-top: 8px;
+}
+
+/* Search Input Wrapper for Clear Button */
+.calendar-page .search-input-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.calendar-page .clear-search {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 8px;
+    transition: var(--transition);
+}
+
+.calendar-page .clear-search:hover {
+    text-decoration: underline;
+}
+

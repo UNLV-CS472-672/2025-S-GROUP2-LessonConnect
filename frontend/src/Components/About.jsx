@@ -1,8 +1,9 @@
 import '../Styles/about.css'
-export default function About() {
+import PropTypes from 'prop-types';
+export default function About({ darkMode }) {
     return (
         <>
-            <div className="about-us-page">
+            <div className={`about-us-page ${darkMode ? "dark-mode" : ""}`}>
                 {/* Section 1: Who We Are */}
                 <section id="about-us" className="py-5 bg-light text-center">
                     <div className="container">
@@ -22,7 +23,7 @@ export default function About() {
                             </div>
                             <div className="col-lg-6">
                                 <img
-                                    src="assets/images/UNLV_pic.png"
+                                    src="/assets/images/LessonConnect_1.jpg"
                                     alt="UNLV"
                                     className="img-fluid rounded"
                                     style={{maxWidth: "100%"}}
@@ -38,7 +39,7 @@ export default function About() {
                             {/* Team Image on the Left */}
                             <div className="col-lg-6 text-center">
                                 <img
-                                    src="assets/images/UNLV_pic.png"
+                                    src="/assets/images/LessonConnect_2.jpg "
                                     alt="LessonConnect Team"
                                     className="img-fluid rounded"
                                 />
@@ -75,19 +76,19 @@ export default function About() {
                         </p>
                         <div className="row team-container">
                             {[
-                                {name: "Dorian Akhavan", role: "Lead Developer", img: "assets/images/UNLV_pic.png"},
-                                {name: "Abdulrahman Alharbi", role: "Backend Engineer", img: "assets/images/UNLV_pic.png"},
-                                {name: "Ashley Arellano", role: "UI/UX Designer", img: "assets/images/UNLV_pic.png"},
-                                {name: "Franklin La Rosa Diaz", role: "Project Manager", img: "assets/images/UNLV_pic.png"},
-                                {name: "Jose Alarcon", role: "Frontend Developer", img: "assets/images/UNLV_pic.png"},
-                                {name: "Christopher Liscano", role: "Security Engineer", img: "assets/images/UNLV_pic.png"},
-                                {name: "Ethan Zambrano", role: "Database Engineer", img: "assets/images/UNLV_pic.png"},
-                                {name: "Aviendha Andrus", role: "QA Engineer", img: "assets/images/UNLV_pic.png"},
-                                {name: "Sameer Issa", role: "Systems Architect", img: "assets/images/UNLV_pic.png"},
-                                {name: "Allison Kameda", role: "Full-Stack Developer", img: "assets/images/UNLV_pic.png"},
-                                {name: "Charles Joseph Ballesteros", role: "DevOps Engineer", img: "assets/images/UNLV_pic.png"}
+                                {name: "Dorian Akhavan", role: "Back End Programmer", img: "/assets/images/Dorian.png"},
+                                {name: "Abdulrahman Alharbi", role: "Project Manager/Front End Programmer", img: "/assets/images/Abdul.png"},
+                                {name: "Franklin La Rosa Diaz", role: "Front End Lead", img: "/assets/images/Frank.JPG"},
+                                {name: "Ashley Arellano", role: "Back End Lead", img: "/assets/images/Ashley.png"},
+                                {name: "Ethan Zambrano", role: "Back End Programmer", img: "/assets/images/Ethan.png"},
+                                {name: "Allison Kameda", role: "Back End Programmer", img: "/assets/images/allison.png"},
+                                {name: "Aviendha Andrus", role: "Back End Programmer", img: "/assets/images/Aviendha.png"},
+                                {name: "Christopher Liscano", role: "Back End Programmer", img: "/assets/images/Chris.png"},
+                                {name: "Charles Joseph Ballesteros", role: "Back End Programmer", img: "/assets/images/CJ.png"},
+                                {name: "Sameer Issa", role: "Front End Programmer", img: "/assets/images/UNLV_pic.png"},
+                                {name: "Jose Alarcon", role: "Front End Programmer", img: "/assets/images/UNLV_pic.png"}
                             ].map((member, index) => (
-                                <div className="col-lg-4 col-md-6 col-sm-12 team-member" key={index}>
+                                <div className="team-member" key={index}>
                                     <img src={member.img} alt={member.name}/>
                                     <h4>{member.name}</h4>
                                     <p>{member.role}</p>
@@ -99,4 +100,9 @@ export default function About() {
             </div>
         </>
     );
+
 }
+
+About.propTypes = {
+    darkMode: PropTypes.bool.isRequired
+};

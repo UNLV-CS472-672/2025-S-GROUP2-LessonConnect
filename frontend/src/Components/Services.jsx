@@ -1,33 +1,10 @@
 import "../Styles/Services.css";
-import {Link, NavLink} from "react-router-dom";
-export default function Services() {
+import PropTypes from "prop-types";
+
+export default function Services({ darkMode }) {
     return (
         <>
-            <div className="services-page-container">
-                <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-                    <div className="container">
-                        <NavLink to="/" className="navbar-brand">
-                            <i className="bi bi-house-door"></i>
-                        </NavLink>
-                        <button
-                            className="navbar-toggler"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#nav-collapse"
-                        >
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div id="nav-collapse" className="collapse navbar-collapse">
-                            <div className="navbar-nav ms-auto">
-                                <Link to="/services" className="nav-link">Services</Link>
-                                <a href="#schedule-target" className="nav-link">Schedule</a>
-                                <Link to="/Learn_more" className="nav-link">Learn More</Link>
-                                <Link to="/About" className="nav-link">About Us</Link>
-                                <Link to="/Login" className="btn btn-outline-light ms-4">Login</Link>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-
+            <div className={`services-page-container ${darkMode ? "dark-mode" : ""}`}>
                 <section id = "top-header-section">
                     <div className="header-top">
                         <h1>Empowering Students Through Personalized Learning </h1>
@@ -42,7 +19,7 @@ export default function Services() {
                         <div className="row justify-content-center gx-3 gy-4">
                             <div className="col-lg-4 col-md-6 col-sm-12 d-flex">
                                 <div className="panel card shadow-lg p-3 flex-fill" id="panel1">
-                                    <img src="assets/images/UNLV_pic.png" alt="Tutoring"
+                                    <img src="/assets/images/UNLV_pic.png" alt="Tutoring"
                                          className="card-img-top panel-img"/>
                                     <div className="card-body">
                                         <h5 className="card-title">Tutoring</h5>
@@ -58,14 +35,14 @@ export default function Services() {
                             </div>
                             <div className="col-lg-4 col-md-6 col-sm-12 d-flex">
                                 <div className="panel card shadow-lg p-3 flex-fill" id="panel2">
-                                    <img src="assets/images/UNLV_pic.png" alt="Resources"
+                                    <img src="/assets/images/UNLV_pic.png" alt="Resources"
                                          className="card-img-top panel-img"/>
                                     <div className="card-body">
                                         <h5 className="card-title">Resources</h5>
                                         <ul className="list-unstyled">
                                             <li><a href="#link">Games</a></li>
                                             <li><a href="#">Scheduling</a></li>
-                                            <li><a href="#">Whiteboard</a></li>
+                                            <li><a href="/LandingPage">Whiteboard</a></li>
                                             <li><a href="#">Find A Tutor</a></li>
                                             <li><a href="#">Find a Lesson</a></li>
                                         </ul>
@@ -74,12 +51,15 @@ export default function Services() {
                             </div>
                             <div className="col-lg-4 col-md-6 col-sm-12 d-flex">
                                 <div className="panel card shadow-lg p-3 flex-fill" id="panel3">
-                                    <img src="assets/images/UNLV_pic.png" alt="Pomodoro"
+                                    <img src="/assets/images/UNLV_pic.png" alt="Pomodoro"
                                          className="card-img-top panel-img"/>
                                     <div className="card-body">
                                         <h5 className="card-title">Pomodoro</h5>
                                         <ul className="list-unstyled">
                                             <li><a href="#link">Pomodoro Timer</a></li>
+                                            <p>Temporary links Below</p>
+                                            <li><a href="/chat">Chat UI</a></li>
+                                            <li><a href="/videocall">Video Call UI</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -91,3 +71,7 @@ export default function Services() {
         </>
     );
 }
+
+Services.propTypes = {
+    darkMode: PropTypes.bool.isRequired,
+};
