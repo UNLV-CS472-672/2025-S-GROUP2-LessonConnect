@@ -56,16 +56,12 @@ jobs:
       - name: Run Migrations
         run: python manage.py migrate
 
-      - name: Run Tests with Coverage
-        run: |
-          coverage run manage.py test
-          coverage report
-          coverage html  # Generates the HTML report in 'htmlcov' directory
+      # Generate coverage XML report for Codecov
+      - name: Run tests and generate coverage XML report
+        run: pytest --cov --cov-branch --cov-report=xml
 
-      # Upload coverage HTML report as artifact
-      - name: Upload coverage HTML report
-        uses: actions/upload-artifact@v4
+      # Upload to Codecov (external visualization tool)
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
         with:
-          name: coverage-report-html
-          path: backend/htmlcov/  # Upload the entire 'htmlcov' directory
-
+            token: ${{ secrets.CODECOV_TOKEN }}
