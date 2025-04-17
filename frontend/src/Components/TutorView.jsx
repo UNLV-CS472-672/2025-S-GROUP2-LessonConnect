@@ -15,7 +15,7 @@ const dashboardOptions = [
 ];
 
 const sidebarOptions = [
-    { text: "Resources", path:"/tutor/resources" },
+    { text: "Whiteboard", path:"/tutor/LandingPage" },
     { text: "Settings", path:"/tutor/settings" },
     { text: "Calendar", path:"/tutor/calendar"},
     { text: "Student Requests", path:"/tutor/requests" },

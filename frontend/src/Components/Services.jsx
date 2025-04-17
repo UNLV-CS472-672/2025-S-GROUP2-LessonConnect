@@ -42,7 +42,7 @@ export default function Services({ darkMode }) {
                                         <ul className="list-unstyled">
                                             <li><a href="#link">Games</a></li>
                                             <li><a href="#">Scheduling</a></li>
-                                            <li><a href="#">Whiteboard</a></li>
+                                            <li><a href="/LandingPage">Whiteboard</a></li>
                                             <li><a href="#">Find A Tutor</a></li>
                                             <li><a href="#">Find a Lesson</a></li>
                                         </ul>
