@@ -53,6 +53,7 @@ jobs:
           echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
         shell: bash
 
+      # Applying migrations
       - name: Run Migrations
         run: python manage.py migrate
 
