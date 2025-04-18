@@ -28,7 +28,7 @@ import TutorView from "./Components/TutorView.jsx";
 import AssignmentPage from "./Components/AssignmentPage.jsx";
 import WhiteboardCanvas from "./Components/WhiteboardCanvas.jsx";
 import LandingPage from "./Components/LandingPage.jsx";
-import EditProfile from "./Components/EditProfile.jsx";
+
 import Settings from "./Components/Settings.jsx";
 
 
@@ -62,7 +62,6 @@ function App() {
                 <Route path="/findTutor" element={<FindTutor />} />
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/edit-profile" element={<EditProfile />} />
                 <Route path="/videocall" element={<VideoCall />} />
                 <Route path="/WhiteboardCanvas" element={<WhiteboardCanvas/>} />
 

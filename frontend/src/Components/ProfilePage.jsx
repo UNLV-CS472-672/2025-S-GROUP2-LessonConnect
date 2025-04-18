@@ -2,17 +2,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "../Styles/ProfilePage.css"
 import userIcon from "/assets/images/UNLV_pic.png";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import badge1 from "/assets/images/UNLV_pic.png";
 import badge2 from "/assets/images/UNLV_pic.png";
 import badge3 from "/assets/images/UNLV_pic.png";
 import badge4 from "/assets/images/UNLV_pic.png";
 import EmojiPicker from 'emoji-picker-react';
-import { FaEdit, FaCog, FaShareAlt, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaEnvelope, FaUser } from 'react-icons/fa';
-import { getProfileData, initializeProfileData } from '../utils/profileData';
 
 // Quick smiley emojis - memoized outside component to prevent recreation
 const quickEmojis = ['😊', '😂', '😍', '🥰', '😎', '😃', '🙂', '😉', '😇', '🤩'];
+
+
 
 const ProfilePage = () => {
     // Consolidated related state
@@ -23,37 +22,10 @@ const ProfilePage = () => {
         showEmojis: false
     });
     
-    const navigate = useNavigate();
-    
     // Refs for DOM elements
     const textareaRef = useRef(null);
     const emojiMenuRef = useRef(null);
     const emojiButtonRef = useRef(null);
-
-    // Initialize profile data if not present
-    useEffect(() => {
-        initializeProfileData();
-    }, []);
-
-    // Load profile data from localStorage
-    const [userData, setUserData] = useState(() => getProfileData());
-
-    // Refresh user data when component mounts or when navigating back to this page
-    useEffect(() => {
-        const handleStorageChange = () => {
-            setUserData(getProfileData());
-        };
-
-        // Listen for storage changes from other tabs/windows
-        window.addEventListener('storage', handleStorageChange);
-
-        // Always refresh data when component mounts
-        setUserData(getProfileData());
-
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
-        };
-    }, []);
 
     // Memoized data that doesn't need to be recreated on every render
     const badges = useMemo(() => [
@@ -150,17 +122,6 @@ const ProfilePage = () => {
         }));
     }, []);
 
-    // Handle Share Profile button click
-    const handleShareProfile = useCallback(() => {
-        // In a real app, this would generate a shareable link or show sharing options
-        alert('Share functionality would be implemented here. This would allow sharing the profile via social media or copying a direct link.');
-    }, []);
-    
-    // Handle Settings button click
-    const handleSettingsClick = useCallback(() => {
-        navigate('/student/settings');
-    }, [navigate]);
-
     // Handle emoji menu outside click
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -222,28 +183,13 @@ const ProfilePage = () => {
             <div className="profile-page">
                 {/* Cover Section with Profile Info */}
                 <div className="cover-section">
-                    <div className="profile-actions">
-                        <Link to="/edit-profile" className="profile-action-btn">
-                            <FaEdit /> <span>Edit Profile</span>
-                        </Link>
-                        <button className="profile-action-btn" onClick={handleShareProfile}>
-                            <FaShareAlt /> <span>Share Profile</span>
-                        </button>
-                        <button className="profile-action-btn" onClick={handleSettingsClick}>
-                            <FaCog /> <span>Settings</span>
-                        </button>
-                    </div>
                     <div className="profile-info">
                         <div className="profile-image">
-                            <img 
-                                src={userData.profileImage || userIcon} 
-                                className="rounded-circle" 
-                                alt="Profile" 
-                            />
+                            <img src={userIcon} className="rounded-circle" alt="Profile" />
                         </div>
                         <div className="profile-details">
-                            <h3 className="profile-name">{userData.firstName} {userData.lastName}</h3>
-                            <p className="profile-bio">{userData.bio}</p>
+                            <h3 className="profile-name">John Doe</h3>
+                            <p className="profile-bio">Frontend Developer. Passionate about UI/UX and React.</p>
                         </div>
                     </div>
                 </div>
@@ -254,55 +200,11 @@ const ProfilePage = () => {
                         {/* Left Column - Information and Badges */}
                         <div className="left-column">
                             <div className="card">
-                                <div className="card-header">Personal Information</div>
+                                <div className="card-header">Information</div>
                                 <div className="card-body">
-                                    <div className="info-item">
-                                        <FaUser className="info-icon" />
-                                        <div>
-                                            <p className="info-label">Username</p>
-                                            <p className="info-value">@{userData.username}</p>
-                                        </div>
-                                    </div>
-                                    <div className="info-item">
-                                        <FaEnvelope className="info-icon" />
-                                        <div>
-                                            <p className="info-label">Email</p>
-                                            <p className="info-value">{userData.email}</p>
-                                        </div>
-                                    </div>
-                                    <div className="info-item">
-                                        <FaPhone className="info-icon" />
-                                        <div>
-                                            <p className="info-label">Phone</p>
-                                            <p className="info-value">{userData.phone}</p>
-                                        </div>
-                                    </div>
-                                    <div className="info-item">
-                                        <FaMapMarkerAlt className="info-icon" />
-                                        <div>
-                                            <p className="info-label">Location</p>
-                                            <p className="info-value">{userData.location}</p>
-                                        </div>
-                                    </div>
-                                    <div className="info-item">
-                                        <FaCalendarAlt className="info-icon" />
-                                        <div>
-                                            <p className="info-label">Date of Birth</p>
-                                            <p className="info-value">{
-                                                userData.birthdate ? 
-                                                new Date(userData.birthdate).toLocaleDateString('en-US', 
-                                                { year: 'numeric', month: 'long', day: 'numeric' }) : 
-                                                "Not specified"
-                                            }</p>
-                                        </div>
-                                    </div>
-                                    <div className="info-item">
-                                        <FaCalendarAlt className="info-icon" />
-                                        <div>
-                                            <p className="info-label">Joined</p>
-                                            <p className="info-value">{userData.joined}</p>
-                                        </div>
-                                    </div>
+                                    <p><strong>Email:</strong> john.doe@example.com</p>
+                                    <p><strong>Location:</strong> New York, USA</p>
+                                    <p><strong>Joined:</strong> January 2022</p>
                                 </div>
                             </div>
 
