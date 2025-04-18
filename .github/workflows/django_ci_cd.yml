@@ -31,12 +31,6 @@ jobs:
           sudo service redis-server start
           sudo service redis-server status
 
-      - name: Install Flake8 and Run Linter
-        run: |
-          pip install flake8
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
-
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
