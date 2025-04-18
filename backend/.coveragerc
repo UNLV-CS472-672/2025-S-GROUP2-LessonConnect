@@ -7,7 +7,7 @@ source =
     apps/chat
     apps/notifications
     apps/pomodoro
-    apps/booking
+    apps/bookings
     apps/planner
     apps/search
 
