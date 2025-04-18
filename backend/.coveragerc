@@ -1,0 +1,18 @@
+[run]
+source =
+    users
+    lessons
+    submissions
+    uploads
+    chat
+    notifications
+    pomodoro
+    booking
+    planner
+    search
+
+[report]
+omit =
+    */tests/*
+    */migrations/*
+    */__init__.py
