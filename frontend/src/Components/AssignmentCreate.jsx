@@ -15,8 +15,8 @@ const AssignmentCreate = () => {
     ];
 
     const questions = [
-        { id: 1, type: 'MC', text: 'What is 2 + 2?', points: 1 },
-        { id: 2, type: 'SA', text: 'Define gravity.', points: 2 }
+        { id: 1, type: 'MC', text: 'What is 2 + 2?', points: 1, solution: 4 },
+        { id: 2, type: 'SA', text: 'Define gravity.', points: 2, solution: 'Ask Newton' },
     ];
 
     const handleAddChoice = () => {
@@ -144,6 +144,7 @@ const AssignmentCreate = () => {
                             <th className="assignment-create_label">Type</th>
                             <th className="assignment-create_label">Points</th>
                             <th className="assignment-create_label">Question</th>
+                            <th className="assignment-create_label">Solution</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -153,6 +154,7 @@ const AssignmentCreate = () => {
                                 <td className="assignment-create_cell">{q.type}</td>
                                 <td className="assignment-create_cell">{q.points}</td>
                                 <td className="assignment-create_cell">{q.text}</td>
+                                <td className="assignment-create_cell">{q.solution}</td>
                             </tr>
                         ))}
                         </tbody>
