@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import '../Styles/AssignmentCreate.css';
 
@@ -96,7 +95,10 @@ const AssignmentCreate = () => {
                             placeholder="Description"
                             className="assignment-create_input"
                         />
-                        <select className="assignment-create_input" defaultValue={selectedAssignment?.type || 'HW'}>
+                        <select
+                            className="assignment-create_input"
+                            defaultValue={selectedAssignment?.type || 'HW'}
+                        >
                             <option value="EX">Exercises</option>
                             <option value="HW">Homework</option>
                             <option value="QZ">Quiz</option>
@@ -177,11 +179,20 @@ const AssignmentCreate = () => {
                         <input type="number" placeholder="Order" className="assignment-create_input" />
                         <textarea placeholder="Question Text" className="assignment-create_input" />
                         <input type="number" placeholder="Points" className="assignment-create_input" />
+
                         {questionType === 'MC' && (
                             <>
                                 <h4 style={{ marginTop: '20px' }}>Choices</h4>
                                 {choices.map((choice, index) => (
-                                    <div key={index} className="assignment-create_input" style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                                    <div
+                                        key={index}
+                                        className="assignment-create_input"
+                                        style={{
+                                            display: 'flex',
+                                            gap: '10px',
+                                            marginBottom: '10px',
+                                        }}
+                                    >
                                         <input
                                             type="text"
                                             placeholder={`Choice ${index + 1}`}
@@ -206,18 +217,27 @@ const AssignmentCreate = () => {
                                         </label>
                                     </div>
                                 ))}
-                                <button
-                                    type="button"
-                                    className="assignment-create_button"
-                                    onClick={handleAddChoice}
-                                >
-                                    Add Another Choice
-                                </button>
                             </>
                         )}
+
                         <div className="assignment-create_button-container">
-                            <button className="assignment-create_button" type="submit">Submit</button>
-                            <button className="assignment-create_button" type="button" onClick={() => setView('quiz')}>Cancel</button>
+                            <button
+                                type="button"
+                                className="assignment-create_button"
+                                onClick={handleAddChoice}
+                            >
+                                Add Another Choice
+                            </button>
+                            <button className="assignment-create_button" type="submit">
+                                Submit
+                            </button>
+                            <button
+                                className="assignment-create_button"
+                                type="button"
+                                onClick={() => setView('quiz')}
+                            >
+                                Cancel
+                            </button>
                         </div>
                     </form>
                 </div>
