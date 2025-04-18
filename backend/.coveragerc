@@ -1,6 +1,15 @@
 [run]
 source =
-    backend/apps
+    apps/users
+    apps/lessons
+    apps/submissions
+    apps/uploads
+    apps/chat
+    apps/notifications
+    apps/pomodoro
+    apps/booking
+    apps/planner
+    apps/search
 
 omit =
     */tests/*
