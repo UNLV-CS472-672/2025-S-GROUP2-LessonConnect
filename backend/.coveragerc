@@ -11,15 +11,6 @@ source =
     apps/planner
     apps/search
 
-omit =
-    */tests/*
-    */migrations/*
-    */__init__.py
-    */settings.py
-    */wsgi.py
-    */asgi.py
-    */manage.py
-
 [report]
 show_missing = True
 skip_covered = True
