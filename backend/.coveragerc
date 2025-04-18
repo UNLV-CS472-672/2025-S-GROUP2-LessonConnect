@@ -1,6 +1,5 @@
 [run]
 source =
-    apps
     backend/apps
 
 omit =
@@ -11,7 +10,7 @@ omit =
     */wsgi.py
     */asgi.py
     */manage.py
-    
+
 [report]
 show_missing = True
 skip_covered = True
