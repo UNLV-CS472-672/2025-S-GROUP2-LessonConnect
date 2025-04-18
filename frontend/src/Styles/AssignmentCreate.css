@@ -1,14 +1,12 @@
-
-
 .assignment-create_container {
     font-family: Arial, sans-serif;
-    padding: 40px;
     background-color: #fff;
-    margin: 100px auto 40px;
     max-width: 1100px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     margin-top: 130px !important;
+    padding: 120px;
+    margin: 80px auto;
 }
 
 .assignment-create_container .assignment-create_header {
@@ -80,15 +78,6 @@
     box-sizing: border-box;
 }
 
-
-.assignment-create_container {
-    font-family: Arial, sans-serif;
-    padding: 120px;
-    background-color: #fff;
-    margin: 80px auto;
-    max-width: 1000px;
-}
-
 .assignment-create_container .assignment-create_header {
     font-size: 32px;
     font-weight: bold;
@@ -98,14 +87,14 @@
 
 .assignment-create_button-container {
     display: flex;
-    justify-content: space-between; /* Or use center if you prefer */
+    justify-content: space-between;
     gap: 12px;
     margin-top: 20px;
     flex-wrap: wrap;
 }
 
 .assignment-create_button {
-    flex: 1; /* Makes each button take equal width */
+    flex: 1;
     min-width: 120px;
     text-align: center;
 }
