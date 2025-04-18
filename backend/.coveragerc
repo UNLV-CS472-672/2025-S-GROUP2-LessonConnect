@@ -1,18 +1,17 @@
 [run]
 source =
-    users
-    lessons
-    submissions
-    uploads
-    chat
-    notifications
-    pomodoro
-    booking
-    planner
-    search
+    apps
+    backend/apps
 
-[report]
 omit =
     */tests/*
     */migrations/*
     */__init__.py
+    */settings.py
+    */wsgi.py
+    */asgi.py
+    */manage.py
+    
+[report]
+show_missing = True
+skip_covered = True
