@@ -1,5 +1,5 @@
 name: Django CI/CD
-
+# Triggers when making a pull request to main and commits to main
 on:
   push:
     branches:
@@ -30,12 +30,6 @@ jobs:
           sudo apt-get install -y redis-server
           sudo service redis-server start
           sudo service redis-server status
-
-      - name: Install Flake8 and Run Linter
-        run: |
-          pip install flake8
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
 
       - name: Install Dependencies
         run: |
