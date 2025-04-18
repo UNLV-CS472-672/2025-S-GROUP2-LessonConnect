@@ -1,5 +1,5 @@
 name: Django CI/CD
-
+# Triggers when making a pull request to main and commits to main
 on:
   push:
     branches:
