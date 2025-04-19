@@ -1,95 +1,103 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import notificationService from "../Services/NotificationServices.js";
 import "../Styles/Inbox.css";
 
 export default function Inbox() {
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [activeNav, setActiveNav] = useState("Inbox");
     const [filterType, setFilterType] = useState("");
-    const [searchQuery, setSearchQuery] = useState("");
+    const [messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const [messages, setMessages] = useState([
-        {
-            id: 1,
-            subject: "New Tutoring Request",
-            preview: "Hi there! I'm looking for help with algebra...",
-            date: "Apr 4, 2025",
-            from: "Alex Morgan",
-            unreadCount: 1,
-            unread: true,
-            type: "general",
-        },
-        {
-            id: 2,
-            subject: "Follow-up on Geometry Session",
-            preview: "Thanks for yesterday’s session. I had a question about...",
-            date: "Apr 2, 2025",
-            from: "Taylor Brooks",
-            unreadCount: 0,
-            unread: false,
-            type: "info",
-        },
-        {
-            id: 3,
-            subject: "Schedule Confirmation",
-            preview: "Just confirming our next meeting time works for you...",
-            date: "Mar 30, 2025",
-            from: "Jordan Lee",
-            unreadCount: 3,
-            unread: true,
-            type: "update",
-        },
-        {
-            id: 4,
-            subject: "Payment Received",
-            preview: "Your tutoring payment has been processed.",
-            date: "Apr 1, 2025",
-            from: "Billing",
-            unreadCount: 1,
-            unread: true,
-            type: "success",
-        },
-        {
-            id: 7,
-            subject: "Payment Received",
-            preview: "Your tutoring payment has been processed.",
-            date: "Apr 1, 2025",
-            from: "Billing",
-            unreadCount: 1,
-            unread: true,
-            type: "error",
-        },
-        {
-            id: 5,
-            subject: "Warning: Missed Session",
-            preview: "You missed a session scheduled for April 1.",
-            date: "Apr 1, 2025",
-            from: "System",
-            unreadCount: 1,
-            unread: true,
-            type: "warning",
-        },
-        {
-            id: 6,
-            subject: "Profile Update",
-            preview: "Your profile has been updated successfully.",
-            date: "Mar 28, 2025",
-            from: "Support",
-            unreadCount: 0,
-            unread: false,
-            type: "success",
-        },
-    ]);
+    useEffect(() => {
+        fetchNotifications();
+    }, []);
 
-    // Displays number of unread messages in a thread as a blue badge.
-    // Resets to 0 (and hides the badge) when a thread is clicked/read.
-    const handleSelectMessage = (msg) => {
+    const fetchNotifications = async () => {
+        try {
+            setLoading(true);
+            const data = await notificationService.getNotifications();
+
+            const transformedData = data.map(notification => ({
+                id: notification.id,
+                subject: notification.notification_title,
+                preview: notification.notification_message,
+                date: new Date(notification.sent_at).toLocaleDateString(),
+                from: notification.sender_username || "System",
+                unreadCount: notification.is_read ? 0 : 1,
+                unread: !notification.is_read,
+                type: notification.notification_type,
+            }));
+
+            setMessages(transformedData);
+            setError(null);
+        } catch (err) {
+            console.error("Failed to fetch notifications:", err);
+            setError("Failed to load notifications");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSelectMessage = async (msg) => {
         setSelectedMessage(msg);
         setMessages((prev) =>
             prev.map((m) =>
                 m.id === msg.id ? { ...m, unread: false, unreadCount: 0 } : m
             )
         );
+
+        if (msg.unread) {
+            try {
+                await notificationService.markAsRead(msg.id);
+            } catch (err) {
+                console.error(`Error marking notification ${msg.id} as read:`, err);
+            }
+        }
+    };
+
+    const handleMarkAllAsRead = async () => {
+        try {
+            await notificationService.markAllAsRead();
+            setMessages(prev =>
+                prev.map(message => ({
+                    ...message,
+                    unread: false,
+                    unreadCount: 0
+                }))
+            );
+        } catch (err) {
+            console.error("Failed to mark all notifications as read:", err);
+            alert("Failed to mark all as read. Please try again.");
+        }
+    };
+
+    const handleDeleteNotification = async () => {
+        if (!selectedMessage) return;
+
+        try {
+            await notificationService.deleteNotification(selectedMessage.id);
+            setMessages(prev => prev.filter(msg => msg.id !== selectedMessage.id));
+            setSelectedMessage(null);
+        } catch (err) {
+            console.error(`Failed to delete notification ${selectedMessage.id}:`, err);
+            alert("Failed to delete notification. Please try again.");
+        }
+    };
+
+    const handleDeleteAllNotifications = async () => {
+        if (!window.confirm("Are you sure you want to delete all notifications?")) return;
+
+        try {
+            await notificationService.deleteAllNotifications();
+            setMessages([]);
+            setSelectedMessage(null);
+        } catch (err) {
+            console.error("Failed to delete all notifications:", err);
+            alert("Failed to delete all notifications. Please try again.");
+        }
     };
 
     const navLinks = {
@@ -98,6 +106,10 @@ export default function Inbox() {
         Support: "/support",
         Profile: "/tutor/profile",
     };
+
+    const filteredMessages = messages.filter((msg) =>
+        filterType ? msg.type === filterType : true
+    );
 
     return (
         <div className="inbox-page">
@@ -111,9 +123,7 @@ export default function Inbox() {
                                     className={activeNav === item ? "active" : ""}
                                     onClick={() => {
                                         setActiveNav(item);
-                                        if (item !== "Inbox") {
-                                            setSelectedMessage(null);
-                                        }
+                                        if (item !== "Inbox") setSelectedMessage(null);
                                     }}
                                 >
                                     <Link to={navLinks[item]}>{item}</Link>
@@ -137,33 +147,27 @@ export default function Inbox() {
                                 </optgroup>
                             </select>
 
-                            <select disabled>
-                                <option>Schedule</option>
-                            </select>
-
-                            <input
-                                type="text"
-                                placeholder="Search..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
+                            <div className="notification-actions">
+                                <button onClick={handleMarkAllAsRead} className="action-button">
+                                    Mark All Read
+                                </button>
+                                <button onClick={handleDeleteAllNotifications} className="action-button">
+                                    Delete All
+                                </button>
+                            </div>
                         </div>
 
                         <div className="thread-label">Notifications</div>
 
-                        <ul className="message-threads">
-                            {messages
-                                .filter((msg) =>
-                                    filterType ? msg.type === filterType : true
-                                )
-                                .filter((msg) =>
-                                    searchQuery
-                                        ? msg.preview
-                                            .toLowerCase()
-                                            .includes(searchQuery.toLowerCase())
-                                        : true
-                                )
-                                .map((msg) => (
+                        {loading ? (
+                            <div>Loading notifications...</div>
+                        ) : error ? (
+                            <div>{error}</div>
+                        ) : filteredMessages.length === 0 ? (
+                            <div className="empty-notifications">No notifications found</div>
+                        ) : (
+                            <ul className="message-threads">
+                                {filteredMessages.map((msg) => (
                                     <li
                                         key={msg.id}
                                         className={`thread ${msg.unread ? "unread" : ""}`}
@@ -182,12 +186,24 @@ export default function Inbox() {
                                         </div>
                                     </li>
                                 ))}
-                        </ul>
+                            </ul>
+                        )}
                     </div>
 
                     <div className="inbox-content-panel">
                         <div className="inbox-content-header">
-                            {selectedMessage ? selectedMessage.subject : "Notification Viewer"}
+                            <div className="header-title">
+                                {selectedMessage ? selectedMessage.subject : "Notification Viewer"}
+                            </div>
+                            <div className="message-actions">
+                                <button
+                                    onClick={handleDeleteNotification}
+                                    className="delete-button"
+                                    disabled={!selectedMessage}
+                                >
+                                    Delete Notification
+                                </button>
+                            </div>
                         </div>
 
                         {!selectedMessage ? (

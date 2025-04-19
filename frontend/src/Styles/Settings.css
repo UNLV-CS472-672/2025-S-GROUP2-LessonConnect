@@ -1,0 +1,377 @@
+/* ==== WRAPPER LAYOUT ==== */
+.settings-wrapper {
+    background-color: #FDF7F4;
+    min-height: 100vh;
+    padding-top: 70px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-wrapper .settings-container {
+    display: flex;
+    background-color: #f0f0f0;
+    color: #0d1117;
+    flex: 1;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+/* ==== PROFILE HEADER ==== */
+.settings-wrapper .profile-header {
+    display: flex;
+    align-items: center;
+    padding: 24px 40px;
+    background-color: #f0f0f0;
+}
+
+.settings-wrapper .profile-header-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    margin-right: 16px;
+    object-fit: cover;
+    border: 2px solid #30363d;
+}
+
+.settings-wrapper .profile-header-info h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #0d1117;
+}
+
+.profile-header-info span {
+    color: #8b949e;
+    font-weight: 500;
+}
+
+.profile-header-info p {
+    margin: 2px 0 0;
+    color: #0d1117;
+    font-size: 14px;
+}
+
+/* ==== SIDEBAR MENU ==== */
+.settings-menu {
+    width: 250px;
+    background-color: #f0f0f0;
+    padding: 30px 20px;
+    border-right: 1px solid #30363d;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.6;
+    height: 100%;
+}
+
+.menu-item {
+    padding: 12px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    color: #0d1117;
+    transition: background 0.2s ease;
+}
+
+.menu-item.active,
+.menu-item:hover {
+    background-color: #343937;
+    color: white;
+}
+
+/* ==== MAIN PANEL LAYOUT ==== */
+.settings-panel {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.settings-panel-section {
+    width: 100%;
+    padding: 0 40px;
+    margin-bottom: 80px;
+}
+
+.settings-panel-section .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.settings-panel-section .section-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #0d1117;
+}
+
+.settings-panel-section .subsection-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    margin-top: 24px;
+    color: #0d1117;
+}
+
+/* ==== AVATAR ==== */
+.settings-panel-section .avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.settings-panel-section .avatar-img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 8px;
+    border: 2px solid #30363d;
+}
+
+.settings-panel-section .edit-avatar {
+    background: transparent;
+    border: 1px solid #30363d;
+    color: black;
+    border-radius: 6px;
+    padding: 6px 26px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.settings-panel-section .edit-avatar:hover {
+    background-color: #30363d;
+    color: #f0f0f0;
+}
+
+/* ==== FORM ELEMENTS ==== */
+.settings-panel-section .form-group {
+    margin-bottom: 28px;
+}
+
+.settings-panel-section .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #0d1117;
+}
+
+.settings-panel-section input,
+.settings-panel-section textarea,
+.settings-panel-section select {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 6px;
+    background-color: #FDF7F4;
+    color: #0d1117;
+    border: 1px solid #30363d;
+    font-size: 15px;
+    font-weight: 500;
+    appearance: none;
+    outline: none;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.settings-panel-section input::placeholder,
+.settings-panel-section textarea::placeholder {
+    color: #57616c;
+    font-style: italic;
+}
+
+.settings-panel-section select:focus {
+    border-color: #388bfd;
+    box-shadow: 0 0 0 2px rgba(56, 139, 253, 0.4);
+    background-color: #f0f0f0;
+}
+
+.settings-panel-section textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+/* ==== HELPER TEXT ==== */
+.settings-panel-section .helper-text {
+    color: #8b949e;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+/* ==== BUTTONS ==== */
+.settings-panel-section .save-btn,
+.settings-panel-section .export-btn {
+    background-color: #30363d;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+
+.settings-panel-section .save-btn:hover,
+.settings-panel-section .export-btn:hover {
+    background-color: #586777;
+}
+
+/* ==== DIVIDER ==== */
+.settings-panel-section hr {
+    border-color: #30363d;
+    margin: 40px 0;
+}
+
+.settings-panel-section .char-counter {
+    font-size: 12px;
+    text-align: right;
+    color: #888;
+    margin-top: 4px;
+}
+
+/* ==== Cancel Button ==== */
+.settings-panel-section .cancel-btn {
+    background-color: #30363d;
+    color: white;
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    margin-left: 20px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.settings-panel-section .cancel-btn:hover {
+    background-color: #586777;
+}
+
+.settings-panel-section .success-msg {
+    color: #28a745;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* ==== DARK MODE STYLING ==== */
+.settings-wrapper.dark-mode {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+}
+
+.settings-wrapper.dark-mode .settings-container {
+    background-color: #34495e;
+}
+
+.settings-wrapper.dark-mode .profile-header {
+    background-color: #34495e;
+    border-bottom: 1px solid #34495e;
+}
+
+.settings-wrapper.dark-mode .profile-header-avatar {
+    border-color: #ecf0f1;
+}
+
+.settings-wrapper.dark-mode .profile-header-info h3,
+.settings-wrapper.dark-mode .profile-header-info p,
+.settings-wrapper.dark-mode .profile-header-info span {
+    color: #ecf0f1;
+}
+
+.settings-wrapper.dark-mode .settings-menu {
+    background-color: #34495e;
+    color: #ecf0f1;
+    border-right: 1px solid #121313;
+}
+
+.settings-wrapper.dark-mode .menu-item {
+    color: #ecf0f1;
+}
+
+.settings-wrapper.dark-mode .menu-item.active,
+.settings-wrapper.dark-mode .menu-item:hover {
+    background-color: #2980b9;
+    color: white;
+}
+
+.settings-wrapper.dark-mode .settings-panel-section {
+    background-color: #34495e;
+}
+
+.settings-wrapper.dark-mode .section-header h2,
+.settings-wrapper.dark-mode .subsection-title,
+.settings-wrapper.dark-mode .form-group label,
+.settings-wrapper.dark-mode h2 {
+    color: #ecf0f1;
+}
+
+.settings-wrapper.dark-mode .avatar-img {
+    border: 2px solid #ecf0f1;
+}
+
+.settings-wrapper.dark-mode .edit-avatar {
+    border: 1px solid #ecf0f1;
+    color: #ecf0f1;
+}
+
+.settings-wrapper.dark-mode .edit-avatar:hover {
+    background-color: #2980b9;
+    color: #ffffff;
+}
+
+.settings-wrapper.dark-mode input,
+.settings-wrapper.dark-mode textarea,
+.settings-wrapper.dark-mode select {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    border: 1px solid #34495e;
+}
+
+.settings-wrapper.dark-mode input::placeholder,
+.settings-wrapper.dark-mode textarea::placeholder {
+    color: #bdc3c7;
+}
+
+.settings-wrapper.dark-mode select:focus {
+    background-color: #2c3e50;
+    border-color: #2980b9;
+    box-shadow: 0 0 0 2px rgba(41, 128, 185, 0.4);
+}
+
+.settings-wrapper.dark-mode .helper-text {
+    color: #bdc3c7;
+}
+
+.settings-wrapper.dark-mode .save-btn,
+.settings-wrapper.dark-mode .export-btn {
+    background-color: #2980b9;
+    color: #ffffff;
+}
+
+.settings-wrapper.dark-mode .save-btn:hover,
+.settings-wrapper.dark-mode .export-btn:hover {
+    background-color: #3498db;
+}
+
+.settings-wrapper.dark-mode hr {
+    border-color: #34495e;
+}
+
+.settings-wrapper.dark-mode textarea::-webkit-scrollbar-thumb {
+    background-color: #2980b9;
+    border-radius: 4px;
+}
+
+.settings-wrapper.dark-mode .cancel-btn {
+    background-color: #2980b9;
+    color: #ffffff;
+}
+
+.settings-wrapper.dark-mode .cancel-btn:hover {
+    background-color: #3498db;
+}
+
+/* Optional dark mode support */
+.settings-wrapper.dark-mode .success-msg {
+    color: #00dd00;
+}
