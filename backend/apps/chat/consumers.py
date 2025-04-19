@@ -39,14 +39,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
             message = text_data_json['message']
 
             # Create a new message object
-            username = await self.save_message(self.user_id, self.room_name, message)
+            username, id, timestamp = await self.save_message(self.user_id, self.room_name, message)
 
             await self.channel_layer.group_send( # sends message to all users in a channel group
                 self.room_group_name,
                 {
                     'type': 'chat_message', # Calls chat_message()
                     'message': message,
-                    'username': username
+                    'username': username,
+                    'id': id,
+                    'timestamp': timestamp
                 }
             )
 
@@ -104,7 +106,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'message': 'successful',
             'body': event['message'],
-            'username': event['username']
+            'username': event['username'],
+            'id': event['id'],
+            'timestamp': event['timestamp']
         }))
 
     @sync_to_async
@@ -117,8 +121,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         try:
             user = User.objects.get(id=id)
             chat = Chat.objects.get(name = room_name)
-            Message.objects.create(content=content, chat = chat, sender = user) # Creates and saves message
-            return user.username
+            message = Message.objects.create(content=content, chat = chat, sender = user) # Creates and saves message
+            return user.username, message.id, message.timestamp
         except (Chat.DoesNotExist):
             print(f"Chat room '{room_name}' not found. Message not saved.")
             return "Unknown"

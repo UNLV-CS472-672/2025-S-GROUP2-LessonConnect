@@ -15,7 +15,6 @@ export default function Chat() {
     //     setInputText(prev => prev + emojiData.emoji);
     // }
 
-    const [messages, setMessages] = useState([]);
 
     const [inputText, setInputText] = useState("");
 
@@ -85,16 +84,20 @@ export default function Chat() {
     // Dynamically set the chat room when user clicks a chat
     const [roomName, setRoomName] = useState(null);
     const [isTyping, setIsTyping] = useState(false);
-    const [isSeen, setIsSeen] = useState(false);
+
 
     // States + variable used for pop-ups
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [modalInputText, setModalInputText] = useState("");
-    const [usernameList, setUsernameList] = useState([]);
 
     // Used to refetch or re-render messages
     const accessToken = localStorage.getItem("accessToken");
     const username = localStorage.getItem("username");
+
+    // Message related variables
+    const [messageMap, setMessageMap] = useState({});
+
+    const [messageOrder, setMessageOrder] = useState([]);
 
     // Handles notifying others that user is typing
     const handleTyping = (e) => {
@@ -165,7 +168,7 @@ export default function Chat() {
                     setIsTyping(eventData.typing)
                 }
                 else if('seen' in eventData && eventData.username === username && eventData.message === "successful"){
-                    setIsSeen(true)
+                    messageMap[eventData.id].seen = eventData.seen; // Marks message as seen
                 }
             };
             socket.current.onclose = (event) => {
@@ -184,9 +187,7 @@ export default function Chat() {
     }, [roomName, accessToken]);
 
     // ------------ WEBSOCKET EFFECTS END------------------
-    useEffect(() => {
-        console.log("isSeen", isSeen);
-    },[isSeen]);
+
     // ------------------- EFFECTS --------------------
     useEffect(() => {
         const chat = chatBodyRef.current;
@@ -197,7 +198,7 @@ export default function Chat() {
         if (shouldScroll) {
             chat.scrollTop = chat.scrollHeight;
         }
-    }, [messages, isTyping]);
+    }, [messageOrder, isTyping]);
     // ------------------- HELPERS --------------------
 
     function messageDisplay(eventData){
@@ -206,14 +207,18 @@ export default function Chat() {
             newMessage = {
                 text: eventData.body,
                 type: "sent",
-                time: getCurrentTime()
+                time: eventData.timestamp,
+                message_id: eventData.id,
+                seen: false
             }
         }
         else{
             newMessage = {
                 text: eventData.body,
                 type: "received",
-                time: getCurrentTime()
+                time: eventData.timestamp,
+                message_id: eventData.id,
+                seen: false
             }
             const seenStatus = {
                 seen: true
@@ -225,7 +230,8 @@ export default function Chat() {
                 console.warn("WebSocket not open.");
             }
         }
-        setMessages((prev) => [...prev, newMessage]);
+        setMessageMap(prev => ({...prev, [newMessage.message_id]: newMessage,}));
+        setMessageOrder((prev) => [...prev, newMessage.message_id]);
     }
     // Format current time as "hh:mm AM/PM"
     function getCurrentTime() {
@@ -248,7 +254,6 @@ export default function Chat() {
         // Send the message via WebSocket if the connection is open
         if (socket.current && socket.current.readyState === WebSocket.OPEN) {
             socket.current.send(JSON.stringify(messageData));
-            setIsSeen(false) //i think here?
         } else {
             console.warn("WebSocket not open.");
         }
@@ -399,34 +404,27 @@ export default function Chat() {
                             </div>
                             {/* Chat Body */}
                             <div className="chat-body" ref={chatBodyRef}>
-                                {messages.map((msg, index) => (
-                                    <div
-                                        key={index}
-                                        className={`message ${msg.type}`}
-                                    >
-                                        {/* For "received" messages, show an avatar */}
-                                        {msg.type === "received" && (
-                                            <img src={selectedChat.avatar} alt="Avatar" className="avatar" />
-                                        )}
-                                        <div className="message-content">
-                                            <p>{msg.text}</p>
-                                            <span className="time">
-                                                {msg.time}
-                                                {/*{(() => {*/}
-                                                {/*    console.log("msg.type:", msg.type, "isSeen:", isSeen);*/}
-                                                {/*    if (msg.type === "sent" && isSeen) {*/}
-                                                {/*        return <i className="fas fa-check read-receipt" title="Message read"></i>;*/}
-                                                {/*    }*/}
-                                                {/*    return null;*/}
-                                                {/*})()}*/}
-                                                {msg.type === "sent" && isSeen && (
-                                                    <i className="fas fa-check read-receipt" title="Message read"></i>
-                                                )}
-                                            </span>
-                                        </div>
+                                {messageOrder.map((id) => {
+                                    const msg = messageMap[id];
+                                    if (!msg) return null; // just in case something isn't loaded yet
 
-                                    </div>
-                                ))}
+                                    return (
+                                        <div key={id} className={`message ${msg.type}`}>
+                                            {msg.type === "received" && (
+                                                <img src={selectedChat.avatar} alt="Avatar" className="avatar" />
+                                            )}
+                                            <div className="message-content">
+                                                <p>{msg.text}</p>
+                                                <span className="time"> {msg.time}
+                                                    {msg.type === "sent" && msg.seen && (
+                                                        <i className="fas fa-check read-receipt" title="Message read"></i>
+                                                    )}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+
                                 {/* Show typing indicator at the bottom if someone is typing */}
                                 {isTyping && <Typing />}
                                 {/*{isTyping && <div style={{ backgroundColor: 'lightgray', padding: '10px' }}>Typing...</div>}*/}
