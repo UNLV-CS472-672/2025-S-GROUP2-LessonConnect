@@ -2,46 +2,26 @@ import { useState } from "react";
 import "../Styles/Questionnaire.css";
 
 export default function Questionnaire({ userRole, onComplete }) {
-    const isTutor = userRole === 1;
     const isStudent = userRole === 3;
+    const isTutor = userRole === 1;
 
     const [step, setStep] = useState(0);
     const [formData, setFormData] = useState({
+        preferred_contact_method: "",
+        email: "",
         phone_number: "",
         date_of_birth: "",
-        preferred_contact_method: "email",
-        // Tutor
+        school_type: "",
+        grade_level: "",
+        college_year: "",
+        emergency_contact_name: "",
+        emergency_contact_phone: "",
+        // Tutor-only
         city: "",
         state: "",
         bio: "",
-        hourly_rate: "",
-        subjects: [],
-        // Student
-        grade_level: 1,
-        preferred_subjects: [],
-        emergency_contact_name: "",
-        emergency_contact_phone_number: "",
+        hourly_rate: ""
     });
-
-    const prompts = [
-        { question: "📱 What’s the best number to reach you?", field: "phone_number", type: "text" },
-        { question: "🎂 When’s your birthday?", field: "date_of_birth", type: "date" },
-        { question: "📬 How should we contact you?", field: "preferred_contact_method", type: "select", options: ["email", "phone", "sms", "none"],
-        },
-        ...(isTutor ? [
-            { question: "🏙️ Which city do you tutor in?", field: "city", type: "text" },
-            { question: "🌎 And what’s your state abbreviation?", field: "state", type: "text" },
-            { question: "🧑‍🏫 Tell us a little about yourself!", field: "bio", type: "textarea" },
-            { question: "💵 What’s your hourly rate in USD?", field: "hourly_rate", type: "number" },
-        ] : []),
-        ...(isStudent ? [
-            { question: "📚 What grade are you in (1–12)?", field: "grade_level", type: "number" },
-            { question: "👤 Who should we contact in an emergency?", field: "emergency_contact_name", type: "text" },
-            { question: "📞 What's their phone number?", field: "emergency_contact_phone_number", type: "text" },
-        ] : []),
-    ];
-
-    const currentPrompt = prompts[step];
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -51,16 +31,111 @@ export default function Questionnaire({ userRole, onComplete }) {
         }));
     };
 
-    const handleNext = () => {
-        const currentField = currentPrompt.field;
-        const value = formData[currentField];
+    const studentSteps = [
+        [
+            {
+                label: "📬 How should we contact you?",
+                name: "preferred_contact_method",
+                type: "select",
+                options: ["Email", "Phone"]
+            },
+            ...(formData.preferred_contact_method === "Email"
+                ? [{
+                    label: "✉️ What's your preferred email?",
+                    name: "email",
+                    type: "text"
+                }]
+                : formData.preferred_contact_method === "Phone"
+                    ? [{
+                        label: "📞 What's your preferred phone number?",
+                        name: "phone_number",
+                        type: "text"
+                    }]
+                    : []),
+            {
+                label: "🎂 When’s your birthday?",
+                name: "date_of_birth",
+                type: "date"
+            }
+        ],
+        [
+            {
+                label: "🏫 Are you in high school or college?",
+                name: "school_type",
+                type: "select",
+                options: ["HighSchool", "College"]
+            },
+            ...(formData.school_type === "HighSchool"
+                ? [{
+                    label: "🎓 What grade are you in (1–12)?",
+                    name: "grade_level",
+                    type: "number"
+                }]
+                : formData.school_type === "College"
+                    ? [{
+                        label: "🎓 What year are you in college?",
+                        name: "college_year",
+                        type: "select",
+                        options: ["Freshman", "Sophomore", "Junior", "Senior"]
+                    }]
+                    : []),
+            {
+                label: "👤 Who should we contact in an emergency?",
+                name: "emergency_contact_name",
+                type: "text"
+            }
+        ],
+        [
+            {
+                label: "📞 What's their phone number?",
+                name: "emergency_contact_phone",
+                type: "text"
+            }
+        ]
+    ];
 
-        if (!value || value.toString().trim() === "") {
-            alert("This question is required.");
-            return;
+    const tutorSteps = [
+        [
+            {
+                label: "📍 Which city do you tutor in?",
+                name: "city",
+                type: "text"
+            },
+            {
+                label: "🌎 And what’s your state abbreviation?",
+                name: "state",
+                type: "text"
+            },
+            {
+                label: "🧑‍🏫 Tell us a little about yourself!",
+                name: "bio",
+                type: "textarea"
+            }
+        ],
+        [
+            {
+                label: "💵 What’s your hourly rate in USD?",
+                name: "hourly_rate",
+                type: "number"
+            }
+        ]
+    ];
+
+    const steps = isStudent ? studentSteps : isTutor ? tutorSteps : [];
+
+    const currentFields = steps[step] || [];
+
+    const handleNext = () => {
+        for (const field of currentFields) {
+            const val = formData[field.name];
+            const isOptional = field.name === "college_year" && formData.school_type !== "college";
+            if (!isOptional && (!val || val.toString().trim() === "")) {
+                alert(`Please complete: ${field.label}`);
+                return;
+            }
         }
 
-        if (step < prompts.length - 1) {
+        if (step < steps.length - 1) {
             setStep(prev => prev + 1);
         } else {
             handleSubmit();
@@ -72,46 +147,50 @@ export default function Questionnaire({ userRole, onComplete }) {
     };
 
     const handleSubmit = () => {
-        console.log("✅ Questionnaire completed:", formData);
+        console.log("✅ Final Submission:", formData);
         localStorage.setItem("questionnaireCompleted", "true");
         if (onComplete) onComplete();
     };
 
     return (
         <div className="container questionnaire-wrapper mt-5">
-            <div className="card shadow p-4">
-                <h2 className="mb-3">{currentPrompt.question}</h2>
+            <div className="card shadow p-4 wider-card">
+                {currentFields.map((field, idx) => (
+                    <div className="form-group mb-4" key={idx}>
+                        <label className="form-label fw-semibold">{field.label}</label>
+                        {field.type === "select" ? (
+                            <select
+                                name={field.name}
+                                value={formData[field.name]}
+                                onChange={handleChange}
+                                className="form-select"
+                            >
+                                <option value="">-- Select --</option>
+                                {field.options.map((opt, i) => (
+                                    <option key={i} value={opt}>{opt}</option>
+                                ))}
+                            </select>
+                        ) : field.type === "textarea" ? (
+                            <textarea
+                                name={field.name}
+                                value={formData[field.name]}
+                                onChange={handleChange}
+                                className="form-control"
+                                rows={3}
+                            />
+                        ) : (
+                            <input
+                                type={field.type}
+                                name={field.name}
+                                value={formData[field.name]}
+                                onChange={handleChange}
+                                className="form-control"
+                            />
+                        )}
+                    </div>
+                ))}
 
-                {currentPrompt.type === "select" ? (
-                    <select
-                        name={currentPrompt.field}
-                        value={formData[currentPrompt.field]}
-                        onChange={handleChange}
-                        className="form-select mb-3"
-                    >
-                        {currentPrompt.options.map((opt, idx) => (
-                            <option key={idx} value={opt}>{opt}</option>
-                        ))}
-                    </select>
-                ) : currentPrompt.type === "textarea" ? (
-                    <textarea
-                        name={currentPrompt.field}
-                        value={formData[currentPrompt.field]}
-                        onChange={handleChange}
-                        className="form-control mb-3"
-                        rows={4}
-                    />
-                ) : (
-                    <input
-                        type={currentPrompt.type}
-                        name={currentPrompt.field}
-                        value={formData[currentPrompt.field]}
-                        onChange={handleChange}
-                        className="form-control mb-3"
-                    />
-                )}
-
-                <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-between mt-4">
                     <button
                         className="btn btn-outline-secondary"
                         onClick={handleBack}
@@ -120,10 +199,10 @@ export default function Questionnaire({ userRole, onComplete }) {
                         ⬅ Back
                     </button>
                     <button
-                        className="btn btn-primary"
+                        className="btn btn-success"
                         onClick={handleNext}
                     >
-                        {step === prompts.length - 1 ? "Finish 🎉" : "Next ➡"}
+                        {step === steps.length - 1 ? "Finish 🎉" : "Next ➡"}
                     </button>
                 </div>
             </div>

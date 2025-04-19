@@ -1,4 +1,4 @@
-/* === Scoped Wrapper === */
+/* === Wrapper === */
 .questionnaire-wrapper {
     display: flex;
     flex-direction: column;
@@ -8,49 +8,44 @@
     box-sizing: border-box;
 }
 
-
 /* === Card Styling === */
-.questionnaire-wrapper .card {
+.questionnaire-wrapper .card.wider-card {
+    width: 700px;
     border-radius: 16px;
     background-color: #ffffff;
-    transition: all 0.3s ease;
-    padding: 30px;
+    padding: 40px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
 }
-
 
 /* === Headings === */
 .questionnaire-wrapper h2 {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     font-weight: 600;
     color: #0d1117;
 }
 
-
-/* === Input Elements === */
+/* === Inputs === */
 .questionnaire-wrapper input,
 .questionnaire-wrapper select,
 .questionnaire-wrapper textarea {
     width: 100%;
-    margin-top: 12px;
-    margin-bottom: 24px;
+    margin-top: 10px;
+    margin-bottom: 20px;
     padding: 10px 14px;
     font-size: 1rem;
     border-radius: 10px;
     border: 1px solid #ccc;
     background-color: #f9f9f9;
-    transition: 0.2s ease-in-out;
 }
-
 
 .questionnaire-wrapper input:focus,
 .questionnaire-wrapper select:focus,
 .questionnaire-wrapper textarea:focus {
-    border-color: #0d6efd;
+    border-color: #198754;
     background-color: #fff;
     outline: none;
 }
-
 
 /* === Buttons === */
 .questionnaire-wrapper .btn {
@@ -60,4 +55,8 @@
     border-radius: 8px;
 }
 
-
+.questionnaire-wrapper .btn-success {
+    background-color: #198754;
+    border: none;
+    color: white;
+}
