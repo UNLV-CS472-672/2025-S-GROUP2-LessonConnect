@@ -4,6 +4,7 @@ import Header from "./Components/Header.jsx";
 import Footer from "./Components/Footer.jsx";
 import StudentLayout from "./Components/StudentLayout.jsx";
 
+
 // Components
 import Home from "./components/Home.jsx";
 import About from "./components/About.jsx";
@@ -27,22 +28,25 @@ import TutorView from "./Components/TutorView.jsx";
 import AssignmentPage from "./Components/AssignmentPage.jsx";
 import WhiteboardCanvas from "./Components/WhiteboardCanvas.jsx";
 import LandingPage from "./Components/LandingPage.jsx";
-
 import Settings from "./Components/Settings.jsx";
+import Questionnaire from "./Components/Questionnaire.jsx";
 
 
 function App() {
     const location = useLocation();
 
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [location]);
+
 
     return (
         <div className="App">
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp" &&
                 location.pathname !== "/StudentView" && location.pathname !== "/calendar" &&
                 location.pathname !== "/chat" && location.pathname !== "/videocall" && location.pathname !== "/tutorview") && <Header />}
+
 
             <Routes>
                 {/* Public Routes */}
@@ -60,7 +64,13 @@ function App() {
                 <Route path="/faqs" element={<FAQS />} />
                 <Route path="/findTutor" element={<FindTutor />} />
                 <Route path="/chat" element={<Chat />} />
-                <Route path="/WhiteboardCanvas" element={<WhiteboardCanvas/>} />
+                <Route path="/WhiteboardCanvas" element={<WhiteboardCanvas />} />
+
+
+                {/* Profile Setup Routes */}
+                <Route path="/student-questionnaire" element={<Questionnaire userRole={3} />} />
+                <Route path="/tutor-questionnaire" element={<Questionnaire userRole={1} />} />
+
 
                 {/* Student Routes with Layout */}
                 <Route path="/student/view" element={<StudentLayout><StudentView /></StudentLayout>} />
@@ -82,6 +92,7 @@ function App() {
                 <Route path="/student/WhiteboardCanvas" element={<StudentLayout><WhiteboardCanvas /></StudentLayout>} />
                 <Route path="/student/LandingPage" element={<StudentLayout><LandingPage /></StudentLayout>} />
 
+
                 {/* Tutor Routes with Layout */}
                 <Route path="/tutor/view" element={<StudentLayout><TutorView /></StudentLayout>} />
                 <Route path="/tutor/calendar" element={<StudentLayout><Calendar /></StudentLayout>} />
@@ -102,9 +113,12 @@ function App() {
                 <Route path="/tutor/WhiteboardCanvas" element={<StudentLayout><WhiteboardCanvas /></StudentLayout>} />
                 <Route path="/tutor/LandingPage" element={<StudentLayout><LandingPage /></StudentLayout>} />
             </Routes>
+
+
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>
     );
 }
+
 
 export default App;

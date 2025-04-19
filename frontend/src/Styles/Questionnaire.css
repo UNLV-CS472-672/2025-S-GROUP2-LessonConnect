@@ -1,0 +1,63 @@
+/* === Scoped Wrapper === */
+.questionnaire-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+
+/* === Card Styling === */
+.questionnaire-wrapper .card {
+    border-radius: 16px;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+    padding: 30px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+
+/* === Headings === */
+.questionnaire-wrapper h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #0d1117;
+}
+
+
+/* === Input Elements === */
+.questionnaire-wrapper input,
+.questionnaire-wrapper select,
+.questionnaire-wrapper textarea {
+    width: 100%;
+    margin-top: 12px;
+    margin-bottom: 24px;
+    padding: 10px 14px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    transition: 0.2s ease-in-out;
+}
+
+
+.questionnaire-wrapper input:focus,
+.questionnaire-wrapper select:focus,
+.questionnaire-wrapper textarea:focus {
+    border-color: #0d6efd;
+    background-color: #fff;
+    outline: none;
+}
+
+
+/* === Buttons === */
+.questionnaire-wrapper .btn {
+    min-width: 120px;
+    font-weight: 500;
+    padding: 10px 18px;
+    border-radius: 8px;
+}
+
+
