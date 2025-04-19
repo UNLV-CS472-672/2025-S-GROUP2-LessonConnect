@@ -167,13 +167,14 @@ export default function Chat() {
                 else if ('typing' in eventData && eventData.username !== username && eventData.message === "successful"){
                     setIsTyping(eventData.typing)
                 }
-                else if('seen' in eventData && eventData.username === username && eventData.message === "successful"){
-                    console.log("Id", eventData.id);
-                    console.log("Type of eventData.id:", typeof eventData.id);
-
-                    console.log("Message map obj",messageMap[eventData.id]);
-                    messageMap[eventData.id].seen = eventData.seen; // Marks message as seen
-
+                else if ('seen' in eventData && eventData.username === username && eventData.message === "successful") {
+                    setMessageMap(prev => ({
+                        ...prev,
+                        [eventData.id]: {
+                            ...prev[eventData.id],
+                            seen: eventData.seen,
+                        },
+                    }));
                 }
             };
             socket.current.onclose = (event) => {
@@ -192,9 +193,6 @@ export default function Chat() {
     }, [roomName, accessToken]);
 
     // ------------ WEBSOCKET EFFECTS END------------------
-    useEffect(() => {
-        console.log("Updated message map:", messageMap);
-    }, [messageMap]);
 
     // ------------------- EFFECTS --------------------
     useEffect(() => {
