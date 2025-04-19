@@ -162,6 +162,21 @@ export default function WhiteboardCanvas() {
         "#0000FF", "#7F00FF", "#FF00FF", "#FF007F"
     ];
 
+
+    /* canvas init */
+    const fitCanvas = () => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const scale  = window.devicePixelRatio || 1;
+        canvas.width  = canvas.clientWidth  * scale;
+        canvas.height = canvas.clientHeight * scale;
+        const ctx = canvas.getContext("2d");
+        ctx.scale(scale, scale);
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        contextRef.current = ctx;
+    };
+
     /**
      * Set up the canvas size and context for drawing
      */
