@@ -560,12 +560,20 @@
     }
     /* Center content for the no-chat state */
     /* Ask help fron Abdul lol*/
-    .chat-page .no-chat-selected {
-        position: absolute;
-        font-size: 1.2rem;
-        color: #888;
-        text-align: center;
-    }
+
+}
+
+.chat-page .container .no-chat-selected {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    color: #888;
+    text-align: center;
+    width: 100%;          /* fill horizontal space if needed */
+    max-width: 600px;     /* optional: keep it looking neat */
+    padding: 1rem;        /* optional: add breathing room */
 }
 
 /* Example chat input area styling */
