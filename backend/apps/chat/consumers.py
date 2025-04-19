@@ -70,34 +70,38 @@ class ChatConsumer(AsyncWebsocketConsumer):
             )
         # Seen status is received
         elif 'seen' in text_data_json:
-            seen = text_data_json['seen']
-            sender_id, message_id = await self.mark_as_seen(self.room_name)
-            username = await self.get_username(sender_id)
+            sender_username, message_ids = await self.mark_as_seen(self.room_name, self.user_id)
+
             await self.channel_layer.group_send( # sends message to all users in a channel group
                 self.room_group_name,
                 {
                     'type': 'seen_status', # Calls seen_status()
-                    'seen': seen,
-                    'username': username,
-                    'id': message_id
+                    'username': sender_username,
+                    'ids': message_ids
                 }
             )
 
     @sync_to_async
-    def mark_as_seen(self, room_name):
+    def mark_as_seen(self, room_name, user_id):
         chat = Chat.objects.get(name = room_name)
-        latest_message = chat.messages.order_by('-timestamp').first()
-        if latest_message and latest_message.status == Message.NOT_SEEN:
-            latest_message.status = Message.SEEN
-            latest_message.save(update_fields=['status'])
-        return latest_message.sender.id, latest_message.id
+        # Get all unseen messages (excluding those from the receiver)
+        unseen_messages = chat.messages.filter(status=NOT_SEEN).exclude(sender_id=user_id).order_by('-timestamp')
+        # Get sender (assumes all chats only have 2 people)
+        sender_username = unseen_messages.first().sender.username
+
+        # Get message ids (maintaining order)
+        message_ids = list(unseen_messages.values_list('id', flat=True))
+
+        # Mark unseen messages as seen
+        unseen_messages.update(status=Message.SEEN)
+
+        return sender_username, message_ids
 
 
     async def seen_status(self, event):
         await self.send(text_data=json.dumps({
-            'message': 'successful',
-            'seen': event['seen'],
-            'id': event['id'],
+            'message': 'seen_successful',
+            'ids': event['ids'],
             'username': event['username']
         }))
 

@@ -151,6 +151,13 @@ export default function Chat() {
             // Ensure socket is initialized before setting event handlers
             socket.current.onopen = () => {
                 console.log("WebSocket connected to room:", socket.current);
+                // Checks any unseen messages as seen
+                if(Object.keys(messageMap).length !== 0){
+                    const seenStatus = {
+                        seen: true
+                    };
+                    socket.current.send(JSON.stringify(seenStatus));
+                }
             };
 
             socket.current.onerror = (event) => {
@@ -167,14 +174,24 @@ export default function Chat() {
                 else if ('typing' in eventData && eventData.username !== username && eventData.message === "successful"){
                     setIsTyping(eventData.typing)
                 }
-                else if ('seen' in eventData && eventData.username === username && eventData.message === "successful") {
-                    setMessageMap(prev => ({
-                        ...prev,
-                        [eventData.id]: {
-                            ...prev[eventData.id],
-                            seen: eventData.seen,
-                        },
-                    }));
+                else if (eventData.message === "seen_successful" && eventData.username === username) {
+                    // Assume eventData.ids is an array of message IDs that should be marked as seen
+                    setMessageMap(prev => {
+                        // Create a new state object with the updated 'seen' status for these messages
+                        const updatedMessages = { ...prev };
+
+                        // Loop over each message ID in eventData.ids and update its 'seen' status
+                        eventData.ids.forEach(id => {
+                            if (updatedMessages[id]) {
+                                updatedMessages[id] = {
+                                    ...updatedMessages[id],
+                                    seen: true,  // Mark the message as seen
+                                };
+                            }
+                        });
+
+                        return updatedMessages;
+                    });
                 }
             };
             socket.current.onclose = (event) => {
