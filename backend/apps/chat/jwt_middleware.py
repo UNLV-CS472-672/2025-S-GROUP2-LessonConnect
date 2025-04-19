@@ -25,7 +25,7 @@ class JWTAuthMiddleware(BaseMiddleware):
         # WebSocket subprotocols are sent as a list of protocols during the handshake.
 
         subprotocols = scope.get("subprotocols", [])
-         if len(subprotocols) > 1:
+        if len(subprotocols) > 1:
             # Assuming the token is the second protocol (after the real protocol)
             return subprotocols[1]  # The access token is the second subprotocol
         return None

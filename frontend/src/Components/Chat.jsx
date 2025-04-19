@@ -207,7 +207,7 @@ export default function Chat() {
             newMessage = {
                 text: eventData.body,
                 type: "sent",
-                time: eventData.timestamp,
+                time: getCurrentTime(eventData.timestamp),
                 message_id: eventData.id,
                 seen: false
             }
@@ -216,7 +216,7 @@ export default function Chat() {
             newMessage = {
                 text: eventData.body,
                 type: "received",
-                time: eventData.timestamp,
+                time: getCurrentTime(eventData.timestamp),
                 message_id: eventData.id,
                 seen: false
             }
@@ -234,8 +234,11 @@ export default function Chat() {
         setMessageOrder((prev) => [...prev, newMessage.message_id]);
     }
     // Format current time as "hh:mm AM/PM"
-    function getCurrentTime() {
-        return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    function getCurrentTime(timestamp) {
+        // Convert the timestamp string to a JavaScript Date object
+        console.log('timestamp:', timestamp, typeof timestamp);
+        const date = new Date(timestamp.replace(' ', 'T'));
+        return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     }
 
     // Send a message (UC5)
