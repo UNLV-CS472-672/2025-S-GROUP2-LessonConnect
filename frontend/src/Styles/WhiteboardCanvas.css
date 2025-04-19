@@ -288,3 +288,21 @@
     transform: scale(1.15);
     box-shadow: 0 0 8px var(--neon), 0 0 16px var(--neon);
 }
+
+/* ——— labelled icon buttons ——— */
+.icon-btn { display:flex; align-items:center; gap:4px; color:#fff; }
+.icon-btn .lbl { font-size:0.75rem; }
+
+/* keep labels readable on white buttons */
+.send-btn, .back-btn { background: none; color: inherit; }
+
+/* video/header titles */
+.video-title { font-weight:600; }
+.chat-header {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:0.4rem;
+}
+
+/* tighten call‑control layout */
+.call-controls .circle-btn { flex-direction:column; font-size:0.85rem; }
+.call-controls .lbl { margin:0; }
