@@ -1,32 +1,15 @@
 // WhiteboardCanvas.jsx
 import { useRef, useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import "../Styles/WhiteboardCanvas.css";
 
 /* ────────────────────────────
    Small inline sub‑components
 ──────────────────────────────── */
 const mockTutors = [
-    {
-        id: 1,
-        name: "Dr. Smith",
-        subject: "Physics",
-        avatar: "/avatars/t1.png",
-        status: "online",
-    },
-    {
-        id: 2,
-        name: "Prof. Lin",
-        subject: "Calculus",
-        avatar: "/avatars/t2.png",
-        status: "away",
-    },
-    {
-        id: 3,
-        name: "Ms. Patel",
-        subject: "Chemistry",
-        avatar: "/avatars/t3.png",
-        status: "offline",
-    },
+    { id: 1, name: "Dr. Smith",  subject: "Physics",   avatar: "/avatars/t1.png", status: "online"  },
+    { id: 2, name: "Prof. Lin",  subject: "Calculus",  avatar: "/avatars/t2.png", status: "away"    },
+    { id: 3, name: "Ms. Patel",  subject: "Chemistry", avatar: "/avatars/t3.png", status: "offline" },
 ];
 
 /* Contact list */
@@ -37,14 +20,11 @@ function ContactList({ selectedId, onSelect }) {
             {mockTutors.map((t) => (
                 <button
                     key={t.id}
-                    className={`contact-card neon-hover ${
-                        selectedId === t.id ? "selected" : ""
-                    }`}
+                    className={`contact-card neon-hover ${selectedId === t.id ? "selected" : ""}`}
                     onClick={() => onSelect(t)}
                 >
                     <span className={`status-dot ${t.status}`} />
-                    {/*<img src={t.avatar} alt={t.name} />*/}
-                    <img src='/assets/images/assignment_icon.png' />
+                    <img src="/assets/images/assignment_icon.png" alt="" />
                     <div>
                         <div className="contact-name">{t.name}</div>
                         <div className="contact-subject">{t.subject}</div>
@@ -55,7 +35,12 @@ function ContactList({ selectedId, onSelect }) {
     );
 }
 
-/* ——— VideoView (replace existing block) ——— */
+ContactList.propTypes = {
+    selectedId: PropTypes.number,
+    onSelect:    PropTypes.func.isRequired,
+};
+
+/* ——— VideoView ——— */
 function VideoView({ tutor, onBack }) {
     return (
         <aside className="lc-panel glass-card video-view animate-slide-in-left">
@@ -67,14 +52,13 @@ function VideoView({ tutor, onBack }) {
             </header>
 
             <div className="video-box">
-                {/*<img src={tutor.avatar} alt={tutor.name} />*/}
-                <img src='/assets/images/assignment_icon.png' />
+                <img src="/assets/images/assignment_icon.png" alt="" />
             </div>
 
             <footer className="call-controls">
                 {[
                     ["fas fa-microphone", "Mute"],
-                    ["fas fa-video", "Video"],
+                    ["fas fa-video",       "Video"],
                     ["fas fa-volume-mute", "Deafen"],
                 ].map(([icon, lbl]) => (
                     <button key={lbl} className="circle-btn icon-btn">
@@ -86,7 +70,19 @@ function VideoView({ tutor, onBack }) {
         </aside>
     );
 }
-/* ——— ChatPanel (replace existing block) ——— */
+
+VideoView.propTypes = {
+    tutor: PropTypes.shape({
+        id:      PropTypes.number.isRequired,
+        name:    PropTypes.string.isRequired,
+        subject: PropTypes.string,
+        avatar:  PropTypes.string,
+        status:  PropTypes.string,
+    }).isRequired,
+    onBack: PropTypes.func.isRequired,
+};
+
+/* ——— ChatPanel ——— */
 function ChatPanel({ tutor, messages, setMessages, onBack }) {
     const inputRef = useRef(null);
     const listRef  = useRef(null);
@@ -100,8 +96,14 @@ function ChatPanel({ tutor, messages, setMessages, onBack }) {
         if (!txt) return;
         setMessages((p) => [...p, { id: Date.now(), from: "me", body: txt }]);
         inputRef.current.value = "";
-        setTimeout(() =>
-            setMessages((p)=>[...p,{id:Date.now()+1,from:tutor.name,body:"👍"}]), 900);
+        setTimeout(
+            () =>
+                setMessages((p) => [
+                    ...p,
+                    { id: Date.now() + 1, from: tutor.name, body: "👍" },
+                ]),
+            900
+        );
     };
 
     return (
@@ -109,14 +111,14 @@ function ChatPanel({ tutor, messages, setMessages, onBack }) {
             <header className="chat-header">
                 <span>Chat · {tutor.name}</span>
                 <button className="icon-btn back-btn" onClick={onBack}>
-                    <i className="fas fa-times" /><span className="lbl">Close</span>
+                    <i className="fas fa-times" />
+                    <span className="lbl">Close</span>
                 </button>
             </header>
 
             <div ref={listRef} className="chat-log">
-                {messages.map((m)=>(
-                    <div key={m.id}
-                         className={`chat-bubble ${m.from==="me"?"sent":"recv"}`}>
+                {messages.map((m) => (
+                    <div key={m.id} className={`chat-bubble ${m.from === "me" ? "sent" : "recv"}`}>
                         {m.body}
                     </div>
                 ))}
@@ -126,15 +128,35 @@ function ChatPanel({ tutor, messages, setMessages, onBack }) {
                 <input
                     ref={inputRef}
                     placeholder="Type a message…"
-                    onKeyDown={(e)=>e.key==="Enter"&&sendMsg()}
+                    onKeyDown={(e) => e.key === "Enter" && sendMsg()}
                 />
                 <button className="send-btn icon-btn" onClick={sendMsg}>
-                    <i className="fas fa-paper-plane" /><span className="lbl">Send</span>
+                    <i className="fas fa-paper-plane" />
+                    <span className="lbl">Send</span>
                 </button>
             </div>
         </aside>
     );
 }
+
+ChatPanel.propTypes = {
+    tutor: PropTypes.shape({
+        id:      PropTypes.number.isRequired,
+        name:    PropTypes.string.isRequired,
+        subject: PropTypes.string,
+        avatar:  PropTypes.string,
+        status:  PropTypes.string,
+    }).isRequired,
+    messages:     PropTypes.arrayOf(
+        PropTypes.shape({
+            id:   PropTypes.number.isRequired,
+            from: PropTypes.string.isRequired,
+            body: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+    setMessages:  PropTypes.func.isRequired,
+    onBack:       PropTypes.func.isRequired,
+};
 
 /* ────────────────────────────
    Main component
@@ -145,30 +167,30 @@ export default function WhiteboardCanvas() {
     const [chatMessages, setChatMessages]   = useState([]);
 
     /* drawing state */
-    const canvasRef   = useRef(null);
-    const contextRef  = useRef(null);
+    const canvasRef  = useRef(null);
+    const contextRef = useRef(null);
     const [isDrawing, setIsDrawing] = useState(false);
     const [lineColor, setLineColor] = useState("#000000");
     const [lineWidth, setLineWidth] = useState(3);
     const [undoStack, setUndoStack] = useState([]);
 
     const colors = [
-        "#000000","#7F7F7F","#BFBFBF","#FFFFFF",
-        "#FF0000","#FF7F00","#FFFF00","#7FFF00",
-        "#00FF00","#00FF7F","#00FFFF","#007FFF",
-        "#0000FF","#7F00FF","#FF00FF","#FF007F"
+        "#000000", "#7F7F7F", "#BFBFBF", "#FFFFFF",
+        "#FF0000", "#FF7F00", "#FFFF00", "#7FFF00",
+        "#00FF00", "#00FF7F", "#00FFFF", "#007FFF",
+        "#0000FF", "#7F00FF", "#FF00FF", "#FF007F",
     ];
 
     /* canvas init */
     const fitCanvas = () => {
         const canvas = canvasRef.current;
         if (!canvas) return;
-        const scale  = window.devicePixelRatio || 1;
+        const scale = window.devicePixelRatio || 1;
         canvas.width  = canvas.clientWidth  * scale;
         canvas.height = canvas.clientHeight * scale;
         const ctx = canvas.getContext("2d");
         ctx.scale(scale, scale);
-        ctx.lineCap = "round";
+        ctx.lineCap  = "round";
         ctx.lineJoin = "round";
         contextRef.current = ctx;
     };
@@ -188,33 +210,33 @@ export default function WhiteboardCanvas() {
 
     useEffect(() => {
         if (canvasRef.current && contextRef.current) {
-            const c = canvasRef.current, ctx = contextRef.current;
-            setUndoStack([ctx.getImageData(0,0,c.width,c.height)]);
+            const c = canvasRef.current;
+            setUndoStack([contextRef.current.getImageData(0, 0, c.width, c.height)]);
         }
     }, []);
 
     const pushUndo = () => {
         const c = canvasRef.current;
-        setUndoStack((st) => [...st, contextRef.current.getImageData(0,0,c.width,c.height)]);
+        setUndoStack((st) => [...st, contextRef.current.getImageData(0, 0, c.width, c.height)]);
     };
 
     const undo = () => {
         if (undoStack.length <= 1) return clearCanvas();
         const next = [...undoStack];
         next.pop();
-        contextRef.current.putImageData(next[next.length-1],0,0);
+        contextRef.current.putImageData(next[next.length - 1], 0, 0);
         setUndoStack(next);
     };
 
     /* draw handlers */
-    const startDraw = ({nativeEvent:{offsetX:x,offsetY:y}}) => {
+    const startDraw = ({ nativeEvent: { offsetX: x, offsetY: y } }) => {
         contextRef.current.beginPath();
-        contextRef.current.moveTo(x,y);
+        contextRef.current.moveTo(x, y);
         setIsDrawing(true);
     };
-    const draw = ({nativeEvent:{offsetX:x,offsetY:y}}) => {
+    const draw = ({ nativeEvent: { offsetX: x, offsetY: y } }) => {
         if (!isDrawing) return;
-        contextRef.current.lineTo(x,y);
+        contextRef.current.lineTo(x, y);
         contextRef.current.stroke();
     };
     const stopDraw = () => {
@@ -227,7 +249,7 @@ export default function WhiteboardCanvas() {
     /* util */
     const clearCanvas = () => {
         const c = canvasRef.current;
-        contextRef.current.clearRect(0,0,c.width,c.height);
+        contextRef.current.clearRect(0, 0, c.width, c.height);
     };
     const dlCanvas = () => {
         const link = document.createElement("a");
@@ -246,7 +268,7 @@ export default function WhiteboardCanvas() {
             contextRef.current.globalCompositeOperation = "destination-out";
             setLineWidth(20);
         };
-        const toDraw  = () => {
+        const toDraw = () => {
             contextRef.current.globalCompositeOperation = "source-over";
             setLineWidth(3);
         };
@@ -271,7 +293,7 @@ export default function WhiteboardCanvas() {
                         selectedId={selectedTutor?.id}
                         onSelect={(t) => {
                             setSelectedTutor(t);
-                            setChatMessages([]);    // reset chat per tutor
+                            setChatMessages([]); // reset chat per tutor
                         }}
                     />
                 )}
@@ -283,12 +305,12 @@ export default function WhiteboardCanvas() {
                         <div className="whiteboard-title">Whiteboard</div>
                         <div className="whiteboard-tools">
                             {[
-                                ["Cursor","mouse-pointer"],
-                                ["Pencil","pencil-alt"],
+                                ["Cursor",   "mouse-pointer"],
+                                ["Pencil",   "pencil-alt"],
                                 ["Rectangle","square"],
-                                ["Circle","circle"],
-                                ["Eraser","eraser"],
-                            ].map(([t,ic]) => (
+                                ["Circle",   "circle"],
+                                ["Eraser",   "eraser"],
+                            ].map(([t, ic]) => (
                                 <button key={t} title={t} className="tool-btn neon-hover">
                                     <i className={`fas fa-${ic}`} />
                                 </button>
@@ -303,7 +325,7 @@ export default function WhiteboardCanvas() {
                             <button
                                 key={c}
                                 className="color-button"
-                                style={{backgroundColor:c}}
+                                style={{ backgroundColor: c }}
                                 onClick={() => setLineColor(c)}
                             />
                         ))}
@@ -311,17 +333,20 @@ export default function WhiteboardCanvas() {
                             Brush:
                             <input
                                 type="range"
-                                min="1" max="20"
+                                min="1"
+                                max="20"
                                 value={lineWidth}
-                                onChange={(e)=>setLineWidth(e.target.value)}
+                                onChange={(e) => setLineWidth(Number(e.target.value))}
                             />
                         </label>
                         {[
-                            ["Clear",clearCanvas],
-                            ["Undo",undo],
-                            ["Download",dlCanvas],
-                        ].map(([t,f])=>(
-                            <button key={t} className="action-button neon-hover" onClick={f}>{t}</button>
+                            ["Clear",     clearCanvas],
+                            ["Undo",      undo],
+                            ["Download",  dlCanvas],
+                        ].map(([t, f]) => (
+                            <button key={t} className="action-button neon-hover" onClick={f}>
+                                {t}
+                            </button>
                         ))}
                     </div>
 
@@ -343,11 +368,10 @@ export default function WhiteboardCanvas() {
                         tutor={selectedTutor}
                         messages={chatMessages}
                         setMessages={setChatMessages}
-                        onBack={()=>setSelectedTutor(null)}
+                        onBack={() => setSelectedTutor(null)}
                     />
                 )}
             </div>
         </div>
     );
 }
-
