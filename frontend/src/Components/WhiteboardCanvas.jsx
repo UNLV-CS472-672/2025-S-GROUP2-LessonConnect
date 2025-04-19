@@ -59,13 +59,18 @@ function ContactList({ selectedId, onSelect }) {
 function VideoView({ tutor, onBack }) {
     return (
         <aside className="lc-panel glass-card video-view animate-slide-in-left">
+            {/*<header className="video-header">*/}
+            {/*    <button className="icon-btn back-btn" onClick={onBack}>*/}
+            {/*        <i className="fas fa-arrow-left" /> <span className="lbl">Back</span>*/}
+            {/*    </button>*/}
+            {/*    <span className="video-title">{tutor.name}</span>*/}
+            {/*</header>*/}
             <header className="video-header">
                 <button className="icon-btn back-btn" onClick={onBack}>
                     <i className="fas fa-arrow-left" /> <span className="lbl">Back</span>
                 </button>
                 <span className="video-title">{tutor.name}</span>
             </header>
-
             <div className="video-box">
                 {/*<img src={tutor.avatar} alt={tutor.name} />*/}
                 <img src='/assets/images/assignment_icon.png' />
