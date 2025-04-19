@@ -316,6 +316,94 @@ export default function WhiteboardCanvas() {
     }, []);
 
     return (
+
+        <div className="whiteboard-container">
+            <div className="session-container">
+                {/* LEFT PANEL */}
+                {selectedTutor ? (
+                    <VideoView tutor={selectedTutor} onBack={() => setSelectedTutor(null)} />
+                ) : (
+                    <ContactList
+                        selectedId={selectedTutor?.id}
+                        onSelect={(t) => {
+                            setSelectedTutor(t);
+                            setChatMessages([]);    // reset chat per tutor
+                        }}
+                    />
+                )}
+
+                {/* CENTER */}
+                <div className="canvas-column">
+                    {/* primary toolbar */}
+                    <div className="whiteboard-topbar glass-card">
+                        <div className="whiteboard-title">Whiteboard</div>
+                        <div className="whiteboard-tools">
+                            {[
+                                ["Cursor","mouse-pointer"],
+                                ["Pencil","pencil-alt"],
+                                ["Rectangle","square"],
+                                ["Circle","circle"],
+                                ["Eraser","eraser"],
+                            ].map(([t,ic]) => (
+                                <button key={t} title={t} className="tool-btn neon-hover">
+                                    <i className={`fas fa-${ic}`} />
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* secondary toolbar */}
+                    <div className="toolbar glass-card">
+                        <label className="color-label">Color:</label>
+                        {colors.map((c) => (
+                            <button
+                                key={c}
+                                className="color-button"
+                                style={{backgroundColor:c}}
+                                onClick={() => setLineColor(c)}
+                            />
+                        ))}
+                        <label className="width-label">
+                            Brush:
+                            <input
+                                type="range"
+                                min="1" max="20"
+                                value={lineWidth}
+                                onChange={(e)=>setLineWidth(e.target.value)}
+                            />
+                        </label>
+                        {[
+                            ["Clear",clearCanvas],
+                            ["Undo",undo],
+                            ["Download",dlCanvas],
+                        ].map(([t,f])=>(
+                            <button key={t} className="action-button neon-hover" onClick={f}>{t}</button>
+                        ))}
+                    </div>
+
+                    {/* canvas */}
+                    <div
+                        className="canvas-container glass-card"
+                        onMouseDown={startDraw}
+                        onMouseMove={draw}
+                        onMouseUp={stopDraw}
+                        onMouseLeave={stopDraw}
+                    >
+                        <canvas ref={canvasRef} className="drawing-canvas" />
+                    </div>
+                </div>
+
+                {/* RIGHT PANEL */}
+                {selectedTutor && (
+                    <ChatPanel
+                        tutor={selectedTutor}
+                        messages={chatMessages}
+                        setMessages={setChatMessages}
+                        onBack={()=>setSelectedTutor(null)}
+                    />
+                )}
+            </div>
+        </div>
         // Unique parent class to scope styling:
         <div className="whiteboard-container">
             <div className="whiteboard-canvas-container">
