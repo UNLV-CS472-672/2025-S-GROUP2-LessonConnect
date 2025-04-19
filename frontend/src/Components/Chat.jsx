@@ -541,10 +541,14 @@ export default function Chat() {
                         </aside>
                     </>
                 ) : (
-                    <div className="no-chat-selected">
-                        <p>Please select a chat to start messaging.</p>
-                        {/* Optional: add an icon or illustration here for better UX */}
-                    </div>
+                    <section className="chat-window placeholder">
+                        <div className="no-chat-selected">
+                            <i className="fas fa-comments fa-3x"></i>
+                            <h2>Welcome to LessonConnect</h2>
+                            <p>Select a chat or start a new conversation.</p>
+                            <small>End‑to‑end encrypted • Up to 4 linked devices</small>
+                        </div>
+                    </section>
                 )}
             </main>
         </div>

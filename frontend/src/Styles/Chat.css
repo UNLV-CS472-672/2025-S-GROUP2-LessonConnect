@@ -563,17 +563,18 @@
 
 }
 
-.chat-page .container .no-chat-selected {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.2rem;
-    color: #888;
+/* NEW: centre inside the chat-window area */
+.chat-page .chat-window.placeholder,
+.chat-page .no-chat-selected {
+    flex: 1;                 /* fill available height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-light);
+    color: #8d8c91;
     text-align: center;
-    width: 100%;          /* fill horizontal space if needed */
-    max-width: 600px;     /* optional: keep it looking neat */
-    padding: 1rem;        /* optional: add breathing room */
+    gap: 0.75rem;
 }
 
 /* Example chat input area styling */
