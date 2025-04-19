@@ -267,3 +267,10 @@
 .whiteboard-container .animate-fade-in        { animation:fadeIn       .35s ease-out; }
 .whiteboard-container .animate-slide-in-left  { animation:slideInLeft  .35s ease-out; }
 .whiteboard-container .animate-slide-in-right { animation:slideInRight .35s ease-out; }
+
+
+
+@media (max-width: 1200px) {
+    .whiteboard-container .lc-panel { width: 200px; }
+    .whiteboard-container .chat-panel { width: 220px; }
+}
