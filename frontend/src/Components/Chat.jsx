@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "../Styles/Chat.css";
-import Calendar from "react-calendar";
+// import Calendar from "react-calendar";
 // import EmojiPicker from "emoji-picker-react";
 
 
@@ -95,7 +95,7 @@ export default function Chat() {
     const username = localStorage.getItem("username");
 
     // Message related variables
-    const [messageMap, setMessageMap] = useState({});
+    const [messageMap, setMessageMap] = useState({})
 
     const [messageOrder, setMessageOrder] = useState([]);
 
@@ -123,6 +123,20 @@ export default function Chat() {
     )
     // ------------ WEBSOCKET RELATED VARIABLES END------------------
 
+
+    // ---------------- HTTP REQUEST EFFECTS START ------------------
+    // Calls GET request to populate messageMap (reason why this effect is before websocket's effect)
+    useEffect(() => {
+        if (roomName) {
+            // TODO: When a chat room is selected (roomName changes),
+            //       fetch existing messages for that room using the access token.
+            //       Once the messages are fetched, update the local message map state
+            //       so it can be used to determine message visibility and trigger WebSocket setup.
+
+        }
+    }, [roomName]);
+    // ---------------- HTTP REQUEST EFFECTS END ------------------
+
     // ------------ WEBSOCKET EFFECTS START------------------
 
     // Notify others that user has stopped typing with delay
@@ -145,6 +159,7 @@ export default function Chat() {
 
     // Handle opening the WebSocket connection when roomName changes
     useEffect(() => {
+        console.log("Websocket");
         if (roomName && !socket.current) {
             socket.current = new WebSocket(`ws://127.0.0.1:8000/ws/apps/chat/${roomName}/`, ["chat", accessToken]);
 
@@ -152,7 +167,8 @@ export default function Chat() {
             socket.current.onopen = () => {
                 console.log("WebSocket connected to room:", socket.current);
                 // Checks any unseen messages as seen
-                if(Object.keys(messageMap).length !== 0){
+                if(Object.keys(messageMap).length !== 0){ // If there is no existing messages
+                    console.log("here")
                     const seenStatus = {
                         seen: true
                     };
@@ -167,31 +183,34 @@ export default function Chat() {
             socket.current.onmessage = (event) => {
                 console.log("Socket message received: ", event.data);
                 const eventData = JSON.parse(event.data);
-                if('body' in eventData && eventData.message === "successful"){
-                    setIsTyping(false)
-                    messageDisplay(eventData)
-                }
-                else if ('typing' in eventData && eventData.username !== username && eventData.message === "successful"){
-                    setIsTyping(eventData.typing)
-                }
-                else if (eventData.message === "seen_successful" && eventData.username === username) {
-                    // Assume eventData.ids is an array of message IDs that should be marked as seen
-                    setMessageMap(prev => {
-                        // Create a new state object with the updated 'seen' status for these messages
-                        const updatedMessages = { ...prev };
+                if(eventData.username){ //ensure a username exists
+                    console.log('inside')
+                    if('body' in eventData && eventData.message === "successful"){
+                        setIsTyping(false)
+                        messageDisplay(eventData)
+                    }
+                    else if ('typing' in eventData && eventData.username !== username && eventData.message === "successful"){
+                        setIsTyping(eventData.typing)
+                    }
+                    else if (eventData.message === "seen_successful" && eventData.username === username) {
+                        // Assume eventData.ids is an array of message IDs that should be marked as seen
+                        setMessageMap(prev => {
+                            // Create a new state object with the updated 'seen' status for these messages
+                            const updatedMessages = { ...prev };
 
-                        // Loop over each message ID in eventData.ids and update its 'seen' status
-                        eventData.ids.forEach(id => {
-                            if (updatedMessages[id]) {
-                                updatedMessages[id] = {
-                                    ...updatedMessages[id],
-                                    seen: true,  // Mark the message as seen
-                                };
-                            }
+                            // Loop over each message ID in eventData.ids and update its 'seen' status
+                            eventData.ids.forEach(id => {
+                                if (updatedMessages[id]) {
+                                    updatedMessages[id] = {
+                                        ...updatedMessages[id],
+                                        seen: true,  // Mark the message as seen
+                                    };
+                                }
+                            });
+
+                            return updatedMessages;
                         });
-
-                        return updatedMessages;
-                    });
+                    }
                 }
             };
             socket.current.onclose = (event) => {

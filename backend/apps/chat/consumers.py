@@ -85,9 +85,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def mark_as_seen(self, room_name, user_id):
         chat = Chat.objects.get(name = room_name)
         # Get all unseen messages (excluding those from the receiver)
-        unseen_messages = chat.messages.filter(status=NOT_SEEN).exclude(sender_id=user_id).order_by('-timestamp')
+        unseen_messages = chat.messages.filter(status=Message.NOT_SEEN).exclude(sender_id=user_id).order_by('-timestamp')
         # Get sender (assumes all chats only have 2 people)
-        sender_username = unseen_messages.first().sender.username
+        first_unseen = unseen_messages.first()
+        sender_username = None
+        if first_unseen:
+            sender_username = first_unseen.sender.username
 
         # Get message ids (maintaining order)
         message_ids = list(unseen_messages.values_list('id', flat=True))
