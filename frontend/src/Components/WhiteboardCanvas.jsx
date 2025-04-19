@@ -155,13 +155,12 @@ export default function WhiteboardCanvas() {
     const [undoStack, setUndoStack] = useState([]);
 
     // Example color palette
-    const colorOptions = [
-        "#000000", "#7F7F7F", "#BFBFBF", "#FFFFFF",
-        "#FF0000", "#FF7F00", "#FFFF00", "#7FFF00",
-        "#00FF00", "#00FF7F", "#00FFFF", "#007FFF",
-        "#0000FF", "#7F00FF", "#FF00FF", "#FF007F"
+    const colors = [
+        "#000000","#7F7F7F","#BFBFBF","#FFFFFF",
+        "#FF0000","#FF7F00","#FFFF00","#7FFF00",
+        "#00FF00","#00FF7F","#00FFFF","#007FFF",
+        "#0000FF","#7F00FF","#FF00FF","#FF007F"
     ];
-
 
     /* canvas init */
     const fitCanvas = () => {
