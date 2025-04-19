@@ -1,4 +1,5 @@
 import { useState } from "react";
+import confetti from "canvas-confetti";
 import "../Styles/Questionnaire.css";
 
 export default function Questionnaire({ userRole, onComplete }) {
@@ -149,6 +150,9 @@ export default function Questionnaire({ userRole, onComplete }) {
     const handleSubmit = () => {
         console.log("✅ Final Submission:", formData);
         localStorage.setItem("questionnaireCompleted", "true");
+
+        confetti({ particleCount: 700, spread: 150, origin: { y: 0.7 } });
+
         if (onComplete) onComplete();
     };
 
