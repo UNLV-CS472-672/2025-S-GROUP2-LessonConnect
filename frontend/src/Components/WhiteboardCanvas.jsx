@@ -2,6 +2,140 @@
 import { useRef, useState, useEffect } from "react";
 import "../Styles/WhiteboardCanvas.css";
 
+/* ────────────────────────────
+   Small inline sub‑components
+──────────────────────────────── */
+const mockTutors = [
+    {
+        id: 1,
+        name: "Dr. Smith",
+        subject: "Physics",
+        avatar: "/avatars/t1.png",
+        status: "online",
+    },
+    {
+        id: 2,
+        name: "Prof. Lin",
+        subject: "Calculus",
+        avatar: "/avatars/t2.png",
+        status: "away",
+    },
+    {
+        id: 3,
+        name: "Ms. Patel",
+        subject: "Chemistry",
+        avatar: "/avatars/t3.png",
+        status: "offline",
+    },
+];
+
+/* Contact list */
+function ContactList({ selectedId, onSelect }) {
+    return (
+        <aside className="lc-panel glass-card contact-list animate-fade-in">
+            <h3 className="panel-title">Tutors</h3>
+            {mockTutors.map((t) => (
+                <button
+                    key={t.id}
+                    className={`contact-card neon-hover ${
+                        selectedId === t.id ? "selected" : ""
+                    }`}
+                    onClick={() => onSelect(t)}
+                >
+                    <span className={`status-dot ${t.status}`} />
+                    {/*<img src={t.avatar} alt={t.name} />*/}
+                    <img src='/assets/images/assignment_icon.png' />
+                    <div>
+                        <div className="contact-name">{t.name}</div>
+                        <div className="contact-subject">{t.subject}</div>
+                    </div>
+                </button>
+            ))}
+        </aside>
+    );
+}
+
+/* ——— VideoView (replace existing block) ——— */
+function VideoView({ tutor, onBack }) {
+    return (
+        <aside className="lc-panel glass-card video-view animate-slide-in-left">
+            <header className="video-header">
+                <button className="icon-btn back-btn" onClick={onBack}>
+                    <i className="fas fa-arrow-left" /> <span className="lbl">Back</span>
+                </button>
+                <span className="video-title">{tutor.name}</span>
+            </header>
+
+            <div className="video-box">
+                {/*<img src={tutor.avatar} alt={tutor.name} />*/}
+                <img src='/assets/images/assignment_icon.png' />
+            </div>
+
+            <footer className="call-controls">
+                {[
+                    ["fas fa-microphone", "Mute"],
+                    ["fas fa-video", "Video"],
+                    ["fas fa-volume-mute", "Deafen"],
+                ].map(([icon, lbl]) => (
+                    <button key={lbl} className="circle-btn icon-btn">
+                        <i className={icon} />
+                        <span className="lbl">{lbl}</span>
+                    </button>
+                ))}
+            </footer>
+        </aside>
+    );
+}
+/* ——— ChatPanel (replace existing block) ——— */
+function ChatPanel({ tutor, messages, setMessages, onBack }) {
+    const inputRef = useRef(null);
+    const listRef  = useRef(null);
+
+    useEffect(() => {
+        listRef.current?.scrollTo(0, listRef.current.scrollHeight);
+    }, [messages]);
+
+    const sendMsg = () => {
+        const txt = inputRef.current.value.trim();
+        if (!txt) return;
+        setMessages((p) => [...p, { id: Date.now(), from: "me", body: txt }]);
+        inputRef.current.value = "";
+        setTimeout(() =>
+            setMessages((p)=>[...p,{id:Date.now()+1,from:tutor.name,body:"👍"}]), 900);
+    };
+
+    return (
+        <aside className="lc-panel glass-card chat-panel animate-slide-in-right">
+            <header className="chat-header">
+                <span>Chat · {tutor.name}</span>
+                <button className="icon-btn back-btn" onClick={onBack}>
+                    <i className="fas fa-times" /><span className="lbl">Close</span>
+                </button>
+            </header>
+
+            <div ref={listRef} className="chat-log">
+                {messages.map((m)=>(
+                    <div key={m.id}
+                         className={`chat-bubble ${m.from==="me"?"sent":"recv"}`}>
+                        {m.body}
+                    </div>
+                ))}
+            </div>
+
+            <div className="chat-input-row">
+                <input
+                    ref={inputRef}
+                    placeholder="Type a message…"
+                    onKeyDown={(e)=>e.key==="Enter"&&sendMsg()}
+                />
+                <button className="send-btn icon-btn" onClick={sendMsg}>
+                    <i className="fas fa-paper-plane" /><span className="lbl">Send</span>
+                </button>
+            </div>
+        </aside>
+    );
+}
+
 export default function WhiteboardCanvas() {
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
