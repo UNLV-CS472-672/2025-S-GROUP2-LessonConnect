@@ -20,8 +20,10 @@ export default function Questionnaire({ userRole, onComplete }) {
         // Tutor-only
         city: "",
         state: "",
+        subjects: "",
         bio: "",
-        hourly_rate: ""
+        hourly_rate: "",
+        education_status: ""
     });
 
     const handleChange = (e) => {
@@ -98,22 +100,40 @@ export default function Questionnaire({ userRole, onComplete }) {
     const tutorSteps = [
         [
             {
-                label: "📍 Which city do you tutor in?",
+                label: "🌎 What U.S. state do you tutor in?",
+                name: "state",
+                type: "select",
+                options: [
+                    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
+                    "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+                    "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+                    "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+                    "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
+                ]
+            },
+            {
+                label: "🏙️ What city are you located in?",
                 name: "city",
                 type: "text"
             },
             {
-                label: "🌎 And what’s your state abbreviation?",
-                name: "state",
+                label: "📚 What subjects do you teach?",
+                name: "subjects",
                 type: "text"
-            },
-            {
-                label: "🧑‍🏫 Tell us a little about yourself!",
-                name: "bio",
-                type: "textarea"
             }
         ],
         [
+            {
+                label: "🧑‍🏫 Write a short bio so students and parents can learn more about you.",
+                name: "bio",
+                type: "textarea"
+            },
+            {
+                label: "🎓 Are you currently a college student or a graduate?",
+                name: "education_status",
+                type: "select",
+                options: ["College Student", "Graduate"]
+            },
             {
                 label: "💵 What’s your hourly rate in USD?",
                 name: "hourly_rate",
