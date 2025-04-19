@@ -4,7 +4,7 @@ import '../Styles/AssignmentCreate.css';
 const AssignmentCreate = () => {
     const [view, setView] = useState('list');
     const [selectedAssignment, setSelectedAssignment] = useState(null);
-    const [selectedQuizId, setSelectedQuizId] = useState(1); // Mock quiz ID
+    // const [selectedQuizId, setSelectedQuizId] = useState(1); // Mock quiz ID
     const [questionType, setQuestionType] = useState('MC');
     const [choices, setChoices] = useState([{ text: '', isCorrect: false }]);
 
