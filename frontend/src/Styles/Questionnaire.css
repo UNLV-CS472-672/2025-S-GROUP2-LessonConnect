@@ -60,3 +60,39 @@
     border: none;
     color: white;
 }
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px 14px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
+.checkbox-grid .form-check {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.checkbox-grid .form-check-input {
+    margin: 0;
+    width: 1em;
+    height: 1em;
+}
+
+/* Other input spacing */
+.other-subject-input {
+    margin-top: 8px;
+    max-width: 400px;
+}
+
+.other-subject-input input {
+    margin-top: 4px;
+}

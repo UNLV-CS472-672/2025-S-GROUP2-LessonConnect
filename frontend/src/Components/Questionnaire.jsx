@@ -1,10 +1,17 @@
 import { useState } from "react";
-import confetti from "canvas-confetti";
 import "../Styles/Questionnaire.css";
+import confetti from "canvas-confetti";
 
 export default function Questionnaire({ userRole, onComplete }) {
     const isStudent = userRole === 3;
     const isTutor = userRole === 1;
+
+    const subjectOptions = [
+        "Math", "Science", "English", "History",
+        "Spanish", "French", "Biology", "Chemistry",
+        "Physics", "Computer Science", "Art", "Music",
+        "Economics", "Psychology", "Writing", "Other"
+    ];
 
     const [step, setStep] = useState(0);
     const [formData, setFormData] = useState({
@@ -17,12 +24,12 @@ export default function Questionnaire({ userRole, onComplete }) {
         college_year: "",
         emergency_contact_name: "",
         emergency_contact_phone: "",
-        // Tutor-only
         city: "",
         state: "",
-        subjects: "",
         bio: "",
         hourly_rate: "",
+        subjects: [],
+        custom_subject: "",
         education_status: ""
     });
 
@@ -40,15 +47,15 @@ export default function Questionnaire({ userRole, onComplete }) {
                 label: "📬 How should we contact you?",
                 name: "preferred_contact_method",
                 type: "select",
-                options: ["Email", "Phone"]
+                options: ["email", "phone"]
             },
-            ...(formData.preferred_contact_method === "Email"
+            ...(formData.preferred_contact_method === "email"
                 ? [{
                     label: "✉️ What's your preferred email?",
                     name: "email",
                     type: "text"
                 }]
-                : formData.preferred_contact_method === "Phone"
+                : formData.preferred_contact_method === "phone"
                     ? [{
                         label: "📞 What's your preferred phone number?",
                         name: "phone_number",
@@ -66,15 +73,15 @@ export default function Questionnaire({ userRole, onComplete }) {
                 label: "🏫 Are you in high school or college?",
                 name: "school_type",
                 type: "select",
-                options: ["HighSchool", "College"]
+                options: ["highschool", "college"]
             },
-            ...(formData.school_type === "HighSchool"
+            ...(formData.school_type === "highschool"
                 ? [{
                     label: "🎓 What grade are you in (1–12)?",
                     name: "grade_level",
                     type: "number"
                 }]
-                : formData.school_type === "College"
+                : formData.school_type === "college"
                     ? [{
                         label: "🎓 What year are you in college?",
                         name: "college_year",
@@ -119,7 +126,8 @@ export default function Questionnaire({ userRole, onComplete }) {
             {
                 label: "📚 What subjects do you teach?",
                 name: "subjects",
-                type: "text"
+                type: "checkbox-grid",
+                options: subjectOptions
             }
         ],
         [
@@ -143,13 +151,13 @@ export default function Questionnaire({ userRole, onComplete }) {
     ];
 
     const steps = isStudent ? studentSteps : isTutor ? tutorSteps : [];
-
     const currentFields = steps[step] || [];
 
     const handleNext = () => {
         for (const field of currentFields) {
             const val = formData[field.name];
             const isOptional = field.name === "college_year" && formData.school_type !== "college";
+            if (field.type === "checkbox-grid") continue;
             if (!isOptional && (!val || val.toString().trim() === "")) {
                 alert(`Please complete: ${field.label}`);
                 return;
@@ -170,9 +178,7 @@ export default function Questionnaire({ userRole, onComplete }) {
     const handleSubmit = () => {
         console.log("✅ Final Submission:", formData);
         localStorage.setItem("questionnaireCompleted", "true");
-
-        confetti({ particleCount: 700, spread: 150, origin: { y: 0.7 } });
-
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         if (onComplete) onComplete();
     };
 
@@ -182,6 +188,7 @@ export default function Questionnaire({ userRole, onComplete }) {
                 {currentFields.map((field, idx) => (
                     <div className="form-group mb-4" key={idx}>
                         <label className="form-label fw-semibold">{field.label}</label>
+
                         {field.type === "select" ? (
                             <select
                                 name={field.name}
@@ -202,6 +209,44 @@ export default function Questionnaire({ userRole, onComplete }) {
                                 className="form-control"
                                 rows={3}
                             />
+                        ) : field.type === "checkbox-grid" ? (
+                            <>
+                                <div className="checkbox-grid">
+                                    {field.options.map((subject, i) => (
+                                        <div className="form-check" key={i}>
+                                            <input
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                id={`subject-${i}`}
+                                                checked={formData.subjects.includes(subject)}
+                                                onChange={() => {
+                                                    const updated = formData.subjects.includes(subject)
+                                                        ? formData.subjects.filter(s => s !== subject)
+                                                        : [...formData.subjects, subject];
+                                                    setFormData(prev => ({ ...prev, subjects: updated }));
+                                                }}
+                                            />
+                                            <label className="form-check-label" htmlFor={`subject-${i}`}>
+                                                {subject}
+                                            </label>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {formData.subjects.includes("Other") && (
+                                    <div className="other-subject-input">
+                                        <label className="form-label">✏️ Please specify other subject(s):</label>
+                                        <input
+                                            type="text"
+                                            name="custom_subject"
+                                            value={formData.custom_subject}
+                                            onChange={handleChange}
+                                            className="form-control"
+                                            placeholder="e.g. Latin, Film Studies..."
+                                        />
+                                    </div>
+                                )}
+                            </>
                         ) : (
                             <input
                                 type={field.type}
