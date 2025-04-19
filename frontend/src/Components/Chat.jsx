@@ -168,7 +168,12 @@ export default function Chat() {
                     setIsTyping(eventData.typing)
                 }
                 else if('seen' in eventData && eventData.username === username && eventData.message === "successful"){
+                    console.log("Id", eventData.id);
+                    console.log("Type of eventData.id:", typeof eventData.id);
+
+                    console.log("Message map obj",messageMap[eventData.id]);
                     messageMap[eventData.id].seen = eventData.seen; // Marks message as seen
+
                 }
             };
             socket.current.onclose = (event) => {
@@ -187,6 +192,9 @@ export default function Chat() {
     }, [roomName, accessToken]);
 
     // ------------ WEBSOCKET EFFECTS END------------------
+    useEffect(() => {
+        console.log("Updated message map:", messageMap);
+    }, [messageMap]);
 
     // ------------------- EFFECTS --------------------
     useEffect(() => {
@@ -230,6 +238,10 @@ export default function Chat() {
                 console.warn("WebSocket not open.");
             }
         }
+        console.log("New message:", newMessage);
+        console.log("newMessage.message_id:", newMessage.message_id);
+        console.log("Type of newMessage.message_id:", typeof newMessage.message_id);
+
         setMessageMap(prev => ({...prev, [newMessage.message_id]: newMessage,}));
         setMessageOrder((prev) => [...prev, newMessage.message_id]);
     }

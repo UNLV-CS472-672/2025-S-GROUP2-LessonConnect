@@ -71,14 +71,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Seen status is received
         elif 'seen' in text_data_json:
             seen = text_data_json['seen']
-            sender_id = await self.mark_as_seen(self.room_name)
+            sender_id, message_id = await self.mark_as_seen(self.room_name)
             username = await self.get_username(sender_id)
             await self.channel_layer.group_send( # sends message to all users in a channel group
                 self.room_group_name,
                 {
                     'type': 'seen_status', # Calls seen_status()
                     'seen': seen,
-                    'username': username
+                    'username': username,
+                    'id': message_id
                 }
             )
 
@@ -89,13 +90,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if latest_message and latest_message.status == Message.NOT_SEEN:
             latest_message.status = Message.SEEN
             latest_message.save(update_fields=['status'])
-        return latest_message.sender.id
+        return latest_message.sender.id, latest_message.id
 
 
     async def seen_status(self, event):
         await self.send(text_data=json.dumps({
             'message': 'successful',
             'seen': event['seen'],
+            'id': event['id'],
             'username': event['username']
         }))
 
