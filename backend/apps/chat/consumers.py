@@ -1,12 +1,8 @@
-# The below code is just for testing purposes (it works!)
-# Tested it using https://websocketking.com/
-# and entered ws://localhost:8000/ws/apps/chat/practice/
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 from .models import Message, Chat
 from django.contrib.auth.models import User
-#from .serializers import TimeSerializer
 
 # https://medium.com/@farad.dev/how-to-build-a-real-time-chat-app-using-django-channels-2ba2621ea972
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -86,9 +82,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
         chat = Chat.objects.get(name = room_name)
         # Get all unseen messages (excluding those from the receiver)
         unseen_messages = chat.messages.filter(status=Message.NOT_SEEN).exclude(sender_id=user_id).order_by('-timestamp')
+
         # Get sender (assumes all chats only have 2 people)
         first_unseen = unseen_messages.first()
         sender_username = None
+
+        # If there are unseen messages from sender
         if first_unseen:
             sender_username = first_unseen.sender.username
 

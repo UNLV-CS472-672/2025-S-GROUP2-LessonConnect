@@ -19,6 +19,7 @@ export default function Chat() {
     const [inputText, setInputText] = useState("");
 
     const [chatList, /*setChatList*/] = useState([
+        // TODO: Using GET, fetch the most recent message from sender in chat to render
         {
             id: 1,
             name: "John Smith",
@@ -95,8 +96,9 @@ export default function Chat() {
     const username = localStorage.getItem("username");
 
     // Message related variables
+    // Used to store messages for rendering in the frontend
     const [messageMap, setMessageMap] = useState({})
-
+    // Used to remember message order for the front end for rendering
     const [messageOrder, setMessageOrder] = useState([]);
 
     // Handles notifying others that user is typing
@@ -131,7 +133,7 @@ export default function Chat() {
             // TODO: When a chat room is selected (roomName changes),
             //       fetch existing messages for that room using the access token.
             //       Once the messages are fetched, update the local message map state
-            //       so it can be used to determine message visibility and trigger WebSocket setup.
+            //       so it can be used for showing messages in the UI
 
         }
     }, [roomName]);
@@ -159,7 +161,6 @@ export default function Chat() {
 
     // Handle opening the WebSocket connection when roomName changes
     useEffect(() => {
-        console.log("Websocket");
         if (roomName && !socket.current) {
             socket.current = new WebSocket(`ws://127.0.0.1:8000/ws/apps/chat/${roomName}/`, ["chat", accessToken]);
 
@@ -168,7 +169,6 @@ export default function Chat() {
                 console.log("WebSocket connected to room:", socket.current);
                 // Checks any unseen messages as seen
                 if(Object.keys(messageMap).length !== 0){ // If there is no existing messages
-                    console.log("here")
                     const seenStatus = {
                         seen: true
                     };
@@ -184,7 +184,6 @@ export default function Chat() {
                 console.log("Socket message received: ", event.data);
                 const eventData = JSON.parse(event.data);
                 if(eventData.username){ //ensure a username exists
-                    console.log('inside')
                     if('body' in eventData && eventData.message === "successful"){
                         setIsTyping(false)
                         messageDisplay(eventData)
@@ -272,9 +271,6 @@ export default function Chat() {
                 console.warn("WebSocket not open.");
             }
         }
-        console.log("New message:", newMessage);
-        console.log("newMessage.message_id:", newMessage.message_id);
-        console.log("Type of newMessage.message_id:", typeof newMessage.message_id);
 
         setMessageMap(prev => ({...prev, [newMessage.message_id]: newMessage,}));
         setMessageOrder((prev) => [...prev, newMessage.message_id]);
@@ -282,7 +278,6 @@ export default function Chat() {
     // Format current time as "hh:mm AM/PM"
     function getCurrentTime(timestamp) {
         // Convert the timestamp string to a JavaScript Date object
-        console.log('timestamp:', timestamp, typeof timestamp);
         const date = new Date(timestamp.replace(' ', 'T'));
         return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     }
@@ -306,7 +301,6 @@ export default function Chat() {
         } else {
             console.warn("WebSocket not open.");
         }
-        // simulateReply();
     }
 
     // Press "Enter" to send
@@ -331,15 +325,13 @@ export default function Chat() {
     function handleSelectChat(chat) {
         setRoomName(chat.roomName)
         setSelectedChat(chat);
-
-        // TODO: Load messages for the selected chat from backend when available
     }
 
     // Creates a new chat
     function handleCreateChat() {
         const text = modalInputText.trim();
         if (text === "") return;
-        // TODO: Connect with backend to allow a new chat to be made
+        // TODO: Connect with backend via POST to allow a new chat to be made
         alert("Starting a new chat... (UC1, future scope)")
         setModalInputText("")
     }
@@ -476,7 +468,6 @@ export default function Chat() {
 
                                 {/* Show typing indicator at the bottom if someone is typing */}
                                 {isTyping && <Typing />}
-                                {/*{isTyping && <div style={{ backgroundColor: 'lightgray', padding: '10px' }}>Typing...</div>}*/}
                             </div>
 
                             {/* Chat Input (UC5: Send Message) */}
