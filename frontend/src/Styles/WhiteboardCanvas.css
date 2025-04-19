@@ -203,3 +203,55 @@
 /* Chat panel */
 .whiteboard-container .chat-panel { width: 280px; }
 
+/* Contact cards */
+.whiteboard-container .contact-card {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.4rem;
+    background: transparent;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    text-align: left;
+    transition: background var(--transition-speed);
+}
+.whiteboard-container .contact-card img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.whiteboard-container .contact-card.selected,
+.whiteboard-container .contact-card:hover {
+    background: rgba(255,255,255,0.35);
+}
+
+/* 16:9 video placeholder */
+.whiteboard-container .video-box {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    background: #000;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+.whiteboard-container .video-box img {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 60%;
+}
+
+/* ──────────────────────────────
+   Responsiveness
+──────────────────────────────── */
+@media (max-width: 1200px) {
+    .whiteboard-container .lc-panel { width: 200px; }
+    .whiteboard-container .chat-panel { width: 220px; }
+}
+
+@media (max-width: 1024px) {
+    /* hide side panels on small/medium screens for focus */
+    .whiteboard-container .lc-panel,
+    .whiteboard-container .chat-panel { display: none; }
+}
