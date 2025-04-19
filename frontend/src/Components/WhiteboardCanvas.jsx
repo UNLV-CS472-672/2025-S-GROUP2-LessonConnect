@@ -59,18 +59,13 @@ function ContactList({ selectedId, onSelect }) {
 function VideoView({ tutor, onBack }) {
     return (
         <aside className="lc-panel glass-card video-view animate-slide-in-left">
-            {/*<header className="video-header">*/}
-            {/*    <button className="icon-btn back-btn" onClick={onBack}>*/}
-            {/*        <i className="fas fa-arrow-left" /> <span className="lbl">Back</span>*/}
-            {/*    </button>*/}
-            {/*    <span className="video-title">{tutor.name}</span>*/}
-            {/*</header>*/}
             <header className="video-header">
                 <button className="icon-btn back-btn" onClick={onBack}>
                     <i className="fas fa-arrow-left" /> <span className="lbl">Back</span>
                 </button>
                 <span className="video-title">{tutor.name}</span>
             </header>
+
             <div className="video-box">
                 {/*<img src={tutor.avatar} alt={tutor.name} />*/}
                 <img src='/assets/images/assignment_icon.png' />
@@ -141,27 +136,22 @@ function ChatPanel({ tutor, messages, setMessages, onBack }) {
     );
 }
 
+/* ────────────────────────────
+   Main component
+──────────────────────────────── */
 export default function WhiteboardCanvas() {
-
-    /* session state */
-    // const [selectedTutor, setSelectedTutor] = useState(null);
-    // const [chatMessages, setChatMessages]   = useState([]);
     /* session state */
     const [selectedTutor, setSelectedTutor] = useState(null);
     const [chatMessages, setChatMessages]   = useState([]);
 
-
-    const canvasRef = useRef(null);
-    const contextRef = useRef(null);
-
+    /* drawing state */
+    const canvasRef   = useRef(null);
+    const contextRef  = useRef(null);
     const [isDrawing, setIsDrawing] = useState(false);
     const [lineColor, setLineColor] = useState("#000000");
     const [lineWidth, setLineWidth] = useState(3);
-
-    // 1) NEW: Undo stack state
     const [undoStack, setUndoStack] = useState([]);
 
-    // Example color palette
     const colors = [
         "#000000","#7F7F7F","#BFBFBF","#FFFFFF",
         "#FF0000","#FF7F00","#FFFF00","#7FFF00",
@@ -183,161 +173,94 @@ export default function WhiteboardCanvas() {
         contextRef.current = ctx;
     };
 
-    /**
-     * Set up the canvas size and context for drawing
-     */
-    const resizeCanvas = () => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-
-        const scale = window.devicePixelRatio || 1;
-        canvas.width = canvas.clientWidth * scale;
-        canvas.height = canvas.clientHeight * scale;
-
-        const context = canvas.getContext("2d");
-        context.scale(scale, scale);
-        context.lineCap = "round";
-        context.lineJoin = "round";
-
-        contextRef.current = context;
-    };
-
-    // Resize only on mount or window resize (not on color/width changes)
     useEffect(() => {
-        function handleResize() {
-            resizeCanvas();
-        }
-        // Initial sizing
-        resizeCanvas();
-
-        // If you want dynamic resizing
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
+        fitCanvas();
+        window.addEventListener("resize", fitCanvas);
+        return () => window.removeEventListener("resize", fitCanvas);
     }, []);
 
-    // Update stroke style on color/width changes
     useEffect(() => {
         if (contextRef.current) {
             contextRef.current.strokeStyle = lineColor;
-            contextRef.current.lineWidth = lineWidth;
+            contextRef.current.lineWidth   = lineWidth;
         }
     }, [lineColor, lineWidth]);
 
-    // 2) NEW: After the canvas is set up, capture its initial state for undo
     useEffect(() => {
         if (canvasRef.current && contextRef.current) {
-            const canvas = canvasRef.current;
-            const ctx = contextRef.current;
-            const initialData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            setUndoStack([initialData]);
+            const c = canvasRef.current, ctx = contextRef.current;
+            setUndoStack([ctx.getImageData(0,0,c.width,c.height)]);
         }
     }, []);
 
-    // 3) NEW: Helper function to push the current canvas to undo stack
-    const pushToUndoStack = () => {
-        if (!canvasRef.current || !contextRef.current) return;
-        const canvas = canvasRef.current;
-        const data = contextRef.current.getImageData(0, 0, canvas.width, canvas.height);
-        setUndoStack((prevStack) => [...prevStack, data]);
+    const pushUndo = () => {
+        const c = canvasRef.current;
+        setUndoStack((st) => [...st, contextRef.current.getImageData(0,0,c.width,c.height)]);
     };
 
-    // 4) NEW: Undo logic
-    const undoLastAction = () => {
-        if (undoStack.length > 1) {
-            const newStack = [...undoStack];
-            newStack.pop(); // Remove current state
-            const previous = newStack[newStack.length - 1];
-            contextRef.current.putImageData(previous, 0, 0);
-            setUndoStack(newStack);
-        } else {
-            // If nothing left, just clear
-            clearCanvas();
-        }
+    const undo = () => {
+        if (undoStack.length <= 1) return clearCanvas();
+        const next = [...undoStack];
+        next.pop();
+        contextRef.current.putImageData(next[next.length-1],0,0);
+        setUndoStack(next);
     };
 
-    // Mouse event handlers
-    const startDrawing = (e) => {
-        const { offsetX, offsetY } = e.nativeEvent;
+    /* draw handlers */
+    const startDraw = ({nativeEvent:{offsetX:x,offsetY:y}}) => {
         contextRef.current.beginPath();
-        contextRef.current.moveTo(offsetX, offsetY);
+        contextRef.current.moveTo(x,y);
         setIsDrawing(true);
     };
-
-    const draw = (e) => {
+    const draw = ({nativeEvent:{offsetX:x,offsetY:y}}) => {
         if (!isDrawing) return;
-        const { offsetX, offsetY } = e.nativeEvent;
-        contextRef.current.lineTo(offsetX, offsetY);
+        contextRef.current.lineTo(x,y);
         contextRef.current.stroke();
     };
-
-    const stopDrawing = () => {
-        if (isDrawing) {
-            contextRef.current.closePath();
-            setIsDrawing(false);
-            // 5) NEW: After each stroke, capture the final canvas state
-            pushToUndoStack();
-        }
+    const stopDraw = () => {
+        if (!isDrawing) return;
+        contextRef.current.closePath();
+        setIsDrawing(false);
+        pushUndo();
     };
 
-    // Utility buttons
+    /* util */
     const clearCanvas = () => {
-        const canvas = canvasRef.current;
-        contextRef.current.clearRect(0, 0, canvas.width, canvas.height);
+        const c = canvasRef.current;
+        contextRef.current.clearRect(0,0,c.width,c.height);
     };
-
-    const downloadCanvas = () => {
-        const canvas = canvasRef.current;
+    const dlCanvas = () => {
         const link = document.createElement("a");
         link.download = "lessonconnect_drawing.png";
-        link.href = canvas.toDataURL();
+        link.href = canvasRef.current.toDataURL();
         link.click();
     };
 
-    // Placeholder for extra tools
-    const handleToolClick = (toolName) => {
-        alert(`Tool ${toolName} clicked! (Feature to be added)`);
-    };
-
-    // 6) NEW: Listen for Eraser button click => switch to eraser mode
+    /* eraser toggle */
     useEffect(() => {
-        const eraserButton = document.querySelector(".tool-btn[title='Eraser']");
-        if (!eraserButton) return;
+        const eraser = document.querySelector(".tool-btn[title='Eraser']");
+        const pencil = document.querySelector(".tool-btn[title='Pencil']");
+        if (!eraser || !pencil) return;
 
-        const handleEraserClick = () => {
-            if (contextRef.current) {
-                contextRef.current.globalCompositeOperation = "destination-out";
-                // Optionally adjust eraser size:
-                setLineWidth(20);
-            }
+        const toErase = () => {
+            contextRef.current.globalCompositeOperation = "destination-out";
+            setLineWidth(20);
+        };
+        const toDraw  = () => {
+            contextRef.current.globalCompositeOperation = "source-over";
+            setLineWidth(3);
         };
 
-        eraserButton.addEventListener("click", handleEraserClick);
+        eraser.addEventListener("click", toErase);
+        pencil.addEventListener("click", toDraw);
         return () => {
-            eraserButton.removeEventListener("click", handleEraserClick);
+            eraser.removeEventListener("click", toErase);
+            pencil.removeEventListener("click", toDraw);
         };
     }, []);
 
-    // 7) NEW: Listen for Pencil button click => switch back to normal drawing
-    useEffect(() => {
-        const pencilButton = document.querySelector(".tool-btn[title='Pencil']");
-        if (!pencilButton) return;
-
-        const handlePencilClick = () => {
-            if (contextRef.current) {
-                contextRef.current.globalCompositeOperation = "source-over";
-                // Reset brush size if desired:
-                setLineWidth(3);
-            }
-        };
-
-        pencilButton.addEventListener("click", handlePencilClick);
-        return () => {
-            pencilButton.removeEventListener("click", handlePencilClick);
-        };
-    }, []);
-
+    /* ────────────── UI ────────────── */
     return (
-
         <div className="whiteboard-container">
             <div className="session-container">
                 {/* LEFT PANEL */}
@@ -425,97 +348,6 @@ export default function WhiteboardCanvas() {
                 )}
             </div>
         </div>
-        // Unique parent class to scope styling:
-        <div className="whiteboard-container">
-            <div className="whiteboard-canvas-container">
-                {/* Top bar */}
-                <div className="whiteboard-topbar glass-card">
-                    <div className="whiteboard-title">Whiteboard</div>
-                    <div className="whiteboard-tools">
-                        <button
-                            className="tool-btn neon-hover"
-                            title="Cursor"
-                            onClick={() => handleToolClick("Cursor")}
-                        >
-                            <i className="fas fa-mouse-pointer"></i>
-                        </button>
-                        <button
-                            className="tool-btn neon-hover"
-                            title="Pencil"
-                            onClick={() => handleToolClick("Pencil")}
-                        >
-                            <i className="fas fa-pencil-alt"></i>
-                        </button>
-                        <button
-                            className="tool-btn neon-hover"
-                            title="Rectangle"
-                            onClick={() => handleToolClick("Rectangle")}
-                        >
-                            <i className="far fa-square"></i>
-                        </button>
-                        <button
-                            className="tool-btn neon-hover"
-                            title="Circle"
-                            onClick={() => handleToolClick("Circle")}
-                        >
-                            <i className="far fa-circle"></i>
-                        </button>
-                        <button
-                            className="tool-btn neon-hover"
-                            title="Eraser"
-                            onClick={() => handleToolClick("Eraser")}
-                        >
-                            <i className="fas fa-eraser"></i>
-                        </button>
-                    </div>
-                </div>
-
-                {/* Secondary toolbar */}
-                <div className="toolbar glass-card">
-                    <label className="color-label">Color:</label>
-                    {colorOptions.map((color) => (
-                        <button
-                            key={color}
-                            className="color-button"
-                            style={{ backgroundColor: color }}
-                            onClick={() => setLineColor(color)}
-                        />
-                    ))}
-                    <label className="width-label">
-                        Brush:
-                        <input
-                            type="range"
-                            min="1"
-                            max="20"
-                            value={lineWidth}
-                            onChange={(e) => setLineWidth(e.target.value)}
-                        />
-                    </label>
-                    <button className="action-button neon-hover" onClick={clearCanvas}>
-                        Clear
-                    </button>
-
-                    {/* 8) NEW: Undo button */}
-                    <button className="action-button neon-hover" onClick={undoLastAction}>
-                        Undo
-                    </button>
-
-                    <button className="action-button neon-hover" onClick={downloadCanvas}>
-                        Download
-                    </button>
-                </div>
-
-                {/* Canvas */}
-                <div
-                    className="canvas-container glass-card"
-                    onMouseDown={startDrawing}
-                    onMouseMove={draw}
-                    onMouseUp={stopDrawing}
-                    onMouseLeave={stopDrawing}
-                >
-                    <canvas ref={canvasRef} className="drawing-canvas" />
-                </div>
-            </div>
-        </div>
     );
 }
+
