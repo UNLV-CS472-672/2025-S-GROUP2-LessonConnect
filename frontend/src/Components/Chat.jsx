@@ -533,6 +533,7 @@ export default function Chat() {
                             </div>
                             <div className="details-actions">
                                 {/* UC: Mute, Block, Report */}
+                                {/* TODO: Connect to backend upon click */}
                                 <button onClick={() => alert("Muted user!")}>Mute</button>
                                 <button onClick={() => alert("Blocked user!")}>Block</button>
                                 <button onClick={() => alert("Reported user!")}>Report</button>
