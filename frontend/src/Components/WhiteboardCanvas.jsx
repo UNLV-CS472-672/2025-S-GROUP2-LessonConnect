@@ -144,9 +144,11 @@ function ChatPanel({ tutor, messages, setMessages, onBack }) {
 export default function WhiteboardCanvas() {
 
     /* session state */
+    // const [selectedTutor, setSelectedTutor] = useState(null);
+    // const [chatMessages, setChatMessages]   = useState([]);
+    /* session state */
     const [selectedTutor, setSelectedTutor] = useState(null);
     const [chatMessages, setChatMessages]   = useState([]);
-
 
 
     const canvasRef = useRef(null);
