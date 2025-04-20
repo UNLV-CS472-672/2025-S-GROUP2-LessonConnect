@@ -1,4 +1,4 @@
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../Styles/RoleSelect.css";
 
 export default function RoleSelect() {
@@ -34,7 +34,10 @@ export default function RoleSelect() {
                     <h2>Choose your role to begin</h2>
                     <div className="button-group">
                         <button className="btn" onClick={() => handleRoleSelect(3)}>
-                            I'm a Student or Parent
+                            I'm a Student
+                        </button>
+                        <button className="btn" onClick={() => handleRoleSelect(2)}>
+                            I'm a Parent
                         </button>
                         <button className="btn" onClick={() => handleRoleSelect(1)}>
                             I'm a Tutor
