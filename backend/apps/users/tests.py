@@ -5,6 +5,7 @@ from rest_framework import status
 from .models import Profile, StudentProfile, TutorProfile, ParentProfile
 from rest_framework_simplejwt.tokens import RefreshToken
 
+# https://chatgpt.com/share/6804498e-2dfc-8005-8b02-d78afdc354ae
 class UserRegistrationTests(APITestCase):
     def test_register_student_profile(self):
         parent_profile = User.objects.create_user(username="parentuser", password="pass123")
