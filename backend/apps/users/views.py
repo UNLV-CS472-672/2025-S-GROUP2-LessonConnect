@@ -68,9 +68,8 @@ def register_profile(request):
   first_name = request.data["firstName"]
   last_name = request.data["lastName"]
   password = request.data["password"]
-  # TODO: replace "1" with "role" once that is handled by the frontend
-  # role = request.data["role"]  # Get the selected role
-  role = Profile.STUDENT
+  role = request.data["role"]  # Get the selected role
+  # role = Profile.STUDENT
   # Create user
   user = User.objects.create_user(
     username=username,
@@ -118,10 +117,10 @@ def register_profile(request):
           profile=profile,
           parent_profile=parent_profile_instance,
           grade_level = grade_level,
-          preferred_subjects = preferred_subjects,
           emergency_contact_name = emergency_contact_name,
           emergency_contact_phone_number = emergency_contact_phone_number
       )
+      student.preferred_subjects.set(preferred_subjects)
   return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
