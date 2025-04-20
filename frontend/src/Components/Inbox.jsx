@@ -102,9 +102,9 @@ export default function Inbox() {
 
     const navLinks = {
         Chat: "/chat",
-        Calendar: "/calendar",
+        Calendar: "/tutor/calendar",
         Support: "/support",
-        Profile: "/profile",
+        Profile: "/tutor/profile",
     };
 
     const filteredMessages = messages.filter((msg) =>

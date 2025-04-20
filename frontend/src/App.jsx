@@ -30,6 +30,7 @@ import WhiteboardCanvas from "./Components/WhiteboardCanvas.jsx";
 import LandingPage from "./Components/LandingPage.jsx";
 import Settings from "./Components/Settings.jsx";
 import Questionnaire from "./Components/Questionnaire.jsx";
+import AssignmentCreate from "./Components/AssignmentCreate.jsx";
 
 
 function App() {
@@ -112,6 +113,8 @@ function App() {
                 <Route path="/tutor/inbox" element={<StudentLayout><Inbox /></StudentLayout>} />
                 <Route path="/tutor/WhiteboardCanvas" element={<StudentLayout><WhiteboardCanvas /></StudentLayout>} />
                 <Route path="/tutor/LandingPage" element={<StudentLayout><LandingPage /></StudentLayout>} />
+                <Route path="/tutor/assignment_create" element={<StudentLayout><AssignmentCreate /></StudentLayout>} />
+
             </Routes>
 
 
