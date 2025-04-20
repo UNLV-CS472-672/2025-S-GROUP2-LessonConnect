@@ -259,13 +259,15 @@ const AssignmentCreate = () => {
                             </>
                         )}
                         <div className="assignment-create_button-container">
-                            <button
-                                type="button"
-                                className="assignment-create_button"
-                                onClick={handleAddChoice}
-                            >
-                                Add Another Choice
-                            </button>
+                            {questionType === 'MC' && (
+                                <button
+                                    type="button"
+                                    className="assignment-create_button"
+                                    onClick={handleAddChoice}
+                                >
+                                    Add Another Choice
+                                </button>
+                            )}
                             <button className="assignment-create_button" type="submit">
                                 Submit
                             </button>
@@ -277,6 +279,7 @@ const AssignmentCreate = () => {
                                 Cancel
                             </button>
                         </div>
+
                     </form>
                 </div>
             )}
