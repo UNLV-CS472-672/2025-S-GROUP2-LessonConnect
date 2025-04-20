@@ -39,7 +39,7 @@ export default function Home() {
                     <span className="text-body-secondary fs-6 staggered-subtitle">with your favorite tutor.</span>
                 </h3>
                 <div className="buttons-container">
-                    <Link to="/dateofbirth" className="btn btn-outline-light">Sign Up</Link>
+                    <Link to="/roleSelect" className="btn btn-outline-light">Sign Up</Link>
                     <Link to="/learn_more" className="btn btn-outline-light">Learn More</Link>
                 </div>
             </section>
@@ -58,7 +58,7 @@ export default function Home() {
                                 LessonConnect makes learning effortless—video calls, messaging, and easy scheduling, all in one place. Connect with your tutor instantly and stay on track without the hassle..                            </p>
                         </div>
                         <div className="col-md-6">
-                            <img className="middleUpper-pic" src="assets/images/Pic1.webp" alt="some image" />
+                            <img className="middleUpper-pic" src="/assets/images/Pic1.webp" alt="some image" />
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@ export default function Home() {
                     <div className="row d-flex justify-content-center">
                         <div className="col-md-6 text-center">
                             <img
-                                src="assets/images/Pomodoro_pic.png"
+                                src="/assets/images/Pomodoro_pic.png"
                                 className="lower-section-img"
                                 alt="Pomodoro Timer Feature"
                             />
@@ -128,19 +128,19 @@ export default function Home() {
                         <div className="p-2">
                             <a href="#a">
                                 <img
-                                    src="assets/images/coding.jpg"
+                                    src="/assets/images/coding.jpg"
                                     className="gallery-item"
                                     alt="Image 1"
                                 />
                             </a>
                         </div>
                         <div className="p-2">
-                            <img src="assets/images/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
+                            <img src="/assets/images/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
                         </div>
                         <div className="p-2">
                             <a href="#b">
                                 <img
-                                    src="assets/images/Music.webp"
+                                    src="/assets/images/Music.webp"
                                     className="gallery-item"
                                     alt="Image 3"
                                 />
@@ -149,7 +149,7 @@ export default function Home() {
                         <div className="p-2">
                             <a href="#c">
                                 <img
-                                    src="assets/images/philosophy_pic.webp"
+                                    src="/assets/images/philosophy_pic.webp"
                                     className="gallery-item"
                                     alt="Image 4"
                                 />
@@ -158,7 +158,7 @@ export default function Home() {
                         <div className="p-2">
                             <a href="#d">
                                 <img
-                                    src="assets/images/Science_pic.jpg"
+                                    src="/assets/images/Science_pic.jpg"
                                     className="gallery-item"
                                     alt="Image 5"
                                 />
@@ -167,7 +167,7 @@ export default function Home() {
                         <div className="p-2">
                             <a href="#e">
                                 <img
-                                    src="assets/images/languages.avif"
+                                    src="/assets/images/languages.avif"
                                     className="gallery-item"
                                     alt="Image 6"
                                 />
@@ -176,7 +176,7 @@ export default function Home() {
                         <div className="p-2">
                             <a href="#f">
                                 <img
-                                    src="assets/images/writing.jpg"
+                                    src="/assets/images/writing.jpg"
                                     className="gallery-item"
                                     alt="Image 7"
                                 />
@@ -187,7 +187,7 @@ export default function Home() {
                         <div className="p-2">
                             <a href="#a">
                                 <img
-                                    src="assets/images/coding.jpg"
+                                    src="/assets/images/coding.jpg"
                                     className="gallery-item"
                                     alt="Image 1"
                                 />
@@ -195,13 +195,13 @@ export default function Home() {
                         </div>
                         <div className="p-2">
                             <a href="#b">
-                                <img src="assets/images/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
+                                <img src="/assets/images/Math_pic.jpg" className="gallery-item" alt="Image 2"/>
                             </a>
                         </div>
                         <div className="p-2">
                             <a href="#c">
                                 <img
-                                    src="assets/images/Music.webp"
+                                    src="/assets/images/Music.webp"
                                     className="gallery-item"
                                     alt="Image 3"
                                 />
@@ -210,7 +210,7 @@ export default function Home() {
                         <div className="p-2">
                             <a href="#e">
                                 <img
-                                    src="assets/images/philosophy_pic.webp"
+                                    src="/assets/images/philosophy_pic.webp"
                                     className="gallery-item"
                                     alt="Image 4"
                                 />
@@ -219,7 +219,7 @@ export default function Home() {
                         <div className="p-2">
                             <a href="#f">
                                 <img
-                                    src="assets/images/Science_pic.jpg"
+                                    src="/assets/images/Science_pic.jpg"
                                     className="gallery-item"
                                     alt="Image 5"
                                 />
@@ -228,7 +228,7 @@ export default function Home() {
                         <div className="p-2">
                             <a href="#e">
                                 <img
-                                    src="assets/images/languages.avif"
+                                    src="/assets/images/languages.avif"
                                     className="gallery-item"
                                     alt="Image 6"
                                 />
@@ -237,7 +237,7 @@ export default function Home() {
                         <div className="p-2">
                             <a href="#f">
                                 <img
-                                    src="assets/images/writing.jpg"
+                                    src="/assets/images/writing.jpg"
                                     className="gallery-item"
                                     alt="Image 7"
                                 />
