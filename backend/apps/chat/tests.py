@@ -3,6 +3,11 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
 from .models import Chat, Message
+from apps.chat.consumers import ChatConsumer
+
+def test_chat_consumer_init():
+    consumer = ChatConsumer()
+    assert consumer is not None
 
 class ChatAPITestCase(APITestCase):
 
