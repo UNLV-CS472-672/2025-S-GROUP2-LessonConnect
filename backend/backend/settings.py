@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "apps.uploads",       # our uploads app
     "apps.search",        # our search app
     "apps.whiteboard",      # our whiteboard app
+    "apps.sessions",        # our sessions app
     "rest_framework",     # rest framework
     'rest_framework_simplejwt.token_blacklist', # for logout functionality
     "channels",           # Django channels
