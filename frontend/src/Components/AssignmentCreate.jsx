@@ -117,9 +117,11 @@ const AssignmentCreate = () => {
                         <input type="datetime-local" className="assignment-create_input" />
                         <input type="file" className="assignment-create_input" />
                         <input
-                            type="number"
+                            // Make sure this input works for backend --if all fails change "text" to "number" and remove pattern
+                            type="text"
                             placeholder="Student ID (optional)"
                             className="assignment-create_input"
+                            pattern="\d*"
                         />
                         <div className="assignment-create_button-container">
                             <button className="assignment-create_button" type="submit">
