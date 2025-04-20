@@ -9,6 +9,16 @@ from .serializers import AssignmentSerializer, QuizSerializer, QuestionSerialize
 
 
 # - Assignments:
+class AssignmentListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    # GET a list of assignment(s) details
+    def get(self, request):
+        assignments = Assignment.objects.all()
+        serializer = AssignmentSerializer(assignments, many=True)
+        return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+
 class AssignmentDetailView(APIView):
     # Only authenticated users can access - ensures user is logged in & authenticated
     permission_classes = [IsAuthenticated]

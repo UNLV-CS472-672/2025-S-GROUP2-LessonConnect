@@ -50,11 +50,26 @@ class AssignmentAPITests(APITestCase):
         # Define URLs - used for assignment testing
         self.detail_url = reverse('assignment-detail', kwargs={'pk': self.assignment.pk})
         self.create_url = reverse('assignment-create')
+        self.list_url = reverse('assignment-list')
 
         # Unless you want to hardcode:
         # self.list_url = '/lessons/assignments/'
         # self.detail_url = f'/lessons/assignments/{self.assignment.pk}/'
         # self.create_url = '/lessons/assignments/create/'
+
+    # Test GET: List all assignments
+    def test_list_assignments(self):
+        response = self.client.get(self.list_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Should return a list under "data"
+        self.assertIn('data', response.data)
+        assignments = response.data['data']
+        self.assertIsInstance(assignments, list)
+
+        # At least the one created in setUp must be present
+        ids = [a['id'] for a in assignments]
+        self.assertIn(self.assignment.pk, ids)
 
     # Test GET: Retrieve a single assignment
     def test_get_assignment(self):
