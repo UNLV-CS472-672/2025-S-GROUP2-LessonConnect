@@ -145,7 +145,7 @@ export default function Questionnaire({ userRole, onComplete }) {
             {
                 label: "💵 What’s your hourly rate in USD?",
                 name: "hourly_rate",
-                type: "number"
+                type: "text-dollar"
             }
         ]
     ];
@@ -234,7 +234,7 @@ export default function Questionnaire({ userRole, onComplete }) {
                                 </div>
 
                                 {formData.subjects.includes("Other") && (
-                                    <div className="other-subject-input">
+                                    <div className="other-subject-input mt-3">
                                         <label className="form-label">✏️ Please specify other subject(s):</label>
                                         <input
                                             type="text"
@@ -247,6 +247,22 @@ export default function Questionnaire({ userRole, onComplete }) {
                                     </div>
                                 )}
                             </>
+                        ) : field.type === "text-dollar" ? (
+                            <div className="input-group">
+                                <input
+                                    type="text"
+                                    name="hourly_rate"
+                                    value={`$${formData.hourly_rate}`}
+                                    onChange={(e) =>
+                                        setFormData(prev => ({
+                                            ...prev,
+                                            hourly_rate: e.target.value.replace(/[^0-9]/g, "") // strip non-numbers
+                                        }))
+                                    }
+                                    className="form-control"
+                                    placeholder="$25"
+                                />
+                            </div>
                         ) : (
                             <input
                                 type={field.type}
