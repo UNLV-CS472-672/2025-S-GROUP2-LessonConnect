@@ -57,7 +57,7 @@ export default function Home() {
                             </h2>
                             <p>
                                 LessonConnect brings everything you need into one place—live video calls, secure messaging, file sharing, and effortless scheduling.
-                                Whether you're preparing for a test or booking your next session, staying on track has never been easier.
+                                Whether you&apos;re tackling homework, reviewing for a test, or working on a project, our Pomodoro feature keeps you productive and motivated.
                             </p>
                             <Link to="/roleSelect" className="btn btn-outline-dark" style={{ marginTop: "20px" }}>
                                 Join LessonConnect

@@ -34,13 +34,13 @@ export default function RoleSelect() {
                     <h2>Choose your role to begin</h2>
                     <div className="button-group">
                         <button className="btn" onClick={() => handleRoleSelect(3)}>
-                            I'm a Student
+                            I&apos;m a Student
                         </button>
                         <button className="btn" onClick={() => handleRoleSelect(2)}>
-                            I'm a Parent
+                            I&apos;m a Parent
                         </button>
                         <button className="btn" onClick={() => handleRoleSelect(1)}>
-                            I'm a Tutor
+                            I&apos;m a Tutor
                         </button>
                     </div>
                 </div>
