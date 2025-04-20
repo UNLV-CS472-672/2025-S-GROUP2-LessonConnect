@@ -1,11 +1,11 @@
-import {Link, useLocation} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import "../Styles/SignUp.css"; // Import the CSS file
 import axios from "axios";
+import "../Styles/SignUp.css";
+import countries from "../data/countries.json";
 
 export default function SignUp() {
-    const location = useLocation(); // Uncomment if you are going use it (Ashley helped by Frank)
-    // this will help later for the back end
+    const location = useLocation();
     const dob = location.state || {};
 
     const [formData, setFormData] = useState({
@@ -13,11 +13,13 @@ export default function SignUp() {
         email: "",
         firstName: "",
         lastName: "",
-        displayName: "",
+        username: "",
         password: "",
         dateOfBirth: dob,
         termsAccepted: false,
     });
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -34,32 +36,21 @@ export default function SignUp() {
             alert("You must accept the Terms of Service.");
             return;
         }
-        console.log("Sign-Up form submitted", formData);
 
         try {
             const response = await axios.post("http://127.0.0.1:8000/users/register/", formData);
-
-
-            // Do this for login
-            // Store only the access and refresh tokens
-            // localStorage.setItem("accessToken", response.data.accessToken);
-            // localStorage.setItem("refreshToken", response.data.refreshToken);
-
-
             alert("Registration successful!\n" + response.data.message);
         } catch (error) {
             alert("Registration failed! " + (error.response?.data?.message || error.message));
         }
     };
 
-
     return (
         <div className="signup-page">
             {/* Left Panel */}
             <div className="left-panel">
                 <div className="brand-container">
-                    {/* Replace with your own brand image */}
-                    <img src="assets/images/bird.webp" alt="Some brand illustration" />
+                    <img src="/assets/images/bird.webp" alt="Some brand illustration" />
                     <div className="brand-card">
                         <h2>LessonConnect</h2>
                         <p>
@@ -70,7 +61,7 @@ export default function SignUp() {
                 </div>
             </div>
 
-                {/* Right Panel (SignUp Form) */}
+            {/* Right Panel */}
             <div className="right-panel">
                 <Link to="/" className="back-home-btn">
                     ← Back
@@ -80,21 +71,6 @@ export default function SignUp() {
                     <h2>We’re excited to have you on board!</h2>
 
                     <form className="signup-form" onSubmit={handleSubmit}>
-                        <select name="country" onChange={handleChange} required>
-                            <option value="">Select Country</option>
-                            <option value="United States">United States</option>
-                            <option value="Canada">Canada</option>
-                            <option value="United Kingdom">United Kingdom</option>
-                        </select>
-
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            onChange={handleChange}
-                            required
-                        />
-
                         <input
                             type="text"
                             name="firstName"
@@ -113,19 +89,44 @@ export default function SignUp() {
 
                         <input
                             type="text"
-                            name="displayName"
-                            placeholder="Display Name"
+                            name="username"
+                            placeholder="Username"
                             onChange={handleChange}
                             required
                         />
 
                         <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
+                            type="email"
+                            name="email"
+                            placeholder="Email"
                             onChange={handleChange}
                             required
                         />
+
+                        <div className="password-field">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                placeholder="Password"
+                                onChange={handleChange}
+                                required
+                            />
+                            <span
+                                className="toggle-password"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? "🙈" : "👁️"}
+                            </span>
+                        </div>
+
+                        <select name="country" onChange={handleChange} required>
+                            <option value="">Select Country</option>
+                            {countries.map((country) => (
+                                <option key={country} value={country}>
+                                    {country}
+                                </option>
+                            ))}
+                        </select>
 
                         <div className="checkbox-container">
                             <input
