@@ -33,6 +33,8 @@ export default function Questionnaire({ userRole, onComplete }) {
         education_status: ""
     });
 
+    const [formErrors, setFormErrors] = useState({});
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({
@@ -41,21 +43,46 @@ export default function Questionnaire({ userRole, onComplete }) {
         }));
     };
 
+    const validateField = (field, value) => {
+        switch (field.name) {
+            case "email":
+                return /\S+@\S+\.\S+/.test(value);
+            case "phone_number":
+            case "emergency_contact_phone":
+                return /^[0-9]{7,15}$/.test(value);
+            case "grade_level":
+                return /^[1-9]$|^1[0-2]$/.test(value);
+            case "hourly_rate":
+                return /^[0-9]+$/.test(value); // only whole numbers
+            case "city":
+            case "emergency_contact_name":
+                return /^[A-Za-z\s]+$/.test(value.trim());
+            case "college_year":
+            case "education_status":
+            case "preferred_contact_method":
+            case "school_type":
+            case "state":
+                return value !== "";
+            default:
+                return value.trim() !== "";
+        }
+    };
+
     const studentSteps = [
         [
             {
                 label: "📬 How should we contact you?",
                 name: "preferred_contact_method",
                 type: "select",
-                options: ["email", "phone"]
+                options: ["Email", "Phone"]
             },
-            ...(formData.preferred_contact_method === "email"
+            ...(formData.preferred_contact_method === "Email"
                 ? [{
                     label: "✉️ What's your preferred email?",
                     name: "email",
                     type: "text"
                 }]
-                : formData.preferred_contact_method === "phone"
+                : formData.preferred_contact_method === "Phone"
                     ? [{
                         label: "📞 What's your preferred phone number?",
                         name: "phone_number",
@@ -154,16 +181,24 @@ export default function Questionnaire({ userRole, onComplete }) {
     const currentFields = steps[step] || [];
 
     const handleNext = () => {
+        let errors = {};
+
         for (const field of currentFields) {
-            const val = formData[field.name];
+            const value = formData[field.name];
             const isOptional = field.name === "college_year" && formData.school_type !== "college";
+
             if (field.type === "checkbox-grid") continue;
-            if (!isOptional && (!val || val.toString().trim() === "")) {
-                alert(`Please complete: ${field.label}`);
-                return;
+            if (!isOptional && !validateField(field, value)) {
+                errors[field.name] = true;
             }
         }
 
+        if (Object.keys(errors).length > 0) {
+            setFormErrors(errors);
+            return;
+        }
+
+        setFormErrors({});
         if (step < steps.length - 1) {
             setStep(prev => prev + 1);
         } else {
@@ -194,7 +229,7 @@ export default function Questionnaire({ userRole, onComplete }) {
                                 name={field.name}
                                 value={formData[field.name]}
                                 onChange={handleChange}
-                                className="form-select"
+                                className={`form-select ${formErrors[field.name] ? "is-invalid" : ""}`}
                             >
                                 <option value="">-- Select --</option>
                                 {field.options.map((opt, i) => (
@@ -206,7 +241,7 @@ export default function Questionnaire({ userRole, onComplete }) {
                                 name={field.name}
                                 value={formData[field.name]}
                                 onChange={handleChange}
-                                className="form-control"
+                                className={`form-control ${formErrors[field.name] ? "is-invalid" : ""}`}
                                 rows={3}
                             />
                         ) : field.type === "checkbox-grid" ? (
@@ -256,10 +291,10 @@ export default function Questionnaire({ userRole, onComplete }) {
                                     onChange={(e) =>
                                         setFormData(prev => ({
                                             ...prev,
-                                            hourly_rate: e.target.value.replace(/[^0-9]/g, "") // strip non-numbers
+                                            hourly_rate: e.target.value.replace(/[^0-9]/g, "")
                                         }))
                                     }
-                                    className="form-control"
+                                    className={`form-control ${formErrors.hourly_rate ? "is-invalid" : ""}`}
                                     placeholder="$25"
                                 />
                             </div>
@@ -269,7 +304,13 @@ export default function Questionnaire({ userRole, onComplete }) {
                                 name={field.name}
                                 value={formData[field.name]}
                                 onChange={handleChange}
-                                className="form-control"
+                                className={`form-control ${formErrors[field.name] ? "is-invalid" : ""}`}
+                                placeholder={
+                                    field.name === "city" ? "e.g. Las Vegas"
+                                        : field.name === "phone_number" || field.name === "emergency_contact_phone" ? "e.g. 7021234567"
+                                            : field.name === "email" ? "e.g. name@example.com"
+                                                : ""
+                                }
                             />
                         )}
                     </div>

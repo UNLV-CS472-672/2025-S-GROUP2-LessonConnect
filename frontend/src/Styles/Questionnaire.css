@@ -96,3 +96,8 @@
 .other-subject-input input {
     margin-top: 4px;
 }
+
+.is-invalid {
+    border-color: #dc3545 !important;
+    background-color: #fff5f5;
+}
