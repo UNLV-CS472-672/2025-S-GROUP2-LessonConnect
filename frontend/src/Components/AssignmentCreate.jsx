@@ -4,14 +4,12 @@ import '../Styles/AssignmentCreate.css';
 const AssignmentCreate = () => {
     const [view, setView] = useState('list');
     const [selectedAssignment, setSelectedAssignment] = useState(null);
-    // const [selectedQuizId, setSelectedQuizId] = useState(1); // Mock quiz ID
     const [questionType, setQuestionType] = useState('MC');
     const [choices, setChoices] = useState([{ text: '', isCorrect: false }]);
-
-    const assignments = [
+    const [assignments, setAssignments] = useState([
         { id: 1, title: 'Math Homework', type: 'HW', deadline: '2025-04-30' },
         { id: 2, title: 'Science Quiz', type: 'QZ', deadline: '2025-05-05' }
-    ];
+    ]);
 
     const questions = [
         { id: 1, type: 'MC', text: 'What is 2 + 2?', points: 1, solution: 4 },
@@ -20,6 +18,10 @@ const AssignmentCreate = () => {
 
     const handleAddChoice = () => {
         setChoices([...choices, { text: '', isCorrect: false }]);
+    };
+
+    const handleDeleteAssignment = (id) => {
+        setAssignments(assignments.filter(a => a.id !== id));
     };
 
     return (
@@ -69,7 +71,14 @@ const AssignmentCreate = () => {
                                         className="assignment-create_link"
                                         onClick={() => setView('quiz')}
                                     >
-                                        View Quiz
+                                        View
+                                    </button>
+                                    <button
+                                        className="assignment-create_link"
+                                        style={{ color: 'red' }}
+                                        onClick={() => handleDeleteAssignment(a.id)}
+                                    >
+                                        Delete
                                     </button>
                                 </td>
                             </tr>
