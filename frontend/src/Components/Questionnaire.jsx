@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "../Styles/Questionnaire.css";
 import confetti from "canvas-confetti";
+import PropTypes from "prop-types";
+
 
 export default function Questionnaire({ userRole, onComplete }) {
     const isStudent = userRole === 3;
@@ -335,3 +337,7 @@ export default function Questionnaire({ userRole, onComplete }) {
         </div>
     );
 }
+Questionnaire.propTypes = {
+    userRole: PropTypes.number.isRequired,
+    onComplete: PropTypes.func
+};
