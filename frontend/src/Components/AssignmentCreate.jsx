@@ -6,15 +6,18 @@ const AssignmentCreate = () => {
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [questionType, setQuestionType] = useState('MC');
     const [choices, setChoices] = useState([{ text: '', isCorrect: false }]);
+    const [selectedQuestion, setSelectedQuestion] = useState(null);
+    const [solutionText, setSolutionText] = useState('');
+
     const [assignments, setAssignments] = useState([
         { id: 1, title: 'Math Homework', type: 'HW', deadline: '2025-04-30' },
         { id: 2, title: 'Science Quiz', type: 'QZ', deadline: '2025-05-05' }
     ]);
 
-    const questions = [
+    const [questions, setQuestions] = useState([
         { id: 1, type: 'MC', text: 'What is 2 + 2?', points: 1, solution: 4 },
-        { id: 2, type: 'SA', text: 'Define gravity.', points: 2, solution: 'Ask Newton' },
-    ];
+        { id: 2, type: 'SA', text: 'Define gravity.', points: 2, solution: '' },
+    ]);
 
     const handleAddChoice = () => {
         setChoices([...choices, { text: '', isCorrect: false }]);
@@ -22,6 +25,19 @@ const AssignmentCreate = () => {
 
     const handleDeleteAssignment = (id) => {
         setAssignments(assignments.filter(a => a.id !== id));
+    };
+
+    const handleSaveSolution = () => {
+        setQuestions(prev =>
+            prev.map(q =>
+                q.id === selectedQuestion.id
+                    ? { ...q, solution: solutionText }
+                    : q
+            )
+        );
+        setSelectedQuestion(null);
+        setSolutionText('');
+        setView('quiz');
     };
 
     return (
@@ -117,7 +133,6 @@ const AssignmentCreate = () => {
                         <input type="datetime-local" className="assignment-create_input" />
                         <input type="file" className="assignment-create_input" />
                         <input
-                            // Make sure this input works for backend --if all fails change "text" to "number" and remove pattern
                             type="text"
                             placeholder="Student ID (optional)"
                             className="assignment-create_input"
@@ -167,7 +182,21 @@ const AssignmentCreate = () => {
                                 <td className="assignment-create_cell">{q.type}</td>
                                 <td className="assignment-create_cell">{q.points}</td>
                                 <td className="assignment-create_cell">{q.text}</td>
-                                <td className="assignment-create_cell">{q.solution}</td>
+                                <td className="assignment-create_cell">
+                                    {q.solution ? (
+                                        q.solution
+                                    ) : (
+                                        <button
+                                            className="assignment-create_link"
+                                            onClick={() => {
+                                                setSelectedQuestion(q);
+                                                setView('solution');
+                                            }}
+                                        >
+                                            Add Solution
+                                        </button>
+                                    )}
+                                </td>
                             </tr>
                         ))}
                         </tbody>
@@ -190,7 +219,6 @@ const AssignmentCreate = () => {
                         <input type="number" placeholder="Order" className="assignment-create_input" />
                         <textarea placeholder="Question Text" className="assignment-create_input" />
                         <input type="number" placeholder="Points" className="assignment-create_input" />
-
                         {questionType === 'MC' && (
                             <>
                                 <h4 style={{ marginTop: '20px' }}>Choices</h4>
@@ -230,7 +258,6 @@ const AssignmentCreate = () => {
                                 ))}
                             </>
                         )}
-
                         <div className="assignment-create_button-container">
                             <button
                                 type="button"
@@ -246,6 +273,40 @@ const AssignmentCreate = () => {
                                 className="assignment-create_button"
                                 type="button"
                                 onClick={() => setView('quiz')}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )}
+
+            {view === 'solution' && selectedQuestion && (
+                <div className="assignment-create_form">
+                    <h2 className="assignment-create_header">Add Solution</h2>
+                    <form>
+                        <textarea
+                            placeholder="Enter solution..."
+                            className="assignment-create_input"
+                            value={solutionText}
+                            onChange={(e) => setSolutionText(e.target.value)}
+                        />
+                        <div className="assignment-create_button-container">
+                            <button
+                                className="assignment-create_button"
+                                type="button"
+                                onClick={handleSaveSolution}
+                            >
+                                Save Solution
+                            </button>
+                            <button
+                                className="assignment-create_button"
+                                type="button"
+                                onClick={() => {
+                                    setSelectedQuestion(null);
+                                    setSolutionText('');
+                                    setView('quiz');
+                                }}
                             >
                                 Cancel
                             </button>
