@@ -33,6 +33,7 @@ class NotificationTestCase(TestCase):
         # create a test notification
         self.notification = Notification.objects.create(
             user=self.user,
+            sender=self.user,
             notification_title='Test Notification',
             notification_message='This is a test notification',
             notification_type='info',

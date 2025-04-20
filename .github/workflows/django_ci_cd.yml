@@ -1,5 +1,5 @@
 name: Django CI/CD
-
+# Triggers when making a pull request to main and commits to main
 on:
   push:
     branches:
@@ -31,12 +31,6 @@ jobs:
           sudo service redis-server start
           sudo service redis-server status
 
-      - name: Install Flake8 and Run Linter
-        run: |
-          pip install flake8
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
-
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
@@ -53,19 +47,16 @@ jobs:
           echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
         shell: bash
 
+      # Applying migrations
       - name: Run Migrations
         run: python manage.py migrate
 
-      - name: Run Tests with Coverage
-        run: |
-          coverage run manage.py test
-          coverage report
-          coverage html  # Generates the HTML report in 'htmlcov' directory
+      # Generate coverage XML report for Codecov
+      - name: Run tests and generate coverage XML report
+        run: pytest --cov --cov-branch --cov-report=xml
 
-      # Upload coverage HTML report as artifact
-      - name: Upload coverage HTML report
-        uses: actions/upload-artifact@v4
+      # Upload to Codecov (external visualization tool)
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
         with:
-          name: coverage-report-html
-          path: backend/htmlcov/  # Upload the entire 'htmlcov' directory
-
+            token: ${{ secrets.CODECOV_TOKEN }}

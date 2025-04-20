@@ -1,0 +1,361 @@
+/* === GENERAL LAYOUT === */
+.assignment-container {
+    display: flex;
+    background-color: #f9fafb;
+    font-family: "Segoe UI", sans-serif;
+    padding-top: 60px;
+    box-sizing: border-box;
+    min-height: 100%;
+}
+
+/* === SIDEBAR === */
+.assignment-container .sidebar {
+    width: 200px;
+    background-color: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding: 50px 2rem;
+    position: sticky;
+    top: 60px;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+}
+
+.assignment-container .sidebar h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: #888;
+}
+
+.assignment-container .sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.assignment-container .sidebar li {
+    margin: 1rem 0;
+}
+
+.assignment-container .sidebar .nav-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: #d00;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.assignment-container .sidebar .nav-link:hover {
+    color: #b00;
+}
+
+.assignment-container .sidebar .nav-link.active {
+    color: #a00;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+/* Home icon */
+.assignment-container .home-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.assignment-container .home-icon-link {
+    font-size: 2.5rem;
+    color: #a00;
+    transition: color 0.2s ease;
+}
+
+.assignment-container .home-icon-link:hover {
+    color: #d00;
+}
+
+/* === MAIN CONTENT === */
+.assignment-container .assignment-content {
+    flex-grow: 1;
+    padding: 2rem 3rem;
+    overflow-y: auto;
+}
+
+.assignment-container .assignment-content h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.assignment-container .assignment-section {
+    margin-bottom: 2rem;
+}
+
+.assignment-container .assignment-section h3 {
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+/* === ASSIGNMENT CARDS === */
+.assignment-container .assignment-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.assignment-container .assignment-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.assignment-container .assignment-card strong {
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.assignment-container .assignment-card p {
+    margin: 0.25rem 0;
+    color: #333;
+}
+
+/* === FILES TABLE === */
+.assignment-container .files-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+
+.assignment-container .files-table th,
+.assignment-container .files-table td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 0.95rem;
+}
+
+.assignment-container .files-table td .file-link {
+    color: #a00;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.assignment-container .files-table td .file-link:hover {
+    color: #d00;
+}
+
+/* === BUTTONS === */
+.assignment-container .start-btn {
+    background-color: #a00;
+    color: white;
+    padding: 0.6rem 1.4rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.assignment-container .start-btn:hover {
+    background-color: #d00;
+    transform: scale(1.01);
+}
+
+.assignment-container .back-button {
+    background: none;
+    border: 1px solid #ccc;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    margin-top: 0.5rem;
+    transition: background-color 0.15s ease;
+}
+
+.assignment-container .back-button:hover {
+    background-color: #f6f6f6;
+}
+
+.assignment-container .cancel-btn {
+    background-color: #f3f3f3;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 0.6rem 1.4rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.assignment-container .cancel-btn:hover {
+    background-color: #ddd;
+}
+
+/* === UPLOAD SECTION === */
+.assignment-container .upload-section {
+    margin-top: 2rem;
+}
+
+.assignment-container .upload-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.assignment-container .comment-box {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 0.95rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+    margin-bottom: 1rem;
+}
+
+.assignment-container .button-group {
+    display: flex;
+    gap: 1rem;
+}
+
+/* === FILE INPUT === */
+.assignment-container .file-input {
+    font-size: 0.9rem;
+    font-family: inherit;
+    margin-bottom: 1rem;
+}
+
+.assignment-container .file-input::-webkit-file-upload-button {
+    background-color: #a00;
+    color: white;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.assignment-container .file-input::-webkit-file-upload-button:hover {
+    background-color: #d00;
+}
+
+/* === DARK MODE === */
+.assignment-container.dark-mode {
+    background-color: #2c3e50;
+}
+
+.assignment-container.dark-mode .sidebar {
+    background-color: #34495e;
+    border-right: 1px solid #46627f;
+}
+
+.assignment-container.dark-mode .sidebar h3 {
+    color: #ecf0f1;
+}
+
+.assignment-container.dark-mode .sidebar .nav-link {
+    color: #f7b731;
+}
+
+.assignment-container.dark-mode .sidebar .nav-link.active {
+    color: #ffe599;
+    text-decoration: underline;
+}
+
+.assignment-container.dark-mode .assignment-content h2,
+.assignment-container.dark-mode .assignment-section h3 {
+    color: #f0f0f0;
+}
+
+.assignment-container.dark-mode .assignment-card {
+    background-color: #3c5873;
+    border: 1px solid #5a7894;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.assignment-container.dark-mode .assignment-card p,
+.assignment-container.dark-mode .assignment-card strong {
+    color: #ecf0f1;
+}
+
+.assignment-container.dark-mode .start-btn {
+    background-color: #2563eb;
+    color: #fff;
+}
+
+.assignment-container.dark-mode .start-btn:hover {
+    background-color: #1d4ed8;
+}
+
+.assignment-container.dark-mode .back-button {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #aaa;
+}
+
+.assignment-container.dark-mode .back-button:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.assignment-container.dark-mode .cancel-btn {
+    background-color: #455a64;
+    color: #f0f0f0;
+    border: 1px solid #aaa;
+}
+
+.assignment-container.dark-mode .cancel-btn:hover {
+    background-color: #546e7a;
+}
+
+.assignment-container.dark-mode .upload-label,
+.assignment-container.dark-mode .file-input {
+    color: #f0f0f0;
+    border-color: #5a7894;
+}
+
+.assignment-container.dark-mode .file-input::-webkit-file-upload-button {
+    background-color: #2563eb;
+    color: #fff;
+}
+
+.assignment-container.dark-mode .file-input::-webkit-file-upload-button:hover {
+    background-color: #1d4ed8;
+}
+
+.assignment-container.dark-mode .home-icon-link {
+    color: #f7b731;
+}
+
+.assignment-container.dark-mode .home-icon-link:hover {
+    color: #ffe599;
+}
+
+.assignment-container.dark-mode .files-table th,
+.assignment-container.dark-mode .files-table td {
+    color: #ecf0f1;
+    border-color: #5a7894;
+}
+
+.assignment-container.dark-mode .file-link {
+    color: #f7b731;
+}
+
+.assignment-container.dark-mode .file-link:hover {
+    color: #ffe599;
+}
