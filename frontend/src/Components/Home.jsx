@@ -52,10 +52,16 @@ export default function Home() {
                                 marginBottom: "60px",
                                 fontSize: "30px",
                                 fontWeight: 600
-                            }}>📚 Connect, Learn, and Grow with Your Favorite Tutor
+                            }}>
+                                Connect, Learn, and Grow with Your Favorite Tutor
                             </h2>
                             <p>
-                                LessonConnect makes learning effortless—video calls, messaging, and easy scheduling, all in one place. Connect with your tutor instantly and stay on track without the hassle..                            </p>
+                                LessonConnect brings everything you need into one place—live video calls, secure messaging, file sharing, and effortless scheduling.
+                                Whether you're preparing for a test or booking your next session, staying on track has never been easier.
+                            </p>
+                            <Link to="/roleSelect" className="btn btn-outline-dark" style={{ marginTop: "20px" }}>
+                                Join LessonConnect
+                            </Link>
                         </div>
                         <div className="col-md-6">
                             <div className="feature-icons">
@@ -75,9 +81,11 @@ export default function Home() {
                                 marginBottom: "60px",
                                 fontSize: "30px",
                                 fontWeight: 600
-                            }}>Everything You Need for Seamless Learning</h2>
+                            }}>Master Your Schedule with the LessonConnect Calendar</h2>
                             <p>
-                                From live sessions to file sharing and a built-in scheduler, LessonConnect brings all the tools you need to make tutoring seamless and interactive.                            </p>
+                                Stay on top of lessons, meetings, and practice sessions with our built-in calendar.
+                                Easily filter events, auto-schedule sessions, and track your academic progress — all in one centralized place designed to keep your learning on track.
+                            </p>
                         </div>
                         <div className="col-md-6 order-md-1">
                             <div className="feature-icons2">
