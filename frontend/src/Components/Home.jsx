@@ -58,7 +58,9 @@ export default function Home() {
                                 LessonConnect makes learning effortless—video calls, messaging, and easy scheduling, all in one place. Connect with your tutor instantly and stay on track without the hassle..                            </p>
                         </div>
                         <div className="col-md-6">
-                            <img className="middleUpper-pic" src="/assets/images/Pic1.webp" alt="some image" />
+                            <div className="feature-icons">
+                                <img className="middleUpper-pic" src="/assets/images/dashboard.png" alt="some image" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -78,7 +80,9 @@ export default function Home() {
                                 From live sessions to file sharing and a built-in scheduler, LessonConnect brings all the tools you need to make tutoring seamless and interactive.                            </p>
                         </div>
                         <div className="col-md-6 order-md-1">
-                            <img className="middleUpper-pic" src="assets/images/Pic2.avif" alt="some image" />
+                            <div className="feature-icons2">
+                                <img className="middleUpper-pic" src="/assets/images/Calendar.png" alt="some image" />
+                            </div>
                         </div>
                     </div>
                 </div>
