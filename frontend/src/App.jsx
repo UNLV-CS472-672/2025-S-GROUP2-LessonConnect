@@ -5,6 +5,7 @@ import Footer from "./Components/Footer.jsx";
 import StudentLayout from "./Components/StudentLayout.jsx";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
+
 // Components
 import Home from "./components/Home.jsx";
 import About from "./components/About.jsx";
@@ -26,28 +27,28 @@ import Calendar from "./Components/Calendar.jsx";
 import Inbox from "./Components/Inbox.jsx";
 import TutorView from "./Components/TutorView.jsx";
 import AssignmentPage from "./Components/AssignmentPage.jsx";
-
-import AssignmentCreate from "./Components/AssignmentCreate.jsx";
-
 import WhiteboardCanvas from "./Components/WhiteboardCanvas.jsx";
 import LandingPage from "./Components/LandingPage.jsx";
-
 import Settings from "./Components/Settings.jsx";
-
+import Questionnaire from "./Components/Questionnaire.jsx";
+import AssignmentCreate from "./Components/AssignmentCreate.jsx";
 
 
 function App() {
     const location = useLocation();
 
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [location]);
+
 
     return (
         <div className="App">
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp" &&
                 location.pathname !== "/StudentView" && location.pathname !== "/calendar" &&
                 location.pathname !== "/chat" && location.pathname !== "/videocall" && location.pathname !== "/tutorview") && <Header />}
+
 
             <Routes>
                 {/* Public Routes */}
@@ -65,18 +66,12 @@ function App() {
                 <Route path="/faqs" element={<FAQS />} />
                 <Route path="/findTutor" element={<FindTutor />} />
                 <Route path="/chat" element={<Chat />} />
+                <Route path="/WhiteboardCanvas" element={<WhiteboardCanvas />} />
 
-                <Route path="/videocall" element={<VideoCall />} />
-                {/* <Route path="/Calendar" element={<Calendar />} /> */}
 
-                {/* Jose needs this for this tutorView and inbox to work */}
-                <Route path="/tutorview" element={<TutorView />} />
-                <Route path="/Calendar" element={<Calendar />} />
-                <Route path="/Inbox" element={<Inbox />} />
-                <Route path="/tutorview" element={<TutorView />} />
-                <Route path="/assignment_create" element={<AssignmentCreate />} />
-
-                <Route path="/WhiteboardCanvas" element={<WhiteboardCanvas/>} />
+                {/* Profile Setup Routes */}
+                <Route path="/student-questionnaire" element={<Questionnaire userRole={3} />} />
+                <Route path="/tutor-questionnaire" element={<Questionnaire userRole={1} />} />
 
 
                 {/* Student Routes with Layout */}
@@ -94,16 +89,11 @@ function App() {
                 <Route path="/student/learn_more" element={<StudentLayout><Learn_more /></StudentLayout>} />
                 <Route path="/student/about" element={<StudentLayout><About /></StudentLayout>} />
                 <Route path="/student/assignment" element={<StudentLayout><AssignmentPage /></StudentLayout>} />
-
-                {/*<Route path="/student/assignment_create" element={<StudentLayout><AssignmentCreate /></StudentLayout>} />*/}
-                {/*<Route path="/student/settings" element={<StudentLayout><Settings /></StudentLayout>} />*/}
-                {/*<Route path="/student/lessons" element={<StudentLayout><Lessons /></StudentLayout>} />*/}
-                {/*<Route path="/student/resources" element={<StudentLayout><Resources /></StudentLayout>} />*/}
-
                 <Route path="/student/settings" element={<StudentLayout><Settings /></StudentLayout>} />
                 <Route path="/student/inbox" element={<StudentLayout><Inbox /></StudentLayout>} />
                 <Route path="/student/WhiteboardCanvas" element={<StudentLayout><WhiteboardCanvas /></StudentLayout>} />
                 <Route path="/student/LandingPage" element={<StudentLayout><LandingPage /></StudentLayout>} />
+
 
                 {/* Tutor Routes with Layout */}
                 <Route path="/tutor/view" element={<StudentLayout><TutorView /></StudentLayout>} />
@@ -124,11 +114,15 @@ function App() {
                 <Route path="/tutor/inbox" element={<StudentLayout><Inbox /></StudentLayout>} />
                 <Route path="/tutor/WhiteboardCanvas" element={<StudentLayout><WhiteboardCanvas /></StudentLayout>} />
                 <Route path="/tutor/LandingPage" element={<StudentLayout><LandingPage /></StudentLayout>} />
+                <Route path="/tutor/assignment_create" element={<StudentLayout><AssignmentCreate /></StudentLayout>} />
 
             </Routes>
+
+
             {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
         </div>
     );
 }
+
 
 export default App;
