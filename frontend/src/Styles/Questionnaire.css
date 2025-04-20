@@ -1,0 +1,103 @@
+/* === Wrapper === */
+.questionnaire-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+/* === Card Styling === */
+.questionnaire-wrapper .card.wider-card {
+    width: 700px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    padding: 40px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+/* === Headings === */
+.questionnaire-wrapper h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #0d1117;
+}
+
+/* === Inputs === */
+.questionnaire-wrapper input,
+.questionnaire-wrapper select,
+.questionnaire-wrapper textarea {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 10px 14px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.questionnaire-wrapper input:focus,
+.questionnaire-wrapper select:focus,
+.questionnaire-wrapper textarea:focus {
+    border-color: #198754;
+    background-color: #fff;
+    outline: none;
+}
+
+/* === Buttons === */
+.questionnaire-wrapper .btn {
+    min-width: 120px;
+    font-weight: 500;
+    padding: 10px 18px;
+    border-radius: 8px;
+}
+
+.questionnaire-wrapper .btn-success {
+    background-color: #198754;
+    border: none;
+    color: white;
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px 14px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
+.checkbox-grid .form-check {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.checkbox-grid .form-check-input {
+    margin: 0;
+    width: 1em;
+    height: 1em;
+}
+
+/* Other input spacing */
+.other-subject-input {
+    margin-top: 8px;
+    max-width: 400px;
+}
+
+.other-subject-input input {
+    margin-top: 4px;
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+    background-color: #fff5f5;
+}
