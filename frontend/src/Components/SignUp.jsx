@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import { useState } from "react";
 import "../Styles/SignUp.css"; // Import the CSS file
 import axios from "axios";
@@ -72,6 +72,9 @@ export default function SignUp() {
 
                 {/* Right Panel (SignUp Form) */}
             <div className="right-panel">
+                <Link to="/" className="back-home-btn">
+                    ← Back
+                </Link>
                 <div className="signup-container">
                     <h1>Create Your Account</h1>
                     <h2>We’re excited to have you on board!</h2>

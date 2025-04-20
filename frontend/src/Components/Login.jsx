@@ -57,6 +57,9 @@ export default function Login() {
 
             {/* Right Panel (Login Form) */}
             <div className="right-panel">
+                <Link to="/" className="back-home-btn">
+                    ← Back
+                </Link>
                 <div className="login-container">
                     <h1>LessonConnect</h1>
                     <h2>Welcome to LessonConnect</h2>

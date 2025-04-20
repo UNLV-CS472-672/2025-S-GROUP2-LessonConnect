@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import "../Styles/RoleSelect.css";
 
 export default function RoleSelect() {
@@ -26,6 +26,9 @@ export default function RoleSelect() {
 
             {/* Right Panel - Role Selection */}
             <div className="right-panel">
+                <Link to="/" className="back-home-btn">
+                    ← Back
+                </Link>
                 <div className="role-select-container">
                     <h1>Welcome to LessonConnect</h1>
                     <h2>Choose your role to begin</h2>
