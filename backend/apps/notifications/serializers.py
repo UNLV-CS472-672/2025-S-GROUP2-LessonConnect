@@ -15,6 +15,7 @@ class NotificationSerializer(serializers.ModelSerializer):
             'info_category',
             'sent_at',
             'scheduled_time',
-            'is_read'
+            'is_read',
+            'priority',
         ]
         read_only_fields = ['id', 'sent_at']

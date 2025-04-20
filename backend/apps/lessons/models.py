@@ -28,6 +28,8 @@ class Assignment(models.Model):  # Assignments: Represents assignments given to 
 
     deadline = models.DateTimeField(null=True, blank=True)  # deadline is optional for extra credit/optional assignments
 
+    reminder_sent = models.BooleanField(default=False)
+
     def __str__(self):
         return self.title
 
