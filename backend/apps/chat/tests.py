@@ -42,6 +42,10 @@ class ChatAPITestCase(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
+        # ensure that the receivers match
+        response_receiver_ids = {chat['user2']['id'] for chat in response.data}
+        expected_receiver_ids = {self.user2.id, self.user3.id}
+        self.assertSetEqual(response_receiver_ids, expected_receiver_ids)
 
     def test_send_message(self):
         chat, _ = Chat.objects.get_or_create_chat(self.user1, self.user2)
