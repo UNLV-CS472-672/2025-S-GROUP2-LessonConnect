@@ -3,11 +3,15 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
 from .models import Chat, Message
-from apps.chat.consumers import ChatConsumer
-
-def test_chat_consumer_init():
-    consumer = ChatConsumer()
-    assert consumer is not None
+from django.contrib.auth import get_user_model
+from .consumers import ChatConsumer
+from channels.testing import WebsocketCommunicator
+from django.conf import settings
+from backend.asgi import application
+from apps.users.models import Profile
+from rest_framework_simplejwt.tokens import RefreshToken
+import pytest
+import json
 
 class ChatAPITestCase(APITestCase):
 
@@ -81,3 +85,57 @@ class ChatAPITestCase(APITestCase):
         url = reverse('chat-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+@pytest.mark.asyncio
+@pytest.mark.django_db(transaction=True)
+class TestChatWebsockets:
+    @pytest.fixture(autouse=True)
+    def setup(self, db):
+        self.user1 = get_user_model().objects.create_user(
+            username='testuser1',
+            password='password',
+            first_name='John',
+            last_name='Doe',
+            email='testuser1@example.com'
+        )
+        self.profile1 = Profile.objects.create(user=self.user1, role=2)
+        self.token1 = self.get_jwt_token(self.user1)
+
+        self.user2 = get_user_model().objects.create_user(
+            username='testuser2',
+            password='password',
+            first_name='Jane',
+            last_name='Doe',
+            email='testuser2@example.com'
+        )
+        self.profile2 = Profile.objects.create(user=self.user2, role=2)
+        self.token2 = self.get_jwt_token(self.user2)
+
+        self.chat, _ = Chat.objects.get_or_create_chat(self.user1, self.user2)
+        self.chat.name = "room1"
+        self.chat.save()
+
+    def get_jwt_token(self, user):
+        refresh = RefreshToken.for_user(user)
+        return str(refresh.access_token)
+
+    def setup_communicator(self, room_name, token):
+        return WebsocketCommunicator(
+            application,
+            f"/ws/apps/chat/{room_name}/",
+            subprotocols=["chat", token],
+        )
+
+    async def test_websocket_connection(self):
+        communicator = self.setup_communicator("room1", self.token1)
+        connected, _ = await communicator.connect()
+        assert connected
+
+        await communicator.send_to(text_data=json.dumps({"message": "ping"}))
+        response = await communicator.receive_from()
+        data = json.loads(response)
+
+        assert data["message"] == "successful"
+        assert data["body"] == "ping"
+
+        await communicator.disconnect()
