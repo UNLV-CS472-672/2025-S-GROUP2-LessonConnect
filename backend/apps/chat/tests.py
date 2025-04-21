@@ -111,9 +111,25 @@ class TestChatWebsockets:
         self.profile2 = Profile.objects.create(user=self.user2, role=2)
         self.token2 = self.get_jwt_token(self.user2)
 
+        # Create test chat
         self.chat, _ = Chat.objects.get_or_create_chat(self.user1, self.user2)
         self.chat.name = "room1"
         self.chat.save()
+
+        # Create test messages
+        self.message1 = Message.objects.create(
+            chat=self.chat,
+            sender=self.user1,
+            content="Test message 1 for chat",
+            status=Message.NOT_SEEN
+        )
+        self.message2 = Message.objects.create(
+            chat=self.chat,
+            sender=self.user1,
+            content="Test message 2 for chat",
+            status=Message.NOT_SEEN
+        )
+
 
     def get_jwt_token(self, user):
         refresh = RefreshToken.for_user(user)
@@ -139,3 +155,34 @@ class TestChatWebsockets:
         assert data["body"] == "ping"
 
         await communicator.disconnect()
+
+        async def test_websocket_typing_status(self):
+            communicator = self.setup_communicator("room1", self.token1)
+            connected, _ = await communicator.connect()
+            assert connected
+
+            await communicator.send_to(text_data=json.dumps({"typing": True}))
+            response = await communicator.receive_from()
+            data = json.loads(response)
+
+            assert data["message"] == "successful"
+            assert data["typing"] is True
+            assert data["username"] == self.user1.username
+
+            await communicator.disconnect()
+
+        async def test_websocket_seen_status(self):
+            communicator = self.setup_communicator("room1", self.token1)
+            connected, _ = await communicator.connect()
+            assert connected
+
+            seen_ids = [message1.id, message2.id]
+            await communicator.send_to(text_data=json.dumps({"seen": seen_ids}))
+            response = await communicator.receive_from()
+            data = json.loads(response)
+
+            assert data["message"] == "seen_successful"
+            assert data["ids"] == seen_ids
+            assert data["username"] == self.user1.username
+
+            await communicator.disconnect()
