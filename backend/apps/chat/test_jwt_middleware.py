@@ -67,10 +67,10 @@ class TestJWTAuthMiddleware:
         assert response["scope"].get("error") == "Invalid token"
         assert "user_id" not in response["scope"]
 
-    async def test_jwt_auth_middleware_empty_token(self):
+    async def test_jwt_auth_middleware_missing_token(self):
         scope = {
             "type": "websocket",
-            "subprotocols": ["chat", ""], # Empty token
+            "subprotocols": ["chat"],
         }
 
         middleware = JWTAuthMiddleware(DummyASGIApp())
@@ -94,7 +94,7 @@ class TestJWTAuthMiddleware:
         await communicator.wait()
         response = await communicator.receive_output()
 
-        assert response["scope"].get("error") == "Provide at least 2 or more subprotocols"
+        assert response["scope"].get("error") == "Provide an auth token"
 
     async def test_jwt_auth_middleware_token_raises_exception(self):
         # Pass a token that will raise a decoding error

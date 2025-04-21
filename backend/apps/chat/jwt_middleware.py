@@ -15,6 +15,8 @@ class JWTAuthMiddleware(BaseMiddleware):
                 scope['user_id'] = user_id
             else:
                 scope['error'] = 'Invalid token'
+        else:
+            scope['error'] = 'Provide an auth token'
 
         return await super().__call__(scope, receive, send)
 
@@ -24,15 +26,9 @@ class JWTAuthMiddleware(BaseMiddleware):
 
         subprotocols = scope.get("subprotocols", [])
         if len(subprotocols) > 1:
-            if subprotocols[1] == "":
-                scope['error'] = 'Provide an auth token'
-                return None
-            else:
-                # Assuming the token is the second protocol (after the real protocol)
-                return subprotocols[1]  # The access token is the second subprotocol
-        else:
-            scope['error'] = 'Provide at least 2 or more subprotocols'
-            return None
+            # Assuming the token is the second protocol (after the real protocol)
+            return subprotocols[1]  # The access token is the second subprotocol
+        return None
 
     @database_sync_to_async
     def get_user_from_token(self, token):
