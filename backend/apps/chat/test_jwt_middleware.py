@@ -82,3 +82,32 @@ class TestJWTAuthMiddleware:
         assert response["scope"].get("error") == "Provide an auth token"
         assert "user_id" not in response["scope"]
 
+    async def test_jwt_auth_middleware_single_subprotocol(self):
+        scope = {
+            "type": "websocket",
+            "subprotocols": ["chat"],  # Only 1 subprotocol, should trigger missing token
+        }
+
+        middleware = JWTAuthMiddleware(DummyASGIApp())
+        communicator = ApplicationCommunicator(middleware, scope)
+        await communicator.send_input({'type': 'websocket.connect'})
+        await communicator.wait()
+        response = await communicator.receive_output()
+
+        assert response["scope"].get("error") == "Provide an auth token"
+
+    async def test_jwt_auth_middleware_token_raises_exception(self):
+        # Pass a token that will raise a decoding error
+        broken_token = "a.b.c"  # This will raise a DecodeError
+        scope = {
+            "type": "websocket",
+            "subprotocols": ["chat", broken_token],
+        }
+
+        middleware = JWTAuthMiddleware(DummyASGIApp())
+        communicator = ApplicationCommunicator(middleware, scope)
+        await communicator.send_input({'type': 'websocket.connect'})
+        await communicator.wait()
+        response = await communicator.receive_output()
+
+        assert response["scope"].get("error") == "Invalid token"
