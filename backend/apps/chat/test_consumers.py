@@ -7,6 +7,7 @@ from django.conf import settings
 from backend.asgi import application
 from apps.users.models import Profile
 from rest_framework_simplejwt.tokens import RefreshToken
+import asyncio
 import pytest
 import json
 
@@ -70,6 +71,8 @@ class TestChatWebsockets:
         connected, _ = await communicator.connect()
         assert connected
 
+        await asyncio.sleep(0.1)
+
         await communicator.send_to(text_data=json.dumps({"message": "ping"}))
         response = await communicator.receive_from()
         data = json.loads(response)
@@ -79,10 +82,36 @@ class TestChatWebsockets:
 
         await communicator.disconnect()
 
+    async def test_websocket_error_when_room_missing(self):
+        # Pick a room name you never created in your fixtures or setup
+        missing_room = "i_dont_exist"
+
+        # Set up communicator exactly the same way
+        communicator = self.setup_communicator(missing_room, self.token1)
+        connected, _ = await communicator.connect()
+        assert connected
+
+        # Give the consumer a split-second to finish any setup
+        await asyncio.sleep(0.1)
+
+        # Send a normal chat payload
+        await communicator.send_to(text_data=json.dumps({"message": "hello"}))
+
+        # The consumer should catch Chat.DoesNotExist and send back an 'error' field
+        response = await communicator.receive_from()
+        data = json.loads(response)
+
+        assert "error" in data, "Expected an 'error' key when room is missing"
+        assert data["error"] == f"Chat room '{missing_room}' not found. Message not saved."
+
+        await communicator.disconnect()
+
     async def test_websocket_typing_status(self):
         communicator = self.setup_communicator("room1", self.token1)
         connected, _ = await communicator.connect()
         assert connected
+
+        await asyncio.sleep(0.1)
 
         await communicator.send_to(text_data=json.dumps({"typing": True}))
         response = await communicator.receive_from()
@@ -98,6 +127,8 @@ class TestChatWebsockets:
         communicator = self.setup_communicator("room1", self.token2) # User who sees the text
         connected, _ = await communicator.connect()
         assert connected
+
+        await asyncio.sleep(0.1)
 
         seen_ids = [self.message1.id, self.message2.id]
         await communicator.send_to(text_data=json.dumps({"seen": seen_ids}))
