@@ -8,6 +8,7 @@ class Chat(models.Model):
   user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name="chats_received")
   createdAt = models.DateTimeField(auto_now_add=True)
   updatedAt = models.DateTimeField(auto_now=True)
+  name = models.CharField(max_length=100, default="Unknown")
 
   objects = ChatManager()
 
