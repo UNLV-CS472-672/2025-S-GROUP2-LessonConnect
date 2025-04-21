@@ -1,6 +1,6 @@
 /* DateOfBirth.css */
 
-/* Scope all rules to .dob-page */
+/* ====== Page Wrapper ====== */
 .dob-page {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
@@ -50,7 +50,7 @@
     color: #555;
 }
 
-/* ====== Right Panel (DOB Form) ====== */
+/* ====== Right Panel (Shared Container Styles) ====== */
 .dob-page .right-panel {
     flex: 1;
     background-color: #fff;
@@ -60,6 +60,7 @@
     padding: 40px;
 }
 
+/* ====== DOB Form Styles (unused in current role version but kept for reuse) ====== */
 .dob-page .dob-container {
     width: 100%;
     max-width: 350px;
@@ -79,7 +80,6 @@
     margin-bottom: 20px;
 }
 
-/* ====== Form Styles ====== */
 .dob-page .dob-form {
     display: flex;
     flex-direction: column;
@@ -94,6 +94,7 @@
     font-size: 16px;
 }
 
+/* ====== Default Button (fallback) ====== */
 .dob-page .btn {
     background-color: #000;
     color: #fff;
@@ -109,6 +110,57 @@
 .dob-page .btn:hover {
     background-color: #555;
 }
+
+/* ====== Role Selection Enhanced Styling ====== */
+.dob-page .role-select-container {
+    text-align: center;
+    max-width: 350px;
+    width: 100%;
+}
+
+.dob-page .role-select-container h1 {
+    font-size: 40px;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.dob-page .role-select-container h2 {
+    font-size: 17px;
+    font-weight: 400;
+    color: #777;
+    margin-bottom: 40px;
+    margin-top: 30px;
+}
+
+.dob-page .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* increased gap */
+    align-items: center;
+}
+
+.dob-page .button-group .btn {
+    background: linear-gradient(to right, #111, #333);
+    color: white;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 280px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+}
+
+.dob-page .button-group .btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(to right, #222, #444);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
 
 /* ====== Responsive Design ====== */
 @media (max-width: 768px) {
