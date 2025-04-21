@@ -12,7 +12,6 @@ import About from "./components/About.jsx";
 import Learn_more from "./components/Learn_more.jsx";
 import Login from "./Components/Login.jsx";
 import SignUp from "./Components/SignUp.jsx";
-import DateOfBirth from "./Components/DateOfBirth.jsx";
 import Contact from "./Components/Contact.jsx";
 import FAQS from "./Components/FAQS.jsx";
 import Services from "./Components/Services.jsx";
@@ -32,6 +31,7 @@ import LandingPage from "./Components/LandingPage.jsx";
 import Settings from "./Components/Settings.jsx";
 import Questionnaire from "./Components/Questionnaire.jsx";
 import AssignmentCreate from "./Components/AssignmentCreate.jsx";
+import RoleSelect from "./Components/RoleSelect.jsx";
 
 
 function App() {
@@ -45,7 +45,7 @@ function App() {
 
     return (
         <div className="App">
-            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp" &&
+            {(location.pathname !== "/login" && location.pathname !== "/roleSelect" && location.pathname !== "/SignUp" &&
                 location.pathname !== "/StudentView" && location.pathname !== "/calendar" &&
                 location.pathname !== "/chat" && location.pathname !== "/videocall" && location.pathname !== "/tutorview") && <Header />}
 
@@ -59,7 +59,7 @@ function App() {
                 <Route path="/booking" element={<Booking />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/SignUp" element={<SignUp />} />
-                <Route path="/dateofbirth" element={<DateOfBirth />} />
+                <Route path="/roleSelect" element={<RoleSelect />} />
                 <Route path="/services" element={<Services />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/support" element={<Support />} />
@@ -119,7 +119,7 @@ function App() {
             </Routes>
 
 
-            {(location.pathname !== "/login" && location.pathname !== "/dateofbirth" && location.pathname !== "/SignUp") && <Footer />}
+            {(location.pathname !== "/login" && location.pathname !== "/roleSelect" && location.pathname !== "/SignUp") && <Footer />}
         </div>
     );
 }

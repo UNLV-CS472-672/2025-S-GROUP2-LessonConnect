@@ -2,6 +2,7 @@ from celery import shared_task
 from django.utils import timezone
 from .models import Notification
 
+# TODO: this is where I'll create the celery tasks for the session and assignment reminders (6th PR)
 
 @shared_task
 def process_scheduled_notifications():
