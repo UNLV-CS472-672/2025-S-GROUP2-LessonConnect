@@ -62,6 +62,9 @@ class SubmissionsTestCase(TestCase):
         response = self.client.post(url, {'username': 'student1', 'password': 'password'}, format='json')
         self.token = response.data['access'] 
 
+    def test_true(self):
+        """Sanity check that test framework works"""
+        self.assertTrue(True)
 
     ### Testing Models ###
     # Testing class creation
