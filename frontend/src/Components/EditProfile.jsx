@@ -15,7 +15,6 @@ const EditProfile = () => {
   
   // Get profile data from localStorage or use defaults
   const [userData, setUserData] = useState(() => getProfileData());
-  const [profileImageFile, setProfileImageFile] = useState(null);
   const [profileImagePreview, setProfileImagePreview] = useState(userData.profileImage || userIcon);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -24,7 +23,6 @@ const EditProfile = () => {
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setProfileImageFile(file);
       
       // Create preview
       const reader = new FileReader();
