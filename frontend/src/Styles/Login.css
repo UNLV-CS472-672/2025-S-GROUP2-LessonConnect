@@ -220,3 +220,22 @@
         width: 220px;
     }
 }
+
+.back-home-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s ease;
+}
+
+.back-home-btn:hover {
+    background-color: #222; /* Slightly lighter on hover */
+}

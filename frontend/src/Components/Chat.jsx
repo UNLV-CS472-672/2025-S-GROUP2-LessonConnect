@@ -4,6 +4,7 @@ import "../Styles/Chat.css";
 
 
 // TODO: Integrate axios and backend API calls when available
+// https://medium.com/@rojin.dumre98/implementing-websockets-in-django-react-d114deac0abe
 
 export default function Chat() {
     // ------------------- STATE --------------------
@@ -13,26 +14,7 @@ export default function Chat() {
     //     setInputText(prev => prev + emojiData.emoji);
     // }
 
-    const [messages, setMessages] = useState([
-        {
-            text: "Hey, can we discuss the project details?",
-            type: "received",
-            time: "11:01 AM",
-            read: true,
-        },
-        {
-            text: "Hi John, sure thing! Let me know what you need.",
-            type: "sent",
-            time: "11:02 AM",
-            read: true,
-        },
-        {
-            text: "I was wondering if we could add interactive elements to the presentation?",
-            type: "received",
-            time: "11:05 AM",
-            read: false,
-        },
-    ]);
+    const [messages, setMessages] = useState([]);
 
     const [inputText, setInputText] = useState("");
 
@@ -40,6 +22,7 @@ export default function Chat() {
         {
             id: 1,
             name: "John Smith",
+            roomName: "John-Smith",
             lastMessage: "Hey, can we discuss the project?",
             time: "11:01 AM",
             unreadCount: 2,
@@ -53,6 +36,7 @@ export default function Chat() {
         {
             id: 2,
             name: "Jane Doe",
+            roomName: "Jane-Doe",
             lastMessage: "Great job on the report!",
             time: "10:45 AM",
             unreadCount: 0,
@@ -66,6 +50,7 @@ export default function Chat() {
         {
             id: 3,
             name: "Bob Williams",
+            roomName: "Bob-Williams",
             lastMessage: "Let's catch up later.",
             time: "9:30 AM",
             unreadCount: 1,
@@ -91,14 +76,88 @@ export default function Chat() {
     // For auto-scrolling to bottom of the chat
     const chatBodyRef = useRef(null);
 
+    // ------------ WEBSOCKET RELATED VARIABLES START------------------
+
+    // Create a websocket
+    const socket = useRef(null);
+
+    // Dynamically set the chat room when user clicks a chat
+    const [roomName, setRoomName] = useState(null);
+    // Used to refetch or re-render messages
+    const accessToken = localStorage.getItem("accessToken");
+    const username = localStorage.getItem("username");
+
+    // ------------ WEBSOCKET RELATED VARIABLES END------------------
+
+
+    // ------------ WEBSOCKET EFFECTS START------------------
+    // Handle opening the WebSocket connection when roomName changes
+    useEffect(() => {
+        if (roomName && !socket.current) {
+            socket.current = new WebSocket(`ws://127.0.0.1:8000/ws/apps/chat/${roomName}/`, ["chat", accessToken]);
+
+            // Ensure socket is initialized before setting event handlers
+            socket.current.onopen = () => {
+                console.log("WebSocket connected to room:", socket.current);
+            };
+
+            socket.current.onerror = (event) => {
+                console.log("WebSocket error", event);
+            };
+            // Handle incoming messages
+            socket.current.onmessage = (event) => {
+                console.log("Socket message received: ", event.data);
+                const eventData = JSON.parse(event.data);
+                if(eventData.message === "successful"){
+                    messageDisplay(eventData)
+                }
+
+            };
+            socket.current.onclose = (event) => {
+                console.log("WebSocket closed", event);
+            };
+        }
+        // Cleanup function to close the socket when the component unmounts or roomName changes
+        return () => {
+            if (socket.current) {
+                socket.current.onmessage = null;
+                socket.current.close(); // Close the WebSocket connection on cleanup
+                socket.current = null; // Reset the socket reference
+            }
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [roomName, accessToken]);
+
+    // ------------ WEBSOCKET EFFECTS END------------------
+
     // ------------------- EFFECTS --------------------
     useEffect(() => {
         if (chatBodyRef.current) {
             chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
         }
     }, [messages]);
-
     // ------------------- HELPERS --------------------
+
+    function messageDisplay(eventData){
+        let newMessage = {};
+        if (eventData.username === username) {
+            newMessage = {
+                text: eventData.body,
+                type: "sent",
+                time: getCurrentTime(),
+                read: false
+            }
+        }
+        else{
+            newMessage = {
+                text: eventData.body,
+                type: "received",
+                time: getCurrentTime(),
+                read: false
+            }
+        }
+        setMessages((prev) => [...prev, newMessage]);
+    }
     // Format current time as "hh:mm AM/PM"
     function getCurrentTime() {
         return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -109,52 +168,21 @@ export default function Chat() {
         const text = inputText.trim();
         if (text === "") return;
 
-        const newMessage = {
-            text,
-            type: "sent",
-            time: getCurrentTime(),
-            read: false, // We'll mark it as read once we simulate the reply
+        // Prepare message data for sending
+        const messageData = {
+            message: text
         };
-        setMessages((prev) => [...prev, newMessage]);
+
+        // Clear the input after sending the message
         setInputText("");
 
-        simulateReply();
-    }
-
-    // Simulate receiving a reply with a "typing" indicator (UC6 "read receipts" can be updated here)
-    function simulateReply() {
-        // TODO: Replace with axios call to backend when API is available
-        const typingMessage = {
-            text: "...",
-            type: "received",
-            time: "",
-            isTyping: true,
-            read: false,
-        };
-        setMessages((prev) => [...prev, typingMessage]);
-
-        setTimeout(() => {
-            setMessages((prev) => {
-                // Remove the typing message
-                const withoutTyping = prev.filter((msg) => !msg.isTyping);
-
-                // Mark all sent messages as read
-                const updated = withoutTyping.map((m) =>
-                    m.type === "sent" ? { ...m, read: true } : m
-                );
-
-                // Add the actual reply
-                return [
-                    ...updated,
-                    {
-                        text: "This is a simulated reply.",
-                        type: "received",
-                        time: getCurrentTime(),
-                        read: false,
-                    },
-                ];
-            });
-        }, 1000);
+        // Send the message via WebSocket if the connection is open
+        if (socket.current && socket.current.readyState === WebSocket.OPEN) {
+            socket.current.send(JSON.stringify(messageData));
+        } else {
+            console.warn("WebSocket not open.");
+        }
+        // simulateReply();
     }
 
     // Press "Enter" to send
@@ -177,17 +205,10 @@ export default function Chat() {
 
     // Select a chat from the list (UC4)
     function handleSelectChat(chat) {
+        setRoomName(chat.roomName)
         setSelectedChat(chat);
 
         // TODO: Load messages for the selected chat from backend when available
-        setMessages([
-            {
-                text: `Hi, this is ${chat.name}'s conversation. Feel free to start chatting!`,
-                type: "received",
-                time: getCurrentTime(),
-                read: false,
-            },
-        ]);
     }
 
     // Filter chat list by search term
@@ -271,34 +292,58 @@ export default function Chat() {
                             </button>
                         </div>
                     </div>
-
                     {/* Chat Body */}
                     <div className="chat-body" ref={chatBodyRef}>
                         {messages.map((msg, index) => (
                             <div
                                 key={index}
-                                className={`message ${msg.type} ${msg.isTyping ? "typing" : ""}`}
+                                className={`message ${msg.type}`}
                             >
-                                {/* For "received" messages, show an avatar if not typing */}
-                                {msg.type === "received" && !msg.isTyping && (
+                                {/* For "received" messages, show an avatar */}
+                                {msg.type === "received" && (
                                     <img src={selectedChat.avatar} alt="Avatar" className="avatar" />
                                 )}
                                 <div className="message-content">
                                     <p>{msg.text}</p>
-                                    {/* Show time if not typing */}
-                                    {!msg.isTyping && (
-                                        <span className="time">
-                      {msg.time}
-                                            {/* If it's a sent message, show a small read receipt check (UC6) */}
-                                            {msg.type === "sent" && msg.read && (
-                                                <i className="fas fa-check read-receipt" title="Message read"></i>
-                                            )}
-                    </span>
-                                    )}
+                                    <span className="time">
+                    {msg.time}
+                                        {/* If it's a sent message, show a small read receipt check (UC6) */}
+                                        {msg.type === "sent" && msg.read && (
+                                            <i className="fas fa-check read-receipt" title="Message read"></i>
+                                        )}
+                </span>
                                 </div>
                             </div>
                         ))}
                     </div>
+
+                    {/*/!* Chat Body *!/*/}
+                    {/*<div className="chat-body" ref={chatBodyRef}>*/}
+                    {/*    {messages.map((msg, index) => (*/}
+                    {/*        <div*/}
+                    {/*            key={index}*/}
+                    {/*            className={`message ${msg.type} ${msg.isTyping ? "typing" : ""}`}*/}
+                    {/*        >*/}
+                    {/*            /!* For "received" messages, show an avatar if not typing *!/*/}
+                    {/*            {msg.type === "received" && !msg.isTyping && (*/}
+                    {/*                <img src={selectedChat.avatar} alt="Avatar" className="avatar" />*/}
+                    {/*            )}*/}
+                    {/*            <div className="message-content">*/}
+                    {/*                <p>{msg.text}</p>*/}
+                    {/*                /!* Show time if not typing *!/*/}
+                    {/*                {!msg.isTyping && (*/}
+                    {/*                    <span className="time">*/}
+                    {/*  {msg.time}*/}
+                    {/*                        /!* If it's a sent message, show a small read receipt check (UC6) *!/*/}
+                    {/*                        {msg.type === "sent" && msg.read && (*/}
+                    {/*                            <i className="fas fa-check read-receipt" title="Message read"></i>*/}
+                    {/*                        )}*/}
+                    {/*</span>*/}
+                    {/*                )}*/}
+                    {/*            </div>*/}
+                    {/*        </div>*/}
+                    {/*    ))}*/}
+                    {/*</div>*/}
 
                     {/* Chat Input (UC5: Send Message) */}
                     {/* Chat Input Area with Fake Attach & Emoji Buttons */}
