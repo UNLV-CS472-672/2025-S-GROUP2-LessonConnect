@@ -1,11 +1,11 @@
 /* Edit Profile Page Styles */
-.edit-profile-container {
+.edit-profile-page .edit-profile-container {
   background-color: #f8f9fa;
   min-height: 100vh;
   padding: 40px 20px;
 }
 
-.edit-profile-card {
+.edit-profile-page .edit-profile-card {
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -15,7 +15,7 @@
 }
 
 /* Success Message */
-.save-success-message {
+.edit-profile-page .save-success-message {
   background-color: #dff2e1;
   color: #4caf50;
   padding: 12px 20px;
@@ -36,23 +36,23 @@
   }
 }
 
-.edit-profile-header {
+.edit-profile-page .edit-profile-header {
   background-color: #d9534f;
   color: white;
-  padding: 20px 30px;
+  padding: 50px 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.edit-profile-header h2 {
+.edit-profile-page .edit-profile-header h2 {
   margin: 0;
   font-size: 1.8rem;
   font-weight: 600;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-.edit-profile-back-btn {
+.edit-profile-page .edit-profile-back-btn {
   color: #ffffff;
   background: rgba(255, 255, 255, 0.2);
   border: none;
@@ -65,33 +65,33 @@
   transition: all 0.3s;
 }
 
-.edit-profile-back-btn span {
+.edit-profile-page .edit-profile-back-btn span {
   margin-left: 5px;
 }
 
-.edit-profile-back-btn:hover {
+.edit-profile-page .edit-profile-back-btn:hover {
   background: rgba(255, 255, 255, 0.3);
   text-decoration: none;
 }
 
-.edit-profile-content {
+.edit-profile-page .edit-profile-content {
   padding: 30px;
 }
 
-.profile-image-section {
+.edit-profile-page .profile-image-section {
   display: flex;
   align-items: center;
   margin-bottom: 30px;
 }
 
-.profile-image-container {
+.edit-profile-page .profile-image-container {
   position: relative;
   width: 120px;
   height: 120px;
   margin-right: 30px;
 }
 
-.profile-image {
+.edit-profile-page .profile-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -99,7 +99,7 @@
   border: 3px solid #d9534f;
 }
 
-.profile-image-upload {
+.edit-profile-page .profile-image-upload {
   position: absolute;
   bottom: 5px;
   right: 0;
@@ -116,21 +116,21 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.profile-image-upload:hover {
+.edit-profile-page .profile-image-upload:hover {
   background: #c9302c;
 }
 
-.profile-image-instructions {
+.edit-profile-page .profile-image-instructions {
   font-size: 0.9rem;
   color: #666666;
   max-width: 300px;
 }
 
-.form-section {
+.edit-profile-page .form-section {
   margin-bottom: 25px;
 }
 
-.form-section h3 {
+.edit-profile-page .form-section h3 {
   margin: 0 0 15px 0;
   font-size: 1.3rem;
   font-weight: 600;
@@ -139,28 +139,28 @@
   border-bottom: 1px solid #eeeeee;
 }
 
-.form-row {
+.edit-profile-page .form-row {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 20px;
   gap: 20px;
 }
 
-.form-group {
+.edit-profile-page .form-group {
   flex: 1;
   min-width: 250px;
 }
 
-.form-group label {
+.edit-profile-page .form-group label {
   display: block;
   margin-bottom: 5px;
   font-weight: 500;
   color: #333333;
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
+.edit-profile-page .form-group input,
+.edit-profile-page .form-group textarea,
+.edit-profile-page .form-group select {
   width: 100%;
   padding: 10px 12px;
   border-radius: 4px;
@@ -169,33 +169,33 @@
   transition: all 0.3s;
 }
 
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
+.edit-profile-page .form-group input:focus,
+.edit-profile-page .form-group textarea:focus,
+.edit-profile-page .form-group select:focus {
   outline: none;
   border-color: #d9534f;
   box-shadow: 0 0 0 3px rgba(217, 83, 79, 0.2);
 }
 
-.form-group textarea {
+.edit-profile-page .form-group textarea {
   min-height: 100px;
   resize: vertical;
 }
 
-.form-group .input-hint {
+.edit-profile-page .form-group .input-hint {
   font-size: 0.8rem;
   color: #888888;
   margin-top: 5px;
 }
 
-.button-group {
+.edit-profile-page .button-group {
   display: flex;
   justify-content: flex-end;
   gap: 15px;
   margin-top: 30px;
 }
 
-.btn-cancel {
+.edit-profile-page .btn-cancel {
   background-color: #f8f9fa;
   color: #666666;
   border: none;
@@ -206,12 +206,12 @@
   transition: all 0.3s;
 }
 
-.btn-cancel:hover {
+.edit-profile-page .btn-cancel:hover {
   background-color: #e2e6ea;
   color: #333333;
 }
 
-.btn-save {
+.edit-profile-page .btn-save {
   background-color: #d9534f;
   color: white;
   border: none;
@@ -222,23 +222,23 @@
   transition: all 0.3s;
 }
 
-.btn-save:hover {
+.edit-profile-page .btn-save:hover {
   background-color: #c9302c;
 }
 
-.form-divider {
+.edit-profile-page .form-divider {
   height: 1px;
   background-color: #eeeeee;
   margin: 25px 0;
 }
 
-.privacy-settings {
+.edit-profile-page .privacy-settings {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
 }
 
-.privacy-option {
+.edit-profile-page .privacy-option {
   flex: 1;
   min-width: 180px;
   background-color: #f8f9fa;
@@ -247,48 +247,48 @@
   transition: all 0.3s;
 }
 
-.privacy-option:hover {
+.edit-profile-page .privacy-option:hover {
   background-color: #e2e6ea;
 }
 
-.privacy-option-header {
+.edit-profile-page .privacy-option-header {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
 
-.privacy-option-icon {
+.edit-profile-page .privacy-option-icon {
   margin-right: 10px;
   font-size: 20px;
   color: #d9534f;
 }
 
-.privacy-option-title {
+.edit-profile-page .privacy-option-title {
   font-weight: 600;
   margin: 0;
   color: #333333;
 }
 
-.privacy-option-description {
+.edit-profile-page .privacy-option-description {
   font-size: 0.85rem;
   color: #666666;
   margin-bottom: 10px;
 }
 
-.toggle-switch {
+.edit-profile-page .toggle-switch {
   position: relative;
   display: inline-block;
   width: 44px;
   height: 24px;
 }
 
-.toggle-switch input {
+.edit-profile-page .toggle-switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-.toggle-slider {
+.edit-profile-page .toggle-slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -300,7 +300,7 @@
   border-radius: 24px;
 }
 
-.toggle-slider:before {
+.edit-profile-page .toggle-slider:before {
   position: absolute;
   content: "";
   height: 18px;
@@ -312,39 +312,40 @@
   border-radius: 50%;
 }
 
-input:checked + .toggle-slider {
+.edit-profile-page input:checked + .toggle-slider {
   background-color: #d9534f;
 }
 
-input:checked + .toggle-slider:before {
+.edit-profile-page input:checked + .toggle-slider:before {
   transform: translateX(20px);
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-  .edit-profile-header {
+  .edit-profile-page .edit-profile-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 15px;
   }
   
-  .profile-image-section {
+  .edit-profile-page .profile-image-section {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
   
-  .profile-image-container {
+  .edit-profile-page .profile-image-container {
     margin-right: 0;
     margin-bottom: 15px;
   }
   
-  .button-group {
+  .edit-profile-page .button-group {
     flex-direction: column;
     width: 100%;
   }
   
-  .btn-cancel, .btn-save {
+  .edit-profile-page .btn-cancel,
+  .edit-profile-page .btn-save {
     width: 100%;
   }
 }

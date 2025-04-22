@@ -97,6 +97,7 @@ const EditProfile = () => {
   };
 
   return (
+    <div className="edit-profile-page">
     <div className="edit-profile-container">
       <div className="edit-profile-card">
         <div className="edit-profile-header">
@@ -341,6 +342,7 @@ const EditProfile = () => {
           </div>
         </form>
       </div>
+    </div>
     </div>
   );
 };
