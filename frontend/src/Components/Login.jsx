@@ -1,19 +1,9 @@
 import "../Styles/Login.css";
-// import {useLocation} from "react-router-dom";
-import {useState} from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
-// export default function Login() {
-//     const handleSubmit = (e) => {
-//         e.preventDefault();
-//         // Add your login logic here
-//         console.log("Login form submitted");
-//     };
-
-export default function SignUp() {
-    // const location = useLocation();
-    // this will help later for the back end
-
+export default function Login() {
     const [formData, setFormData] = useState({
         username: "",
         password: "",
@@ -35,15 +25,11 @@ export default function SignUp() {
         try {
             const response = await axios.post("http://127.0.0.1:8000/users/login/", formData);
 
-
-            // Do this for login
-            // Store only the access and refresh tokens
             localStorage.setItem("accessToken", response.data.accessToken);
             localStorage.setItem("refreshToken", response.data.refreshToken);
             localStorage.setItem("username", response.data.username);
 
             alert("Login successful!");
-
         } catch (error) {
             alert("Login failed! " + (error.response?.data?.message || error.message));
         }
@@ -71,6 +57,9 @@ export default function SignUp() {
 
             {/* Right Panel (Login Form) */}
             <div className="right-panel">
+                <Link to="/" className="back-home-btn">
+                    ← Back
+                </Link>
                 <div className="login-container">
                     <h1>LessonConnect</h1>
                     <h2>Welcome to LessonConnect</h2>
@@ -97,7 +86,7 @@ export default function SignUp() {
                         />
 
                         <div style={{ textAlign: "right", marginBottom: "10px" }}>
-                            {/*<a href="/forgot-password">Forgot password?</a>*/}
+                            {/* <a href="/forgot-password">Forgot password?</a> */}
                         </div>
 
                         <button type="submit" className="btn">
@@ -106,14 +95,14 @@ export default function SignUp() {
                     </form>
 
                     <p className="small-text">
-                        <a href="/dateofbirth">New to LessonConnect?</a>
+                        <Link to="/roleSelect">New to LessonConnect?</Link>
                     </p>
 
                     <div className="divider">OR</div>
 
                     <div className="social-login">
                         <button type="button">
-                            <img src="assets/images/google.png" alt="Google" />
+                            <img src="/assets/images/google.png" alt="Google" />
                             Sign in with Google
                         </button>
                     </div>

@@ -141,3 +141,21 @@
         width: 200px;
     }
 }
+
+.signup-page .password-field {
+    position: relative;
+}
+
+.signup-page .password-field input {
+    width: 100%;
+    padding-right: 40px; /* Space for the toggle icon */
+}
+
+.signup-page .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1.2em;
+}

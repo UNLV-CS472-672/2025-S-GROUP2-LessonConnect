@@ -1,0 +1,24 @@
+[run]
+source =
+    apps/users
+    apps/lessons
+    apps/submissions
+    apps/uploads
+    apps/chat
+    apps/notifications
+    apps/pomodoro
+    apps/bookings
+    apps/planner
+    apps/search
+
+omit =
+    */migrations/*
+    */__init__.py
+    */settings.py
+    */wsgi.py
+    */asgi.py
+    */manage.py
+
+[report]
+show_missing = True
+skip_covered = True
