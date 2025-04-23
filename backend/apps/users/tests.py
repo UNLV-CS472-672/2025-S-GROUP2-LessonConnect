@@ -14,7 +14,7 @@ class UserRegistrationTests(APITestCase):
         url = "/users/register/"  # make sure you have this in urls.py
         data = {
             "country": "US",
-            "displayName": "studentuser",
+            "username": "studentuser",
             "email": "student@example.com",
             "firstName": "Student",
             "lastName": "User",
@@ -36,7 +36,7 @@ class UserRegistrationTests(APITestCase):
         url = "/users/register/"
         data = {
             "country": "US",
-            "displayName": "tutoruser",
+            "username": "tutoruser",
             "email": "tutor@example.com",
             "firstName": "Tutor",
             "lastName": "User",
@@ -56,7 +56,7 @@ class UserRegistrationTests(APITestCase):
         url = "/users/register/"
         data = {
             "country": "US",
-            "displayName": "parentuser2",
+            "username": "parentuser2",
             "email": "parent2@example.com",
             "firstName": "Parent",
             "lastName": "User",

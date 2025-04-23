@@ -8,6 +8,7 @@ from .models import Profile
 from apps.users.models import Profile, TutorProfile, ParentProfile, StudentProfile
 from apps.uploads.models import UploadRecord, ProfilePicture
 from rest_framework import status
+from apps.search.models import Subject
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -63,13 +64,15 @@ def logout_view(request):
 @permission_classes([AllowAny])
 def register_profile(request):
   country = request.data["country"]
-  username = request.data["displayName"]
+  username = request.data["username"]
   email = request.data["email"]
   first_name = request.data["firstName"]
   last_name = request.data["lastName"]
   password = request.data["password"]
-  role = request.data["role"]  # Get the selected role
-  # role = Profile.STUDENT
+  role = request.data.get("role")  # Get the selected role
+  if not role:
+      role = Profile.TUTOR
+
   # Create user
   user = User.objects.create_user(
     username=username,
@@ -80,8 +83,6 @@ def register_profile(request):
   )
   # Create associated Profile
   profile = Profile.objects.create(user, role)
-  
-
   image=request.data.get("image") #For now, get an optional image
 
   # Store optional profile picture
@@ -96,23 +97,34 @@ def register_profile(request):
 
   # Create Tutor Profile if role is Tutor
   if int(profile.role) == Profile.TUTOR:
-      city=request.data["city"]
-      state=request.data["state"]
-      bio=request.data["bio"]
-      hourly_rate=request.data["hourly_rate"]
+      city=request.data.get("city") or "Unknown"
+      state=request.data.get("state") or "NA"
+      bio=request.data.get("bio")
+      if not bio:
+        bio = ""
+      hourly_rate=request.data.get("hourly_rate") or 0.00
       tutor = TutorProfile.objects.create(profile=profile, city=city, state=state, bio=bio, hourly_rate=hourly_rate)
   # otherwise, check if parent
   elif int(profile.role) == Profile.PARENT:
       parent = ParentProfile.objects.create(profile=profile)
   # otherwise, student
   else:
-      parent_profile = request.data["parent_profile"]
-      grade_level = request.data["grade_level"]
-      preferred_subjects = request.data["preferred_subjects"]
-      emergency_contact_name = request.data["emergency_contact_name"]
-      emergency_contact_phone_number = request.data["emergency_contact_phone_number"]
-      parent_profile_id = request.data["parent_profile"]
-      parent_profile_instance = ParentProfile.objects.get(id=parent_profile_id)
+      parent_profile = request.data.get("parent_profile")
+      grade_level = request.data.get("grade_level")
+      preferred_subjects = request.data.get("preferred_subjects")
+      grade_level = request.data.get("grade_level")
+      if not grade_level:
+          grade_level = 1  # same as the model default
+
+      emergency_contact_name = request.data.get("emergency_contact_name") or "Unknown"
+      emergency_contact_phone_number = request.data.get("emergency_contact_phone_number") or "1234567890"
+      parent_profile_id = request.data.get("parent_profile")
+      if parent_profile_id:
+        parent_profile_instance = ParentProfile.objects.get(id=parent_profile_id)
+
+      else:
+          parent_profile_instance = ParentProfile.objects.get(id=1) # for now
+
       student = StudentProfile.objects.create(
           profile=profile,
           parent_profile=parent_profile_instance,
@@ -120,7 +132,13 @@ def register_profile(request):
           emergency_contact_name = emergency_contact_name,
           emergency_contact_phone_number = emergency_contact_phone_number
       )
-      student.preferred_subjects.set(preferred_subjects)
+      # For now, just to get sign up to work without full frontend + backend connection
+      if not preferred_subjects:
+            default_subjects = Subject.objects.filter(title__in=["Biology"])
+            student.preferred_subjects.set(default_subjects)
+      else:
+          student.preferred_subjects.set(preferred_subjects)
+
   return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
