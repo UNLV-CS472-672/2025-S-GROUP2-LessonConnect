@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django_extensions',
     "daphne",           #daphne has to be before django.contrib.staticfiles
     'django.contrib.staticfiles',
     "apps.api",         # our api app
