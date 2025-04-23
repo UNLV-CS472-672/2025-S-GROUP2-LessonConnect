@@ -1,19 +1,83 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import assignmentService from '../Services/AssignmentServices.js';
 import '../Styles/AssignmentCreate.css';
 
-const AssignmentCreate = () => {
+export default function AssignmentCreate() {
     const [view, setView] = useState('list');
+    const [assignments, setAssignments] = useState([]);
     const [selectedAssignment, setSelectedAssignment] = useState(null);
-    const [questionType, setQuestionType] = useState('MC');
-    const [choices, setChoices] = useState([{ text: '', isCorrect: false }]);
-    const [selectedQuestion, setSelectedQuestion] = useState(null);
-    const [solutionText, setSolutionText] = useState('');
+    const [formData, setFormData] = useState({ title: '', description: '', assignment_type: 'HW', deadline: '' });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    // const [questionType, setQuestionType] = useState('MC');
+    // const [choices, setChoices] = useState([{ text: '', isCorrect: false }]);
+    // const [selectedQuestion, setSelectedQuestion] = useState(null);
+    // const [solutionText, setSolutionText] = useState('');
 
-    const [assignments, setAssignments] = useState([
-        { id: 1, title: 'Math Homework', type: 'HW', deadline: '2025-04-30' },
-        { id: 2, title: 'Science Quiz', type: 'QZ', deadline: '2025-05-05' }
-    ]);
+    // 1) Fetch list on mount & refresh
+    const fetchList = async () => {
+        setLoading(true);
+        try {
+            const data = await assignmentService.getAssignments();
+            setAssignments(data);
+            setError(null);
+        } catch (e) {
+            setError('Failed to load assignments');
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => { fetchList(); }, []);
+
+    // 2) When "Edit" is clicked
+    const startEdit = async (id) => {
+        setLoading(true);
+        const data = await assignmentService.getAssignment(id);
+        setFormData({
+            title: data.title,
+            description: data.description,
+            assignment_type: data.assignment_type,
+            deadline: data.deadline?.slice(0,16)  // format for datetime-local
+        });
+        setSelectedAssignment(id);
+        setView('create');
+        setLoading(false);
+    };
+
+    // 3) Handle form field changes
+    const handleChange = (e) =>
+        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+
+    // 4) Submit create or update
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            if (selectedAssignment) {
+                await assignmentService.updateAssignment(selectedAssignment, formData);
+            } else {
+                await assignmentService.createAssignment(formData);
+            }
+            await fetchList();
+            setView('list');
+            setSelectedAssignment(null);
+            setFormData({ title: '', description: '', assignment_type: 'HW', deadline: '' });
+        } catch (e) {
+            setError('Submit failed');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // 5) Delete
+    const handleDelete = async (id) => {
+        if (!window.confirm('Delete this assignment?')) return;
+        await assignmentService.deleteAssignment(id);
+        fetchList();
+    };
+
+    /*
     const [questions, setQuestions] = useState([
         { id: 1, type: 'MC', text: 'What is 2 + 2?', points: 1, solution: 4 },
         { id: 2, type: 'SA', text: 'Define gravity.', points: 2, solution: '' },
@@ -39,6 +103,7 @@ const AssignmentCreate = () => {
         setSolutionText('');
         setView('quiz');
     };
+    */
 
     return (
         <div className="assignment-create_container">
@@ -50,12 +115,15 @@ const AssignmentCreate = () => {
                             className="assignment-create_button"
                             onClick={() => {
                                 setSelectedAssignment(null);
+                                setFormData({ title:'',description:'',assignment_type:'HW',deadline:'' });
                                 setView('create');
                             }}
                         >
                             Create New Assignment
                         </button>
                     </div>
+                    {loading && <p>Loading…</p>}
+                    {error && <p className="error">{error}</p>}
                     <table className="assignment-create_table">
                         <thead>
                         <tr>
@@ -71,15 +139,12 @@ const AssignmentCreate = () => {
                             <tr key={a.id}>
                                 <td className="assignment-create_cell">{a.id}</td>
                                 <td className="assignment-create_cell">{a.title}</td>
-                                <td className="assignment-create_cell">{a.type}</td>
-                                <td className="assignment-create_cell">{a.deadline}</td>
+                                <td className="assignment-create_cell">{a.assignment_type}</td>
+                                <td className="assignment-create_cell">{new Date(a.deadline).toLocaleString()}</td>
                                 <td className="assignment-create_cell">
                                     <button
                                         className="assignment-create_link"
-                                        onClick={() => {
-                                            setSelectedAssignment(a);
-                                            setView('create');
-                                        }}
+                                        onClick={() => startEdit(a.id)}
                                     >
                                         Edit
                                     </button>
@@ -87,12 +152,12 @@ const AssignmentCreate = () => {
                                         className="assignment-create_link"
                                         onClick={() => setView('quiz')}
                                     >
-                                        View
+                                        View Quiz
                                     </button>
                                     <button
                                         className="assignment-create_link"
                                         style={{ color: 'red' }}
-                                        onClick={() => handleDeleteAssignment(a.id)}
+                                        onClick={() => handleDelete(a.id)}
                                     >
                                         Delete
                                     </button>
@@ -104,25 +169,35 @@ const AssignmentCreate = () => {
                 </>
             )}
 
-            {(view === 'create' || view === 'edit') && (
+            {(view === 'create') && (
                 <div className="assignment-create_form">
                     <h2 className="assignment-create_header">
                         {selectedAssignment ? 'Edit Assignment' : 'Create Assignment'}
                     </h2>
-                    <form>
+                    {error && <p className="error">{error}</p>}
+                    <form onSubmit={handleSubmit}>
                         <input
+                            name="title"
+                            placeholder="Assignment Title"
                             type="text"
-                            placeholder="Title"
                             className="assignment-create_input"
-                            defaultValue={selectedAssignment?.title || ''}
+                            value={formData.title}
+                            onChange={handleChange}
+                            //defaultValue={selectedAssignment?.title || ''}
                         />
                         <textarea
+                            name="description"
                             placeholder="Description"
                             className="assignment-create_input"
+                            value={formData.description}
+                            onChange={handleChange}
                         />
                         <select
+                            name="assignment_type"
                             className="assignment-create_input"
-                            defaultValue={selectedAssignment?.type || 'HW'}
+                            value={formData.assignment_type}
+                            onChange={handleChange}
+                            //defaultValue={selectedAssignment?.type || 'HW'}
                         >
                             <option value="EX">Exercises</option>
                             <option value="HW">Homework</option>
@@ -130,17 +205,26 @@ const AssignmentCreate = () => {
                             <option value="TT">Test</option>
                             <option value="EC">Extra Credit</option>
                         </select>
-                        <input type="datetime-local" className="assignment-create_input" />
+                        <input
+                            name="deadline"
+                            type="datetime-local"
+                            className="assignment-create_input"
+                            value={formData.deadline}
+                            onChange={handleChange}
+                        />
                         <input type="file" className="assignment-create_input" />
                         <input
-                            type="text"
                             placeholder="Student ID (optional)"
+                            type="text"
                             className="assignment-create_input"
                             pattern="\d*"
                         />
                         <div className="assignment-create_button-container">
-                            <button className="assignment-create_button" type="submit">
-                                Submit
+                            <button
+                                className="assignment-create_button"
+                                type="submit"
+                            >
+                                {selectedAssignment ? 'Update' : 'Submit'}
                             </button>
                             <button
                                 className="assignment-create_button"
@@ -320,5 +404,3 @@ const AssignmentCreate = () => {
         </div>
     );
 };
-
-export default AssignmentCreate;
