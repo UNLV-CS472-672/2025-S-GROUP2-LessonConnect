@@ -72,7 +72,7 @@ def register_profile(request):
   role = request.data.get("role")  # Get the selected role
   if not role:
       role = Profile.TUTOR
-  # role = Profile.STUDENT
+
   # Create user
   user = User.objects.create_user(
     username=username,
@@ -83,8 +83,6 @@ def register_profile(request):
   )
   # Create associated Profile
   profile = Profile.objects.create(user, role)
-  
-
   image=request.data.get("image") #For now, get an optional image
 
   # Store optional profile picture
@@ -98,7 +96,7 @@ def register_profile(request):
     UploadRecord.objects.add_profile_picture(upload_record, profile_picture)
 
   # Create Tutor Profile if role is Tutor
-  if int(profile.role) == Profile.STUDENT:
+  if int(profile.role) == Profile.TUTOR:
       city=request.data.get("city") or "Unknown"
       state=request.data.get("state") or "NA"
       bio=request.data.get("bio")
