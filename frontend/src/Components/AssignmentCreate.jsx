@@ -1,14 +1,20 @@
 import { useState, useEffect } from 'react';
 import assignmentService from '../Services/AssignmentServices.js';
+import quizService from "../Services/QuizServices.js";
 import '../Styles/AssignmentCreate.css';
 
 export default function AssignmentCreate() {
     const [view, setView] = useState('list');
     const [assignments, setAssignments] = useState([]);
     const [selectedAssignment, setSelectedAssignment] = useState(null);
-    const [formData, setFormData] = useState({ title: '', description: '', assignment_type: 'HW', deadline: '' });
+    const [formData, setFormData] = useState({
+        title: '', description: '', assignment_type: 'HW', deadline: '' });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [quizzes, setQuizzes] = useState([]);
+    const [selectedQuiz, setSelectedQuiz] = useState(null);
+    const [quizForm, setQuizForm] = useState({
+        time_limit: 0, num_of_questions: 0, attempts: 1, is_active: true});
     // const [questionType, setQuestionType] = useState('MC');
     // const [choices, setChoices] = useState([{ text: '', isCorrect: false }]);
     // const [selectedQuestion, setSelectedQuestion] = useState(null);
@@ -77,6 +83,43 @@ export default function AssignmentCreate() {
         fetchList();
     };
 
+    // Quiz 1) Fetch quiz
+    const fetchQuizzes = async (assignmentId) => {
+        setLoading(true);
+        try {
+            const data = await quizService.getQuizzes(assignmentId);
+            setQuizzes(data);
+            setError(null);
+        } catch (e) {
+            setError('Failed to load quizzes');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Quiz 2) Handle each form field
+    const handleQuizChange = (e) => {
+        const { name, value } = e.target;
+        setQuizForm(prev => ({...prev,
+            [name]: name === 'is_active' ? (value === 'true'): parseInt(value, 10)}));
+    };
+
+    // Quiz 3) Submit updated quiz
+    const handleSubmitQuiz = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            await quizService.updateQuiz(selectedAssignment, selectedQuiz, quizForm);
+            await fetchQuizzes(selectedAssignment);
+            setView('quiz');
+            setError(null);
+        } catch {
+            setError('Failed to update quiz');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     /*
     const [questions, setQuestions] = useState([
         { id: 1, type: 'MC', text: 'What is 2 + 2?', points: 1, solution: 4 },
@@ -85,10 +128,6 @@ export default function AssignmentCreate() {
 
     const handleAddChoice = () => {
         setChoices([...choices, { text: '', isCorrect: false }]);
-    };
-
-    const handleDeleteAssignment = (id) => {
-        setAssignments(assignments.filter(a => a.id !== id));
     };
 
     const handleSaveSolution = () => {
@@ -150,9 +189,13 @@ export default function AssignmentCreate() {
                                     </button>
                                     <button
                                         className="assignment-create_link"
-                                        onClick={() => setView('quiz')}
+                                        onClick={() => {
+                                            setSelectedAssignment(a.id);
+                                            fetchQuizzes(a.id);
+                                            setView('quiz');
+                                        }}
                                     >
-                                        View Quiz
+                                        Manage Quiz
                                     </button>
                                     <button
                                         className="assignment-create_link"
@@ -240,52 +283,114 @@ export default function AssignmentCreate() {
 
             {view === 'quiz' && (
                 <>
-                    <h2 className="assignment-create_header">Quiz Questions</h2>
+                    <h2 className="assignment-create_header">Quiz Info</h2>
                     <div className="assignment-create_button-container">
                         <button
                             className="assignment-create_button"
-                            onClick={() => setView('question')}
+                            onClick={() => {
+                                const qz = quizzes[0];  // assuming one quiz per assignment
+                                setSelectedQuiz(qz.id);
+                                setQuizForm({
+                                    time_limit:       qz.time_limit,
+                                    num_of_questions: qz.num_of_questions,
+                                    attempts:         qz.attempts,
+                                    is_active:        qz.is_active
+                                });
+                                setView('editQuiz')
+                            }}
                         >
-                            Add Question
+                            Edit Quiz
                         </button>
                     </div>
                     <table className="assignment-create_table">
                         <thead>
                         <tr>
-                            <th className="assignment-create_label">#</th>
-                            <th className="assignment-create_label">Type</th>
-                            <th className="assignment-create_label">Points</th>
-                            <th className="assignment-create_label">Question</th>
-                            <th className="assignment-create_label">Solution</th>
+                            <th className="assignment-create_label">ID</th>
+                            <th className="assignment-create_label">Number of Questions</th>
+                            <th className="assignment-create_label">Time Limit (minutes)</th>
+                            <th className="assignment-create_label">Attempts</th>
+                            <th className="assignment-create_label">Active</th>
+                            <th className="assignment-create_label">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {questions.map((q) => (
-                            <tr key={q.id}>
-                                <td className="assignment-create_cell">{q.id}</td>
-                                <td className="assignment-create_cell">{q.type}</td>
-                                <td className="assignment-create_cell">{q.points}</td>
-                                <td className="assignment-create_cell">{q.text}</td>
+                        {quizzes.map((qz) => (
+                            <tr key={qz.id}>
+                                <td className="assignment-create_cell">{qz.id}</td>
+                                <td className="assignment-create_cell">{qz.num_of_questions}</td>
+                                <td className="assignment-create_cell">{qz.time_limit}</td>
+                                <td className="assignment-create_cell">{qz.attempts}</td>
+                                <td className="assignment-create_cell">{qz.is_active ? 'Yes' : 'No'}</td>
                                 <td className="assignment-create_cell">
-                                    {q.solution ? (
-                                        q.solution
-                                    ) : (
-                                        <button
-                                            className="assignment-create_link"
-                                            onClick={() => {
-                                                setSelectedQuestion(q);
-                                                setView('solution');
-                                            }}
-                                        >
-                                            Add Solution
-                                        </button>
-                                    )}
+                                    <button
+                                        className="assignment-create_link"
+                                        onClick={() => setView('question')}
+                                    >
+                                        Add Questions
+                                    </button>
                                 </td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
                 </>
+            )}
+
+            {view === 'editQuiz' && (
+                <div className="assignment-create_form">
+                    <h2 className="assignment-create_header">Edit Quiz</h2>
+                    {error && <p className="error">{error}</p>}
+                    <form onSubmit={handleSubmitQuiz}>
+                        <input
+                            name="num_of_questions"
+                            type="number"
+                            min="1"
+                            placeholder="Number of Questions"
+                            className="assignment-create_input"
+                            value={quizForm.num_of_questions}
+                            onChange={handleQuizChange}
+                        />
+                        <input
+                            name="time_limit"
+                            type="number"
+                            min="0"
+                            placeholder="Time limit (minutes)"
+                            className="assignment-create_input"
+                            value={quizForm.time_limit}
+                            onChange={handleQuizChange}
+                        />
+                        <input
+                            name="attempts"
+                            type="number"
+                            min="1"
+                            placeholder="Number of Attempts"
+                            className="assignment-create_input"
+                            value={quizForm.attempts}
+                            onChange={handleQuizChange}
+                        />
+                        <select
+                            name="is_active"
+                            className="assignment-create_input"
+                            value={quizForm.is_active ? 'true' : 'false'}
+                            onChange={handleQuizChange}
+                        >
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                        <div className="assignment-create_button-container">
+                            <button className="assignment-create_button" type="submit">
+                                Submit
+                            </button>
+                            <button
+                                className="assignment-create_button"
+                                type="button"
+                                onClick={() => setView('quiz')}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
             )}
 
             {view === 'question' && (
