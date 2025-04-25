@@ -1,0 +1,176 @@
+/* DateOfBirth.css */
+
+/* ====== Page Wrapper ====== */
+.dob-page {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ====== Left Panel (Branding / Imagery) ====== */
+.dob-page .left-panel {
+    flex: 1;
+    background: linear-gradient(135deg, #d2e4df 20%, #c5dad5 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.dob-page .brand-container {
+    max-width: 350px;
+    text-align: center;
+}
+
+.dob-page .brand-container img {
+    width: 240px;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dob-page .brand-card {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 20px 30px;
+    border-radius: 12px;
+}
+
+.dob-page .brand-card h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #333;
+}
+
+.dob-page .brand-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* ====== Right Panel (Shared Container Styles) ====== */
+.dob-page .right-panel {
+    flex: 1;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+/* ====== DOB Form Styles (unused in current role version but kept for reuse) ====== */
+.dob-page .dob-container {
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+}
+
+.dob-page .dob-container h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.dob-page .dob-container h2 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.dob-page .dob-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.dob-page .dob-form select,
+.dob-page .dob-form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* ====== Default Button (fallback) ====== */
+.dob-page .btn {
+    background-color: #000;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.dob-page .btn:hover {
+    background-color: #555;
+}
+
+/* ====== Role Selection Enhanced Styling ====== */
+.dob-page .role-select-container {
+    text-align: center;
+    max-width: 350px;
+    width: 100%;
+}
+
+.dob-page .role-select-container h1 {
+    font-size: 40px;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.dob-page .role-select-container h2 {
+    font-size: 17px;
+    font-weight: 400;
+    color: #777;
+    margin-bottom: 40px;
+    margin-top: 30px;
+}
+
+.dob-page .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* increased gap */
+    align-items: center;
+}
+
+.dob-page .button-group .btn {
+    background: linear-gradient(to right, #111, #333);
+    color: white;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 280px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+}
+
+.dob-page .button-group .btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(to right, #222, #444);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
+
+/* ====== Responsive Design ====== */
+@media (max-width: 768px) {
+    .dob-page .left-panel,
+    .dob-page .right-panel {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .dob-page .brand-container img {
+        width: 200px;
+    }
+}

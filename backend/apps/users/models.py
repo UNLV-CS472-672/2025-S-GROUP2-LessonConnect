@@ -50,7 +50,7 @@ class TutorProfile(models.Model):
     state = models.CharField(max_length=2, default="NA")
 
     bio = models.TextField(blank=True)
-    hourly_rate = models.DecimalField(max_digits=6, decimal_places=2)
+    hourly_rate = models.DecimalField(max_digits=6, decimal_places=2, default= 0.00)
 
     subjects = models.ManyToManyField(to="search.Subject")
     rating = models.DecimalField(max_digits=2, decimal_places=1, default=1.0)
@@ -99,12 +99,21 @@ class ParentProfile(models.Model):
 class StudentProfile(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
     # also including a reference to the parent profile
-    parent_profile = models.OneToOneField(ParentProfile, on_delete=models.CASCADE)
+    parent_profile = models.ForeignKey(ParentProfile, on_delete=models.CASCADE)
     # https://stackoverflow.com/questions/849142/how-to-limit-the-maximum-value-of-a-numeric-field-in-a-django-model
     grade_level = models.IntegerField(default=1, validators=[MaxValueValidator(12),MinValueValidator(1)])
-    preferred_subjects = models.ManyToManyField(to="search.Subject")
-    emergency_contact_name = models.CharField(max_length=100)
-    emergency_contact_phone_number = models.CharField(max_length=15)
+    preferred_subjects = models.ManyToManyField(
+        to="search.Subject",
+        blank=True
+    )
+    emergency_contact_name = models.CharField(
+        max_length=100,
+        default = "Unknown"
+    )
+    emergency_contact_phone_number = models.CharField(
+        max_length=15,
+        default = "1234567890"
+    )
 
     def clean(self):
         if self.profile.role != self.profile.STUDENT:

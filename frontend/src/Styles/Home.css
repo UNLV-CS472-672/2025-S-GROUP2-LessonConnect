@@ -145,12 +145,16 @@ body {
 }
 
 .container .middleUpper-pic {
-  height: 300px;
-  width: 100%;
-  object-fit: cover;
+  width: 115%;
+  height: 115%;
+  max-height: 400px;
+  object-fit: contain;
   object-position: center;
-  border-radius: 20px;
+  border-radius: 24px;
+  display: block;
+  margin: 0 auto;
 }
+
 
 #middleUpper-section {
   background-color: #ecdfcc;
@@ -180,7 +184,8 @@ section#middle-section {
   }
 
   .container .middleUpper-pic {
-    height: 250px;
+    max-height: 300px;
+    object-fit: contain;
   }
 }
 
@@ -255,4 +260,73 @@ section#lower-section {
 .btn-pomodoro:hover {
   background-color: #e5533d;
   transform: scale(1.05);
+}
+
+.feature-icons img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  border-radius: 16px;
+  padding: 10px;
+  background: linear-gradient(135deg, #fff3e0, #ecdfcc);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, filter 0.3s ease, background 0.3s ease;
+  filter: brightness(0.92); /* Darkened default */
+}
+
+.feature-icons img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.05);
+  background: linear-gradient(135deg, #f7e9d7, #e4d6c1);
+}
+
+.feature-icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px 0;
+}
+
+
+.feature-icons2 img {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  border-radius: 16px;
+  padding: 10px;
+  background: linear-gradient(135deg, #e4e4e4, #d4d4d4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, filter 0.3s ease, background 0.3s ease;
+  filter: brightness(0.92); /* Darkened default */
+}
+
+.feature-icons2 img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.05);
+  background: linear-gradient(135deg, #f1f1f1, #cacaca);
+}
+
+.feature-icons2 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  padding: 50px 0;
+}
+
+.btn-outline-dark {
+  padding: 10px 20px;
+  border: 2px solid #000;
+  background-color: transparent;
+  color: #000;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-dark:hover {
+  background-color: #000;
+  color: #fff;
 }

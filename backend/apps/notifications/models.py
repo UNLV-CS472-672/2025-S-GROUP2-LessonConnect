@@ -14,6 +14,11 @@ class Notification(models.Model):
     INFO_GENERAL = 'general'
     INFO_SYSTEM = 'system'
 
+    # constants for priority types for scheduled notifications
+    LOW = 'low'
+    MEDIUM = 'medium'
+    HIGH = 'high'
+
     # choices for the notification_type field. the elements in the list is
     # a tuple of (value, display_name)
     NOTIFICATION_TYPES = [
@@ -27,6 +32,13 @@ class Notification(models.Model):
     INFO_CATEGORIES = [
         (INFO_GENERAL, 'General Information'),
         (INFO_SYSTEM, 'System Update')
+    ]
+
+    # choices for priority types
+    PRIORITY_CHOICES = [
+        (LOW, 'Low'),
+        (MEDIUM, 'Medium'),
+        (HIGH, 'High')
     ]
 
     # links to the user who will receive notifications
@@ -60,6 +72,13 @@ class Notification(models.Model):
         default=INFO_GENERAL,
         blank=True,
         null=True
+    )
+
+    # priority field
+    priority = models.CharField(
+        max_length=10,
+        choices=PRIORITY_CHOICES,
+        default=MEDIUM
     )
 
     # when notification was created

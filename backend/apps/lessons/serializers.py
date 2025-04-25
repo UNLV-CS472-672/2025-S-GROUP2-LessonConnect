@@ -16,7 +16,8 @@ class AssignmentSerializer(serializers.ModelSerializer):
             "student",
             "student_username",
             "upload_record",
-            "upload_record_id"
+            "upload_record_id",
+            "reminder_sent"
         ]
 
 
