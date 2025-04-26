@@ -3,10 +3,11 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from .managers import PomodoroSessionManager
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class PomodoroSession(models.Model):
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    duration = models.IntegerField(default=25)  # Duration in minutes (user sets this)
+    duration = models.IntegerField(default=25, validators=[MinValueValidator(1)])
     is_completed = models.BooleanField(default=False)
     task_description = models.TextField(blank=True, null=True)
     pet_earned = models.BooleanField(default=False)
@@ -70,7 +71,7 @@ class PetCatalog(models.Model):
     image = models.ImageField(upload_to='pet_images', null=True, blank=True) # Change upload path later
     description = models.TextField()
     rarity = models.CharField(max_length=50, choices=RARITY_CHOICES)
-    drop_rate = models.FloatField()  # Probability of getting this pet
+    drop_rate = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(1.0)])  # Probability of getting this pet
 
     def __str__(self):
         return f"{self.name} ({self.rarity})"
@@ -91,3 +92,4 @@ class PetCollection(models.Model):
     class Meta:
         verbose_name = "Pet Collection"
         verbose_name_plural = "Pet Collections"
+        unique_together = ('student', 'pet_catalog')  # Prevent duplicate pet collections

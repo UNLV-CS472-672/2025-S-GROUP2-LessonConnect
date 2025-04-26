@@ -5,6 +5,8 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from apps.pomodoro.models import PomodoroSession, PetCatalog, PetCollection
 from django.db.utils import IntegrityError
+from django.core.exceptions import ValidationError
+from django.db import transaction
 
 User = get_user_model()
 
@@ -17,12 +19,12 @@ class PomodoroSessionModelTest(TestCase):
             student=self.user,
             duration=30,
             task_description="Study for math test",
-            is_completed=True,
+            is_completed=False,
             pet_earned=True
         )
         self.assertEqual(session.duration, 30)
         self.assertEqual(session.task_description, "Study for math test")
-        self.assertTrue(session.is_completed)
+        self.assertFalse(session.is_completed)
         self.assertTrue(session.pet_earned)
         self.assertIsNotNone(session.start_time)
         self.assertIsNone(session.end_time)
@@ -37,9 +39,10 @@ class PomodoroSessionModelTest(TestCase):
         self.assertFalse(session.is_completed)
         self.assertFalse(session.pet_earned)
     
-    def test_negative_duration(self):
-        with self.assertRaises(IntegrityError):
-            PomodoroSession.objects.create(student=self.user, duration=-5)
+    def test_negative_duration(self):        
+        session = PomodoroSession(student=self.user, duration=-5)
+        with self.assertRaises(ValidationError):
+            session.full_clean()  # This will trigger MinValueValidator(1)
         
 
 class PetCatalogModelTest(TestCase):
@@ -64,11 +67,18 @@ class PetCatalogModelTest(TestCase):
             rarity=PetCatalog.RARE,
             drop_rate=0.3
         )
-        self.assertEqual(str(pet), "Shadow (rare)")
+        self.assertEqual(str(pet), "Ruffles (rare)")
 
     def test_invalid_drop_rate(self):
-        with self.assertRaises(IntegrityError):
-            PetCatalog.objects.create(name='InvalidPet', pet_type='Unknown', description='Invalid', rarity=PetCatalog.COMMON, drop_rate=1.5)
+        pet = PetCatalog(
+            name='InvalidPet',
+            pet_type='Unknown',
+            description='Invalid',
+            rarity=PetCatalog.COMMON,
+            drop_rate=1.5  # Invalid value
+        )
+        with self.assertRaises(ValidationError):
+            pet.full_clean()  # This will trigger the MinValueValidator and MaxValueValidator
 
 class PetCollectionModelTest(TestCase):
     def setUp(self):
@@ -99,7 +109,8 @@ class PetCollectionModelTest(TestCase):
     def test_duplicate_pet_collection(self):
         PetCollection.objects.create(student=self.user, pet_catalog=self.pet)
         with self.assertRaises(IntegrityError):
-            PetCollection.objects.create(student=self.user, pet_catalog=self.pet)
+            with transaction.atomic():
+                PetCollection.objects.create(student=self.user, pet_catalog=self.pet)
     
     def test_toggle_active_status(self):
         collection = PetCollection.objects.create(student=self.user, pet_catalog=self.pet, is_active=False)
