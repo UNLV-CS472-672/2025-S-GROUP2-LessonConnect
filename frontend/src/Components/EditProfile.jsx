@@ -1,23 +1,83 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaArrowLeft, FaCamera, FaEye, FaLock, FaBell } from 'react-icons/fa';
+import { FaArrowLeft, FaCamera, FaEye, FaLock, FaBell, FaSignInAlt } from 'react-icons/fa';
 import '../Styles/EditProfile.css';
 import userIcon from "/assets/images/UNLV_pic.png";
-import { getProfileData, saveProfileData, initializeProfileData } from '../utils/profileData';
+import { getProfileData, saveProfileData, initializeProfileData, getProfileDataSync } from '../utils/profileData';
+import { isLoggedIn, refreshAuthToken } from '../utils/auth';
 
 const EditProfile = () => {
   const navigate = useNavigate();
   
+  // Authentication state
+  const [authenticated, setAuthenticated] = useState(isLoggedIn());
+  
+  // Add loading and error states
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  // Check authentication and redirect if needed
+  useEffect(() => {
+    if (!authenticated) {
+      // You can uncomment the navigate line when you have a login page
+      // navigate('/login');
+    }
+  }, [authenticated, navigate]);
+  
   // Initialize profile data if not already set
   useEffect(() => {
-    initializeProfileData();
-  }, []);
+    const initProfile = async () => {
+      try {
+        await initializeProfileData();
+      } catch (err) {
+        console.error("Error initializing profile data:", err);
+      }
+    };
+    
+    if (authenticated) {
+      initProfile();
+    }
+  }, [authenticated]);
   
-  // Get profile data from localStorage or use defaults
-  const [userData, setUserData] = useState(() => getProfileData());
+  // Get profile data from API with localStorage fallback
+  const [userData, setUserData] = useState(() => getProfileDataSync());
   const [profileImagePreview, setProfileImagePreview] = useState(userData.profileImage || userIcon);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  
+  // Fetch profile data from API
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      if (!authenticated) {
+        setIsLoading(false);
+        return;
+      }
+      
+      setIsLoading(true);
+      try {
+        // Try to refresh token first if needed
+        await refreshAuthToken();
+        
+        const data = await getProfileData();
+        setUserData(data);
+        setProfileImagePreview(data.profileImage || userIcon);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching profile data:", err);
+        
+        if (err.message && err.message.includes('401')) {
+          setError("Your session has expired. Please log in again.");
+          setAuthenticated(false);
+        } else {
+          setError("Failed to load profile data. Please try again later.");
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchProfileData();
+  }, [authenticated]);
 
   // Handle profile image change
   const handleImageChange = (e) => {
@@ -62,11 +122,20 @@ const EditProfile = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!authenticated) {
+      alert("You need to be logged in to save profile changes.");
+      return;
+    }
+    
     setIsSaving(true);
     
     try {
-      // Save to localStorage
-      const success = saveProfileData(userData);
+      // Try to refresh token first if needed
+      await refreshAuthToken();
+      
+      // Save to API and localStorage
+      const success = await saveProfileData(userData);
       
       if (!success) {
         throw new Error('Failed to save profile data');
@@ -83,7 +152,13 @@ const EditProfile = () => {
       }, 1500);
     } catch (error) {
       console.error('Error updating profile:', error);
-      alert('There was an error saving your profile. Please try again.');
+      
+      if (error.message && error.message.includes('401')) {
+        alert('Your session has expired. Please log in again.');
+        setAuthenticated(false);
+      } else {
+        alert('There was an error saving your profile. Please try again.');
+      }
     } finally {
       setIsSaving(false);
     }
@@ -93,6 +168,54 @@ const EditProfile = () => {
   const handleCancel = () => {
     navigate('/profile');
   };
+  
+  // Handle Login button click
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
+  
+  // Show loading message when data is being fetched
+  if (isLoading) {
+    return (
+      <div className="edit-profile-loading">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <p>Loading profile data...</p>
+      </div>
+    );
+  }
+  
+  // If not authenticated, show login prompt
+  if (!authenticated) {
+    return (
+      <div className="edit-profile-error">
+        <h3>Authentication Required</h3>
+        <p>You need to be logged in to edit your profile.</p>
+        <button 
+          className="btn btn-primary" 
+          onClick={handleLoginClick}
+        >
+          <FaSignInAlt /> Log In
+        </button>
+      </div>
+    );
+  }
+  
+  // Show error message if there was a problem
+  if (error) {
+    return (
+      <div className="edit-profile-error">
+        <p className="text-danger">{error}</p>
+        <button 
+          className="btn btn-primary" 
+          onClick={() => window.location.reload()}
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="edit-profile-page">
