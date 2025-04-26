@@ -1,32 +1,56 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import "../Styles/TutorView.css";
 import PropTypes from "prop-types";
 import StudentNavbar from "./StudentNavbar";
+import Questionnaire from "./Questionnaire";
+import "../Styles/TutorView.css";
 
 const dashboardOptions = [
-    { text: "Manage Sessions", img: "/assets/images/UNLV_pic.png", path:"/tutor/findTutor"},
-    { text: "Upload Assignments", img: "/assets/images/UNLV_pic.png", path:"/tutor/createAssignment" },
-    { text: "Pomodoro", img: "/assets/images/UNLV_pic.png", path:"/tutor/pomodoro" },
-    { text: "Messages", img: "/assets/images/UNLV_pic.png", path:"/tutor/inbox" },
-    { text: "Availability", img: "/assets/images/UNLV_pic.png", path:"/tutor/availability" },
-    { text: "Create Quiz", img: "/assets/images/UNLV_pic.png", path:"/tutor/createQuiz" },
-    { text: "Gaming Stats", img: "/assets/images/UNLV_pic.png", path:"/tutor/gaming" },
-    { text: "Profile", img: "/assets/images/UNLV_pic.png",path:"/tutor/profile" },
+    { text: "Manage Sessions", img: "/assets/images/UNLV_pic.png", path: "/tutor/findTutor" },
+    { text: "Upload Assignments", img: "/assets/images/UNLV_pic.png", path: "/tutor/createAssignment" },
+    { text: "Pomodoro", img: "/assets/images/UNLV_pic.png", path: "/tutor/pomodoro" },
+    { text: "Messages", img: "/assets/images/UNLV_pic.png", path: "/tutor/inbox" },
+    { text: "Availability", img: "/assets/images/UNLV_pic.png", path: "/tutor/availability" },
+    { text: "Create Quiz", img: "/assets/images/UNLV_pic.png", path: "/tutor/createQuiz" },
+    { text: "Gaming Stats", img: "/assets/images/UNLV_pic.png", path: "/tutor/gaming" },
+    { text: "Profile", img: "/assets/images/UNLV_pic.png", path: "/tutor/profile" },
 ];
 
 const sidebarOptions = [
-    { text: "Resources", path:"/tutor/resources" },
-    { text: "Settings", path:"/tutor/settings" },
-    { text: "Calendar", path:"/tutor/calendar"},
-    { text: "Student Requests", path:"/tutor/requests" },
-    { text: "Post Announcements", path:"/tutor/announcements" },
-    { text: "Sticker Book", path:"/tutor/sticker" }
+    { text: "Whiteboard", path: "/tutor/LandingPage" },
+    { text: "Settings", path: "/tutor/settings" },
+    { text: "Calendar", path: "/tutor/calendar" },
+    { text: "Student Requests", path: "/tutor/requests" },
+    { text: "Post Announcements", path: "/tutor/announcements" },
+    { text: "Sticker Book", path: "/tutor/sticker" }
 ];
 
 export default function TutorView({ darkMode, toggleTheme }) {
+    const [showQuestionnaire, setShowQuestionnaire] = useState(() => {
+        return !localStorage.getItem("questionnaireCompleted");
+    });
+
     return (
         <div className={`tutor-dashboard-page ${darkMode ? "dark-mode" : ""}`}>
             <StudentNavbar isDarkMode={darkMode} toggleTheme={toggleTheme} />
+
+
+            {/* Questionnaire modal only shown once for tutor */}
+            {showQuestionnaire && (
+                <div className="questionnaire-overlay">
+                    <div className="overlay-backdrop" />
+                    <div className="overlay-content">
+                        <Questionnaire
+                            userRole={1}
+                            onComplete={() => {
+                                localStorage.setItem("questionnaireCompleted", "true");
+                                setShowQuestionnaire(false);
+                            }}
+                        />
+                    </div>
+                </div>
+            )}
+
             <section className="greeting">
                 <div className="inner-container">
                     <h1 className="fade-in">👋 Welcome back, Jose!</h1>
@@ -58,7 +82,6 @@ export default function TutorView({ darkMode, toggleTheme }) {
                                 <button>{option.text}</button>
                             </Link>
                         ))}
-
                     </div>
                 </div>
             </section>

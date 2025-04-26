@@ -5,15 +5,21 @@ from django.contrib.auth import authenticate
 from django.http import JsonResponse, HttpResponse
 from django.middleware.csrf import get_token
 from .models import Profile
-from apps.users.models import Profile, TutorProfile
+from apps.users.models import Profile, TutorProfile, ParentProfile, StudentProfile
 from apps.uploads.models import UploadRecord, ProfilePicture
 from rest_framework import status
+from apps.search.models import Subject
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.decorators import api_view, permission_classes
+from .serializers import (
+    StudentProfileSerializer,
+    TutorProfileSerializer,
+    ParentProfileSerializer,
+)
 
 login_template = "login.html"
 register_profile_template = "register.html"
@@ -58,15 +64,15 @@ def logout_view(request):
 @permission_classes([AllowAny])
 def register_profile(request):
   country = request.data["country"]
-  username = request.data["displayName"]
+  username = request.data["username"]
   email = request.data["email"]
   first_name = request.data["firstName"]
   last_name = request.data["lastName"]
   password = request.data["password"]
-  # TODO: replace "1" with "role" once that is handled by the frontend
+  role = request.data.get("role")  # Get the selected role
+  if not role:
+      role = Profile.TUTOR
 
-  #role = request.data["role"]  # Get the selected role
-  role = 3
   # Create user
   user = User.objects.create_user(
     username=username,
@@ -77,8 +83,6 @@ def register_profile(request):
   )
   # Create associated Profile
   profile = Profile.objects.create(user, role)
-  
-
   image=request.data.get("image") #For now, get an optional image
 
   # Store optional profile picture
@@ -93,11 +97,48 @@ def register_profile(request):
 
   # Create Tutor Profile if role is Tutor
   if int(profile.role) == Profile.TUTOR:
-      city=request.data["city"]
-      state=request.data["state"]
-      bio=request.data["bio"]
-      hourly_rate=request.data["hourly_rate"]
-      tutor = TutorProfile.objects.create(profile, city, state, bio, hourly_rate)
+      city=request.data.get("city") or "Unknown"
+      state=request.data.get("state") or "NA"
+      bio=request.data.get("bio")
+      if not bio:
+        bio = ""
+      hourly_rate=request.data.get("hourly_rate") or 0.00
+      tutor = TutorProfile.objects.create(profile=profile, city=city, state=state, bio=bio, hourly_rate=hourly_rate)
+  # otherwise, check if parent
+  elif int(profile.role) == Profile.PARENT:
+      parent = ParentProfile.objects.create(profile=profile)
+  # otherwise, student
+  else:
+      parent_profile = request.data.get("parent_profile")
+      grade_level = request.data.get("grade_level")
+      preferred_subjects = request.data.get("preferred_subjects")
+      grade_level = request.data.get("grade_level")
+      if not grade_level:
+          grade_level = 1  # same as the model default
+
+      emergency_contact_name = request.data.get("emergency_contact_name") or "Unknown"
+      emergency_contact_phone_number = request.data.get("emergency_contact_phone_number") or "1234567890"
+      parent_profile_id = request.data.get("parent_profile")
+      if parent_profile_id:
+        parent_profile_instance = ParentProfile.objects.get(id=parent_profile_id)
+
+      else:
+          parent_profile_instance = ParentProfile.objects.get(id=1) # for now
+
+      student = StudentProfile.objects.create(
+          profile=profile,
+          parent_profile=parent_profile_instance,
+          grade_level = grade_level,
+          emergency_contact_name = emergency_contact_name,
+          emergency_contact_phone_number = emergency_contact_phone_number
+      )
+      # For now, just to get sign up to work without full frontend + backend connection
+      if not preferred_subjects:
+            default_subjects = Subject.objects.filter(title__in=["Biology"])
+            student.preferred_subjects.set(default_subjects)
+      else:
+          student.preferred_subjects.set(preferred_subjects)
+
   return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
@@ -114,3 +155,52 @@ def delete_user(request):
   # should never reach here, but still just in case
   return Response("FATAL: Undefined functionality, please contact system administrator", 
                   status=status.HTTP_404_NOT_FOUND)
+
+# https://chatgpt.com/share/67f1b472-b004-8005-8550-62871c22bef9
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            profile = Profile.objects.get(user=request.user)
+
+            if profile.role == Profile.STUDENT:
+                student_profile = StudentProfile.objects.get(profile=profile)
+                serializer = StudentProfileSerializer(student_profile)
+            elif profile.role == Profile.TUTOR:
+                tutor_profile = TutorProfile.objects.get(profile=profile)
+                serializer = TutorProfileSerializer(tutor_profile)
+            elif profile.role == Profile.PARENT:
+                parent_profile = ParentProfile.objects.get(profile=profile)
+                serializer = ParentProfileSerializer(parent_profile)
+            else:
+                return Response({'error': 'Invalid role.'}, status=400)
+
+            return Response(serializer.data)
+
+        except Profile.DoesNotExist:
+            return Response({'error': 'Profile not found.'}, status=404)
+
+    def patch(self, request):
+        try:
+            profile = Profile.objects.get(user=request.user)
+
+            if profile.role == Profile.STUDENT:
+                student_profile = StudentProfile.objects.get(profile=profile)
+                serializer = StudentProfileSerializer(student_profile, data=request.data, partial=True)
+            elif profile.role == Profile.TUTOR:
+                tutor_profile = TutorProfile.objects.get(profile=profile)
+                serializer = TutorProfileSerializer(tutor_profile, data=request.data, partial=True)
+            elif profile.role == Profile.PARENT:
+                parent_profile = ParentProfile.objects.get(profile=profile)
+                serializer = ParentProfileSerializer(parent_profile, data=request.data, partial=True)
+            else:
+                return Response({'error': 'Invalid role.'}, status=400)
+
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Profile.DoesNotExist:
+            return Response({'error': 'Profile not found.'}, status=404)

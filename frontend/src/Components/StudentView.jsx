@@ -1,31 +1,39 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 import ProgressWheel from "./ProgressWheel";
 import StudentNavbar from "./StudentNavbar";
+import Questionnaire from "./Questionnaire";
 import "../Styles/StudentView.css";
 
+
 const dashboardOptions = [
-    { text: "Find a tutor", img: "/assets/images/search_icon.png", path:"/student/findTutor"},
-    { text: "Profile", img: "/assets/images/profile_icon.png", path:"/student/profile" },
-    { text: "Pomodoro Timer", img: "/assets/images/pomodoro_icon.png", path:"/student/pomodoro" },
-    { text: "Chat & Video with Tutor", img: "/assets/images/videochat_icon.png", path:"/student/chat" },
-    { text: "My Calendar", img: "/assets/images/calendar_icon.png", path:"/student/calendar" },
-    { text: "My Assignments", img: "/assets/images/assignment_icon.png", path:"/student/assignment"},
-    { text: "My Messages", img: "/assets/images/messages_icon.png", path:"/student/messages" },
-    { text: "My Whiteboard", img: "/assets/images/whiteboard_icon.png", path:"/student/whiteboard" },
+    { text: "Find a tutor", img: "/assets/images/search_icon.png", path: "/student/findTutor" },
+    { text: "Profile", img: "/assets/images/profile_icon.png", path: "/student/profile" },
+    { text: "Pomodoro Timer", img: "/assets/images/pomodoro_icon.png", path: "/student/pomodoro" },
+    { text: "Chat & Video with Tutor", img: "/assets/images/videochat_icon.png", path: "/student/chat" },
+    { text: "My Calendar", img: "/assets/images/calendar_icon.png", path: "/student/calendar" },
+    { text: "My Assignments", img: "/assets/images/assignment_icon.png", path: "/student/assignment" },
+    { text: "My Messages", img: "/assets/images/messages_icon.png", path: "/student/messages" },
+    { text: "My Whiteboard", img: "/assets/images/whiteboard_icon.png", path: "/student/LandingPage" },
 ];
 
+
 const externalLinks = [
-    { text: "Go to my files", path:"/student/assignment?tab=files" },
-    { text: "Gaming Stats", path:"/student/view#gaming" },
-    { text: "Support", path:"/student/support" },
-    { text: "settings", path:"/student/settings" },
-    { text: "contact us", path:"/student/contact" },
+    { text: "Go to my files", path: "/student/assignment?tab=files" },
+    { text: "Gaming Stats", path: "/student/view#gaming" },
+    { text: "Support", path: "/student/support" },
+    { text: "settings", path: "/student/settings" },
+    { text: "contact us", path: "/student/contact" },
 ];
+
 
 export default function StudentView({ darkMode, toggleTheme }) {
     const location = useLocation();
+    const [showQuestionnaire, setShowQuestionnaire] = useState(() => {
+        return !localStorage.getItem("questionnaireCompleted");
+    });
+
 
     useEffect(() => {
         if (location.hash) {
@@ -38,9 +46,27 @@ export default function StudentView({ darkMode, toggleTheme }) {
         }
     }, [location.hash]);
 
+
     return (
         <div className={`user-view-section-page ${darkMode ? "dark-mode" : ""}`}>
             <StudentNavbar isDarkMode={darkMode} toggleTheme={toggleTheme} />
+
+
+            {showQuestionnaire && (
+                <div className="questionnaire-overlay">
+                    <div className="overlay-backdrop" />
+                    <div className="overlay-content">
+                        <Questionnaire
+                            userRole={3}
+                            onComplete={() => {
+                                localStorage.setItem("questionnaireCompleted", "true");
+                                setShowQuestionnaire(false);
+                            }}
+                        />
+                    </div>
+                </div>
+            )}
+
 
             <section className="greeting">
                 <div className="inner-container">
@@ -48,6 +74,7 @@ export default function StudentView({ darkMode, toggleTheme }) {
                     <p>Ready to level up your skills today?</p>
                 </div>
             </section>
+
 
             <section className="dashboard-section">
                 <div className="inner-container dashboard-layout">
@@ -60,8 +87,9 @@ export default function StudentView({ darkMode, toggleTheme }) {
                         ))}
                     </div>
 
+
                     <div className="vertical-button-container">
-                        {externalLinks.map((link, index) => (
+                        {externalLinks.map((link, index) =>
                             link.text === "Gaming Stats" ? (
                                 <Link
                                     key={index}
@@ -83,11 +111,11 @@ export default function StudentView({ darkMode, toggleTheme }) {
                                     {link.text}
                                 </Link>
                             )
-                        ))}
+                        )}
                     </div>
-
                 </div>
             </section>
+
 
             {/* Gaming Section */}
             <section id="gaming" className="gaming-section">
@@ -96,6 +124,7 @@ export default function StudentView({ darkMode, toggleTheme }) {
                     <ProgressWheel progress={75} darkMode={darkMode} />
                 </div>
             </section>
+
 
             {/* Badge Section */}
             <section className="badge-section">
@@ -108,6 +137,7 @@ export default function StudentView({ darkMode, toggleTheme }) {
         </div>
     );
 }
+
 
 StudentView.propTypes = {
     darkMode: PropTypes.bool.isRequired,

@@ -1,9 +1,6 @@
 from .models import Notification
-
 '''Helper function(s) for notifications/models.py and notifications/tasks.py '''
-
-
-def create_notification(user, title, message, notification_type='INFO', info_category=None, scheduled_time=None):
+def create_notification(user, title, message, notification_type='INFO', info_category=None, scheduled_time=None, priority='medium', sender=None):
     """
     Args:
         user: User object who will receive the notification
@@ -12,7 +9,8 @@ def create_notification(user, title, message, notification_type='INFO', info_cat
         notification_type: Type of notification ('INFO', 'SUCCESS', 'WARNING', 'ERROR')
         info_category: Category for INFO notifications
         scheduled_time: When the notification should be sent (if scheduled)
-
+        priority: Priority level ('low', 'medium', 'high')
+        sender: User object who sent the notification (can be None for system notifications)
     Returns:
         Notification object
     """
@@ -22,9 +20,10 @@ def create_notification(user, title, message, notification_type='INFO', info_cat
         notification_message=message,
         notification_type=notification_type.lower(),  # ensure lowercase to match model choices
         info_category=info_category,
-        scheduled_time=scheduled_time
+        scheduled_time=scheduled_time,
+        priority=priority.lower(),  # ensure lowercase to match model choices
+        sender=sender
     )
-
     return notification
 
 

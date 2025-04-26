@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django_extensions',
     "daphne",           #daphne has to be before django.contrib.staticfiles
     'django.contrib.staticfiles',
     "apps.api",         # our api app
@@ -72,6 +73,7 @@ INSTALLED_APPS = [
     "apps.uploads",       # our uploads app
     "apps.search",        # our search app
     "apps.whiteboard",      # our whiteboard app
+    "apps.sessions.apps.SessionsConfig",        # our sessions app
     "apps.planner",       # our calendar app
     "rest_framework",     # rest framework
     'rest_framework_simplejwt.token_blacklist', # for logout functionality
@@ -196,17 +198,18 @@ CACHES = {
 ASGI_APPLICATION = "backend.asgi.application"
 
 CHANNEL_LAYERS = {
-    # "default": {
-    #     "BACKEND": "channels_redis.core.RedisChannelLayer",
-    #     "CONFIG": {
-    #         "hosts": [('127.0.0.1', 6379)],
-    #     },
-    # },
+     "default": {
+         "BACKEND": "channels_redis.core.RedisChannelLayer",
+         "CONFIG": {
+             "hosts": [('127.0.0.1', 6379)],
+         },
+     },
 
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer",
-    },
+    #"default": {
+    #    "BACKEND": "channels.layers.InMemoryChannelLayer",
+    #},
 }
+
 
 # cloudinary
 cloudinary.config(

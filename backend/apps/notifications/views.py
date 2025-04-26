@@ -28,7 +28,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
     # ensure notification is created for the current user.
     def perform_create(self, serializer):
-        notification = serializer.save(user=self.request.user)
+        notification = serializer.save(user=self.request.user, sender=self.request.user)
 
         # try to deliver the notification via WebSocket
         from .utils import deliver_notification

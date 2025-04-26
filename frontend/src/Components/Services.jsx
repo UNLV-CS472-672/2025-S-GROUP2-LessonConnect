@@ -42,7 +42,7 @@ export default function Services({ darkMode }) {
                                         <ul className="list-unstyled">
                                             <li><a href="#link">Games</a></li>
                                             <li><a href="#">Scheduling</a></li>
-                                            <li><a href="#">Whiteboard</a></li>
+                                            <li><a href="/LandingPage">Whiteboard</a></li>
                                             <li><a href="#">Find A Tutor</a></li>
                                             <li><a href="#">Find a Lesson</a></li>
                                         </ul>
@@ -57,9 +57,6 @@ export default function Services({ darkMode }) {
                                         <h5 className="card-title">Pomodoro</h5>
                                         <ul className="list-unstyled">
                                             <li><a href="#link">Pomodoro Timer</a></li>
-                                            <p>Temporary links Below</p>
-                                            <li><a href="/chat">Chat UI</a></li>
-                                            <li><a href="/videocall">Video Call UI</a></li>
                                         </ul>
                                     </div>
                                 </div>
