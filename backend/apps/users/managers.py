@@ -1,7 +1,7 @@
 from django.db import models
 from watson import search
-from django.db.models import Prefetch
 from apps.search.models import Subject
+from django.db.models import Prefetch
 
 class ProfileManager(models.Manager):
 
@@ -53,21 +53,24 @@ class TutorProfileManager(models.Manager):
             filtered_tutors= filtered_tutors.filter(hourly_rate__lte=max_price)
         return filtered_tutors
 
-    def filter_tutors_by_subject(self, filtered_tutors, subject_query, is_subjects_filtered):
+    def filter_tutors_by_exact_subject(self, filtered_tutors, subject_query):
+        # Get matching Subject objects
+        matching_subjects = Subject.objects.filter(subject_query)
+        # If matching subjects are found, filter tutors by these subjects
+        if not matching_subjects.exists():
+            return self.none()
+        # Filter tutors that have those subjects
+        filtered_tutors = filtered_tutors.filter(subjects__in=matching_subjects)
+
+        return filtered_tutors
+
+    def filter_tutors_by_subject(self, filtered_tutors, subject_query):
         # If matching subjects are found, filter tutors by these subjects
         if not subject_query.exists():
             return self.none()
 
-        # Checks if the subjects have already been filtered to
-        # avoid doing an extra prefetch
-        if is_subjects_filtered:
-            # Filter tutors who have any of the subjects in the subject_query
-            filtered_tutors = filtered_tutors.filter(subjects__in=subject_query)
-        else:
-            # Prefetch related subjects to optimize database queries (prefetch only needs to occur once)
-            filtered_tutors = filtered_tutors.prefetch_related('subjects')
-            # Filter tutors who have any of the subjects in the subject_query
-            filtered_tutors = filtered_tutors.filter(subjects__in=subject_query)
+        # Filter tutors who have any of the subjects in the subject_query
+        filtered_tutors = filtered_tutors.filter(subjects__in=subject_query)
 
         return filtered_tutors
 
