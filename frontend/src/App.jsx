@@ -21,6 +21,7 @@ import Pomodoro from "./Components/Podomoro.jsx";
 import StudentView from "./Components/StudentView.jsx";
 import Chat from "./Components/Chat.jsx";
 import Booking from "./Components/Booking.jsx";
+import ProfilePage from "./Components/ProfilePage.jsx";
 import VideoCall from "./Components/VideoCall.jsx";
 import Calendar from "./Components/Calendar.jsx";
 import Inbox from "./Components/Inbox.jsx";
@@ -28,6 +29,7 @@ import TutorView from "./Components/TutorView.jsx";
 import AssignmentPage from "./Components/AssignmentPage.jsx";
 import WhiteboardCanvas from "./Components/WhiteboardCanvas.jsx";
 import LandingPage from "./Components/LandingPage.jsx";
+import EditProfile from "./Components/EditProfile.jsx";
 import Settings from "./Components/Settings.jsx";
 import Questionnaire from "./Components/Questionnaire.jsx";
 import AssignmentCreate from "./Components/AssignmentCreate.jsx";
@@ -66,9 +68,11 @@ function App() {
                 <Route path="/faqs" element={<FAQS />} />
                 <Route path="/findTutor" element={<FindTutor />} />
                 <Route path="/chat" element={<Chat />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/edit-profile" element={<EditProfile />} />
+                <Route path="/videocall" element={<VideoCall />} />
+                <Route path="/WhiteboardCanvas" element={<WhiteboardCanvas/>} />
                 <Route path="/WhiteboardCanvas" element={<WhiteboardCanvas />} />
-
-
                 {/* Profile Setup Routes */}
                 <Route path="/student-questionnaire" element={<Questionnaire userRole={3} />} />
                 <Route path="/tutor-questionnaire" element={<Questionnaire userRole={1} />} />

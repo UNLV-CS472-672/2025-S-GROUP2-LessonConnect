@@ -34,6 +34,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         if 'message' in text_data_json:
             message = text_data_json['message']
+
             try:
                 # Try to save the message
                 username, id, timestamp = await self.save_message(self.user_id, self.room_name, message)
@@ -58,6 +59,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 await self.send(text_data=json.dumps({
                     "error": f"Chat room '{self.room_name}' not found. Message not saved."
                 }))
+
         # Typing status is received
         elif 'typing' in text_data_json:
             typing = text_data_json['typing']
