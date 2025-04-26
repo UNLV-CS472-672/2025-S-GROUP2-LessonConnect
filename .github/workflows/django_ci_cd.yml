@@ -53,7 +53,9 @@ jobs:
 
       # Generate coverage XML report for Codecov
       - name: Run tests and generate coverage XML report
-        run: pytest --cov --cov-branch --cov-report=xml
+        run: |
+          coverage erase
+          pytest --cov --cov-branch --cov-report=xml
 
       # Upload to Codecov (external visualization tool)
       - name: Upload coverage reports to Codecov
