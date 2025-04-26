@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "../Styles/Chat.css";
+// import Calendar from "react-calendar";
 // import EmojiPicker from "emoji-picker-react";
 
 
@@ -14,11 +15,11 @@ export default function Chat() {
     //     setInputText(prev => prev + emojiData.emoji);
     // }
 
-    const [messages, setMessages] = useState([]);
 
     const [inputText, setInputText] = useState("");
 
     const [chatList, /*setChatList*/] = useState([
+        // TODO: Using GET, fetch the most recent message from sender in chat to render
         {
             id: 1,
             name: "John Smith",
@@ -64,7 +65,7 @@ export default function Chat() {
     ]);
 
     // Track which chat is selected
-    const [selectedChat, setSelectedChat] = useState(chatList[0]);
+    const [selectedChat, setSelectedChat] = useState(null);
 
     // For toggling sidebars (UC2)
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -83,14 +84,81 @@ export default function Chat() {
 
     // Dynamically set the chat room when user clicks a chat
     const [roomName, setRoomName] = useState(null);
+    const [isTyping, setIsTyping] = useState(false);
+
+
+    // States + variable used for pop-ups
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [modalInputText, setModalInputText] = useState("");
+
     // Used to refetch or re-render messages
     const accessToken = localStorage.getItem("accessToken");
     const username = localStorage.getItem("username");
 
+    // Message related variables
+    // Used to store messages for rendering in the frontend
+    const [messageMap, setMessageMap] = useState({})
+    // Used to remember message order for the front end for rendering
+    const [messageOrder, setMessageOrder] = useState([]);
+
+    // Handles notifying others that user is typing
+    const handleTyping = (e) => {
+        setInputText(e.target.value)
+        // Prepare typing data
+        const typingStatus = {
+            typing: true
+        };
+        if (socket.current && socket.current.readyState === WebSocket.OPEN) {
+            socket.current.send(JSON.stringify(typingStatus));
+        } else {
+            console.warn("WebSocket not open.");
+        }
+    }
+    // https://dev.to/3mustard/create-a-typing-animation-in-react-17o0
+    // typing animation component
+    const Typing = () => (
+        <div className="typing">
+            <div className="typing__dot"></div>
+            <div className="typing__dot"></div>
+            <div className="typing__dot"></div>
+        </div>
+    )
     // ------------ WEBSOCKET RELATED VARIABLES END------------------
 
 
+    // ---------------- HTTP REQUEST EFFECTS START ------------------
+    // Calls GET request to populate messageMap (reason why this effect is before websocket's effect)
+    useEffect(() => {
+        if (roomName) {
+            // TODO: When a chat room is selected (roomName changes),
+            //       fetch existing messages for that room using the access token.
+            //       Once the messages are fetched, update the local message map state
+            //       so it can be used for showing messages in the UI
+
+        }
+    }, [roomName]);
+    // ---------------- HTTP REQUEST EFFECTS END ------------------
+
     // ------------ WEBSOCKET EFFECTS START------------------
+
+    // Notify others that user has stopped typing with delay
+    useEffect(() => {
+        // Prepare typing data
+        const typingStatus = {
+            typing: false
+        };
+
+        const typingTimer = setTimeout(() => {
+            if (socket.current && socket.current.readyState === WebSocket.OPEN) {
+                socket.current.send(JSON.stringify(typingStatus));
+            } else {
+                console.warn("WebSocket not open.");
+            }
+        }, 2000); // Stop typing after 2 seconds
+
+        return () => clearTimeout(typingTimer);
+    }, [inputText]);
+
     // Handle opening the WebSocket connection when roomName changes
     useEffect(() => {
         if (roomName && !socket.current) {
@@ -99,6 +167,13 @@ export default function Chat() {
             // Ensure socket is initialized before setting event handlers
             socket.current.onopen = () => {
                 console.log("WebSocket connected to room:", socket.current);
+                // Checks any unseen messages as seen
+                if(Object.keys(messageMap).length !== 0){ // If there is no existing messages
+                    const seenStatus = {
+                        seen: true
+                    };
+                    socket.current.send(JSON.stringify(seenStatus));
+                }
             };
 
             socket.current.onerror = (event) => {
@@ -108,10 +183,34 @@ export default function Chat() {
             socket.current.onmessage = (event) => {
                 console.log("Socket message received: ", event.data);
                 const eventData = JSON.parse(event.data);
-                if(eventData.message === "successful"){
-                    messageDisplay(eventData)
-                }
+                if(eventData.username){ //ensure a username exists
+                    if('body' in eventData && eventData.message === "successful"){
+                        setIsTyping(false)
+                        messageDisplay(eventData)
+                    }
+                    else if ('typing' in eventData && eventData.username !== username && eventData.message === "successful"){
+                        setIsTyping(eventData.typing)
+                    }
+                    else if (eventData.message === "seen_successful" && eventData.username === username) {
+                        // Assume eventData.ids is an array of message IDs that should be marked as seen
+                        setMessageMap(prev => {
+                            // Create a new state object with the updated 'seen' status for these messages
+                            const updatedMessages = { ...prev };
 
+                            // Loop over each message ID in eventData.ids and update its 'seen' status
+                            eventData.ids.forEach(id => {
+                                if (updatedMessages[id]) {
+                                    updatedMessages[id] = {
+                                        ...updatedMessages[id],
+                                        seen: true,  // Mark the message as seen
+                                    };
+                                }
+                            });
+
+                            return updatedMessages;
+                        });
+                    }
+                }
             };
             socket.current.onclose = (event) => {
                 console.log("WebSocket closed", event);
@@ -132,10 +231,15 @@ export default function Chat() {
 
     // ------------------- EFFECTS --------------------
     useEffect(() => {
-        if (chatBodyRef.current) {
-            chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+        const chat = chatBodyRef.current;
+        if(!chat) return;
+        const shouldScroll =
+            chat.scrollTop + chat.clientHeight >= chat.scrollHeight - 100;
+
+        if (shouldScroll) {
+            chat.scrollTop = chat.scrollHeight;
         }
-    }, [messages]);
+    }, [messageOrder, isTyping]);
     // ------------------- HELPERS --------------------
 
     function messageDisplay(eventData){
@@ -144,23 +248,38 @@ export default function Chat() {
             newMessage = {
                 text: eventData.body,
                 type: "sent",
-                time: getCurrentTime(),
-                read: false
+                time: getCurrentTime(eventData.timestamp),
+                message_id: eventData.id,
+                seen: false
             }
         }
         else{
             newMessage = {
                 text: eventData.body,
                 type: "received",
-                time: getCurrentTime(),
-                read: false
+                time: getCurrentTime(eventData.timestamp),
+                message_id: eventData.id,
+                seen: false
+            }
+            const seenStatus = {
+                seen: true
+            };
+            // Send the seen status via WebSocket if the connection is open
+            if (socket.current && socket.current.readyState === WebSocket.OPEN) {
+                socket.current.send(JSON.stringify(seenStatus));
+            } else {
+                console.warn("WebSocket not open.");
             }
         }
-        setMessages((prev) => [...prev, newMessage]);
+
+        setMessageMap(prev => ({...prev, [newMessage.message_id]: newMessage,}));
+        setMessageOrder((prev) => [...prev, newMessage.message_id]);
     }
     // Format current time as "hh:mm AM/PM"
-    function getCurrentTime() {
-        return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    function getCurrentTime(timestamp) {
+        // Convert the timestamp string to a JavaScript Date object
+        const date = new Date(timestamp.replace(' ', 'T'));
+        return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     }
 
     // Send a message (UC5)
@@ -182,7 +301,6 @@ export default function Chat() {
         } else {
             console.warn("WebSocket not open.");
         }
-        // simulateReply();
     }
 
     // Press "Enter" to send
@@ -207,8 +325,15 @@ export default function Chat() {
     function handleSelectChat(chat) {
         setRoomName(chat.roomName)
         setSelectedChat(chat);
+    }
 
-        // TODO: Load messages for the selected chat from backend when available
+    // Creates a new chat
+    function handleCreateChat() {
+        const text = modalInputText.trim();
+        if (text === "") return;
+        // TODO: Connect with backend via POST to allow a new chat to be made
+        alert("Starting a new chat... (UC1, future scope)")
+        setModalInputText("")
     }
 
     // Filter chat list by search term
@@ -243,7 +368,8 @@ export default function Chat() {
                         <h2>Chats</h2>
                         <button
                             className="new-chat"
-                            onClick={() => alert("Starting a new chat... (UC1, future scope)")}
+                            //onClick={() => alert("Starting a new chat... (UC1, future scope)")}
+                            onClick={() => setShowCreateModal(true)}
                         >
                             <i className="fas fa-plus"></i> <span>New Chat</span>
                         </button>
@@ -252,7 +378,7 @@ export default function Chat() {
                         {filteredChatList.map((chat) => (
                             <li
                                 key={chat.id}
-                                className={`chat-item ${selectedChat.id === chat.id ? "active" : ""}`}
+                                className={`chat-item ${selectedChat?.id === chat.id ? "active" : ""}`}
                                 onClick={() => handleSelectChat(chat)}
                             >
                                 <img src={chat.avatar} alt="User Avatar" className="avatar" />
@@ -268,151 +394,162 @@ export default function Chat() {
                         ))}
                     </ul>
                 </aside>
-
-                {/* CHAT WINDOW */}
-                <section className="chat-window">
-                    {/* Chat Header */}
-                    <div className="chat-header">
-                        <div className="chat-with">
-                            <button className="sidebar-toggle" onClick={toggleSidebar}>
-                                <i className="fas fa-bars"></i>
+                {/* ====== Modal for Creating Chats ====== */}
+                {showCreateModal && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            {/* Close Modal (×) Button - absolute top right */}
+                            <button className="close-modal-btn" onClick={() => setShowCreateModal(false)}>
+                                ×
                             </button>
-                            <img src={selectedChat.avatar} alt="User Avatar" className="avatar" />
-                            <div>
-                                <h2>{selectedChat.name}</h2>
-                                <p className="status">{selectedChat.status}</p>
+                            {/* Text Input */}
+                            <input
+                                type="text"
+                                placeholder="Add user to new chat..."
+                                value={modalInputText}
+                                onChange={(e) => setModalInputText(e.target.value)}
+                                style={{ width: '200px', height: '30px', fontSize: '14px' }}
+                            />
+                            <div className="confirm-btn-wrapper">
+                                <button className="confirm-btn" disabled={!modalInputText} onClick={handleCreateChat}>
+                                        Confirm
+                                </button>
                             </div>
                         </div>
-                        <div className="chat-actions">
-                            <button className="action-btn" onClick={() => alert("Video call!")}>
-                                <i className="fas fa-video"></i>
-                            </button>
-                            <button className="action-btn" onClick={toggleDetails}>
-                                <i className="fas fa-info-circle"></i>
-                            </button>
-                        </div>
                     </div>
-                    {/* Chat Body */}
-                    <div className="chat-body" ref={chatBodyRef}>
-                        {messages.map((msg, index) => (
-                            <div
-                                key={index}
-                                className={`message ${msg.type}`}
-                            >
-                                {/* For "received" messages, show an avatar */}
-                                {msg.type === "received" && (
-                                    <img src={selectedChat.avatar} alt="Avatar" className="avatar" />
-                                )}
-                                <div className="message-content">
-                                    <p>{msg.text}</p>
-                                    <span className="time">
-                    {msg.time}
-                                        {/* If it's a sent message, show a small read receipt check (UC6) */}
-                                        {msg.type === "sent" && msg.read && (
-                                            <i className="fas fa-check read-receipt" title="Message read"></i>
-                                        )}
-                </span>
+                )}
+                {selectedChat ? (
+                    <>
+                        {/* CHAT WINDOW */}
+                        <section className="chat-window">
+                            {/* Chat Header */}
+                            <div className="chat-header">
+                                <div className="chat-with">
+                                    <button className="sidebar-toggle" onClick={toggleSidebar}>
+                                        <i className="fas fa-bars"></i>
+                                    </button>
+                                    <img src={selectedChat.avatar} alt="User Avatar" className="avatar" />
+                                    <div>
+                                        <h2>{selectedChat.name}</h2>
+                                        <p className="status">{selectedChat.status}</p>
+                                    </div>
+                                </div>
+                                <div className="chat-actions">
+                                    <button className="action-btn" onClick={() => alert("Video call!")}>
+                                        <i className="fas fa-video"></i>
+                                    </button>
+                                    <button className="action-btn" onClick={toggleDetails}>
+                                        <i className="fas fa-info-circle"></i>
+                                    </button>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                            {/* Chat Body */}
+                            <div className="chat-body" ref={chatBodyRef}>
+                                {messageOrder.map((id) => {
+                                    const msg = messageMap[id];
+                                    if (!msg) return null; // just in case something isn't loaded yet
 
-                    {/*/!* Chat Body *!/*/}
-                    {/*<div className="chat-body" ref={chatBodyRef}>*/}
-                    {/*    {messages.map((msg, index) => (*/}
-                    {/*        <div*/}
-                    {/*            key={index}*/}
-                    {/*            className={`message ${msg.type} ${msg.isTyping ? "typing" : ""}`}*/}
-                    {/*        >*/}
-                    {/*            /!* For "received" messages, show an avatar if not typing *!/*/}
-                    {/*            {msg.type === "received" && !msg.isTyping && (*/}
-                    {/*                <img src={selectedChat.avatar} alt="Avatar" className="avatar" />*/}
-                    {/*            )}*/}
-                    {/*            <div className="message-content">*/}
-                    {/*                <p>{msg.text}</p>*/}
-                    {/*                /!* Show time if not typing *!/*/}
-                    {/*                {!msg.isTyping && (*/}
-                    {/*                    <span className="time">*/}
-                    {/*  {msg.time}*/}
-                    {/*                        /!* If it's a sent message, show a small read receipt check (UC6) *!/*/}
-                    {/*                        {msg.type === "sent" && msg.read && (*/}
-                    {/*                            <i className="fas fa-check read-receipt" title="Message read"></i>*/}
-                    {/*                        )}*/}
-                    {/*</span>*/}
-                    {/*                )}*/}
-                    {/*            </div>*/}
-                    {/*        </div>*/}
-                    {/*    ))}*/}
-                    {/*</div>*/}
+                                    return (
+                                        <div key={id} className={`message ${msg.type}`}>
+                                            {msg.type === "received" && (
+                                                <img src={selectedChat.avatar} alt="Avatar" className="avatar" />
+                                            )}
+                                            <div className="message-content">
+                                                <p>{msg.text}</p>
+                                                <span className="time"> {msg.time}
+                                                    {msg.type === "sent" && msg.seen && (
+                                                        <i className="fas fa-check read-receipt" title="Message read"></i>
+                                                    )}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
 
-                    {/* Chat Input (UC5: Send Message) */}
-                    {/* Chat Input Area with Fake Attach & Emoji Buttons */}
-                    {/* This is the updated chat input area with Video & Upload on the right */}
-                    <div className="chat-input-area">
-                        {/* Left: Emoji Button */}
-                        <button
-                            className="emoji-btn"
-                            // onClick={() => setShowEmojiPicker(prev => !prev)}
-                        >
-                            🙂
-                        </button>
-                        {/*/!* Render Emoji Picker when showEmojiPicker is true *!/*/}
-                        {/*{showEmojiPicker && (*/}
-                        {/*    <div className="emoji-picker-container">*/}
-                        {/*        <EmojiPicker onEmojiClick={handleEmojiClick} />*/}
-                        {/*    </div>*/}
-                        {/*)}*/}
+                                {/* Show typing indicator at the bottom if someone is typing */}
+                                {isTyping && <Typing />}
+                            </div>
 
-                        {/* Center: Text Input */}
-                        <input
-                            type="text"
-                            placeholder="Type your message..."
-                            value={inputText}
-                            onChange={(e) => setInputText(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                        />
+                            {/* Chat Input (UC5: Send Message) */}
+                            {/* Chat Input Area with Fake Attach & Emoji Buttons */}
+                            {/* This is the updated chat input area with Video & Upload on the right */}
+                            <div className="chat-input-area">
+                                {/* Left: Emoji Button */}
+                                <button
+                                    className="emoji-btn"
+                                    // onClick={() => setShowEmojiPicker(prev => !prev)}
+                                >
+                                    🙂
+                                </button>
+                                {/*/!* Render Emoji Picker when showEmojiPicker is true *!/*/}
+                                {/*{showEmojiPicker && (*/}
+                                {/*    <div className="emoji-picker-container">*/}
+                                {/*        <EmojiPicker onEmojiClick={handleEmojiClick} />*/}
+                                {/*    </div>*/}
+                                {/*)}*/}
 
-                        {/* Right: Video, Upload, Send */}
-                        <button className="video-btn" onClick={() => alert("Video call not implemented!")}>
-                            🎥
-                        </button>
-                        <button className="upload-btn" onClick={() => alert("File upload not implemented!")}>
-                            ⏏
-                        </button>
-                        <button className="send-btn" onClick={handleSend}>
-                            Send
-                        </button>
-                    </div>
-                </section>
+                                {/* Center: Text Input */}
+                                <input
+                                    type="text"
+                                    placeholder="Type your message..."
+                                    value={inputText}
+                                    onChange={handleTyping}
+                                    onKeyPress={handleKeyPress}
+                                />
 
-                {/* RIGHT SIDEBAR (UC7: View Contact Info, UC8: Role-based Labeling, UC10: Status Indicator) */}
-                <aside className={`details-sidebar ${isDetailsOpen ? "open" : "closed"}`}>
-                    <div className="details-card">
-                        <img src={selectedChat.avatar} alt="User Avatar" className="profile-avatar" />
-                        <h3>{selectedChat.name}</h3>
-                        <p className="role-label">{selectedChat.role}</p>
-                    </div>
-                    <div className="details-info">
-                        <p>
-                            <strong>Status:</strong> {selectedChat.status}
-                        </p>
-                        <p>
-                            <strong>Email:</strong> {selectedChat.email}
-                        </p>
-                        <p>
-                            <strong>Joined:</strong> {selectedChat.joined}
-                        </p>
-                        <p>
-                            <strong>Location:</strong> {selectedChat.location}
-                        </p>
-                    </div>
-                    <div className="details-actions">
-                        {/* UC: Mute, Block, Report */}
-                        <button onClick={() => alert("Muted user!")}>Mute</button>
-                        <button onClick={() => alert("Blocked user!")}>Block</button>
-                        <button onClick={() => alert("Reported user!")}>Report</button>
-                    </div>
-                </aside>
+                                {/* Right: Video, Upload, Send */}
+                                <button className="video-btn" onClick={() => alert("Video call not implemented!")}>
+                                    🎥
+                                </button>
+                                <button className="upload-btn" onClick={() => alert("File upload not implemented!")}>
+                                    ⏏
+                                </button>
+                                <button className="send-btn" onClick={handleSend}>
+                                    Send
+                                </button>
+                            </div>
+                        </section>
+
+                        {/* RIGHT SIDEBAR (UC7: View Contact Info, UC8: Role-based Labeling, UC10: Status Indicator) */}
+                        <aside className={`details-sidebar ${isDetailsOpen ? "open" : "closed"}`}>
+                            <div className="details-card">
+                                <img src={selectedChat.avatar} alt="User Avatar" className="profile-avatar" />
+                                <h3>{selectedChat.name}</h3>
+                                <p className="role-label">{selectedChat.role}</p>
+                            </div>
+                            <div className="details-info">
+                                <p>
+                                    <strong>Status:</strong> {selectedChat.status}
+                                </p>
+                                <p>
+                                    <strong>Email:</strong> {selectedChat.email}
+                                </p>
+                                <p>
+                                    <strong>Joined:</strong> {selectedChat.joined}
+                                </p>
+                                <p>
+                                    <strong>Location:</strong> {selectedChat.location}
+                                </p>
+                            </div>
+                            <div className="details-actions">
+                                {/* UC: Mute, Block, Report */}
+                                {/* TODO: Connect to backend upon click */}
+                                <button onClick={() => alert("Muted user!")}>Mute</button>
+                                <button onClick={() => alert("Blocked user!")}>Block</button>
+                                <button onClick={() => alert("Reported user!")}>Report</button>
+                            </div>
+                        </aside>
+                    </>
+                ) : (
+                    <section className="chat-window placeholder">
+                        <div className="no-chat-selected">
+                            <i className="fas fa-comments fa-3x"></i>
+                            <h2>Welcome to LessonConnect</h2>
+                            <p>Select a chat or start a new conversation.</p>
+                            <small>End‑to‑end encrypted • Up to 4 linked devices</small>
+                        </div>
+                    </section>
+                )}
             </main>
         </div>
     );

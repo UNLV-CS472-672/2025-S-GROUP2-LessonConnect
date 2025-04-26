@@ -1,6 +1,3 @@
-# The below code is just for testing purposes (it works!)
-# Tested it using https://websocketking.com/
-# and entered ws://localhost:8000/ws/apps/chat/practice/
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
@@ -33,35 +30,111 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 # This function receive messages from WebSocket.
     async def receive(self, text_data):
+        # Message is received
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+        if 'message' in text_data_json:
+            message = text_data_json['message']
 
-        # Create a new message object
-        username = await self.save_message(self.user_id, self.room_name, message)
+            # Create a new message object
+            username, id, timestamp = await self.save_message(self.user_id, self.room_name, message)
 
-        await self.channel_layer.group_send( # sends message to all users in a channel group
-            self.room_group_name,
-            {
-                'type': 'chat_message', # Calls chat_message()
-                'message': message,
-                'username': username
-            }
-        )
+            # Serialize timestamp
+            formatted = timestamp.isoformat()
+
+            await self.channel_layer.group_send( # sends message to all users in a channel group
+                self.room_group_name,
+                {
+                    'type': 'chat_message', # Calls chat_message()
+                    'message': message,
+                    'username': username,
+                    'id': id,
+                    'timestamp': formatted
+                }
+            )
+
+        # Typing status is received
+        elif 'typing' in text_data_json:
+            typing = text_data_json['typing']
+            username = await self.get_username(self.user_id)
+            await self.channel_layer.group_send( # sends message to all users in a channel group
+                self.room_group_name,
+                {
+                    'type': 'typing_status', # Calls typing_status()
+                    'typing': typing,
+                    'username': username
+                }
+            )
+        # Seen status is received
+        elif 'seen' in text_data_json:
+            sender_username, message_ids = await self.mark_as_seen(self.room_name, self.user_id)
+
+            await self.channel_layer.group_send( # sends message to all users in a channel group
+                self.room_group_name,
+                {
+                    'type': 'seen_status', # Calls seen_status()
+                    'username': sender_username,
+                    'ids': message_ids
+                }
+            )
+
+    @sync_to_async
+    def mark_as_seen(self, room_name, user_id):
+        chat = Chat.objects.get(name = room_name)
+        # Get all unseen messages (excluding those from the receiver)
+        unseen_messages = chat.messages.filter(status=Message.NOT_SEEN).exclude(sender_id=user_id).order_by('-timestamp')
+
+        # Get sender (assumes all chats only have 2 people)
+        first_unseen = unseen_messages.first()
+        sender_username = None
+
+        # If there are unseen messages from sender
+        if first_unseen:
+            sender_username = first_unseen.sender.username
+
+        # Get message ids (maintaining order)
+        message_ids = list(unseen_messages.values_list('id', flat=True))
+
+        # Mark unseen messages as seen
+        unseen_messages.update(status=Message.SEEN)
+
+        return sender_username, message_ids
+
+
+    async def seen_status(self, event):
+        await self.send(text_data=json.dumps({
+            'message': 'seen_successful',
+            'ids': event['ids'],
+            'username': event['username']
+        }))
+
+    async def typing_status(self, event):
+        await self.send(text_data=json.dumps({
+            'message': 'successful',
+            'typing': event['typing'],
+            'username': event['username']
+        }))
 
     async def chat_message(self, event):
         await self.send(text_data=json.dumps({
             'message': 'successful',
             'body': event['message'],
-            'username': event['username']
+            'username': event['username'],
+            'id': event['id'],
+            'timestamp': event['timestamp']
         }))
+
+    @sync_to_async
+    def get_username(self, id):
+        user = User.objects.get(id=id)
+        return user.username
 
     @sync_to_async
     def save_message(self, id, room_name, content):
         try:
             user = User.objects.get(id=id)
             chat = Chat.objects.get(name = room_name)
-            Message.objects.create(content=content, chat = chat, sender = user) # Creates and saves message
-            return user.username
+            message = Message.objects.create(content=content, chat = chat, sender = user) # Creates and saves message
+            return user.username, message.id, message.timestamp
         except (Chat.DoesNotExist):
             print(f"Chat room '{room_name}' not found. Message not saved.")
             return "Unknown"
