@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     "apps.whiteboard",      # our whiteboard app
     "apps.sessions.apps.SessionsConfig",        # our sessions app
     "apps.planner",       # our calendar app
+    "apps.achievements",  # our achievements app
     "rest_framework",     # rest framework
     'rest_framework_simplejwt.token_blacklist', # for logout functionality
     "channels",           # Django channels
