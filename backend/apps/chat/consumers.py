@@ -35,22 +35,30 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if 'message' in text_data_json:
             message = text_data_json['message']
 
-            # Create a new message object
-            username, id, timestamp = await self.save_message(self.user_id, self.room_name, message)
+            try:
+                # Try to save the message
+                username, id, timestamp = await self.save_message(self.user_id, self.room_name, message)
 
-            # Serialize timestamp
-            formatted = timestamp.isoformat()
+                # Serialize timestamp
+                formatted = timestamp.isoformat()
 
-            await self.channel_layer.group_send( # sends message to all users in a channel group
-                self.room_group_name,
-                {
-                    'type': 'chat_message', # Calls chat_message()
-                    'message': message,
-                    'username': username,
-                    'id': id,
-                    'timestamp': formatted
-                }
-            )
+                await self.channel_layer.group_send( # sends message to all users in a channel group
+                    self.room_group_name,
+                    {
+                        'type': 'chat_message', # Calls chat_message()
+                        'message': message,
+                        'username': username,
+                        'id': id,
+                        'timestamp': formatted
+                    }
+                )
+            except Chat.DoesNotExist:
+                # Handle the error: chat room does not exist
+                print(f"Chat room '{self.room_name}' not found. Message not saved.")
+                # Send an error message back to the user
+                await self.send(text_data=json.dumps({
+                    "error": f"Chat room '{self.room_name}' not found. Message not saved."
+                }))
 
         # Typing status is received
         elif 'typing' in text_data_json:
@@ -130,11 +138,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def save_message(self, id, room_name, content):
-        try:
-            user = User.objects.get(id=id)
-            chat = Chat.objects.get(name = room_name)
-            message = Message.objects.create(content=content, chat = chat, sender = user) # Creates and saves message
-            return user.username, message.id, message.timestamp
-        except (Chat.DoesNotExist):
-            print(f"Chat room '{room_name}' not found. Message not saved.")
-            return "Unknown"
+        user = User.objects.get(id=id)
+        chat = Chat.objects.get(name=room_name)
+        message = Message.objects.create(content=content, chat=chat, sender=user)  # Creates and saves message
+        return user.username, message.id, message.timestamp
