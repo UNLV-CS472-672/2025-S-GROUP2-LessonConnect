@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import assignmentService from '../Services/AssignmentServices.js';
 import quizService from "../Services/QuizServices.js";
+import questionService from "../Services/QuestionServices.js";
 import '../Styles/AssignmentCreate.css';
 
 export default function AssignmentCreate() {
@@ -11,13 +12,20 @@ export default function AssignmentCreate() {
         title: '', description: '', assignment_type: 'HW', deadline: '' });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    //
     const [quizzes, setQuizzes] = useState([]);
     const [selectedQuiz, setSelectedQuiz] = useState(null);
     const [quizForm, setQuizForm] = useState({
         time_limit: 0, num_of_questions: 0, attempts: 1, is_active: true});
+    //
+    const [questions, setQuestions] = useState([]);
+    const [selectedQuestion, setSelectedQuestion] = useState(null);
+    const [questionForm, setQuestionForm] = useState({
+        question_type: 'MC', order_of_question: 1, question_text: '', points: 0});
+    const [choices, setChoices] = useState([{ text: '', isCorrect: false }]);
+
     // const [questionType, setQuestionType] = useState('MC');
     // const [choices, setChoices] = useState([{ text: '', isCorrect: false }]);
-    // const [selectedQuestion, setSelectedQuestion] = useState(null);
     // const [solutionText, setSolutionText] = useState('');
 
     // 1) Fetch list on mount & refresh
@@ -120,6 +128,133 @@ export default function AssignmentCreate() {
         }
     };
 
+    // Quiz 4)  Create or Load quiz (with assignmentId)
+    const handleLoadOrCreateQuiz = async (assignmentId) => {
+        setLoading(true);
+        try {
+            setSelectedAssignment(assignmentId);
+            let list = await quizService.getQuizzes(assignmentId);
+            if (list.length === 0) {
+                // create a new quiz with default values
+                const defaults = {
+                    time_limit: 0,
+                    num_of_questions: 1,
+                    attempts: 1,
+                    is_active: false
+                };
+                const newQuiz = await quizService.createQuiz(assignmentId, defaults);
+                list = [newQuiz];
+            }
+            setQuizzes(list);
+            setSelectedQuiz(list[0].id);
+
+            setQuizForm({
+                time_limit: list[0].time_limit,
+                num_of_questions: list[0].num_of_questions,
+                attempts: list[0].attempts,
+                is_active: list[0].is_active
+            });
+            setView('quiz');
+            setError(null);
+        } catch (e) {
+            setError('Failed to load or create quiz');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Question 1) Fetch questions for a quiz
+    const fetchQuestions = async (assignmentId, quizId) => {
+        setLoading(true);
+        try {
+            const data = await questionService.getQuestions(assignmentId, quizId);
+            setQuestions(data);
+            setError(null);
+        } catch {
+            setError('Failed to load questions');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Question 2) Called when "Add Question" clicked
+    const handleStartAddQuestion = () => {
+        setSelectedQuestion(null);
+        setQuestionForm({ question_type: 'MC', order_of_question: '', question_text: '', points: ''});
+        setChoices([{ text: '', isCorrect: false }]);
+        setView('editQuestion');
+    };
+
+    // Question 3) Called when "Edit" clicked for an existing question
+    const handleStartEditQuestion = (q) => {
+        setSelectedQuestion(q.id);
+        setQuestionForm({
+            question_type: q.question_type,
+            order_of_question: q.order_of_question,
+            question_text: q.question_text,
+            points: q.points
+        });
+        setChoices([{ text: '', isCorrect: false }]);
+        setView('editQuestion');
+    };
+
+    // Question 4) Handle form changes
+    const handleQuestionChange = (e) => {
+        const { name, value } = e.target;
+        let newVal = value;
+
+        // if it’s a number field, keep '' or parseInt
+        if (name === 'order_of_question' || name === 'points') {
+            newVal = value === '' ? '' : parseInt(value, 10);
+        }
+
+        setQuestionForm(prev => ({
+            ...prev,
+            [name]: newVal
+        }));
+    };
+
+    // Question 5) Submit create or update
+    const handleSubmitQuestion = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            if (selectedQuestion) {
+                await questionService.updateQuestion(
+                    selectedAssignment,
+                    selectedQuiz,
+                    selectedQuestion,
+                    questionForm
+                );
+            } else {
+                await questionService.createQuestion(
+                    selectedAssignment,
+                    selectedQuiz,
+                    questionForm
+                );
+            }
+            await fetchQuestions(selectedAssignment, selectedQuiz);
+            setView('question');
+            setError(null);
+        } catch {
+            setError('Failed to save question');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Question 6) Delete a question
+    const handleDeleteQuestion = async (id) => {
+        if (!window.confirm('Delete this question?')) return;
+        await questionService.deleteQuestion(
+            selectedAssignment,
+            selectedQuiz,
+            id
+        );
+        fetchQuestions(selectedAssignment, selectedQuiz);
+        // missing setView('question') ???
+    };
+
     /*
     const [questions, setQuestions] = useState([
         { id: 1, type: 'MC', text: 'What is 2 + 2?', points: 1, solution: 4 },
@@ -189,13 +324,9 @@ export default function AssignmentCreate() {
                                     </button>
                                     <button
                                         className="assignment-create_link"
-                                        onClick={() => {
-                                            setSelectedAssignment(a.id);
-                                            fetchQuizzes(a.id);
-                                            setView('quiz');
-                                        }}
+                                        onClick={() => handleLoadOrCreateQuiz(a.id)}
                                     >
-                                        Manage Quiz
+                                        View/Manage Quiz
                                     </button>
                                     <button
                                         className="assignment-create_link"
@@ -324,9 +455,13 @@ export default function AssignmentCreate() {
                                 <td className="assignment-create_cell">
                                     <button
                                         className="assignment-create_link"
-                                        onClick={() => setView('question')}
+                                        onClick={() => {
+                                            setSelectedQuiz(qz.id);
+                                            fetchQuestions(selectedAssignment, qz.id);
+                                            setView('question')
+                                        }}
                                     >
-                                        Add Questions
+                                        Manage Questions
                                     </button>
                                 </td>
                             </tr>
@@ -394,21 +529,101 @@ export default function AssignmentCreate() {
             )}
 
             {view === 'question' && (
+                <>
+                    <h2 className="assignment-create_header">Quiz Questions</h2>
+                    <div className="assignment-create_button-container">
+                        <button
+                            className="assignment-create_button"
+                            onClick={handleStartAddQuestion}
+                        >
+                            Add Question
+                        </button>
+                    </div>
+                    <table className="assignment-create_table">
+                        <thead>
+                        <tr>
+                            <th className="assignment-create_label">#</th>
+                            <th className="assignment-create_label">Question Type</th>
+                            <th className="assignment-create_label">Points</th>
+                            <th className="assignment-create_label">Question</th>
+                            <th className="assignment-create_label">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {questions.map((q) => (
+                            <tr key={q.id}>
+                                <td className="assignment-create_cell">{q.order_of_question}</td>
+                                <td className="assignment-create_cell">{q.question_type}</td>
+                                <td className="assignment-create_cell">{q.points}</td>
+                                <td className="assignment-create_cell">{
+                                    q.question_text.length > 50
+                                        ? q.question_text.slice(0, 50) + '...' : q.question_text
+                                }</td>
+                                <td className="assignment-create_cell">
+                                    <button
+                                        className="assignment-create_link"
+                                        onClick={() => handleStartEditQuestion(q)}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        className="assignment-create_link"
+                                        style={{ color: 'red' }}
+                                        onClick={() => handleDeleteQuestion(q.id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </>
+            )}
+
+            {view === 'editQuestion' && (
                 <div className="assignment-create_form">
-                    <h2 className="assignment-create_header">Create Question</h2>
-                    <form>
+                    <h2 className="assignment-create_header">
+                        {selectedQuestion ? 'Edit Question' : 'Create/Add Question'}
+                    </h2>
+                    {error && <p className="error">{error}</p>}
+                    <form onSubmit={handleSubmitQuestion}>
                         <select
+                            name="question_type"
                             className="assignment-create_input"
-                            value={questionType}
-                            onChange={(e) => setQuestionType(e.target.value)}
+                            value={questionForm.question_type}
+                            onChange={handleQuestionChange}
                         >
                             <option value="MC">Multiple Choice</option>
                             <option value="SA">Short Answer</option>
                         </select>
-                        <input type="number" placeholder="Order" className="assignment-create_input" />
-                        <textarea placeholder="Question Text" className="assignment-create_input" />
-                        <input type="number" placeholder="Points" className="assignment-create_input" />
-                        {questionType === 'MC' && (
+                        <input
+                            name="order_of_question"
+                            type="number"
+                            min="1"
+                            placeholder="Question Order"
+                            className="assignment-create_input"
+                            value={questionForm.order_of_question}
+                            onChange={handleQuestionChange}
+                        />
+                        <textarea
+                            name="question_text"
+                            className="assignment-create_input"
+                            placeholder="Question Text"
+                            value={questionForm.question_text}
+                            onChange={handleQuestionChange}
+                        />
+                        <input
+                            name="points"
+                            type="number"
+                            min="0"
+                            placeholder="Points"
+                            className="assignment-create_input"
+                            value={questionForm.points}
+                            onChange={handleQuestionChange}
+                        />
+
+                        {questionForm.question_type === 'MC' && (
                             <>
                                 <h4 style={{ marginTop: '20px' }}>Choices</h4>
                                 {choices.map((choice, index) => (
@@ -447,12 +662,13 @@ export default function AssignmentCreate() {
                                 ))}
                             </>
                         )}
+
                         <div className="assignment-create_button-container">
-                            {questionType === 'MC' && (
+                            {questionForm.question_type === 'MC' && (
                                 <button
                                     type="button"
                                     className="assignment-create_button"
-                                    onClick={handleAddChoice}
+                                    onClick={() => setChoices([...choices, { text: '', isCorrect: false }])}
                                 >
                                     Add Another Choice
                                 </button>
@@ -463,12 +679,11 @@ export default function AssignmentCreate() {
                             <button
                                 className="assignment-create_button"
                                 type="button"
-                                onClick={() => setView('quiz')}
+                                onClick={() => setView('question')}
                             >
                                 Cancel
                             </button>
                         </div>
-
                     </form>
                 </div>
             )}
