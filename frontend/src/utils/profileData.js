@@ -302,7 +302,7 @@ export const initializeProfileData = async () => {
     
     // If no data, fetch from API
     return await getProfileData();
-  } catch (_) {
+  } catch {
     // Return default data if any error occurs
     return defaultProfileData;
   }
