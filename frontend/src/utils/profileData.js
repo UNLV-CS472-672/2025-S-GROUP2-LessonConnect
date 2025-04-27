@@ -30,23 +30,6 @@ const getAuthToken = () => {
   return token;
 };
 
-// Helper function to handle API errors
-const handleApiError = (error) => {
-  console.error('API Error:', error);
-  if (error.response) {
-    console.error('Response data:', error.response.data);
-    console.error('Response status:', error.response.status);
-  }
-  
-  // Handle token expiration - could add token refresh logic here
-  if (error.response && error.response.status === 401) {
-    console.warn('Authentication error, user may need to login again');
-    // Could trigger a refresh token workflow here
-  }
-  
-  throw error;
-};
-
 // Get profile data from API, fallback to localStorage if offline
 export const getProfileData = async () => {
   try {
@@ -84,7 +67,6 @@ export const getProfileData = async () => {
       }
     ];
     
-    let response = null;
     let data = null;
     let lastError = null;
     
@@ -105,7 +87,6 @@ export const getProfileData = async () => {
         console.log(`${endpoint.name} response status:`, resp.status);
         
         if (resp.ok) {
-          response = resp;
           data = await resp.json();
           console.log(`Success with ${endpoint.name}:`, data);
           break;
@@ -253,7 +234,7 @@ export const saveProfileData = async (data) => {
       }
     ];
     
-    let response = null;
+    let successfulResponse = false;
     let lastError = null;
     
     // Try each endpoint until one works
@@ -274,7 +255,7 @@ export const saveProfileData = async (data) => {
         console.log(`${endpoint.name} response status:`, resp.status);
         
         if (resp.ok) {
-          response = resp;
+          successfulResponse = true;
           console.log(`Success with ${endpoint.name}`);
           break;
         } else {
@@ -286,7 +267,7 @@ export const saveProfileData = async (data) => {
       }
     }
     
-    if (!response || !response.ok) {
+    if (!successfulResponse) {
       throw lastError || new Error('All endpoints failed');
     }
     
@@ -312,13 +293,18 @@ export const saveProfileData = async (data) => {
 // Initialize profile data from API or use default
 export const initializeProfileData = async () => {
   try {
-    // Try to get from API first
-    await getProfileData();
-  } catch (error) {
-    // If API fails and no localStorage data exists, initialize with defaults
-    if (!localStorage.getItem('profileData')) {
-      localStorage.setItem('profileData', JSON.stringify(defaultProfileData));
+    // Check if we already have profile data
+    const existingData = localStorage.getItem('profileData');
+    
+    if (existingData) {
+      return JSON.parse(existingData);
     }
+    
+    // If no data, fetch from API
+    return await getProfileData();
+  } catch (_) {
+    // Return default data if any error occurs
+    return defaultProfileData;
   }
 };
 
@@ -361,7 +347,7 @@ export const updateProfileData = async (updatedData) => {
       }
     ];
     
-    let response = null;
+    let successfulResponse = false;
     let lastError = null;
     
     // Try each endpoint until one works
@@ -382,7 +368,7 @@ export const updateProfileData = async (updatedData) => {
         console.log(`${endpoint.name} response status:`, resp.status);
         
         if (resp.ok) {
-          response = resp;
+          successfulResponse = true;
           console.log(`Success with ${endpoint.name}`);
           break;
         } else {
@@ -394,7 +380,7 @@ export const updateProfileData = async (updatedData) => {
       }
     }
     
-    if (!response || !response.ok) {
+    if (!successfulResponse) {
       throw lastError || new Error('All endpoints failed');
     }
     
