@@ -1,5 +1,5 @@
 /* Loading and Error State Styles */
-.profile-loading,
+.profile-page-container .profile-loading,
 .profile-error {
     display: flex;
     flex-direction: column;
@@ -10,23 +10,23 @@
     text-align: center;
 }
 
-.profile-loading .spinner-border {
+.profile-page-container.profile-loading .spinner-border {
     width: 3rem;
     height: 3rem;
     margin-bottom: 1rem;
 }
 
-.profile-error {
+.profile-page-container .profile-error {
     max-width: 500px;
     margin: 0 auto;
 }
 
-.profile-error p {
+.profile-page-container .profile-error p {
     margin-bottom: 1.5rem;
     font-size: 1.1rem;
 }
 
-.profile-error button {
+.profile-page-container .profile-error button {
     padding: 0.5rem 1.5rem;
 }
 
