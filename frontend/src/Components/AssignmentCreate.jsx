@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import assignmentService from '../Services/AssignmentServices.js';
-import quizService from "../Services/QuizServices.js";
-import questionService from "../Services/QuestionServices.js";
+import quizService from '../Services/QuizServices.js';
+import questionService from '../Services/QuestionServices.js';
+import choiceService from '../Services/ChoiceServices.js';
 import '../Styles/AssignmentCreate.css';
 
 export default function AssignmentCreate() {
@@ -185,8 +186,8 @@ export default function AssignmentCreate() {
         setView('editQuestion');
     };
 
-    // Question 3) Called when "Edit" clicked for an existing question
-    const handleStartEditQuestion = (q) => {
+    // Question & Choice 3) Called when "Edit" clicked for an existing question
+    const handleStartEditQuestion = async (q) => {
         setSelectedQuestion(q.id);
         setQuestionForm({
             question_type: q.question_type,
@@ -194,7 +195,26 @@ export default function AssignmentCreate() {
             question_text: q.question_text,
             points: q.points
         });
-        setChoices([{ text: '', isCorrect: false }]);
+        setChoices([{ text: '', isCorrect: false }]);  // default
+
+        setLoading(true);
+        // then load real choices:
+        try {
+            // Fetch the real choices from the server
+            const data = await choiceService.getChoices(
+                selectedAssignment,
+                selectedQuiz,
+                q.id
+            );
+
+            setChoices(data.map(c => ({ id: c.id, text: c.choice_text, isCorrect: c.is_correct })));
+            setError(null);
+        } catch {
+            setError('Failed to load choices');
+        } finally {
+            setLoading(false);
+        }
+
         setView('editQuestion');
     };
 
@@ -214,30 +234,61 @@ export default function AssignmentCreate() {
         }));
     };
 
-    // Question 5) Submit create or update
+    // Question & Choice 5) Submit create or update
     const handleSubmitQuestion = async (e) => {
         e.preventDefault();
         setLoading(true);
         try {
+            let saved;
             if (selectedQuestion) {
-                await questionService.updateQuestion(
+                saved = await questionService.updateQuestion(
                     selectedAssignment,
                     selectedQuiz,
                     selectedQuestion,
                     questionForm
                 );
             } else {
-                await questionService.createQuestion(
+                saved = await questionService.createQuestion(
                     selectedAssignment,
                     selectedQuiz,
                     questionForm
                 );
+                setSelectedQuestion(saved.id);
             }
+
+            // now send choices array:
+            // mapping local `choices` state to the DRF payload shape:
+            const payload = choices.map(c => ({
+                id:        c.id,            // undefined for new ones
+                choice_text: c.text,
+                is_correct:  c.isCorrect
+            }));
+
+            if (payload.length) {
+                if (saved.id && payload.some(c => c.id)) {
+                    // existing + new → do a bulk update (and new will be ignored server‐side if id is missing)
+                    await choiceService.updateChoices(
+                        selectedAssignment,
+                        selectedQuiz,
+                        saved.id,
+                        payload
+                    );
+                } else {
+                    // all new
+                    await choiceService.createChoices(
+                        selectedAssignment,
+                        selectedQuiz,
+                        saved.id,
+                        payload
+                    );
+                }
+            }
+
             await fetchQuestions(selectedAssignment, selectedQuiz);
             setView('question');
             setError(null);
         } catch {
-            setError('Failed to save question');
+            setError('Failed to save question & choices');
         } finally {
             setLoading(false);
         }
