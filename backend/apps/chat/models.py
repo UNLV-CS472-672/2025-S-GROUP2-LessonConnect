@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 from .managers import ChatManager, MessageManager
+from django.core.exceptions import ValidationError
 
 class Chat(models.Model):
   user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name="chats_initiated")
@@ -53,6 +54,10 @@ class MutedUser(models.Model):
         verbose_name_plural = "Muted Users"
         ordering = ['-created_at']
 
+    def clean(self):
+        if self.muted_user == self.muted_by:
+            raise ValidationError("You cannot mute yourself.")
+
     def __str__(self):
         return f"{self.muted_by} muted {self.muted_user}"
 
@@ -67,6 +72,10 @@ class BlockedUser(models.Model):
         verbose_name_plural = "Blocked Users"
         ordering = ['-created_at']
 
+    def clean(self):
+        if self.blocked_user == self.blocked_by:
+            raise ValidationError("You cannot block yourself.")
+        
     def __str__(self):
         return f"{self.blocked_by} blocked {self.blocked_user}"
 
