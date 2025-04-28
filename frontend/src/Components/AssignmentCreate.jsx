@@ -598,6 +598,7 @@ export default function AssignmentCreate() {
                             <th className="assignment-create_label">Points</th>
                             <th className="assignment-create_label">Question</th>
                             <th className="assignment-create_label">Actions</th>
+                            <th className="assignment-create_label">Solution</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -623,6 +624,14 @@ export default function AssignmentCreate() {
                                         onClick={() => handleDeleteQuestion(q.id)}
                                     >
                                         Delete
+                                    </button>
+                                </td>
+                                <td className="assignment-create_cell">
+                                    <button
+                                        className="assignment-create_link"
+                                        onClick={() => setView('solution')}
+                                    >
+                                        Add Solution
                                     </button>
                                 </td>
                             </tr>

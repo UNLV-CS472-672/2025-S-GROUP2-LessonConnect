@@ -4,7 +4,7 @@ const API_BASE = 'http://127.0.0.1:8000/lessons/assignments';
 
 const getToken = () => localStorage.getItem('accessToken');
 
-const quizServices = {
+const quizService = {
 
     // List all quizzes for a given assignment
     getQuizzes: async (assignmentId) => {
@@ -64,4 +64,4 @@ const quizServices = {
     }
 };
 
-export default quizServices;
+export default quizService;

@@ -4,7 +4,7 @@ const API_BASE = 'http://127.0.0.1:8000/lessons/assignments';
 
 const getToken = () => localStorage.getItem('accessToken');
 
-const assignmentServices = {
+const assignmentService = {
     getAssignments: async () => {
         const response = await axios.get(`${API_BASE}/`, {
             headers: { Authorization: `Bearer ${getToken()}` }
@@ -47,4 +47,4 @@ const assignmentServices = {
     }
 };
 
-export default assignmentServices;
+export default assignmentService;
