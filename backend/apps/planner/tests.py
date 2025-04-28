@@ -6,13 +6,14 @@ from apps.users.models import Profile
 from django.core.exceptions import ValidationError
 from decimal import InvalidOperation
 from rest_framework import status
-from rest_framework.test import APIClient
+from rest_framework.test import APIClient, APITestCase
 from django.urls import reverse
 from apps.planner.models import CalendarEvent
 from apps.lessons.models import Assignment
 
-# https://chatgpt.com/share/67d8b158-0d8c-8003-a586-13dc69796303
-class CalendarTestCase(TestCase):
+# Model Tests
+# https://chatgpt.com/share/680fcc53-47b4-800c-b923-2e9fae8e48b0 
+class CalendarModelTestCase(TestCase):
     def setUp(self):
         # Create user and student profile
         self.user = User.objects.create_user(username="student1", password="password")
@@ -144,3 +145,138 @@ class CalendarTestCase(TestCase):
         meeting_events = CalendarEvent.objects.events_by_type(CalendarEvent.MEETING)
         self.assertIn(type_event, meeting_events)
         self.assertNotIn(self.event, meeting_events)
+
+# Endpoint Tests
+# https://chatgpt.com/share/680fd2aa-b6a8-800c-9aa4-3c15d2bdd21d
+class CalendarEventAPITestCase(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="student1", password="password")
+        self.profile = Profile.objects.create(user=self.user, role=3)
+
+        self.assignment = Assignment.objects.create(
+            title="Test Assignment",
+            description="Assignment for event",
+            assignment_type="QZ",
+            deadline="2025-12-01T12:00:00Z",
+        )
+
+        self.login_url = reverse("token_obtain_pair")
+        self.event_url = reverse("calendarevent-list")
+
+        response = self.client.post(self.login_url, {
+            "username": "student1",
+            "password": "password"
+        }, format="json")
+        self.token = response.data["access"]
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
+
+    def test_create_event(self):
+        tomorrow = timezone.now() + timedelta(days=1)
+        data = {
+            "title": "API Event",
+            "date": str(tomorrow.date()),
+            "start_time": "10:00:00",
+            "end_time": "11:00:00",
+            "event_type": CalendarEvent.LESSON,
+            "related_task": self.assignment.id,
+        }
+        response = self.client.post(self.event_url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(CalendarEvent.objects.count(), 1)
+        self.assertEqual(CalendarEvent.objects.first().title, "API Event")
+
+    def test_get_event_list(self):
+        event = CalendarEvent.objects.create(
+            title="List Test",
+            date=timezone.now().date() + timedelta(days=1),
+            start_time=time(9, 0),
+            end_time=time(10, 0),
+            event_type=CalendarEvent.MEETING,
+            related_task=self.assignment,
+        )
+        response = self.client.get(self.event_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_invalid_event_times(self):
+        tomorrow = timezone.now() + timedelta(days=1)
+        data = {
+            "title": "Invalid Time",
+            "date": str(tomorrow.date()),
+            "start_time": "13:00:00",
+            "end_time": "11:00:00",  # End before start
+            "event_type": CalendarEvent.LESSON,
+            "related_task": self.assignment.id,
+        }
+        response = self.client.post(self.event_url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("End time must be after the start time", str(response.data))
+
+    def test_unauthorized_access(self):
+        self.client.credentials()  # Clear auth
+        response = self.client.get(self.event_url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_update_event(self):
+        event = CalendarEvent.objects.create(
+            title="Old Title",
+            date=timezone.now().date() + timedelta(days=1),
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+            event_type=CalendarEvent.MEETING,
+            related_task=self.assignment,
+        )
+        url = reverse("calendarevent-detail", args=[event.id])
+        data = {
+            "title": "Updated Title",
+            "date": str(event.date),
+            "start_time": "10:00:00",
+            "end_time": "11:00:00",
+            "event_type": event.event_type,
+            "related_task": self.assignment.id
+        }
+        response = self.client.put(url, data, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["title"], "Updated Title")
+
+    def test_partial_update_event(self):
+        event = CalendarEvent.objects.create(
+            title="Patch Me",
+            date=timezone.now().date() + timedelta(days=1),
+            start_time=time(9, 0),
+            end_time=time(10, 0),
+            event_type=CalendarEvent.LESSON,
+            related_task=self.assignment,
+        )
+        url = reverse("calendarevent-detail", args=[event.id])
+        response = self.client.patch(url, {"title": "Patched Title"}, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["title"], "Patched Title")
+
+    def test_delete_event(self):
+        event = CalendarEvent.objects.create(
+            title="Delete Me",
+            date=timezone.now().date() + timedelta(days=1),
+            start_time=time(9, 0),
+            end_time=time(10, 0),
+            event_type=CalendarEvent.REMINDER,
+            related_task=self.assignment,
+        )
+        url = reverse("calendarevent-detail", args=[event.id])
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 204)
+        self.assertFalse(CalendarEvent.objects.filter(id=event.id).exists())
+
+    def test_get_single_event(self):
+        event = CalendarEvent.objects.create(
+            title="Single Event",
+            date=timezone.now().date() + timedelta(days=1),
+            start_time=time(8, 0),
+            end_time=time(9, 0),
+            event_type=CalendarEvent.PRACTICE,
+            related_task=self.assignment,
+        )
+        url = reverse("calendarevent-detail", args=[event.id])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["title"], "Single Event")
