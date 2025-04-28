@@ -8,8 +8,9 @@ import badge2 from "/assets/images/UNLV_pic.png";
 import badge3 from "/assets/images/UNLV_pic.png";
 import badge4 from "/assets/images/UNLV_pic.png";
 import EmojiPicker from 'emoji-picker-react';
-import { FaEdit, FaCog, FaShareAlt, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaEnvelope, FaUser } from 'react-icons/fa';
-import { getProfileData, initializeProfileData } from '../utils/profileData';
+import { FaEdit, FaCog, FaShareAlt, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaEnvelope, FaUser, FaSignInAlt } from 'react-icons/fa';
+import { getProfileData, getProfileDataSync, initializeProfileData, updateProfileData } from '../utils/profileData';
+import { isLoggedIn, refreshAuthToken } from '../utils/auth';
 
 // Quick smiley emojis - memoized outside component to prevent recreation
 const quickEmojis = ['😊', '😂', '😍', '🥰', '😎', '😃', '🙂', '😉', '😇', '🤩'];
@@ -25,35 +26,84 @@ const ProfilePage = () => {
     
     const navigate = useNavigate();
     
+    // Authentication state
+    const [authenticated, setAuthenticated] = useState(isLoggedIn());
+    
     // Refs for DOM elements
     const textareaRef = useRef(null);
     const emojiMenuRef = useRef(null);
     const emojiButtonRef = useRef(null);
 
-    // Initialize profile data if not present
+    // Add loading and error states
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    // Check authentication on component mount
     useEffect(() => {
-        initializeProfileData();
+        const token = localStorage.getItem('accessToken');
+        setAuthenticated(!!token);
     }, []);
 
-    // Load profile data from localStorage
-    const [userData, setUserData] = useState(() => getProfileData());
+    // Check authentication and redirect if needed
+    useEffect(() => {
+        if (!authenticated) {
+            // You can uncomment the navigate line when you have a login page
+            // navigate('/login');
+        }
+    }, [authenticated, navigate]);
+
+    // Initialize profile data if not present
+    useEffect(() => {
+        const initProfile = async () => {
+            try {
+                await initializeProfileData();
+            } catch (err) {
+                console.error("Error initializing profile data:", err);
+            }
+        };
+        
+        if (authenticated) {
+            initProfile();
+        }
+    }, [authenticated]);
+
+    // Load profile data from API with localStorage fallback
+    const [userData, setUserData] = useState(() => getProfileDataSync());
 
     // Refresh user data when component mounts or when navigating back to this page
     useEffect(() => {
-        const handleStorageChange = () => {
-            setUserData(getProfileData());
+        const fetchProfileData = async () => {
+            if (!authenticated) {
+                setIsLoading(false);
+                return;
+            }
+
+            setIsLoading(true);
+            try {
+                // Try to refresh token first if needed
+                await refreshAuthToken();
+                
+                const data = await getProfileData();
+                setUserData(data);
+                setError(null);
+            } catch (err) {
+                console.error("Error fetching profile data:", err);
+                
+                if (err.message && err.message.includes('401')) {
+                    setError("Your session has expired. Please log in again.");
+                    setAuthenticated(false);
+                } else {
+                    setError("Failed to load profile data. Please try again later.");
+                }
+            } finally {
+                setIsLoading(false);
+            }
         };
 
-        // Listen for storage changes from other tabs/windows
-        window.addEventListener('storage', handleStorageChange);
+        fetchProfileData();
 
-        // Always refresh data when component mounts
-        setUserData(getProfileData());
-
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
-        };
-    }, []);
+        // No need for storage event listener since we're using API
+    }, [authenticated]);
 
     // Memoized data that doesn't need to be recreated on every render
     const badges = useMemo(() => [
@@ -113,25 +163,48 @@ const ProfilePage = () => {
     }, []);
 
     // Update status with memoized callback
-    const updateStatus = useCallback(() => {
-        setStatusData(prev => {
-            if (prev.new.trim() !== "") {
-                return {
+    const updateStatus = useCallback(async () => {
+        if (!authenticated) {
+            alert("You need to be logged in to update your status.");
+            return;
+        }
+        
+        if (statusData.new.trim() === "") {
+            setStatusData(prev => ({
+                ...prev,
+                isEditing: false,
+                showEmojis: false
+            }));
+            return;
+        }
+        
+        try {
+            // Update the status in the API
+            const success = await updateProfileData({ status: statusData.new });
+            
+            if (success) {
+                setStatusData(prev => ({
                     ...prev,
                     current: prev.new,
                     new: "",
                     isEditing: false,
                     showEmojis: false
-                };
+                }));
+            } else {
+                throw new Error("Failed to update status");
             }
-            return {
+        } catch (err) {
+            console.error("Error updating status:", err);
+            alert("Failed to update status. Please try again later.");
+            
+            // Revert to previous state
+            setStatusData(prev => ({
                 ...prev,
-                new: "",
                 isEditing: false,
                 showEmojis: false
-            };
-        });
-    }, []);
+            }));
+        }
+    }, [statusData.new, authenticated]);
 
     // Handle cancel button
     const handleCancel = useCallback(() => {
@@ -144,11 +217,16 @@ const ProfilePage = () => {
 
     // Handle edit button
     const handleEdit = useCallback(() => {
+        if (!authenticated) {
+            alert("You need to be logged in to edit your status.");
+            return;
+        }
+        
         setStatusData(prev => ({
             ...prev,
             isEditing: true
         }));
-    }, []);
+    }, [authenticated]);
 
     // Handle Share Profile button click
     const handleShareProfile = useCallback(() => {
@@ -159,6 +237,11 @@ const ProfilePage = () => {
     // Handle Settings button click
     const handleSettingsClick = useCallback(() => {
         navigate('/student/settings');
+    }, [navigate]);
+    
+    // Handle Login button click
+    const handleLoginClick = useCallback(() => {
+        navigate('/login');
     }, [navigate]);
 
     // Handle emoji menu outside click
@@ -216,6 +299,49 @@ const ProfilePage = () => {
             ))}
         </div>
     );
+
+    // Show loading message when data is being fetched
+    if (isLoading) {
+        return (
+            <div className="profile-loading">
+                <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+                <p>Loading profile data...</p>
+            </div>
+        );
+    }
+
+    // If not authenticated, show login prompt
+    if (!authenticated) {
+        return (
+            <div className="profile-error">
+                <h3>Authentication Required</h3>
+                <p>You need to be logged in to view your profile.</p>
+                <button 
+                    className="btn btn-primary" 
+                    onClick={handleLoginClick}
+                >
+                    <FaSignInAlt /> Log In
+                </button>
+            </div>
+        );
+    }
+
+    // Show error message if there was a problem
+    if (error) {
+        return (
+            <div className="profile-error">
+                <p className="text-danger">{error}</p>
+                <button 
+                    className="btn btn-primary" 
+                    onClick={() => window.location.reload()}
+                >
+                    Retry
+                </button>
+            </div>
+        );
+    }
 
     return (
         <div className="profile-page-container">
@@ -376,7 +502,7 @@ const ProfilePage = () => {
                                 ) : (
                                     <div className="status-container">
                                         <div className="status-display" onClick={handleEdit}>
-                                            {statusData.current || "Click here to update your status..."}
+                                            {userData.status || statusData.current || "Click here to update your status..."}
                                         </div>
                                     </div>
                                 )}
