@@ -67,5 +67,3 @@ class CalendarEvent(models.Model):
                 raise ValidationError("The event date cannot be in the past.")
             elif self.date == timezone.now().date() and self.start_time < timezone.now().time():
                 raise ValidationError("The event start time cannot be in the past.")
-        elif self.start_time or self.end_time:
-            raise ValidationError("Both start time and end time must be provided.")
