@@ -3,6 +3,7 @@ import assignmentService from '../Services/AssignmentServices.js';
 import quizService from '../Services/QuizServices.js';
 import questionService from '../Services/QuestionServices.js';
 import choiceService from '../Services/ChoiceServices.js';
+import solutionService from '../Services/SolutionServices.js';
 import '../Styles/AssignmentCreate.css';
 
 export default function AssignmentCreate() {
@@ -25,9 +26,9 @@ export default function AssignmentCreate() {
         question_type: 'MC', order_of_question: 1, question_text: '', points: 0});
     const [choices, setChoices] = useState([{ text: '', isCorrect: false }]);
 
-    // const [questionType, setQuestionType] = useState('MC');
-    // const [choices, setChoices] = useState([{ text: '', isCorrect: false }]);
     // const [solutionText, setSolutionText] = useState('');
+    const [solutionForm,    setSolutionForm]    = useState({ short_answer_text: '' });
+    const [solutionExists,  setSolutionExists]  = useState(false);
 
     // 1) Fetch list on mount & refresh
     const fetchList = async () => {
@@ -168,8 +169,29 @@ export default function AssignmentCreate() {
     const fetchQuestions = async (assignmentId, quizId) => {
         setLoading(true);
         try {
-            const data = await questionService.getQuestions(assignmentId, quizId);
-            setQuestions(data);
+            const qs = await questionService.getQuestions(assignmentId, quizId);
+
+            // for each question, try to fetch its solution
+            const enriched = await Promise.all(
+                qs.map(async (q) => {
+                    try {
+                        const sol = await solutionService.getSolution(
+                            assignmentId,
+                            quizId,
+                            q.id
+                        );
+                        return {
+                            ...q,
+                            solution: sol.short_answer_text || ''
+                        };
+                    } catch (err) {
+                        // if 404 or other error, no solution yet
+                        return { ...q, solution: '' };
+                    }
+                })
+            );
+
+            setQuestions(enriched);
             setError(null);
         } catch {
             setError('Failed to load questions');
@@ -255,7 +277,7 @@ export default function AssignmentCreate() {
                 );
                 setSelectedQuestion(saved.id);
             }
-
+        // ai-gen start (ChatGPT-4, 1)
             // now send choices array:
             // mapping local `choices` state to the DRF payload shape:
             const payload = choices.map(c => ({
@@ -266,7 +288,7 @@ export default function AssignmentCreate() {
 
             if (payload.length) {
                 if (saved.id && payload.some(c => c.id)) {
-                    // existing + new → do a bulk update (and new will be ignored server‐side if id is missing)
+                    // existing + new then do a bulk update (and new will be ignored server‐side if id is missing)
                     await choiceService.updateChoices(
                         selectedAssignment,
                         selectedQuiz,
@@ -283,7 +305,7 @@ export default function AssignmentCreate() {
                     );
                 }
             }
-
+        // ai-gen end
             await fetchQuestions(selectedAssignment, selectedQuiz);
             setView('question');
             setError(null);
@@ -306,29 +328,73 @@ export default function AssignmentCreate() {
         // missing setView('question') ???
     };
 
-    /*
-    const [questions, setQuestions] = useState([
-        { id: 1, type: 'MC', text: 'What is 2 + 2?', points: 1, solution: 4 },
-        { id: 2, type: 'SA', text: 'Define gravity.', points: 2, solution: '' },
-    ]);
-
-    const handleAddChoice = () => {
-        setChoices([...choices, { text: '', isCorrect: false }]);
+    // Solution 1) Called when "Add Solution" clicked for an existing question
+    const handleStartSolution = async (q) => {
+        setSelectedQuestion(q.id);
+        setLoading(true);
+        try {
+            // Try to load an existing solution
+            const sol = await solutionService.getSolution(
+                selectedAssignment,
+                selectedQuiz,
+                q.id
+            );
+            setSolutionExists(true);
+            setSolutionForm({ short_answer_text: sol.short_answer_text || '' });
+        } catch (err) {
+            // 404 means “no solution yet”
+            setSolutionExists(false);
+            setSolutionForm({ short_answer_text: '' });
+        } finally {
+            setLoading(false);
+            setView('solution');
+        }
     };
 
-    const handleSaveSolution = () => {
-        setQuestions(prev =>
-            prev.map(q =>
-                q.id === selectedQuestion.id
-                    ? { ...q, solution: solutionText }
-                    : q
-            )
-        );
-        setSelectedQuestion(null);
-        setSolutionText('');
-        setView('quiz');
+    // Solution 2)
+    const handleSolutionChange = (e) => {
+        setSolutionForm({ short_answer_text: e.target.value });
     };
-    */
+
+    // Solution 3)
+    const handleSaveSolution = async () => {
+        setLoading(true);
+        try {
+            let sol;
+            if (solutionExists) {
+                sol = await solutionService.updateSolution(
+                    selectedAssignment,
+                    selectedQuiz,
+                    selectedQuestion,
+                    solutionForm
+                );
+            } else {
+                sol = await solutionService.createSolution(
+                    selectedAssignment,
+                    selectedQuiz,
+                    selectedQuestion,
+                    solutionForm
+                );
+                setSolutionExists(true);
+            }
+
+            // Merge into your local questions list so the table updates immediately
+            setQuestions(prev =>
+                prev.map(q =>
+                    q.id === selectedQuestion
+                        ? { ...q, solution: sol.short_answer_text }
+                        : q
+                )
+            );
+
+            setView('question');
+            setError(null);
+        } catch {
+            setError('Failed to save solution');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="assignment-create_container">
@@ -408,7 +474,6 @@ export default function AssignmentCreate() {
                             className="assignment-create_input"
                             value={formData.title}
                             onChange={handleChange}
-                            //defaultValue={selectedAssignment?.title || ''}
                         />
                         <textarea
                             name="description"
@@ -422,7 +487,6 @@ export default function AssignmentCreate() {
                             className="assignment-create_input"
                             value={formData.assignment_type}
                             onChange={handleChange}
-                            //defaultValue={selectedAssignment?.type || 'HW'}
                         >
                             <option value="EX">Exercises</option>
                             <option value="HW">Homework</option>
@@ -627,12 +691,20 @@ export default function AssignmentCreate() {
                                     </button>
                                 </td>
                                 <td className="assignment-create_cell">
-                                    <button
-                                        className="assignment-create_link"
-                                        onClick={() => setView('solution')}
-                                    >
-                                        Add Solution
-                                    </button>
+                                    {q.solution ? (
+                                        // if there’s a solution, show it (truncated if >30 chars)
+                                        q.solution.length > 30
+                                            ? `${q.solution.slice(0, 30)} …`
+                                            : q.solution
+                                    ) : (
+                                        // otherwise show an “Add Solution” button
+                                        <button
+                                            className="assignment-create_link"
+                                            onClick={() => handleStartSolution(q)}
+                                        >
+                                            Add Solution
+                                        </button>
+                                    )}
                                 </td>
                             </tr>
                         ))}
@@ -751,12 +823,13 @@ export default function AssignmentCreate() {
             {view === 'solution' && selectedQuestion && (
                 <div className="assignment-create_form">
                     <h2 className="assignment-create_header">Add Solution</h2>
+                    {error && <p className="error">{error}</p>}
                     <form>
                         <textarea
                             placeholder="Enter solution..."
                             className="assignment-create_input"
-                            value={solutionText}
-                            onChange={(e) => setSolutionText(e.target.value)}
+                            value={solutionForm.short_answer_text}
+                            onChange={handleSolutionChange}
                         />
                         <div className="assignment-create_button-container">
                             <button
@@ -771,8 +844,7 @@ export default function AssignmentCreate() {
                                 type="button"
                                 onClick={() => {
                                     setSelectedQuestion(null);
-                                    setSolutionText('');
-                                    setView('quiz');
+                                    setView('question');
                                 }}
                             >
                                 Cancel
