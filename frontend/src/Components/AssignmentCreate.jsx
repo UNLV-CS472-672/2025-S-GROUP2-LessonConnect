@@ -25,8 +25,7 @@ export default function AssignmentCreate() {
     const [questionForm, setQuestionForm] = useState({
         question_type: 'MC', order_of_question: 1, question_text: '', points: 0});
     const [choices, setChoices] = useState([{ text: '', isCorrect: false }]);
-
-    // const [solutionText, setSolutionText] = useState('');
+    //
     const [solutionForm,    setSolutionForm]    = useState({ short_answer_text: '' });
     const [solutionExists,  setSolutionExists]  = useState(false);
 
@@ -325,7 +324,6 @@ export default function AssignmentCreate() {
             id
         );
         fetchQuestions(selectedAssignment, selectedQuiz);
-        // missing setView('question') ???
     };
 
     // Solution 1) Called when "Add Solution" clicked for an existing question
@@ -333,7 +331,6 @@ export default function AssignmentCreate() {
         setSelectedQuestion(q.id);
         setLoading(true);
         try {
-            // Try to load an existing solution
             const sol = await solutionService.getSolution(
                 selectedAssignment,
                 selectedQuiz,
@@ -342,7 +339,7 @@ export default function AssignmentCreate() {
             setSolutionExists(true);
             setSolutionForm({ short_answer_text: sol.short_answer_text || '' });
         } catch (err) {
-            // 404 means “no solution yet”
+            // If we get a 404, it means “no solution yet”
             setSolutionExists(false);
             setSolutionForm({ short_answer_text: '' });
         } finally {
@@ -583,6 +580,15 @@ export default function AssignmentCreate() {
                         ))}
                         </tbody>
                     </table>
+                    <div className="assignment-create_button-container">
+                        <button
+                            className="assignment-create_button"
+                            type="button"
+                            onClick={() => setView('list')}
+                        >
+                            ← Back to Assignments
+                        </button>
+                    </div>
                 </>
             )}
 
@@ -710,6 +716,15 @@ export default function AssignmentCreate() {
                         ))}
                         </tbody>
                     </table>
+                    <div className="assignment-create_button-container">
+                        <button
+                            className="assignment-create_button"
+                            type="button"
+                            onClick={() => setView('quiz')}
+                        >
+                            ← Back to Quiz Info
+                        </button>
+                    </div>
                 </>
             )}
 
@@ -794,7 +809,6 @@ export default function AssignmentCreate() {
                                 ))}
                             </>
                         )}
-
                         <div className="assignment-create_button-container">
                             {questionForm.question_type === 'MC' && (
                                 <button
