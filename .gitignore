@@ -8,6 +8,8 @@
 /dataSources.local.xml
 
 /.idea/
+node_modules/
+
 
 # file contains very sensitive information. 
 # you do not want this as everybody can see this information and use it to attack the site.
