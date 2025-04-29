@@ -34,6 +34,7 @@ import Settings from "./Components/Settings.jsx";
 import Questionnaire from "./Components/Questionnaire.jsx";
 import AssignmentCreate from "./Components/AssignmentCreate.jsx";
 import RoleSelect from "./Components/RoleSelect.jsx";
+import Logout from "./Components/Logout.jsx";
 
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
                 <Route path="/videocall" element={<VideoCall />} />
                 <Route path="/WhiteboardCanvas" element={<WhiteboardCanvas/>} />
                 <Route path="/WhiteboardCanvas" element={<WhiteboardCanvas />} />
+                <Route path="/logout" element={<Logout />} />
                 {/* Profile Setup Routes */}
                 <Route path="/student-questionnaire" element={<Questionnaire userRole={3} />} />
                 <Route path="/tutor-questionnaire" element={<Questionnaire userRole={1} />} />
