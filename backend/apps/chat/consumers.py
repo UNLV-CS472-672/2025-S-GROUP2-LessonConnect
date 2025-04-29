@@ -1,7 +1,7 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
-from .models import Message, Chat
+from .models import Message, Chat, BlockedUser, MutedUser
 from django.contrib.auth.models import User
 
 # https://medium.com/@farad.dev/how-to-build-a-real-time-chat-app-using-django-channels-2ba2621ea972
@@ -36,6 +36,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
             message = text_data_json['message']
 
             try:
+                chat = await sync_to_async(Chat.objects.get)(name=self.room_name)
+                sender = await sync_to_async(User.objects.get)(id=self.user_id)
+                receiver = await sync_to_async(Chat.objects.get_other_user)(chat, sender)
+                await self.blocked_or_muted(sender, receiver)
+
                 # Try to save the message
                 username, id, timestamp = await self.save_message(self.user_id, self.room_name, message)
 
@@ -142,3 +147,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
         chat = Chat.objects.get(name=room_name)
         message = Message.objects.create(content=content, chat=chat, sender=user)  # Creates and saves message
         return user.username, message.id, message.timestamp
+        
+    @staticmethod
+    async def blocked_or_muted(sender, receiver):
+        sender_profile = await sync_to_async(lambda: sender.profile)()
+        receiver_profile = await sync_to_async(lambda: receiver.profile)()
+
+        blocked = await sync_to_async(BlockedUser.objects.filter(blocked_by=receiver_profile, blocked_user=sender_profile).exists)()
+        if blocked:
+            raise PermissionError("You are blocked by this user.")
+
+        muted = await sync_to_async(MutedUser.objects.filter(muted_by=receiver_profile, muted_user=sender_profile).exists)()
+        if muted:
+            raise PermissionError("You are muted by this user.")

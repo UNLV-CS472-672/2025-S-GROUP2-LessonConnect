@@ -1,17 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from .models import Chat, User
+from .models import Chat, User, MutedUser, BlockedUser, ReportedUser
 from .forms import MessageForm
+from .serializers import MuteUserSerializer, BlockUserSerializer, ReportUserSerializer
 
 # https://chatgpt.com/share/67fd9c70-d378-8005-8c39-b0453f0f790f
-from rest_framework import viewsets, permissions, serializers
+from rest_framework import viewsets, permissions, serializers, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.contrib.auth.models import User
 from django.db.models import Q
 from .models import Chat, Message
 from .serializers import ChatSerializer, MessageSerializer
+
 
 class ChatViewSet(viewsets.ModelViewSet):
     queryset = Chat.objects.all()
@@ -56,6 +58,67 @@ class MessageViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(sender=self.request.user)
+
+class MuteViewSet(viewsets.ModelViewSet):
+    queryset = MutedUser.objects.all()
+    serializer_class = MuteUserSerializer
+
+    def create(self, request):
+        serializer = MuteUserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        muted_user = serializer.validated_data['muted_user']
+        muted_by = request.user.profile
+    
+        if MutedUser.objects.filter(muted_user=muted_user, muted_by=muted_by).exists():
+            raise serializers.ValidationError("You have already muted this user.")
+        
+        MutedUser.objects.create(muted_user=muted_user, muted_by=muted_by)
+        return Response({'message': 'User muted successfully.'}, status=status.HTTP_201_CREATED)
+
+class BlockViewSet(viewsets.ModelViewSet):
+    queryset = BlockedUser.objects.all()
+    serializer_class = BlockUserSerializer
+
+    def create(self, request):
+        serializer = BlockUserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        blocked_user = serializer.validated_data['blocked_user']
+        blocked_by = request.user.profile
+        
+        if BlockedUser.objects.filter(blocked_user=blocked_user, blocked_by=blocked_by).exists():
+            raise serializers.ValidationError("You have already blocked this user.")
+        
+        BlockedUser.objects.create(blocked_user=blocked_user, blocked_by=blocked_by)
+        return Response({'message': 'User blocked successfully.'}, status=status.HTTP_201_CREATED)
+    
+    def list(self, request):
+        blocked = BlockedUser.objects.filter(blocked_by=request.user.profile)
+        serializer = BlockUserSerializer(blocked, many=True)
+        return Response(serializer.data)
+
+class ReportViewSet(viewsets.ModelViewSet):
+    queryset = ReportedUser.objects.all()
+    serializer_class = ReportUserSerializer
+
+    def create(self, request):
+        serializer = ReportUserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        reported_user=serializer.validated_data['reported_user']
+        reported_by=request.user.profile
+        reason=serializer.validated_data['reason']
+        
+        ReportedUser.objects.create(
+            reported_user=reported_user,
+            reported_by=reported_by,
+            reason=reason
+        )
+        return Response({'message': 'User reported successfully.'}, status=status.HTTP_201_CREATED)
+    
+    def list(self, request):
+        reported = ReportedUser.objects.filter(reported_by=request.user.profile)
+        serializer = ReportUserSerializer(reported, many=True)
+        return Response(serializer.data)
+    
 
 # =============================================
 # NOTE: ENPOINTS BELOW ARE CONSIDERED LEGACY

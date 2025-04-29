@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 from .managers import ChatManager, MessageManager
+from django.core.exceptions import ValidationError
 
 class Chat(models.Model):
   user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name="chats_initiated")
@@ -41,4 +42,54 @@ class Message(models.Model):
 
   def __str__(self):
     return f"From {self.sender} in Chat {self.chat.id} at {self.timestamp}"
+
+class MutedUser(models.Model):
+    muted_user = models.ForeignKey('users.Profile', related_name='got_muted', on_delete=models.CASCADE)
+    muted_by = models.ForeignKey('users.Profile', related_name='muted_others', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=now)
+
+    class Meta:
+        unique_together = ('muted_user', 'muted_by')
+        verbose_name = "Muted User"
+        verbose_name_plural = "Muted Users"
+        ordering = ['-created_at']
+
+    def clean(self):
+        if self.muted_user == self.muted_by:
+            raise ValidationError("You cannot mute yourself.")
+
+    def __str__(self):
+        return f"{self.muted_by} muted {self.muted_user}"
+
+class BlockedUser(models.Model):
+    blocked_user = models.ForeignKey('users.Profile', related_name='got_blocked', on_delete=models.CASCADE)
+    blocked_by = models.ForeignKey('users.Profile', related_name='blocked_others', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=now)
+
+    class Meta:
+        unique_together = ('blocked_user', 'blocked_by')
+        verbose_name = "Blocked User"
+        verbose_name_plural = "Blocked Users"
+        ordering = ['-created_at']
+
+    def clean(self):
+        if self.blocked_user == self.blocked_by:
+            raise ValidationError("You cannot block yourself.")
+        
+    def __str__(self):
+        return f"{self.blocked_by} blocked {self.blocked_user}"
+
+class ReportedUser(models.Model):
+    reported_user = models.ForeignKey('users.Profile', related_name='got_reported', on_delete=models.CASCADE)
+    reported_by = models.ForeignKey('users.Profile', related_name='reported_others', on_delete=models.CASCADE)
+    reason = models.TextField()
+    created_at = models.DateTimeField(default=now)
+
+    class Meta:
+        verbose_name = "Reported User"
+        verbose_name_plural = "Reported Users"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.reported_by} reported {self.reported_user}"
 
