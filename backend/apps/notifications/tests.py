@@ -36,7 +36,8 @@ class NotificationTestCase(TestCase):
             notification_title='Test Notification',
             notification_message='This is a test notification',
             notification_type='info',
-            info_category='general'
+            info_category='general',
+            priority='high'
         )
 
         # setup API client
