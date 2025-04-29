@@ -43,14 +43,12 @@ class BlockUserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'blocked_user']
         extra_kwargs = {'blocked_user': {'write_only': True}}
 
+
 class ReportUserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='reported_user.user.username', read_only=True)
     id = serializers.IntegerField(source='reported_user.id', read_only=True)
-    class Meta:
-        model = ReportedUser
-        fields = ['reported_user', 'reason']
 
     class Meta:
         model = ReportedUser
-        fields = ['id', 'username', 'reported_user']
-        extra_kwargs = {'reported_user': {'write_only': True}} 
+        fields = ['id', 'username', 'reported_user', 'reason']
+        extra_kwargs = {'reported_user': {'write_only': True}}
