@@ -9,7 +9,9 @@ class ChatManager(models.Manager):
             user1, user2 = user2, user1
         chat, created = self.get_or_create(user1=user1, user2=user2)
         return chat, created
-
+    
+    def get_other_user(self, chat, user):
+        return chat.user2 if chat.user1 == user else chat.user1
 
 class MessageManager(models.Manager):
     def create_message(self, chat, sender, content):

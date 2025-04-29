@@ -1,3 +1,35 @@
+/* Loading and Error State Styles */
+.edit-profile-page .edit-profile-loading,
+.edit-profile-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    padding: 2rem;
+    text-align: center;
+}
+
+.edit-profile-page.edit-profile-loading .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+}
+
+.edit-profile-page .edit-profile-error {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.edit-profile-page .edit-profile-error p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.edit-profile-page .edit-profile-error button {
+    padding: 0.5rem 1.5rem;
+}
+
 /* Edit Profile Page Styles */
 .edit-profile-page .edit-profile-container {
   background-color: #f8f9fa;

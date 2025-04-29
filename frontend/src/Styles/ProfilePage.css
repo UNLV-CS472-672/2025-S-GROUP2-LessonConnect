@@ -1,3 +1,35 @@
+/* Loading and Error State Styles */
+.profile-page-container .profile-loading,
+.profile-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    padding: 2rem;
+    text-align: center;
+}
+
+.profile-page-container.profile-loading .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+}
+
+.profile-page-container .profile-error {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.profile-page-container .profile-error p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.profile-page-container .profile-error button {
+    padding: 0.5rem 1.5rem;
+}
+
 /* Base styles */
 .profile-page-container .profile-page {
   background-color: #f8f9fa;
@@ -77,6 +109,7 @@
 }
 
 .profile-page-container .profile-name {
+  padding-left: 60px;
   font-weight: 600;
   margin: 0 0 10px 0;
   color: #ffffff;
@@ -85,6 +118,7 @@
 }
 
 .profile-page-container .profile-bio {
+  padding-left: 60px;
   font-size: 1.1rem;
   line-height: 1.4;
   color: rgba(255, 255, 255, 0.9);
