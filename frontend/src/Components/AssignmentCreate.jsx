@@ -36,7 +36,7 @@ export default function AssignmentCreate() {
             const data = await assignmentService.getAssignments();
             setAssignments(data);
             setError(null);
-        } catch (e) {
+        } catch {
             setError('Failed to load assignments');
         } finally {
             setLoading(false);
@@ -78,7 +78,7 @@ export default function AssignmentCreate() {
             setView('list');
             setSelectedAssignment(null);
             setFormData({ title: '', description: '', assignment_type: 'HW', deadline: '' });
-        } catch (e) {
+        } catch {
             setError('Submit failed');
         } finally {
             setLoading(false);
@@ -99,7 +99,7 @@ export default function AssignmentCreate() {
             const data = await quizService.getQuizzes(assignmentId);
             setQuizzes(data);
             setError(null);
-        } catch (e) {
+        } catch {
             setError('Failed to load quizzes');
         } finally {
             setLoading(false);
@@ -157,7 +157,7 @@ export default function AssignmentCreate() {
             });
             setView('quiz');
             setError(null);
-        } catch (e) {
+        } catch {
             setError('Failed to load or create quiz');
         } finally {
             setLoading(false);
@@ -183,7 +183,7 @@ export default function AssignmentCreate() {
                             ...q,
                             solution: sol.short_answer_text || ''
                         };
-                    } catch (err) {
+                    } catch {
                         // if 404 or other error, no solution yet
                         return { ...q, solution: '' };
                     }
@@ -338,7 +338,7 @@ export default function AssignmentCreate() {
             );
             setSolutionExists(true);
             setSolutionForm({ short_answer_text: sol.short_answer_text || '' });
-        } catch (err) {
+        } catch {
             // If we get a 404, it means “no solution yet”
             setSolutionExists(false);
             setSolutionForm({ short_answer_text: '' });
