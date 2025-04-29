@@ -34,12 +34,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         if 'message' in text_data_json:
             message = text_data_json['message']
-            chat = Chat.objects.get(name=self.room_name)
-            sender = User.objects.get(id=self.user_id)
-            receiver = Chat.objects.get_other_user(chat, sender)
 
             try:
-                self.blocked_or_muted(sender, receiver)
+                chat = await sync_to_async(Chat.objects.get)(name=self.room_name)
+                sender = await sync_to_async(User.objects.get)(id=self.user_id)
+                receiver = await sync_to_async(Chat.objects.get_other_user)(chat, sender)
+                await self.blocked_or_muted(sender, receiver)
 
                 # Try to save the message
                 username, id, timestamp = await self.save_message(self.user_id, self.room_name, message)
@@ -147,10 +147,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
         chat = Chat.objects.get(name=room_name)
         message = Message.objects.create(content=content, chat=chat, sender=user)  # Creates and saves message
         return user.username, message.id, message.timestamp
-
+        
     @staticmethod
-    def blocked_or_muted(sender, receiver):
-        if BlockedUser.objects.filter(blocked_by=receiver.profile, blocked_user=sender.profile).exists():
+    async def blocked_or_muted(sender, receiver):
+        sender_profile = await sync_to_async(lambda: sender.profile)()
+        receiver_profile = await sync_to_async(lambda: receiver.profile)()
+
+        blocked = await sync_to_async(BlockedUser.objects.filter(blocked_by=receiver_profile, blocked_user=sender_profile).exists)()
+        if blocked:
             raise PermissionError("You are blocked by this user.")
-        if MutedUser.objects.filter(muted_by=receiver.profile, muted_user=sender.profile).exists():
+
+        muted = await sync_to_async(MutedUser.objects.filter(muted_by=receiver_profile, muted_user=sender_profile).exists)()
+        if muted:
             raise PermissionError("You are muted by this user.")
