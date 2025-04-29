@@ -7,7 +7,6 @@ from unittest.mock import patch, MagicMock
 
 from apps.notifications.models import Notification
 from apps.notifications.utils import create_notification, deliver_notification, send_notification_to_channel_layer
-from apps.notifications.tasks import process_scheduled_notifications
 
 """
  MagicMock() helps create mock objects for testing. It's particularly useful when you need to simulate the

@@ -41,9 +41,14 @@ app.conf.task_acks_late = True
 
 # configure time limits
 app.conf.task_time_limit = {
-    'high_priority': 60,  # 1 minute
-    'medium_priority': 300,  # 5 minutes
-    'low_priority': 1800,  # 30 minutes
+    # 'high_priority': 60,  # 1 minute
+    # 'medium_priority': 300,  # 5 minutes
+    # 'low_priority': 1800,  # 30 minutes
+
+    # for testing purposes
+    'high_priority': 5,  # 5 sec
+    'medium_priority': 15,  # 15 sec
+    'low_priority': 30,  # 30 sec
 }
 
 
