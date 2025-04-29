@@ -76,8 +76,8 @@ class MuteViewSet(viewsets.ModelViewSet):
         return Response({'message': 'User muted successfully.'}, status=status.HTTP_201_CREATED)
 
 class BlockViewSet(viewsets.ModelViewSet):
-    queryset = MutedUser.objects.all()
-    serializer_class = MuteUserSerializer
+    queryset = BlockedUser.objects.all()
+    serializer_class = BlockUserSerializer
 
     def create(self, request):
         serializer = BlockUserSerializer(data=request.data)
@@ -97,16 +97,21 @@ class BlockViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 class ReportViewSet(viewsets.ModelViewSet):
-    queryset = MutedUser.objects.all()
-    serializer_class = MuteUserSerializer
+    queryset = ReportedUser.objects.all()
+    serializer_class = ReportUserSerializer
 
     def create(self, request):
         serializer = ReportUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        reported_user=serializer.validated_data['reported_user']
+        reported_by=request.user.profile
+        reason=serializer.validated_data['reason']
         
-        ReportedUser.objects.create(reported_user=serializer.validated_data['reported_user'])
-        ReportedUser.objects.create(reported_by=request.user.profile)
-        ReportedUser.objects.create(reason=serializer.validated_data['reason'])
+        ReportedUser.objects.create(
+            reported_user=reported_user,
+            reported_by=reported_by,
+            reason=reason
+        )
         return Response({'message': 'User reported successfully.'}, status=status.HTTP_201_CREATED)
     
     def list(self, request):
