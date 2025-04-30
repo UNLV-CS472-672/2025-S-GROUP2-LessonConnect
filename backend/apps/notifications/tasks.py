@@ -3,7 +3,6 @@ from django.utils import timezone
 import datetime
 from django.contrib.auth import get_user_model
 from apps.notifications.utils import create_notification
-from apps.notifications.models import Notification
 
 User = get_user_model()
 

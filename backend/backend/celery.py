@@ -14,13 +14,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 ''' CONFIGURATIONS FOR NOTIFICATIONS '''
-# https://docs.celeryq.dev/en/latest/userguide/periodic-tasks.html
 app.conf.beat_schedule = {
-    # 'check-scheduled-notifications': {
-    #     'task': 'notifications.tasks.process_scheduled_notifications',
-    #     'schedule': crontab(minute='*/5'),  # run every 5 minutes.
-    # },
-
     # define task routes based on priority
     'notifications.tasks.deliver_notification_high': {'queue': 'high_priority'},
     'notifications.tasks.deliver_notification_medium': {'queue': 'medium_priority'},
@@ -51,6 +45,28 @@ app.conf.task_time_limit = {
     'low_priority': 30,  # 30 sec
 }
 
+# define the beat schedule - when periodic tasks should run
+app.conf.beat_schedule = {
+    'session-reminders-morning': {
+        'task': 'notifications.tasks.send_session_reminders',
+        'schedule': crontab(hour=8, minute=0),  # Run daily at 8:00 AM
+        'options': {'queue': 'reminders'},
+    },
+    'assignment-reminders-morning': {
+        'task': 'notifications.tasks.send_assignment_reminders',
+        'schedule': crontab(hour=8, minute=0),  # Run daily at 8:00 AM
+        'options': {'queue': 'reminders'},
+    },
+    'assignment-reminders-evening': {
+        'task': 'notifications.tasks.send_assignment_reminders',
+        'schedule': crontab(hour=18, minute=0),  # Run daily at 6:00 PM
+        'options': {'queue': 'reminders'},
+    },
+    'process-scheduled-notifications': {
+        'task': 'notifications.tasks.process_scheduled_notifications',
+        'schedule': crontab(minute='*/5'),  # Run every 5 minutes
+    },
+}
 
 # when executed, it prints information about the task request itself, showing details like task ID, arguments,
 # and other metadata
