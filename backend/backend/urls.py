@@ -33,5 +33,6 @@ urlpatterns = [
     path('pomodoro/', include('apps.pomodoro.urls')),
     path('planner/', include('apps.planner.urls')),
     path('achievements/', include('apps.achievements.urls')),
+    path('api/achievements/', include('apps.achievements.urls')),
 ]
 

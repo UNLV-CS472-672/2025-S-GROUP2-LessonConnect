@@ -7,18 +7,10 @@ class AchievementSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'difficulty', 'created_at']
 
 class StudentAchievementSerializer(serializers.ModelSerializer):
-    achievement = AchievementSerializer(read_only=True)
-    achievement_id = serializers.PrimaryKeyRelatedField(
-        queryset=Achievement.objects.all(), source='achievement', write_only=True
-    )
-
     class Meta:
         model = StudentAchievement
-        fields = [
-            'id', 'student', 'achievement', 'achievement_id',
-            'progress', 'unlocked', 'date_unlocked', 'created_at'
-        ]
-        read_only_fields = ['student', 'unlocked', 'date_unlocked', 'created_at']
+        fields = ['id', 'student', 'achievement', 'progress', 'unlocked', 'date_unlocked']
+        read_only_fields = ['id', 'student', 'unlocked', 'date_unlocked']
 
 class StudentAchievementUpdateSerializer(serializers.ModelSerializer):
     class Meta:
