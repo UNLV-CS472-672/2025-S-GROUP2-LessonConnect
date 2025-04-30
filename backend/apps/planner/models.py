@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from apps.planner.managers import CalendarEventManager
+from apps.lessons.models import Assignment
+
 
 class CalendarEvent(models.Model):
     # Constants for event type choices
@@ -67,3 +69,27 @@ class CalendarEvent(models.Model):
                 raise ValidationError("The event date cannot be in the past.")
             elif self.date == timezone.now().date() and self.start_time < timezone.now().time():
                 raise ValidationError("The event start time cannot be in the past.")
+
+
+class UnscheduledTask(models.Model):
+    # Fields
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    due_date = models.DateTimeField(null=True, blank=True)
+    assigned_assignment = models.ForeignKey(
+        Assignment,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        help_text="Optionally link this task to an existing assignment."
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['due_date', 'created_at']
+        verbose_name = "Unscheduled Task"
+        verbose_name_plural = "Unscheduled Tasks"
+
+    def __str__(self):
+        return f"{self.title} (due {self.due_date:%Y-%m-%d %H:%M})" if self.due_date else self.title
