@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 import uuid
 from datetime import timedelta
 from django.utils.timezone import now
-from rest_framework.exceptions import ValidationError
+from django.core.exceptions import ValidationError
 from apps.users.models import TutorProfile
 from apps.bookings.managers import ReviewManager, BookingManager
 
