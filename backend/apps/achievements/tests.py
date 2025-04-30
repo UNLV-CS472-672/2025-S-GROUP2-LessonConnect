@@ -85,6 +85,8 @@ class AchievementAPITests(APITestCase):
             "achievement": new_achievement.id
         })
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(StudentAchievement.objects.filter(
+            student=self.user, achievement=new_achievement).count(), 1)
 
     def test_get_student_achievements_by_student(self):
         url = reverse('student-achievements-by-student', kwargs={'student_id': self.user.id})
