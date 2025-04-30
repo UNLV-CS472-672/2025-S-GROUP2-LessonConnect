@@ -244,7 +244,61 @@ class UserAPITestCase(TestCase):
             print(response.data["error"])
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("message", response.json())
-    
+
+    def test_parent_child_relationship(self):
+        """Test the parent-child relationship in Profile model."""
+        # create a parent user and profile
+        parent_user = User.objects.create_user(
+            username="parentuser",
+            password="parentpass",
+            first_name="Parent",
+            last_name="User",
+            email="parent@example.com"
+        )
+        parent_profile = Profile.objects.create(user=parent_user, role=Profile.PARENT)
+
+        # create a student user and profile
+        student_user = User.objects.create_user(
+            username="studentuser",
+            password="studentpass",
+            first_name="Student",
+            last_name="User",
+            email="student@example.com"
+        )
+        student_profile = Profile.objects.create(user=student_user, role=Profile.STUDENT)
+
+        # link parent to student
+        parent_profile.parent_of.add(student_profile)
+
+        # test parent_of relationship
+        self.assertEqual(parent_profile.parent_of.count(), 1)
+        self.assertEqual(parent_profile.parent_of.first(), student_profile)
+
+        # test get_parents method
+        parents = student_profile.get_parents()
+        self.assertEqual(parents.count(), 1)
+        self.assertEqual(parents.first(), parent_profile)
+
+        # test multiple parents
+        second_parent_user = User.objects.create_user(
+            username="secondparent",
+            password="parentpass",
+            first_name="Second",
+            last_name="Parent",
+            email="second@example.com"
+        )
+        second_parent_profile = Profile.objects.create(
+            user=second_parent_user,
+            role=Profile.PARENT
+        )
+        second_parent_profile.parent_of.add(student_profile)
+
+        # verify both parents are linked
+        parents = student_profile.get_parents()
+        self.assertEqual(parents.count(), 2)
+        self.assertIn(parent_profile, parents)
+        self.assertIn(second_parent_profile, parents)
+
     # as per Allison's recommendation
     def tearDown(self):
       self.user.delete()
