@@ -2,6 +2,8 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from datetime import datetime
+from django.utils.timezone import make_aware
+
 from .models import Booking, Review, Availability
 from .serializers import BookingSerializer, ReviewSerializer, AvailabilitySerializer
 from rest_framework.permissions import IsAuthenticated
@@ -59,8 +61,8 @@ def get_availability_by_tutor_and_date(request):
     except ValueError:
         return Response({"error": "Invalid date format. Use YYYY-MM-DD."}, status=status.HTTP_400_BAD_REQUEST)
 
-    start_of_day = datetime.combine(date_obj, datetime.min.time())
-    end_of_day = datetime.combine(date_obj, datetime.max.time())
+    start_of_day = make_aware(datetime.combine(date_obj, datetime.min.time()))
+    end_of_day = make_aware(datetime.combine(date_obj, datetime.max.time()))
 
     availabilities = Availability.objects.filter(
         tutor__id=tutor_id,

@@ -9,6 +9,7 @@ class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = '__all__'
+        read_only_fields = ['student']
 
 
 class BookingDetailSerializer(BookingSerializer):
@@ -22,7 +23,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['tutor', 'reviewer', 'rating', 'feedback', 'created_at', 'is_visible', 'is_moderated']
-        read_only_fields = ['created_at', 'is_visible', 'is_moderated']
+        read_only_fields = ['reviewer','created_at', 'is_visible', 'is_moderated']
 
 class AvailabilitySerializer(serializers.ModelSerializer):
     class Meta:
