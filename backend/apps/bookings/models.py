@@ -57,8 +57,11 @@ class Booking(models.Model):
     objects = BookingManager()
 
     def __str__(self):
-        return (f'Booking for {self.student.username} with {self.availability.tutor.profile.user.username} '
-                f'on {self.availability.start_time} - {self.booking_status}')
+        if not self.availability:
+            return f"Booking for {self.student.username} - {self.booking_status}"
+        return (f'Booking for {self.student.username} with '
+                f'{self.availability.tutor.profile.user.username} on '
+                f'{self.availability.start_time} - {self.booking_status}')
 
     def is_paid(self):
         return self.payment_gateway_ref is not None
@@ -76,7 +79,7 @@ class Booking(models.Model):
         self.booking_status = self.CANCELLED
         self.availability.is_booked = False  # Mark slot as available again
         self.availability.save(update_fields=['is_booked'])
-        self.save(update_fields=['booking_status'])
+        self.save()
         return True
 
     def booking_duration(self):
@@ -85,25 +88,27 @@ class Booking(models.Model):
         return self.availability.end_time - self.availability.start_time
 
     def clean(self):
+        if not self.availability:
+            raise ValidationError("A booking must be linked to an availability.")
+
         if self.availability.end_time <= self.availability.start_time:
             raise ValidationError("Session end time must be after the session start time.")
-        elif self.availability.is_booked:
+
+        if self.availability.is_booked:
             raise ValidationError("This time slot is already booked.")
 
     def save(self, *args, **kwargs):
-        """Run full validation before saving."""
-        self.full_clean()  # Ensures validation runs before saving
-        self.availability.is_booked = True
+        self.full_clean()
 
-        if not self.availability:
-            self.availability = Availability.objects.create(
-                tutor=self.student.Tu,  # Assuming student books a tutor
-                start_time=self.session_date,
-                end_time=self.session_end_time or (self.session_date + timedelta(hours=1)),
-                is_booked=True
-            )
+        if self.availability:
+            if self.booking_status != self.CANCELLED:
+                self.availability.is_booked = True
+            else:
+                self.availability.is_booked = False
+            self.availability.save(update_fields=["is_booked"])
 
         super().save(*args, **kwargs)
+
 
 class Review(models.Model):
     tutor = models.ForeignKey(TutorProfile, on_delete=models.CASCADE, related_name="reviews")
