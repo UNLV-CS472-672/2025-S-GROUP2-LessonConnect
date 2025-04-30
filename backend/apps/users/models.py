@@ -26,6 +26,10 @@ class Profile(models.Model):
     ]
     user = models.OneToOneField(User, null=False, blank=False, on_delete=models.CASCADE)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=False, blank=False, default=STUDENT)
+
+    # links students to their parents (used in apps/notifications/tasks.py)
+    parent_of = models.ManyToManyField('self', symmetrical=False, blank=True, related_name='parents')
+
     # Link the custom manager to the model
     objects = ProfileManager()
     
@@ -41,6 +45,13 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    # gets all parent profiles of student
+    def get_parents(self):
+        if self.role != self.STUDENT:
+            return Profile.objects.none()  # Only student profiles have parents
+
+        return self.parents.filter(role=self.PARENT)
 
 # A model that represents information about a user who is a tutor
 class TutorProfile(models.Model):

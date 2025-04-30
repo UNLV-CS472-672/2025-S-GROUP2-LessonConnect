@@ -1,14 +1,14 @@
 from django.test import TestCase
 from django.utils import timezone
 from datetime import timedelta, time, date
-from django.contrib.auth.models import User
-from apps.users.models import Profile
 from django.core.exceptions import ValidationError
 from decimal import InvalidOperation
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 from django.urls import reverse
-from apps.planner.models import CalendarEvent
+from django.contrib.auth.models import User
+from apps.users.models import Profile
+from apps.planner.models import CalendarEvent, UnscheduledTask
 from apps.lessons.models import Assignment
 
 # Model Tests
@@ -280,3 +280,100 @@ class CalendarEventAPITestCase(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["title"], "Single Event")
+
+
+class UnscheduledTaskAPITestCase(APITestCase):
+    def setUp(self):
+        # create and authenticate a test user
+        self.user = User.objects.create_user(username="student1", password="password")
+        Profile.objects.create(user=self.user, role=3)
+
+        # (optional) an assignment to link tasks to
+        self.assignment = Assignment.objects.create(
+            title="Task Assignment",
+            description="Assignment for task tests",
+            assignment_type="QZ",
+            deadline="2025-12-01T12:00:00Z",
+        )
+
+        # obtain JWT token and set credentials
+        self.login_url = reverse("token_obtain_pair")
+        resp = self.client.post(
+            self.login_url,
+            {"username": "student1", "password": "password"},
+            format="json"
+        )
+        self.token = resp.data["access"]
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
+
+        # base list/create URL
+        self.list_url = reverse("unscheduledtask-list")
+
+    # GET /api/unscheduled-tasks/: List all unscheduled tasks (should start/begin empty)
+    def test_list_unscheduled_tasks_initially_empty(self):
+        response = self.client.get(self.list_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, [])
+
+    # POST /api/unscheduled-tasks/: Create a new unscheduled task
+    def test_create_unscheduled_task(self):
+        due = (timezone.now() + timedelta(days=3)).isoformat()
+        payload = {
+            "title": "New Task",
+            "description": "Do something important",
+            "due_date": due,
+            "assigned_assignment": self.assignment.id
+        }
+        response = self.client.post(self.list_url, payload, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        # one task in DB, with matching title
+        self.assertEqual(UnscheduledTask.objects.count(), 1)
+        self.assertEqual(response.data["title"], "New Task")
+
+    # GET /api/unscheduled-tasks/: List all unscheduled tasks (after creating some directly)
+    def test_get_list_after_creating_tasks(self):
+        # create two tasks directly
+        UnscheduledTask.objects.create(title="Task#1.0", due_date=timezone.now())
+        UnscheduledTask.objects.create(title="Task#2.0")
+        response = self.client.get(self.list_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
+
+    # PATCH /api/unscheduled-tasks/{id}/: Update an existing unscheduled task
+    def test_update_unscheduled_task(self):
+        task = UnscheduledTask.objects.create(
+            title="Old Title",
+            description="Desc",
+            due_date=timezone.now(),
+            assigned_assignment=self.assignment
+        )
+        url = reverse("unscheduledtask-detail", args=[task.id])
+        response = self.client.patch(url, {"title": "Updated Title"}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        task.refresh_from_db()
+        self.assertEqual(task.title, "Updated Title")
+
+    # DELETE /api/unscheduled-tasks/{id}/: Delete an unscheduled task
+    def test_delete_unscheduled_task(self):
+        task = UnscheduledTask.objects.create(title="To Delete")
+        url = reverse("unscheduledtask-detail", args=[task.id])
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(UnscheduledTask.objects.filter(id=task.id).exists())
+
+    # GET edge case test: /api/unscheduled-tasks/ without authentication, thus 401 UNAUTHORIZED
+    def test_unauthorized_list_access(self):
+        self.client.credentials()  # clear auth
+        response = self.client.get(self.list_url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    # POST edge case test: /api/unscheduled-tasks/ missing required 'title', thus 400 BAD REQUEST
+    def test_create_missing_title(self):
+        payload = {
+            "description": "Missing the title field",
+            # due_date and assigned_assignment are optional
+        }
+        response = self.client.post(self.list_url, payload, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("title", response.data)
+        
