@@ -17,16 +17,10 @@ class ChatManager(models.Manager):
         receiver = self.get_other_user(chat, sender)
         from .models import BlockedUser, MutedUser # avoid circular import
 
-        if BlockedUser.objects.filter(
-            blocked_by=receiver.profile,
-            blocked_user=sender.profile
-        ).exists():
+        if BlockedUser.objects.filter(blocked_by=receiver.profile, blocked_user=sender.profile).exists():
             raise PermissionError("You are blocked by this user.")
 
-        if MutedUser.objects.filter(
-            muted_by=receiver.profile,
-            muted_user=sender.profile
-        ).exists():
+        if MutedUser.objects.filter(muted_by=receiver.profile,  muted_user=sender.profile).exists():
             raise PermissionError("You are muted by this user.")
 
 class MessageManager(models.Manager):

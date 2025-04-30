@@ -67,6 +67,35 @@ class ChatAPITestCase(APITestCase):
         self.assertEqual(message.content, 'Hello Bob!')
         self.assertEqual(message.sender, self.user1)
 
+    def test_create_chat_missing_user2(self):
+        url = reverse('chat-list')
+        response = self.client.post(url, {})  # Missing "user2"
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("user2", response.data)
+
+    def test_create_chat_user2_not_found(self):
+        url = reverse('chat-list')
+        response = self.client.post(url, {"user2": 9999})  # non-existent ID
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("user2", response.data)
+
+    def test_create_chat_already_exists(self):
+        Chat.objects.get_or_create_chat(self.user1, self.user2)
+        url = reverse('chat-list')
+        response = self.client.post(url, {"user2": self.user2.id})
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("Chat already exists", str(response.data))
+
+    def test_get_messages_custom_action(self):
+        chat, _ = Chat.objects.get_or_create_chat(self.user1, self.user2)
+        Message.objects.create(chat=chat, sender=self.user1, content="Hello!")
+        url = reverse('chat-messages', args=[chat.id])  # Must match router name
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['content'], "Hello!")
+
+# https://chatgpt.com/share/681180bd-8930-800c-9f58-8f4de378d8e2
 class ChatModelTests(TestCase):
     def setUp(self):
         self.user1 = User.objects.create_user(username='alice', password='pass1234')
@@ -102,10 +131,7 @@ class ChatModelTests(TestCase):
 
     def test_muted_user_clean_valid(self):
         muted = MutedUser(muted_user=self.profile2, muted_by=self.profile1)
-        try:
-            muted.clean()  # Should not raise
-        except ValidationError:
-            self.fail("MutedUser.clean() raised ValidationError unexpectedly!")
+        muted.clean()  # Should not raise
 
     def test_muted_user_clean_invalid(self):
         muted = MutedUser(muted_user=self.profile1, muted_by=self.profile1)
@@ -115,17 +141,14 @@ class ChatModelTests(TestCase):
 
     def test_blocked_user_clean_valid(self):
         blocked = BlockedUser(blocked_user=self.profile2, blocked_by=self.profile1)
-        try:
-            blocked.clean()  # Should not raise
-        except ValidationError:
-            self.fail("BlockedUser.clean() raised ValidationError unexpectedly!")
+        blocked.clean()  # should not raise
 
     def test_blocked_user_clean_invalid(self):
         blocked = BlockedUser(blocked_user=self.profile1, blocked_by=self.profile1)
         with self.assertRaises(ValidationError) as context:
             blocked.clean()
         self.assertIn("You cannot block yourself.", str(context.exception))
-
+    
 class ChatManagerTests(TestCase):
     def setUp(self):
         self.user1 = User.objects.create_user(username='alice', password='pass1234')

@@ -1,5 +1,3 @@
-# test_chat_manager.py
-
 import pytest
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
@@ -27,7 +25,7 @@ def test_user_blocked_or_muted_mutes_as_expected():
     Profile.objects.create(user=u2, role=1)
     chat, _ = Chat.objects.get_or_create_chat(u1, u2)
 
-    # Mute u1 by u2
+    # mute u1 by u2
     MutedUser.objects.create(muted_by=u2.profile, muted_user=u1.profile)
     with pytest.raises(PermissionError, match="You are muted by this user."):
         Chat.objects.user_blocked_or_muted(chat, u1)
@@ -39,9 +37,7 @@ def test_user_blocked_or_muted_allows_when_clear():
     Profile.objects.create(user=u1, role=1)
     Profile.objects.create(user=u2, role=1)
     chat, _ = Chat.objects.get_or_create_chat(u1, u2)
-
-    # should not raise error
-    Chat.objects.user_blocked_or_muted(chat, u1)
+    Chat.objects.user_blocked_or_muted(chat, u1) # should not raise error
 
 @pytest.mark.django_db
 def test_get_other_user_returns_correct_partner():
