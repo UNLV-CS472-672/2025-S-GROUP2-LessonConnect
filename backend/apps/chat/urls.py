@@ -3,11 +3,14 @@ from django.urls import path, include
 # from .views import select_send_message, send_message, chat_list, chat_detail
 # https://chatgpt.com/share/67fd9c70-d378-8005-8c39-b0453f0f790f
 from rest_framework.routers import DefaultRouter
-from .views import ChatViewSet, MessageViewSet
+from .views import ChatViewSet, MessageViewSet, MuteViewSet, BlockViewSet, ReportViewSet
 
 router = DefaultRouter()
 router.register(r'chats', ChatViewSet, basename='chat')
 router.register(r'messages', MessageViewSet, basename='message')
+router.register(r'mute', MuteViewSet, basename='mute')
+router.register(r'block', BlockViewSet, basename='block')
+router.register(r'report', ReportViewSet, basename='report')
 
 urlpatterns = [
   path('', include(router.urls)),

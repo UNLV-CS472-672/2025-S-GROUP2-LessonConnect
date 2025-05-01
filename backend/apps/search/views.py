@@ -66,18 +66,19 @@ class SearchView(APIView):
             except ValueError:
                 return Response({"message": "Invalid value for rating. It must be a number."}, status=status.HTTP_400_BAD_REQUEST)
 
-        is_subjects_filtered = False
-        query = Q()
-
         # Get subjects from request
         subjects = request.query_params.get('subjects', "").strip()
-        # Filter tutors by subject (Optional)
+
         if subjects:
-            subject_list = subjects.split(",")  # Assuming subjects are comma-separated
-            # Execute the query for subjects
-            query = Subject.objects.filter(Q(title__in=subject_list))
-            filtered_tutors = TutorProfile.objects.filter_tutors_by_subject(filtered_tutors, query, is_subjects_filtered)
-            is_subjects_filtered = True
+            subject_list = [s.strip() for s in subjects.split(",") if s.strip()]
+
+            # Build the OR query for each iexact match
+            subject_query = Q()
+            for subject_title in subject_list:
+                subject_query |= Q(title__iexact=subject_title)
+
+            filtered_tutors = TutorProfile.objects.filter_tutors_by_exact_subject(filtered_tutors, subject_query)
+
 
         # Split the 'what' search term into individual words, handling non-word characters and spaces
         # This helps match partial words regarding subject and is used to pull up other
@@ -102,7 +103,7 @@ class SearchView(APIView):
         try:
             # Execute the query for subjects
             subject_query = Subject.objects.filter(lookup_subjects_query)
-            filtered_tutors = TutorProfile.objects.filter_tutors_by_subject(filtered_tutors, subject_query, is_subjects_filtered)
+            filtered_tutors = TutorProfile.objects.filter_tutors_by_subject(filtered_tutors, subject_query)
             # Combine the filtered tutors with the existing search results
             search_results = (search_results | filtered_tutors).distinct()
 

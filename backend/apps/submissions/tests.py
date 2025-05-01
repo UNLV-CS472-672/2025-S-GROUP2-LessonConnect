@@ -11,6 +11,7 @@ from rest_framework.test import APIClient
 from apps.submissions.managers import SubmissionManager, FileSubmissionManager, QuizSubmissionManager
 from django.urls import reverse
 
+
 # https://chatgpt.com/share/67d8b158-0d8c-8003-a586-13dc69796303
 class SubmissionsTestCase(TestCase):
     def setUp(self):
@@ -60,7 +61,7 @@ class SubmissionsTestCase(TestCase):
 
         url = reverse('token_obtain_pair')  # Update to the correct token URL if necessary
         response = self.client.post(url, {'username': 'student1', 'password': 'password'}, format='json')
-        self.token = response.data['access'] 
+        self.token = response.data['access']
 
 
     ### Testing Models ###

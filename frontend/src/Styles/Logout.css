@@ -1,0 +1,134 @@
+.logout-page-container .logout-page {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #d2e4df 20%, #c5dad5 100%);
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+}
+
+.logout-page-container .logout-container {
+    background: transparent;
+    padding: 3rem;
+    padding-top: 8rem;
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+    animation: fadeIn 0.5s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logout-page-container .bird-container {
+    margin-bottom: 3rem;
+    animation: float 6s ease-in-out infinite;
+}
+
+.logout-page-container .bird-container img {
+    width: 300px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.logout-page-container .logout-content {
+    width: 100%;
+    color: #333;
+}
+
+.logout-page-container .logout-title {
+    color: #333;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logout-page-container .logout-message {
+    color: #555;
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+.logout-page-container .logout-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.logout-page-container .btn {
+    background-color: #000;
+    color: #fff;
+    padding: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logout-page-container .btn:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .logout-page-container .logout-container {
+        padding: 2rem;
+        margin: 1rem;
+    }
+    
+    .logout-page-container .bird-container img {
+        width: 220px;
+    }
+    
+    .logout-page-container .logout-title {
+        font-size: 2.2rem;
+    }
+    
+    .logout-page-container .logout-message {
+        font-size: 1.2rem;
+    }
+    
+    .logout-page-container .logout-buttons {
+        max-width: 100%;
+    }
+}
