@@ -1,40 +1,40 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import Header from "./Components/Header.jsx";
-import Footer from "./Components/Footer.jsx";
-import StudentLayout from "./Components/StudentLayout.jsx";
+import Header from "./components/Header.jsx";
+import Footer from "./components/Footer.jsx";
+import StudentLayout from "./components/StudentLayout.jsx";
 //import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
-// Components
+// components
 import Home from "./components/Home.jsx";
 import About from "./components/About.jsx";
 import Learn_more from "./components/Learn_more.jsx";
-import Login from "./Components/Login.jsx";
-import SignUp from "./Components/SignUp.jsx";
-import Contact from "./Components/Contact.jsx";
-import FAQS from "./Components/FAQS.jsx";
-import Services from "./Components/Services.jsx";
-import Support from "./Components/Support.jsx";
-import FindTutor from "./Components/FindTutor.jsx";
-import Pomodoro from "./Components/Podomoro.jsx";
-import StudentView from "./Components/StudentView.jsx";
-import Chat from "./Components/Chat.jsx";
-import Booking from "./Components/Booking.jsx";
-import ProfilePage from "./Components/ProfilePage.jsx";
-import VideoCall from "./Components/VideoCall.jsx";
-import Calendar from "./Components/Calendar.jsx";
-import Inbox from "./Components/Inbox.jsx";
-import TutorView from "./Components/TutorView.jsx";
-import AssignmentPage from "./Components/AssignmentPage.jsx";
-import WhiteboardCanvas from "./Components/WhiteboardCanvas.jsx";
-import LandingPage from "./Components/LandingPage.jsx";
-import EditProfile from "./Components/EditProfile.jsx";
-import Settings from "./Components/Settings.jsx";
-import Questionnaire from "./Components/Questionnaire.jsx";
-import AssignmentCreate from "./Components/AssignmentCreate.jsx";
-import RoleSelect from "./Components/RoleSelect.jsx";
-import Logout from "./Components/Logout.jsx";
+import Login from "./components/Login.jsx";
+import SignUp from "./components/SignUp.jsx";
+import Contact from "./components/Contact.jsx";
+import FAQS from "./components/FAQS.jsx";
+import Services from "./components/Services.jsx";
+import Support from "./components/Support.jsx";
+import FindTutor from "./components/FindTutor.jsx";
+import Pomodoro from "./components/Podomoro.jsx";
+import StudentView from "./components/StudentView.jsx";
+import Chat from "./components/Chat.jsx";
+import Booking from "./components/Booking.jsx";
+import ProfilePage from "./components/ProfilePage.jsx";
+import VideoCall from "./components/VideoCall.jsx";
+import Calendar from "./components/Calendar.jsx";
+import Inbox from "./components/Inbox.jsx";
+import TutorView from "./components/TutorView.jsx";
+import AssignmentPage from "./components/AssignmentPage.jsx";
+import WhiteboardCanvas from "./components/WhiteboardCanvas.jsx";
+import LandingPage from "./components/LandingPage.jsx";
+import EditProfile from "./components/EditProfile.jsx";
+import Settings from "./components/Settings.jsx";
+import Questionnaire from "./components/Questionnaire.jsx";
+import AssignmentCreate from "./components/AssignmentCreate.jsx";
+import RoleSelect from "./components/RoleSelect.jsx";
+import Logout from "./components/Logout.jsx";
 
 
 function App() {
