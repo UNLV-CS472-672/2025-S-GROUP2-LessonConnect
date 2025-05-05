@@ -22,7 +22,7 @@
 
 .services-page-container .header-top{
     background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
-    url(../assets/images/Services_header.jpg);
+    url(/images/Services_header.jpg);
     background-size: cover;
     background-position: center;
     width: 100%;
