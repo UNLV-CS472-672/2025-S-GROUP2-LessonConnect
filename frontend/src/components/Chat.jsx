@@ -162,7 +162,7 @@ export default function Chat() {
     // Handle opening the WebSocket connection when roomName changes
     useEffect(() => {
         if (roomName && !socket.current) {
-            socket.current = new WebSocket(`ws://127.0.0.1:8000/ws/apps/chat/${roomName}/`, ["chat", accessToken]);
+            socket.current = new WebSocket(`ws://backend-d54p.onrender.com/ws/apps/chat/${roomName}/`, ["chat", accessToken]);
 
             // Ensure socket is initialized before setting event handlers
             socket.current.onopen = () => {
