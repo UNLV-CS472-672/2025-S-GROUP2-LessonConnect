@@ -47,8 +47,7 @@ function App() {
 
     return (
         <div className="App">
-            {(location.pathname !== "/login" && location.pathname !== "/roleSelect" && location.pathname !== "/SignUp" &&
-                location.pathname !== "/StudentView" && location.pathname !== "/calendar" &&
+            {(location.pathname !== "/login" && location.pathname !== "/roleSelect" && location.pathname !== "/SignUp" && location.pathname !== "/calendar" &&
                 location.pathname !== "/chat" && location.pathname !== "/videocall" && location.pathname !== "/tutorview") && <Header />}
 
 
