@@ -10,7 +10,7 @@ services:
     name: backend
     runtime: python
     buildCommand: './backend/build.sh'
-    startCommand: 'python -m gunicorn backend.backend.asgi:application -k uvicorn.workers.UvicornWorker'
+    startCommand: 'python -m gunicorn asgi:application -k uvicorn.workers.UvicornWorker'
     envVars:
       - key: DATABASE_URL
         fromDatabase:
