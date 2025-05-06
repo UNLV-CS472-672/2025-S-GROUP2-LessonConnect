@@ -23,7 +23,7 @@ export default function Login() {
         console.log("Login form submitted", formData);
 
         try {
-            const response = await axios.post("http://127.0.0.1:8000/users/login/", formData);
+            const response = await axios.post("https://backend-d54p.onrender.com/users/login/", formData);
 
             localStorage.setItem("accessToken", response.data.accessToken);
             localStorage.setItem("refreshToken", response.data.refreshToken);

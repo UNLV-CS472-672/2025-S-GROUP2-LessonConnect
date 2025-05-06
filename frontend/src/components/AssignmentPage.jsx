@@ -130,7 +130,7 @@ export default function AssignmentPage({ darkMode }) {
         try {
             const token = localStorage.getItem("accessToken");
 
-            const response = await axios.post("http://127.0.0.1:8000/uploads/", formData, {
+            const response = await axios.post("https://backend-d54p.onrender.com/uploads/", formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",
@@ -157,7 +157,7 @@ export default function AssignmentPage({ darkMode }) {
     const fetchUploadedFiles = useCallback(async () => {
         try {
             const token = localStorage.getItem("accessToken");
-            const response = await axios.get("http://127.0.0.1:8000/uploads/", {
+            const response = await axios.get("https://backend-d54p.onrender.com/uploads/", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

@@ -31,7 +31,7 @@ export default function FindTutor({ darkMode }) {
 
         try {
             // Making the API call with search parameters
-            const response = await axios.get("http://127.0.0.1:8000/search/", {
+            const response = await axios.get("https://backend-d54p.onrender.com/search/", {
                 params: {
                     what, // Subject or tutor name
                     where, // Location

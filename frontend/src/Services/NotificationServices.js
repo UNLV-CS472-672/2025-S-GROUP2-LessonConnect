@@ -8,7 +8,7 @@ const notificationService = {
             // get the token from storage
             const token = localStorage.getItem('accessToken');
 
-            const response = await axios.get('http://127.0.0.1:8000/notifications/', {
+            const response = await axios.get('https://backend-d54p.onrender.com/notifications/', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -27,7 +27,7 @@ const notificationService = {
         try {
             const token = localStorage.getItem('accessToken');
 
-            const response = await axios.patch(`http://127.0.0.1:8000/notifications/${id}/mark-read/`, {}, {
+            const response = await axios.patch(`https://backend-d54p.onrender.com/notifications/${id}/mark-read/`, {}, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ const notificationService = {
         try {
             const token = localStorage.getItem('accessToken');
 
-            const response = await axios.post('http://127.0.0.1:8000/notifications/mark-all-read/', {}, {
+            const response = await axios.post('https://backend-d54p.onrender.com/notifications/mark-all-read/', {}, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ const notificationService = {
         try {
             const token = localStorage.getItem('accessToken');
 
-            await axios.delete(`http://127.0.0.1:8000/notifications/${id}/`, {
+            await axios.delete(`https://backend-d54p.onrender.com/notifications/${id}/`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -84,7 +84,7 @@ const notificationService = {
         try {
             const token = localStorage.getItem('accessToken');
 
-            await axios.delete('http://127.0.0.1:8000/notifications/clear-all/', {
+            await axios.delete('https://backend-d54p.onrender.com/notifications/clear-all/', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

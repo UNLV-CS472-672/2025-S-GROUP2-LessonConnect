@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = 'http://127.0.0.1:8000/lessons/assignments';
+const API_BASE = 'https://backend-d54p.onrender.com/lessons/assignments';
 
 const getToken = () => localStorage.getItem('accessToken');
 

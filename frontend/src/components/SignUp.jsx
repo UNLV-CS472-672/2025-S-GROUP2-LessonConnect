@@ -38,7 +38,7 @@ export default function SignUp() {
         }
 
         try {
-            const response = await axios.post("http://127.0.0.1:8000/users/register/", formData);
+            const response = await axios.post("https://backend-d54p.onrender.com/users/register/", formData);
             alert("Registration successful!\n" + response.data.message);
         } catch (error) {
             alert("Registration failed! " + (error.response?.data?.message || error.message));

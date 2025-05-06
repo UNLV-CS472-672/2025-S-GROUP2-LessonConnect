@@ -36,7 +36,7 @@ class UploadDetailView(APIView):
         # Return specific upload details to front-end
         return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_200_OK)
     # Note: Tested this GET request by entering this into the command line
-    # curl -X GET http://127.0.0.1:8000/uploads/{id}/
+    # curl -X GET https://backend-d54p.onrender.com/uploads/{id}/
 
 
     # Handles DELETE HTTP request from frontend
@@ -60,7 +60,7 @@ class UploadDetailView(APIView):
         upload.delete()
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
     # Note: Tested this DELETE request by entering this into the command line
-    # curl -X DELETE http://127.0.0.1:8000/uploads/{id}/
+    # curl -X DELETE https://backend-d54p.onrender.com/uploads/{id}/
 
 
     # Handles PATCH request from the frontend
@@ -84,7 +84,7 @@ class UploadDetailView(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
     # Note: Tested this PATCH request by entering this into the command line
-    # curl -X PATCH http://127.0.0.1:8000/uploads/{id}/ -H "Content-Type: application/json" -d '{"description": "Updated upload description"}'
+    # curl -X PATCH https://backend-d54p.onrender.com/uploads/{id}/ -H "Content-Type: application/json" -d '{"description": "Updated upload description"}'
 
 
 
@@ -123,7 +123,7 @@ class UploadListView(APIView):
 
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
     # Note: Tested this POST request by entering this into the command line
-    # curl -X POST http://127.0.0.1:8000/uploads/ -F "file=@path_to_file"
+    # curl -X POST https://backend-d54p.onrender.com/uploads/ -F "file=@path_to_file"
 
 
     # Handles GET HTTP request from frontend
@@ -142,6 +142,6 @@ class UploadListView(APIView):
         return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_200_OK)
 
         # Note: Tested this GET request by entering this into the command line
-        # curl -X GET http://127.0.0.1:8000/uploads/
+        # curl -X GET https://backend-d54p.onrender.com/uploads/
 
 
