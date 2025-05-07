@@ -10,3 +10,7 @@ python manage.py collectstatic --no-input
 
 # Apply any outstanding database migrations
 python manage.py migrate
+
+# Run commands once
+python manage.py flush --noinput
+python manage.py loaddata data.json
