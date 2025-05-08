@@ -16,6 +16,7 @@ from datetime import timedelta
 from dotenv import load_dotenv
 import os
 import cloudinary
+from urllib.parse import urlparse
 
 load_dotenv() # load environment variable file (tokens, keys, etc)
 
@@ -222,18 +223,40 @@ CACHES = {
 #ASGI App (needed for Django Channels to work)
 ASGI_APPLICATION = "backend.asgi.application"
 
-CHANNEL_LAYERS = {
-     "default": {
-         "BACKEND": "channels_redis.core.RedisChannelLayer",
-         "CONFIG": {
-             "hosts": [('127.0.0.1', 6379)],
-         },
-     },
+# For Production
+cd backend && daphne backend.asgi:application
 
+# Get the REDIS_HOST environment variable or default to 'redis://127.0.0.1:6379'
+redis_url = os.getenv('REDIS_HOST', 'redis://127.0.0.1:6379')
+
+# Parse the Redis URL
+parsed_url = urlparse(redis_url)
+
+# Extract the host and port from the parsed URL
+host = parsed_url.hostname
+port = parsed_url.port  # 6379
+
+# Configure the CHANNEL_LAYERS setting with the parsed host and port
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(host, port)],  # Use parsed host and port
+        },
+    },
+}
+
+#CHANNEL_LAYERS = {
+#      "default": {
+#          "BACKEND": "channels_redis.core.RedisChannelLayer",
+#          "CONFIG": {
+#              "hosts": [('127.0.0.1', 6379)],
+#          },
+#      },
     #"default": {
     #    "BACKEND": "channels.layers.InMemoryChannelLayer",
     #},
-}
+#}
 
 
 # cloudinary
