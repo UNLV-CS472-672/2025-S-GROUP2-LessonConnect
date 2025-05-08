@@ -12,5 +12,5 @@ python manage.py collectstatic --no-input
 python manage.py migrate
 
 # Run commands once
-python manage.py flush --noinput
-python manage.py loaddata data.json
+#python manage.py flush --noinput
+#python manage.py loaddata data.json
