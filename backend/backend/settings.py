@@ -224,7 +224,6 @@ CACHES = {
 ASGI_APPLICATION = "backend.asgi.application"
 
 # For Production
-cd backend && daphne backend.asgi:application
 
 # Get the REDIS_HOST environment variable or default to 'redis://127.0.0.1:6379'
 redis_url = os.getenv('REDIS_HOST', 'redis://127.0.0.1:6379')
