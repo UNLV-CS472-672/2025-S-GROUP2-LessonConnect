@@ -71,7 +71,7 @@ def register_profile(request):
   password = request.data["password"]
   role = request.data.get("role")  # Get the selected role
   if not role:
-      role = Profile.TUTOR
+      role = Profile.STUDENT
 
   # Create user
   user = User.objects.create_user(
