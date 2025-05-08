@@ -1,6 +1,6 @@
 import "../Styles/Login.css";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Login() {
@@ -8,6 +8,8 @@ export default function Login() {
         username: "",
         password: "",
     });
+
+    const [redirect, setRedirect] = useState(false);
 
     const handleChanges = (e) => {
         const { name, value, type, checked } = e.target;
@@ -30,10 +32,15 @@ export default function Login() {
             localStorage.setItem("username", response.data.username);
 
             alert("Login successful!");
+            setRedirect(true); // trigger redirect
         } catch (error) {
             alert("Login failed! " + (error.response?.data?.message || error.message));
         }
     };
+
+    if (redirect) {
+        return <Navigate to="/student/view" replace />;
+    }
 
     return (
         <div className="login-page">

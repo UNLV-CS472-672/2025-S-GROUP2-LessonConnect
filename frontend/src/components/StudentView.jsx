@@ -70,7 +70,7 @@ export default function StudentView({ darkMode, toggleTheme }) {
 
             <section className="greeting">
                 <div className="inner-container">
-                    <h1 className="fade-in">👋 Welcome back, Franklin!</h1>
+                    <h1 className="fade-in">👋 Welcome back!</h1>
                     <p>Ready to level up your skills today?</p>
                 </div>
             </section>

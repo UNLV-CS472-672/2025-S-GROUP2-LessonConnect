@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, Navigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import "../Styles/SignUp.css";
@@ -7,7 +7,7 @@ import countries from "../data/countries.json";
 export default function SignUp() {
     const location = useLocation();
     const dob = location.state || {};
-
+    const [redirect, setRedirect] = useState(false);
     const [formData, setFormData] = useState({
         country: "",
         email: "",
@@ -40,10 +40,15 @@ export default function SignUp() {
         try {
             const response = await axios.post("https://backend-d54p.onrender.com/users/register/", formData);
             alert("Registration successful!\n" + response.data.message);
+            setRedirect(true);
         } catch (error) {
             alert("Registration failed! " + (error.response?.data?.message || error.message));
         }
     };
+
+    if (redirect) {
+        return <Navigate to="/login" replace />;
+    }
 
     return (
         <div className="signup-page">
